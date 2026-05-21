@@ -1,0 +1,114 @@
+/* HRS Teaching Tools — Design Tokens
+   Accent palette sampled from the official Haileybury Rendall School crest
+   (the heraldic burgundy used in the wordmark logo).
+   Dark-first; light mode mirrors the same accent. */
+
+:root,
+:root[data-theme='dark'] {
+  /* Surface */
+  --bg: #0a0a0b;
+  --bg-elevated: #111114;
+  --bg-card: #0e0e10;
+  --bg-card-hover: #15151a;
+
+  /* Border */
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.16);
+  --border-accent: var(--accent);
+
+  /* Text */
+  --text: #f2f2f2;
+  --text-strong: #ffffff;
+  --text-muted: #8a8a92;
+  --text-faint: #5a5a62;
+
+  /* Accent — HRS heraldic burgundy from the crest */
+  --accent: #a2235f;
+  --accent-strong: #bd2a6f;
+  --accent-soft: rgba(162, 35, 95, 0.14);
+  --accent-ring: rgba(162, 35, 95, 0.32);
+
+  /* Semantic */
+  --success: #4ade80;
+  --warning: #fbbf24;
+  --danger: #f87171;
+
+  /* Elevation */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.4);
+  --shadow-accent: 0 0 0 1px var(--accent), 0 8px 32px rgba(162, 35, 95, 0.22);
+}
+
+:root[data-theme='light'] {
+  --bg: #fafaf7;
+  --bg-elevated: #ffffff;
+  --bg-card: #ffffff;
+  --bg-card-hover: #fbfbf6;
+
+  --border: rgba(10, 10, 11, 0.1);
+  --border-strong: rgba(10, 10, 11, 0.2);
+
+  --text: #14141a;
+  --text-strong: #000000;
+  --text-muted: #6b6b70;
+  --text-faint: #a0a0a8;
+
+  --accent: #8c1e50;
+  --accent-strong: #a2235f;
+  --accent-soft: rgba(140, 30, 80, 0.10);
+  --accent-ring: rgba(140, 30, 80, 0.28);
+
+  --shadow-sm: 0 1px 2px rgba(10, 10, 11, 0.06);
+  --shadow-md: 0 8px 24px rgba(10, 10, 11, 0.08);
+  --shadow-accent: 0 0 0 1px var(--accent), 0 8px 32px rgba(140, 30, 80, 0.18);
+}
+
+:root {
+  /* Typography */
+  --font-display: 'Cormorant Garamond', 'Garamond', 'Times New Roman', serif;
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* Type scale */
+  --fs-eyebrow: 0.72rem;
+  --fs-sm: 0.85rem;
+  --fs-body: 1rem;
+  --fs-lead: 1.125rem;
+  --fs-h3: 1.75rem;
+  --fs-h2: 2.75rem;
+  --fs-h1: 4rem;
+
+  /* Tracking */
+  --tracking-eyebrow: 0.32em;
+  --tracking-label: 0.18em;
+  --tracking-tight: -0.01em;
+
+  /* Spacing */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+  --space-10: 128px;
+
+  /* Radius */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 140ms;
+  --dur-base: 220ms;
+  --dur-slow: 420ms;
+
+  /* Layout */
+  --container-max: 1280px;
+  --container-pad: clamp(20px, 4vw, 56px);
+}

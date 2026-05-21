@@ -1,0 +1,215 @@
+.legend {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+  margin-bottom: var(--space-5);
+  max-width: 100%;
+}
+
+.legendChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--border-strong);
+  background: var(--bg-card);
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all var(--dur-base) var(--ease-out);
+}
+
+.legendChip:hover {
+  color: var(--text);
+  border-color: var(--chip-colour, var(--accent));
+}
+
+.legendChip[data-active='true'] {
+  background: var(--chip-colour, var(--accent));
+  color: #fff;
+  border-color: var(--chip-colour, var(--accent));
+}
+
+.legendDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+}
+
+.tableWrap {
+  width: 100%;
+  overflow-x: auto;
+  padding: var(--space-3) 0;
+}
+
+.table {
+  display: grid;
+  grid-template-columns: repeat(18, minmax(46px, 1fr));
+  grid-template-rows: repeat(7, 64px);
+  gap: 2px;
+  width: 100%;
+  min-width: 880px;
+}
+
+.subTable {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: 6px;
+  min-width: 880px;
+}
+
+.subRow {
+  display: grid;
+  grid-template-columns: 46px repeat(15, minmax(46px, 1fr)) repeat(2, minmax(46px, 1fr));
+  gap: 2px;
+}
+
+.subLabel {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  color: var(--text-muted);
+}
+
+.cell {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  padding: 4px 2px;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  color: #fff;
+  cursor: pointer;
+  min-width: 0;
+  transition: transform 80ms var(--ease-out), opacity var(--dur-base) var(--ease-out), box-shadow var(--dur-base) var(--ease-out);
+}
+
+.cell:hover { transform: scale(1.05); z-index: 2; }
+
+.cell[data-selected='true'] {
+  box-shadow: 0 0 0 3px var(--text-strong);
+  z-index: 3;
+}
+
+.cellNum {
+  font-size: 9px;
+  opacity: 0.85;
+  font-variant-numeric: tabular-nums;
+}
+
+.cellSym {
+  font-family: var(--font-display);
+  font-size: clamp(0.95rem, 1.6vw, 1.2rem);
+  font-style: italic;
+  font-weight: 600;
+}
+
+.cellMass {
+  font-size: 8px;
+  opacity: 0.75;
+  font-variant-numeric: tabular-nums;
+}
+
+.detail {
+  margin-top: var(--space-5);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-5);
+  border: 1.5px solid var(--accent);
+  border-radius: var(--radius-lg);
+  background: var(--bg-card);
+  width: min(640px, 95vw);
+  animation: fade-up 0.3s var(--ease-out);
+}
+
+.closeBtn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  border: 1px solid var(--border-strong);
+  background: var(--bg-elevated);
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.closeBtn:hover { color: var(--danger); border-color: var(--danger); }
+
+.detailHeader {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+}
+
+.detailNum {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.detailSym {
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-style: italic;
+  font-weight: 600;
+}
+
+.detailName {
+  font-size: 1.4rem;
+  font-style: italic;
+  color: var(--text-strong);
+}
+
+.detailList {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-2) var(--space-4);
+  margin: 0;
+}
+
+.detailList > div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.detailList .fullRow { grid-column: 1 / -1; }
+
+.detailList dt {
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.detailList dd {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-style: italic;
+  color: var(--text-strong);
+}
+
+.config {
+  font-family: var(--font-mono) !important;
+  font-style: normal !important;
+  font-size: 0.95rem !important;
+  letter-spacing: 0.04em;
+}

@@ -1,0 +1,102 @@
+.page {
+  padding: var(--space-7) 0 var(--space-10);
+  min-height: calc(100vh - 72px);
+}
+
+.hero {
+  text-align: center;
+  padding: var(--space-7) 0 var(--space-5);
+  animation: fade-up var(--dur-slow) var(--ease-out) both;
+}
+
+.heroTitle {
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 500;
+  font-style: italic;
+  line-height: 1.05;
+  color: var(--text-strong);
+  margin-top: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.heroSub {
+  font-size: var(--fs-lead);
+  color: var(--text-muted);
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.heroNote {
+  display: inline-block;
+  margin-top: var(--space-2);
+  font-size: 0.72rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.section {
+  margin-top: var(--space-9);
+}
+
+.placeholderWrap {
+  max-width: 720px;
+  margin: var(--space-9) auto;
+  text-align: center;
+  padding: var(--space-7);
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius-lg);
+  background: var(--bg-card);
+}
+
+.placeholderEyebrow {
+  margin-bottom: var(--space-3);
+}
+
+.placeholderTitle {
+  font-size: clamp(2rem, 4vw, 3rem);
+  color: var(--text-strong);
+  margin-bottom: var(--space-3);
+}
+
+.placeholderDesc {
+  font-size: var(--fs-lead);
+  color: var(--text-muted);
+  margin-bottom: var(--space-5);
+}
+
+.placeholderBack {
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  padding: 12px 28px;
+  display: inline-block;
+  transition:
+    background var(--dur-base) var(--ease-out),
+    color var(--dur-base) var(--ease-out);
+}
+
+.placeholderBack:hover {
+  background: var(--accent);
+  color: #fff;
+}
+
+.streamRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  justify-content: center;
+  margin-top: var(--space-5);
+}
+
+.streamChip {
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  padding: 6px 14px;
+}

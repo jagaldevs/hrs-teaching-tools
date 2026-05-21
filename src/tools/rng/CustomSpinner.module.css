@@ -1,0 +1,124 @@
+.empty {
+  color: var(--text-muted);
+  font-size: var(--fs-lead);
+  padding: var(--space-7) 0;
+}
+
+.result {
+  margin-top: var(--space-5);
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+}
+
+.resultLabel {
+  font-size: clamp(2.4rem, 6vw, 4rem);
+  color: var(--accent);
+  font-style: italic;
+}
+
+.placeholder {
+  font-size: var(--fs-lead);
+  color: var(--text-faint);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.spinIcon {
+  animation: rot 1s linear infinite;
+}
+
+@keyframes rot {
+  to { transform: rotate(360deg); }
+}
+
+.removeToggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.editor {
+  margin-top: var(--space-7);
+  width: min(720px, 90vw);
+  padding: var(--space-4) var(--space-5);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg-card);
+}
+
+.editorHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-3);
+}
+
+.editorList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.editorRow {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 10px;
+  align-items: center;
+}
+
+.labelInput {
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  color: var(--text);
+}
+
+.labelInput:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.weightField {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.weightField input {
+  width: 4ch;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  text-align: center;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 4px 6px;
+  color: var(--text);
+}
+
+.removeBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  color: var(--text-muted);
+}
+
+.removeBtn:hover {
+  color: var(--danger);
+}

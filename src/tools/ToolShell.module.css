@@ -1,0 +1,114 @@
+.shell {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 72px);
+  padding-top: var(--space-5);
+  padding-bottom: var(--space-7);
+}
+
+.shell[data-fill='true'] .stage {
+  flex: 1;
+}
+
+.bar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-5);
+  padding-bottom: var(--space-5);
+  border-bottom: 1px solid var(--border);
+}
+
+.left {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  width: max-content;
+  transition: color var(--dur-fast) var(--ease-out);
+}
+
+.back:hover {
+  color: var(--accent);
+}
+
+.titles {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.title {
+  font-size: clamp(1.75rem, 3.4vw, 2.5rem);
+  font-style: italic;
+  font-weight: 500;
+  line-height: 1.05;
+  color: var(--text-strong);
+}
+
+.description {
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  max-width: 60ch;
+}
+
+.actions {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.iconBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  border: 1px solid var(--border-strong);
+  color: var(--text-muted);
+  transition:
+    color var(--dur-base) var(--ease-out),
+    border-color var(--dur-base) var(--ease-out);
+}
+
+.iconBtn:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-7) var(--container-pad);
+  width: 100%;
+  max-width: var(--container-max);
+  margin: 0 auto;
+}
+
+/* When in fullscreen mode the bar shrinks */
+:fullscreen .bar {
+  display: none;
+}
+
+:fullscreen .shell {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+:fullscreen .stage {
+  padding: var(--space-5);
+}

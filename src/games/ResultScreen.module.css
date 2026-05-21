@@ -1,0 +1,98 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-7) var(--space-7);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-lg);
+  background: var(--accent-soft);
+  width: min(520px, 90vw);
+  animation: fade-up 0.4s var(--ease-out);
+}
+
+.trophy {
+  color: var(--accent);
+  filter: drop-shadow(0 0 12px var(--accent-soft));
+  margin-bottom: var(--space-2);
+}
+
+.score {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--space-3);
+}
+
+.scoreNum {
+  font-size: clamp(4rem, 12vw, 7rem);
+  color: var(--text-strong);
+  font-style: italic;
+  font-variant-numeric: tabular-nums;
+}
+
+.scoreDivider {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  color: var(--text-faint);
+}
+
+.scoreTotal {
+  font-family: var(--font-display);
+  font-size: 2.4rem;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.bar {
+  width: 100%;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--bg);
+  overflow: hidden;
+  margin-top: var(--space-2);
+}
+
+.barFill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--accent-strong));
+  transition: width 0.6s var(--ease-out);
+}
+
+.pct {
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.breakdown {
+  list-style: none;
+  margin: var(--space-3) 0;
+  padding: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.breakdown > li {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: var(--bg-card);
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+}
+
+.breakdown strong {
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+
+.actions {
+  display: inline-flex;
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+  flex-wrap: wrap;
+  justify-content: center;
+}

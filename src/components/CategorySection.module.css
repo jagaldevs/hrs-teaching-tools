@@ -1,0 +1,62 @@
+.section {
+  margin-top: var(--space-8);
+  animation: fade-up var(--dur-slow) var(--ease-out) both;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.titleRow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.iconWrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  border: 1px solid var(--border-strong);
+  color: var(--accent);
+}
+
+.title {
+  font-size: clamp(1.5rem, 2.6vw, 2rem);
+  font-style: italic;
+  font-weight: 500;
+  color: var(--text-strong);
+}
+
+.count {
+  font-size: 0.72rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.description {
+  margin-top: var(--space-2);
+  margin-left: 44px;
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+}
+
+.divider {
+  margin-top: var(--space-4);
+  margin-bottom: var(--space-5);
+  height: 1px;
+  background: var(--border);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(216px, 1fr));
+  gap: var(--space-3);
+}

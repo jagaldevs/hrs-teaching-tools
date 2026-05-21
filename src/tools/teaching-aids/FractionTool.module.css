@@ -1,0 +1,241 @@
+.controls {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: var(--space-4) var(--space-5);
+  border: 2px solid var(--accent);
+  border-radius: var(--radius-md);
+  background: var(--bg-card);
+  margin-bottom: var(--space-5);
+}
+
+.stepper {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.stepBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-strong);
+  background: var(--bg-elevated);
+  color: var(--text-muted);
+  cursor: pointer;
+}
+.stepBtn:hover:not(:disabled) { color: var(--accent); border-color: var(--accent); }
+.stepBtn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.numInput {
+  width: 70px;
+  height: 56px;
+  background: transparent;
+  border: 0;
+  font-family: var(--font-display);
+  font-size: 2.4rem;
+  font-style: italic;
+  color: var(--text-strong);
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+.numInput:focus { outline: none; }
+
+.fracBar {
+  display: block;
+  width: 120px;
+  height: 2px;
+  background: var(--text-strong);
+  margin: 4px 0;
+}
+
+.summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: var(--space-2);
+  width: min(720px, 95vw);
+  margin-bottom: var(--space-5);
+}
+
+.summaryCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: var(--space-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg-card);
+}
+
+.summaryValue {
+  font-size: 1.6rem;
+  font-style: italic;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+
+.vizTitle {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-style: italic;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  margin: var(--space-5) 0 var(--space-3);
+}
+
+/* ---- Circle ---- */
+
+.circleRow {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  justify-content: center;
+}
+
+.circle {
+  width: 160px;
+  height: 160px;
+}
+
+.sliceFilled {
+  fill: var(--accent);
+  stroke: var(--bg);
+  stroke-width: 0.6;
+}
+
+.sliceEmpty {
+  fill: transparent;
+  stroke: var(--text-muted);
+  stroke-width: 0.6;
+}
+
+.circleOutline {
+  fill: none;
+  stroke: var(--text-strong);
+  stroke-width: 1;
+}
+
+.circleLabel {
+  font-family: var(--font-display);
+  font-size: 10px;
+  fill: var(--text-strong);
+  font-style: italic;
+}
+
+/* ---- Bar ---- */
+
+.barWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: min(640px, 95vw);
+}
+
+.bar {
+  display: flex;
+  height: 48px;
+  border: 1.5px solid var(--text-strong);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.barCellFilled {
+  flex: 1;
+  background: var(--accent);
+  border-right: 1px solid var(--bg);
+}
+
+.barCellEmpty {
+  flex: 1;
+  background: transparent;
+  border-right: 1px solid var(--text-muted);
+}
+
+.bar > :last-child { border-right: 0; }
+
+/* ---- Number line ---- */
+
+.lineWrap {
+  width: min(720px, 95vw);
+  padding: var(--space-5) var(--space-3);
+}
+
+.line {
+  position: relative;
+  height: 60px;
+}
+
+.lineBar {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--text-muted);
+  transform: translateY(-50%);
+  border-radius: 999px;
+}
+
+.tick {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.tickWhole {
+  width: 2px;
+  height: 16px;
+  background: var(--text-strong);
+}
+
+.tickSmall {
+  width: 1px;
+  height: 8px;
+  background: var(--text-muted);
+}
+
+.tickLabel {
+  margin-top: 18px;
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-style: italic;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.marker {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2px solid var(--accent);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 2;
+}
+
+.markerLabel {
+  position: absolute;
+  bottom: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-style: italic;
+  color: var(--accent);
+  background: var(--bg);
+  padding: 2px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+}

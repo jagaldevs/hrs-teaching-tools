@@ -1,0 +1,75 @@
+.modeRow {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  margin-bottom: var(--space-5);
+}
+
+.modeBtn { padding: 8px 14px; font-size: 0.78rem; }
+.modeBtn[data-active='true'] { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+.multField {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+}
+
+.multField input {
+  width: 3ch;
+  background: transparent;
+  border: 0;
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  color: var(--text-strong);
+  text-align: center;
+}
+
+.multField input:focus { outline: none; }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 4px;
+  width: min(560px, 95vw);
+}
+
+.cell {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-card);
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: clamp(0.9rem, 2vw, 1.2rem);
+  font-style: italic;
+  cursor: pointer;
+  transition: background var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
+  font-variant-numeric: tabular-nums;
+}
+
+.cell:hover:not(:disabled) {
+  border-color: var(--accent);
+}
+
+.cell[data-on='true'] {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+.cell:disabled { cursor: default; }
+
+.count {
+  margin-top: var(--space-4);
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}

@@ -1,0 +1,55 @@
+.toggle {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: 64px;
+  height: 32px;
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  background: var(--bg-elevated);
+  padding: 0 8px;
+  transition: border-color var(--dur-base) var(--ease-out);
+}
+
+.toggle:hover {
+  border-color: var(--accent);
+}
+
+.iconWrap {
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  color: var(--text-faint);
+  transition: color var(--dur-base) var(--ease-out);
+}
+
+.iconWrap[data-active='true'] {
+  color: var(--accent);
+}
+
+.thumb {
+  position: absolute;
+  top: 2px;
+  width: 26px;
+  height: 26px;
+  background: var(--bg);
+  border-radius: 999px;
+  border: 1px solid var(--border-strong);
+  transition:
+    left var(--dur-base) var(--ease-out),
+    background var(--dur-base) var(--ease-out);
+  z-index: 1;
+}
+
+.thumb[data-side='left'] {
+  left: 2px;
+}
+
+.thumb[data-side='right'] {
+  left: 34px;
+}

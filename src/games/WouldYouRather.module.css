@@ -1,0 +1,78 @@
+.playing { width: min(880px, 95vw); display: flex; flex-direction: column; gap: var(--space-4); align-items: center; }
+
+.header { display: inline-flex; gap: var(--space-2); justify-content: center; flex-wrap: wrap; }
+
+.chip {
+  padding: 6px 14px; border-radius: 999px; border: 1px solid var(--border-strong);
+  font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-muted);
+}
+
+.prompt {
+  font-size: clamp(1.6rem, 4vw, 2.4rem); font-style: italic; color: var(--text-strong);
+  text-align: center; padding: var(--space-3) 0;
+}
+
+.cards {
+  display: grid; grid-template-columns: 1fr auto 1fr; gap: var(--space-4);
+  align-items: stretch; width: 100%;
+}
+
+@media (max-width: 720px) {
+  .cards { grid-template-columns: 1fr; }
+  .vs { transform: rotate(90deg); justify-self: center; }
+}
+
+.card {
+  display: flex; flex-direction: column; align-items: center; gap: var(--space-3);
+  padding: var(--space-7) var(--space-5); border-radius: var(--radius-lg);
+  border: 1.5px solid var(--border); background: var(--bg-card);
+  position: relative; min-height: 260px;
+}
+
+.card[data-side='a'] { border-color: var(--accent); }
+.card[data-side='b'] { border-color: #0EA5E9; }
+
+.cardLetter {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 48px; height: 48px; border-radius: 999px;
+  font-family: var(--font-display); font-size: 1.6rem; font-weight: 600; color: #fff;
+}
+
+.card[data-side='a'] .cardLetter { background: var(--accent); }
+.card[data-side='b'] .cardLetter { background: #0EA5E9; }
+
+.cardText {
+  font-size: clamp(1.2rem, 3vw, 1.8rem); font-style: italic;
+  color: var(--text-strong); text-align: center; flex: 1;
+}
+
+.voteBtn { font-size: 0.78rem; }
+
+.card[data-side='b'] .voteBtn {
+  background: #0EA5E9; border-color: #0EA5E9;
+}
+.card[data-side='b'] .voteBtn:hover {
+  background: #0284C7; border-color: #0284C7;
+}
+
+.voteNum {
+  font-family: var(--font-display); font-size: 2.4rem; font-style: italic;
+  color: var(--text-strong); font-variant-numeric: tabular-nums;
+}
+
+.votePct {
+  font-size: 0.78rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-muted);
+}
+
+.vs {
+  align-self: center; font-family: var(--font-display); font-size: 1.6rem; font-style: italic;
+  color: var(--text-muted);
+}
+
+.bar {
+  display: flex; width: 100%; height: 8px; border-radius: 999px; overflow: hidden;
+  background: var(--bg);
+}
+
+.barA { background: var(--accent); transition: width 0.5s var(--ease-out); }
+.barB { background: #0EA5E9; transition: width 0.5s var(--ease-out); }

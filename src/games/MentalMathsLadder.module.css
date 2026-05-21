@@ -1,0 +1,163 @@
+.playing {
+  width: min(640px, 95vw);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.header {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: var(--space-3);
+  text-align: center;
+}
+
+.rung,
+.streak,
+.timer {
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--border-strong);
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.rung {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.timer {
+  font-variant-numeric: tabular-nums;
+}
+
+.timeBar {
+  height: 4px;
+  border-radius: 999px;
+  background: var(--bg);
+  overflow: hidden;
+}
+
+.timeBarFill {
+  height: 100%;
+  background: var(--accent);
+  transition: width 0.1s linear, background-color var(--dur-base) var(--ease-out);
+}
+
+.timeBarFill[data-warning='true'] {
+  background: var(--danger);
+}
+
+.questionCard {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  padding: var(--space-7) var(--space-5);
+  border: 2px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--bg-card);
+  position: relative;
+  transition: all var(--dur-base) var(--ease-out);
+}
+
+.questionCard[data-state='right'] {
+  border-color: var(--success);
+  background: color-mix(in srgb, var(--success) 14%, transparent);
+}
+
+.questionCard[data-state='wrong'] {
+  border-color: var(--danger);
+  background: color-mix(in srgb, var(--danger) 14%, transparent);
+  animation: shake 0.4s var(--ease-out);
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  75% { transform: translateX(6px); }
+}
+
+.prompt {
+  font-size: clamp(2.5rem, 7vw, 4rem);
+  font-style: italic;
+  color: var(--text-strong);
+  font-variant-numeric: tabular-nums;
+}
+
+.equals {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3rem);
+  color: var(--text-faint);
+}
+
+.answer {
+  width: 5ch;
+  padding: 8px 12px;
+  background: var(--bg-elevated);
+  border: 1.5px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-style: italic;
+  color: var(--text-strong);
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.answer:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.icon {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+}
+
+.questionCard[data-state='right'] .icon {
+  color: var(--success);
+}
+
+.questionCard[data-state='wrong'] .icon {
+  color: var(--danger);
+}
+
+/* ---------- Game over ---------- */
+
+.gameover {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-7);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-lg);
+  background: var(--accent-soft);
+  width: min(520px, 90vw);
+}
+
+.gameoverTrophy {
+  color: var(--accent);
+  filter: drop-shadow(0 0 12px var(--accent-soft));
+}
+
+.gameoverNum {
+  font-size: clamp(5rem, 14vw, 8rem);
+  color: var(--text-strong);
+  font-style: italic;
+  font-variant-numeric: tabular-nums;
+}
+
+.gameoverNote {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.gameoverNote strong {
+  color: var(--text-strong);
+}
