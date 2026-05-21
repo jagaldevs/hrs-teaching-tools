@@ -142,7 +142,17 @@ function Playing({ item, subject, questionIndex, total, score, picked, onAnswer,
 
       {revealed && (
         <div className={styles.feedback} data-correct={isRight}>
-          <span>{isRight ? 'Correct!' : 'Incorrect.'}</span>
+          <span className={styles.verdict}>{isRight ? 'Correct!' : 'Not quite.'}</span>
+          {!isRight && (
+            <span className={styles.answerLine}>
+              The odd one out was <strong>{String.fromCharCode(65 + item.outlier)}: {item.items[item.outlier]}</strong>
+            </span>
+          )}
+          {!isRight && picked !== null && (
+            <span className={styles.pickLine}>
+              You picked <strong>{String.fromCharCode(65 + picked)}: {item.items[picked]}</strong>
+            </span>
+          )}
           {item.explanation && <span className={styles.explanation}>{item.explanation}</span>}
           <button
             type="button"

@@ -176,7 +176,17 @@ function PlayingScreen({
 
       {revealed && (
         <div className={styles.feedback} data-correct={isRight}>
-          <span>{isRight ? 'Correct!' : 'Incorrect.'}</span>
+          <span className={styles.verdict}>{isRight ? 'Correct!' : 'Not quite.'}</span>
+          {!isRight && (
+            <span className={styles.answerLine}>
+              The answer was <strong>{String.fromCharCode(65 + q.answer)}: {q.choices[q.answer]}</strong>
+            </span>
+          )}
+          {!isRight && picked !== null && (
+            <span className={styles.pickLine}>
+              You picked <strong>{String.fromCharCode(65 + picked)}: {q.choices[picked]}</strong>
+            </span>
+          )}
           {q.explanation && <span className={styles.explanation}>{q.explanation}</span>}
           <button
             type="button"

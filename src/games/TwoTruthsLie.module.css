@@ -21,23 +21,39 @@
 .statement:hover:not(:disabled) { border-color: var(--accent); transform: translateY(-1px); }
 .statement:disabled { cursor: default; }
 
-.statement[data-state='lie'] {
+/* ---------- Reveal states ---------- */
+
+/* User picked the lie correctly — celebrate. */
+.statement[data-state='correct-pick'] {
+  border-color: var(--success);
+  background: color-mix(in srgb, var(--success) 18%, transparent);
+  color: var(--success);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--success) 30%, transparent);
+}
+
+/* The actual lie when the user picked something else — the "right answer". */
+.statement[data-state='lie-unpicked'] {
   border-color: var(--danger);
   background: color-mix(in srgb, var(--danger) 14%, transparent);
   color: var(--danger);
 }
 
-.statement[data-state='wrong'] {
-  border-color: var(--danger);
-  background: color-mix(in srgb, var(--danger) 8%, transparent);
-  opacity: 0.7;
+/* The user's wrong pick — distinct from the lie. Amber + dashed border. */
+.statement[data-state='wrong-pick'] {
+  border-color: var(--warning);
+  border-style: dashed;
+  background: color-mix(in srgb, var(--warning) 10%, transparent);
+  color: var(--warning);
 }
 
+/* A true statement the user didn't pick — muted. */
 .statement[data-state='truth'] {
-  border-color: var(--success);
-  background: color-mix(in srgb, var(--success) 10%, transparent);
-  color: var(--success);
+  border-color: var(--border);
+  background: var(--bg-card);
+  opacity: 0.6;
 }
+
+/* ---------- Letter badge ---------- */
 
 .statementLetter {
   display: inline-flex; align-items: center; justify-content: center;
@@ -46,28 +62,139 @@
   flex-shrink: 0;
 }
 
-.statement[data-state='lie'] .statementLetter,
-.statement[data-state='wrong'] .statementLetter {
-  background: var(--danger); color: #fff; border-color: var(--danger);
-}
-
-.statement[data-state='truth'] .statementLetter {
+.statement[data-state='correct-pick'] .statementLetter {
   background: var(--success); color: #fff; border-color: var(--success);
 }
-
-.statementText { flex: 1; }
-
-.feedback {
-  display: flex; flex-direction: column; align-items: center; gap: var(--space-3);
-  padding: var(--space-5); border: 1px solid var(--border); border-radius: var(--radius-md);
-  background: var(--bg-card); text-align: center;
-  font-family: var(--font-display); font-size: 1.3rem; font-style: italic;
+.statement[data-state='lie-unpicked'] .statementLetter {
+  background: var(--danger); color: #fff; border-color: var(--danger);
+}
+.statement[data-state='wrong-pick'] .statementLetter {
+  background: var(--warning); color: #fff; border-color: var(--warning);
 }
 
-.feedback[data-correct='true'] { border-color: var(--success); color: var(--success); }
-.feedback[data-correct='false'] { border-color: var(--danger); color: var(--danger); }
+.statementText { flex: 1; min-width: 0; }
+
+/* ---------- Right-side tags after a pick ---------- */
+
+.tagRow {
+  display: inline-flex;
+  gap: 6px;
+  flex-shrink: 0;
+  font-family: var(--font-sans);
+  font-style: normal;
+  align-items: center;
+}
+
+.tagYourPick, .tagLie, .tagTruth {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  border: 1px solid;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.tagYourPick {
+  background: var(--bg);
+  color: var(--text);
+  border-color: var(--text-muted);
+}
+
+.tagLie {
+  background: color-mix(in srgb, var(--danger) 12%, transparent);
+  color: var(--danger);
+  border-color: var(--danger);
+}
+
+.tagTruth {
+  background: color-mix(in srgb, var(--success) 10%, transparent);
+  color: var(--success);
+  border-color: color-mix(in srgb, var(--success) 50%, transparent);
+}
+
+@media (max-width: 640px) {
+  .tagRow { flex-direction: column; align-items: flex-end; gap: 4px; }
+}
+
+/* ---------- Feedback panel ---------- */
+
+.feedback {
+  display: flex; flex-direction: column; align-items: center; gap: var(--space-2);
+  padding: var(--space-5) var(--space-7); border: 1.5px solid var(--border); border-radius: var(--radius-md);
+  background: var(--bg-card); text-align: center;
+}
+
+.feedback[data-correct='true'] {
+  border-color: var(--success);
+  background: color-mix(in srgb, var(--success) 8%, var(--bg-card));
+}
+.feedback[data-correct='false'] {
+  border-color: var(--danger);
+  background: color-mix(in srgb, var(--danger) 6%, var(--bg-card));
+}
+
+.verdict {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.8rem;
+  margin: 0;
+}
+
+.feedback[data-correct='true'] .verdict { color: var(--success); }
+.feedback[data-correct='false'] .verdict { color: var(--danger); }
+
+.lieLine {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: center;
+  margin: var(--space-2) 0;
+}
+
+.lieLabel {
+  font-size: 0.7rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.lieText {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.15rem;
+  color: var(--danger);
+  font-weight: 500;
+  max-width: 50ch;
+}
+
+.yourPickLine {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+
+.yourPickLine strong {
+  color: var(--warning);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.1rem;
+}
 
 .explanation {
-  font-family: var(--font-sans); font-style: normal; font-size: 0.95rem;
-  color: var(--text-muted); max-width: 60ch;
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  font-style: italic;
+  max-width: 60ch;
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--border);
+  margin-top: var(--space-2);
+}
+
+.nextBtn {
+  margin-top: var(--space-3);
+  font-size: 0.85rem;
 }

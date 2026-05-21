@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Check, X as XIcon, ChevronRight } from 'lucide-react';
+import { Check, X as XIcon, ChevronRight, Hand } from 'lucide-react';
 import { GameShell, SetupScreen, type SetupSelections } from './GameShell';
 import { ResultScreen } from './ResultScreen';
 import { TRUTHS, type TruthsLieItem } from '../data/banks/misc';
@@ -11,6 +11,29 @@ type Phase = 'setup' | 'playing' | 'result';
 
 interface Round {
   items: TruthsLieItem[];
+}
+
+/**
+ * Reveal-state values:
+ *  - 'idle'        Before any pick.
+ *  - 'correct-pick'  User picked this AND it was the lie. (You got it right.)
+ *  - 'wrong-pick'   User picked this AND it was a truth.  (Your guess was wrong.)
+ *  - 'lie-unpicked' The actual lie when the user picked something else. (The right answer.)
+ *  - 'truth'        A truth the user didn't pick.
+ *
+ * Crucially this distinguishes "the lie the user found" from "the lie the user missed",
+ * and "the user's wrong guess" from "the actual lie" — both used to share red.
+ */
+type CellState = 'idle' | 'correct-pick' | 'wrong-pick' | 'lie-unpicked' | 'truth';
+
+function cellState(picked: number | null, lie: number, i: number): CellState {
+  if (picked === null) return 'idle';
+  const isLie = i === lie;
+  const isPicked = picked === i;
+  if (isPicked && isLie) return 'correct-pick';
+  if (isPicked && !isLie) return 'wrong-pick';
+  if (!isPicked && isLie) return 'lie-unpicked';
+  return 'truth';
 }
 
 export function TwoTruthsLie() {
@@ -47,11 +70,12 @@ export function TwoTruthsLie() {
   }
 
   const current = round?.items[idx];
+  const wasCorrect = picked !== null && current && picked === current.lie;
 
   return (
     <GameShell
       title="Two Truths and a Lie"
-      description="Three statements appear. Spot the falsehood."
+      description="Three statements appear. Two are true; one is a lie. Spot the lie."
     >
       {phase === 'setup' && (
         <SetupScreen storageKey="twotruths" showSubject={false} onStart={start} />
@@ -66,9 +90,9 @@ export function TwoTruthsLie() {
 
           <div className={styles.stack}>
             {current.statements.map((s, i) => {
+              const state = cellState(picked, current.lie, i);
               const isLie = i === current.lie;
               const isPicked = picked === i;
-              const state = picked === null ? 'idle' : isLie ? 'lie' : isPicked ? 'wrong' : 'truth';
               return (
                 <button
                   key={i}
@@ -80,20 +104,51 @@ export function TwoTruthsLie() {
                 >
                   <span className={styles.statementLetter}>{String.fromCharCode(65 + i)}</span>
                   <span className={styles.statementText}>{s}</span>
-                  {picked !== null && isLie && <XIcon size={18} />}
-                  {picked !== null && !isLie && <Check size={18} />}
+
+                  {/* Right-side annotations after a pick */}
+                  {picked !== null && (
+                    <span className={styles.tagRow}>
+                      {isPicked && (
+                        <span className={styles.tagYourPick}>
+                          <Hand size={12} /> Your pick
+                        </span>
+                      )}
+                      {isLie ? (
+                        <span className={styles.tagLie}>
+                          <XIcon size={12} /> The lie
+                        </span>
+                      ) : (
+                        <span className={styles.tagTruth}>
+                          <Check size={12} /> True
+                        </span>
+                      )}
+                    </span>
+                  )}
                 </button>
               );
             })}
           </div>
 
           {picked !== null && (
-            <div className={styles.feedback} data-correct={picked === current.lie}>
-              <span>{picked === current.lie ? 'Correct — that was the lie!' : 'Nope, that was true.'}</span>
-              <span className={styles.explanation}>{current.explanation}</span>
+            <div className={styles.feedback} data-correct={wasCorrect}>
+              <p className={styles.verdict}>
+                {wasCorrect ? 'Correct!' : 'Not quite.'}
+              </p>
+              <p className={styles.lieLine}>
+                <span className={styles.lieLabel}>The lie was</span>
+                <strong className={styles.lieText}>
+                  {String.fromCharCode(65 + current.lie)}. {current.statements[current.lie]}
+                </strong>
+              </p>
+              {!wasCorrect && picked !== null && (
+                <p className={styles.yourPickLine}>
+                  You picked <strong>{String.fromCharCode(65 + picked)}</strong> — that was actually true.
+                </p>
+              )}
+              <p className={styles.explanation}>{current.explanation}</p>
               <button
                 type="button"
-                className={`${common.btn} ${common.btnPrimary}`}
+                className={`${common.btn} ${common.btnPrimary} ${styles.nextBtn}`}
                 onClick={next}
                 autoFocus
               >

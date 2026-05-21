@@ -101,12 +101,33 @@ export function FlagFlash() {
             })}
           </div>
 
-          {picked !== null && (
-            <button type="button" className={`${common.btn} ${common.btnPrimary}`} onClick={next} autoFocus>
-              {idx + 1 >= questions.length ? 'See results' : 'Next flag'}
-              <ChevronRight size={14} />
-            </button>
-          )}
+          {picked !== null && (() => {
+            const isRight = picked === current.answer;
+            return (
+              <div className={styles.feedback} data-correct={isRight}>
+                <span className={styles.verdict}>{isRight ? 'Correct!' : 'Not quite.'}</span>
+                {!isRight && (
+                  <span className={styles.answerLine}>
+                    The flag was <strong>{current.flag.flag} {current.choices[current.answer]}</strong>
+                  </span>
+                )}
+                {!isRight && (
+                  <span className={styles.pickLine}>
+                    You picked <strong>{current.choices[picked]}</strong>
+                  </span>
+                )}
+                <button
+                  type="button"
+                  className={`${common.btn} ${common.btnPrimary} ${styles.nextBtn}`}
+                  onClick={next}
+                  autoFocus
+                >
+                  {idx + 1 >= questions.length ? 'See results' : 'Next flag'}
+                  <ChevronRight size={14} />
+                </button>
+              </div>
+            );
+          })()}
         </div>
       )}
 

@@ -130,17 +130,37 @@ export function SynonymSprint() {
             })}
           </div>
 
-          {picked !== null && (
-            <button
-              type="button"
-              className={`${common.btn} ${common.btnPrimary}`}
-              onClick={next}
-              autoFocus
-            >
-              {idx + 1 >= round!.items.length ? 'See results' : 'Next'}
-              <ChevronRight size={14} />
-            </button>
-          )}
+          {picked !== null && (() => {
+            const isRight = picked === current.answer;
+            const isTimeout = picked === -1;
+            return (
+              <div className={styles.feedback} data-correct={isRight}>
+                <span className={styles.verdict}>
+                  {isRight ? 'Correct!' : isTimeout ? 'Time’s up.' : 'Not quite.'}
+                </span>
+                {!isRight && (
+                  <span className={styles.answerLine}>
+                    The {current.mode} for <em>{current.word}</em> is{' '}
+                    <strong>{current.choices[current.answer]}</strong>
+                  </span>
+                )}
+                {!isRight && !isTimeout && picked >= 0 && (
+                  <span className={styles.pickLine}>
+                    You picked <strong>{current.choices[picked]}</strong>
+                  </span>
+                )}
+                <button
+                  type="button"
+                  className={`${common.btn} ${common.btnPrimary} ${styles.nextBtn}`}
+                  onClick={next}
+                  autoFocus
+                >
+                  {idx + 1 >= round!.items.length ? 'See results' : 'Next'}
+                  <ChevronRight size={14} />
+                </button>
+              </div>
+            );
+          })()}
         </div>
       )}
 
