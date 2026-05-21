@@ -65,9 +65,13 @@
 }
 
 .lastWord {
-  font-size: clamp(2rem, 6vw, 3.4rem);
+  font-size: clamp(2.6rem, 8vw, 5rem);
   font-style: italic;
   color: var(--text-strong);
+}
+
+:global(:fullscreen) .lastWord {
+  font-size: clamp(3.4rem, 10vw, 7rem);
 }
 
 .nextHint {

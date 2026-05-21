@@ -1,4 +1,6 @@
-.playing { width: min(720px, 95vw); display: flex; flex-direction: column; gap: var(--space-4); align-items: stretch; }
+.playing { width: min(960px, 95vw); display: flex; flex-direction: column; gap: var(--space-4); align-items: stretch; }
+
+:global(:fullscreen) .playing { width: min(1280px, 92vw); }
 
 .header { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-2); }
 
@@ -24,7 +26,11 @@
 .modeLabel { font-size: 0.7rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--accent); }
 
 .word {
-  font-size: clamp(2.5rem, 7vw, 4rem); font-style: italic; color: var(--text-strong);
+  font-size: clamp(3rem, 8vw, 5.4rem); font-style: italic; color: var(--text-strong);
+}
+
+:global(:fullscreen) .word {
+  font-size: clamp(4rem, 10vw, 7rem);
 }
 
 .choices {
@@ -35,10 +41,17 @@
 
 .choice {
   display: flex; align-items: center; justify-content: space-between; gap: 8px;
-  padding: 12px 16px; background: var(--bg-card); border: 1.5px solid var(--border);
+  padding: 18px 22px; min-height: 70px;
+  background: var(--bg-card); border: 1.5px solid var(--border);
   border-radius: var(--radius-md); color: var(--text-strong);
-  font-family: var(--font-display); font-size: 1.1rem; font-style: italic;
+  font-family: var(--font-display); font-size: clamp(1.2rem, 2.2vw, 1.6rem); font-style: italic;
   cursor: pointer; transition: all var(--dur-base) var(--ease-out);
+}
+
+:global(:fullscreen) .choice {
+  font-size: clamp(1.5rem, 2.8vw, 2.1rem);
+  min-height: 90px;
+  padding: 24px 30px;
 }
 
 .choice:hover:not(:disabled) { border-color: var(--accent); }

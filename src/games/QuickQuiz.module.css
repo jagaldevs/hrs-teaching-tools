@@ -1,9 +1,11 @@
 .playing {
-  width: min(820px, 95vw);
+  width: min(1000px, 95vw);
   display: flex;
   flex-direction: column;
   gap: var(--space-5);
 }
+
+:global(:fullscreen) .playing { width: min(1280px, 92vw); }
 
 .header {
   display: flex;
@@ -48,12 +50,16 @@
 }
 
 .question {
-  font-size: clamp(1.5rem, 4vw, 2.4rem);
+  font-size: clamp(1.8rem, 5vw, 3.4rem);
   font-style: italic;
   line-height: 1.2;
   color: var(--text-strong);
   text-align: center;
   padding: var(--space-5) 0;
+}
+
+:global(:fullscreen) .question {
+  font-size: clamp(2.4rem, 6vw, 4.5rem);
 }
 
 .choices {
@@ -71,17 +77,24 @@
 .choice {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 18px 22px;
+  gap: 16px;
+  padding: 22px 26px;
+  min-height: 80px;
   background: var(--bg-card);
   border: 1.5px solid var(--border);
   border-radius: var(--radius-md);
   color: var(--text-strong);
   font-family: var(--font-sans);
-  font-size: 1.05rem;
+  font-size: clamp(1.05rem, 2vw, 1.35rem);
   text-align: left;
   cursor: pointer;
   transition: all var(--dur-base) var(--ease-out);
+}
+
+:global(:fullscreen) .choice {
+  min-height: 110px;
+  font-size: clamp(1.3rem, 2.4vw, 1.75rem);
+  padding: 28px 32px;
 }
 
 .choice:hover:not(:disabled) {
@@ -110,14 +123,20 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: 40px;
+  height: 40px;
   border-radius: 999px;
   background: var(--bg-elevated);
   border: 1px solid var(--border-strong);
   font-family: var(--font-display);
-  font-size: 1rem;
+  font-size: 1.2rem;
   flex-shrink: 0;
+}
+
+:global(:fullscreen) .choiceLetter {
+  width: 48px;
+  height: 48px;
+  font-size: 1.4rem;
 }
 
 .choice[data-state='correct'] .choiceLetter {

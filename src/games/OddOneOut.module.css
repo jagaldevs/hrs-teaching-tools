@@ -1,9 +1,11 @@
 .playing {
-  width: min(820px, 95vw);
+  width: min(1000px, 95vw);
   display: flex;
   flex-direction: column;
   gap: var(--space-5);
 }
+
+:global(:fullscreen) .playing { width: min(1280px, 92vw); }
 
 .header {
   display: flex;
@@ -48,11 +50,15 @@
 }
 
 .prompt {
-  font-size: clamp(1.5rem, 4vw, 2.4rem);
+  font-size: clamp(1.8rem, 5vw, 3.2rem);
   font-style: italic;
   text-align: center;
   color: var(--text-strong);
   padding: var(--space-3) 0;
+}
+
+:global(:fullscreen) .prompt {
+  font-size: clamp(2.4rem, 6vw, 4.5rem);
 }
 
 .grid {
@@ -73,14 +79,19 @@
   flex-direction: column;
   align-items: center;
   gap: 10px;
-  padding: var(--space-5);
-  min-height: 140px;
+  padding: var(--space-7) var(--space-5);
+  min-height: 180px;
   border: 1.5px solid var(--border);
   border-radius: var(--radius-md);
   background: var(--bg-card);
   color: var(--text-strong);
   cursor: pointer;
   transition: all var(--dur-base) var(--ease-out);
+}
+
+:global(:fullscreen) .tile {
+  min-height: 220px;
+  padding: var(--space-9) var(--space-5);
 }
 
 .tile:hover:not(:disabled) {
@@ -129,9 +140,13 @@
 }
 
 .tileText {
-  font-size: clamp(1.4rem, 3.5vw, 2rem);
+  font-size: clamp(1.6rem, 4vw, 2.6rem);
   font-style: italic;
   text-align: center;
+}
+
+:global(:fullscreen) .tileText {
+  font-size: clamp(2rem, 5vw, 3.4rem);
 }
 
 .tileIcon {

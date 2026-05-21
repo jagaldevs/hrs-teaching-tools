@@ -1,9 +1,11 @@
 .playing {
-  width: min(820px, 95vw);
+  width: min(1000px, 95vw);
   display: flex;
   flex-direction: column;
   gap: var(--space-5);
 }
+
+:global(:fullscreen) .playing { width: min(1280px, 92vw); }
 
 .header {
   display: inline-flex;
@@ -22,10 +24,14 @@
 }
 
 .prompt {
-  font-size: clamp(1.5rem, 4vw, 2.2rem);
+  font-size: clamp(1.8rem, 5vw, 3.2rem);
   font-style: italic;
   text-align: center;
   color: var(--text-strong);
+}
+
+:global(:fullscreen) .prompt {
+  font-size: clamp(2.4rem, 6vw, 4.4rem);
 }
 
 .sequence {
@@ -43,17 +49,23 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 72px;
-  height: 72px;
-  padding: 0 14px;
+  min-width: 96px;
+  height: 96px;
+  padding: 0 18px;
   border: 1px solid var(--border-strong);
   border-radius: var(--radius-md);
   background: var(--bg-elevated);
   font-family: var(--font-display);
-  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-size: clamp(2.2rem, 5vw, 3.6rem);
   font-style: italic;
   color: var(--text-strong);
   font-variant-numeric: tabular-nums;
+}
+
+:global(:fullscreen) .term {
+  min-width: 130px;
+  height: 130px;
+  font-size: clamp(2.8rem, 6vw, 4.6rem);
 }
 
 .sequence[data-type='shape'] .term {
@@ -90,17 +102,23 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: var(--space-4);
-  min-height: 80px;
+  padding: var(--space-5);
+  min-height: 100px;
   border: 1.5px solid var(--border);
   border-radius: var(--radius-md);
   background: var(--bg-card);
   color: var(--text-strong);
   font-family: var(--font-display);
-  font-size: clamp(1.4rem, 3.5vw, 2rem);
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
   font-style: italic;
   cursor: pointer;
   transition: all var(--dur-base) var(--ease-out);
+}
+
+:global(:fullscreen) .choice {
+  min-height: 130px;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  padding: var(--space-6);
 }
 
 .choice[data-type='shape'] {
