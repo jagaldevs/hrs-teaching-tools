@@ -1,0 +1,152 @@
+.hint {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: var(--space-3);
+}
+
+.stageWrap {
+  width: 100%;
+  max-width: 1100px;
+  aspect-ratio: 11 / 7;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg-card);
+  overflow: hidden;
+  touch-action: none; /* prevent scroll on touch drag */
+  margin-bottom: var(--space-4);
+}
+
+.stage {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.stageSvg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.gridBg {
+  color: var(--text-muted);
+}
+
+/* ---- Ruler ---- */
+
+.rulerGroup { cursor: grab; }
+.rulerGroup:active { cursor: grabbing; }
+
+.rulerBody {
+  fill: rgba(254, 240, 138, 0.86);
+  stroke: rgba(120, 90, 0, 0.5);
+  stroke-width: 0.5;
+}
+
+:root[data-theme='dark'] .rulerBody {
+  fill: rgba(254, 240, 138, 0.78);
+}
+
+.tick {
+  stroke: rgba(40, 30, 0, 0.85);
+  stroke-width: 0.4;
+}
+
+.rulerLabel {
+  font-family: var(--font-display);
+  font-size: 6px;
+  font-style: italic;
+  fill: rgba(40, 30, 0, 0.9);
+}
+
+.unitLabel {
+  font-family: var(--font-display);
+  font-size: 8px;
+  font-style: italic;
+  fill: rgba(40, 30, 0, 0.8);
+}
+
+/* ---- Protractor ---- */
+
+.protractorGroup { cursor: grab; }
+.protractorGroup:active { cursor: grabbing; }
+
+.protractorBody {
+  fill: rgba(186, 230, 253, 0.7);
+  stroke: rgba(7, 89, 133, 0.5);
+  stroke-width: 0.6;
+}
+
+.protractorInner {
+  fill: rgba(255, 255, 255, 0.45);
+  stroke: rgba(7, 89, 133, 0.3);
+  stroke-width: 0.3;
+}
+
+:root[data-theme='dark'] .protractorInner {
+  fill: rgba(15, 23, 42, 0.55);
+}
+
+.protractorLabel {
+  font-family: var(--font-display);
+  font-size: 6px;
+  font-style: italic;
+  fill: rgba(7, 89, 133, 0.95);
+}
+
+:root[data-theme='dark'] .protractorLabel {
+  fill: rgba(186, 230, 253, 0.95);
+}
+
+.centreMark {
+  stroke: rgba(7, 89, 133, 0.8);
+  stroke-width: 0.5;
+}
+
+.centreDot {
+  fill: var(--accent);
+}
+
+.baseline {
+  stroke: rgba(7, 89, 133, 0.6);
+  stroke-width: 0.8;
+}
+
+/* ---- Rotation handle ---- */
+
+.handle { cursor: grab; }
+.handle:active { cursor: grabbing; }
+
+.handleCircle {
+  fill: var(--accent);
+  stroke: #fff;
+  stroke-width: 1;
+  opacity: 0.92;
+}
+
+.handleIcon {
+  stroke: #fff;
+  stroke-width: 0.8;
+  fill: none;
+  pointer-events: none;
+}
+
+/* ---- Legend ---- */
+
+.legend {
+  display: inline-flex;
+  gap: var(--space-5);
+  flex-wrap: wrap;
+  justify-content: center;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.legendItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}

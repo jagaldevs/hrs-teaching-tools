@@ -1,0 +1,208 @@
+/* ---------- Hero ---------- */
+
+.heroActions {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-5);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.surpriseBtn {
+  padding: 14px 28px;
+  font-size: 0.85rem;
+}
+
+.heroCount {
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Filter bar ---------- */
+
+.filterBar {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-5);
+  padding: var(--space-4) var(--space-5);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg-card);
+  margin-top: var(--space-7);
+  margin-bottom: var(--space-3);
+}
+
+@media (max-width: 720px) {
+  .filterBar { grid-template-columns: 1fr; gap: var(--space-3); }
+}
+
+.filterCol {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.filterLabel {
+  font-size: 0.7rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.chipRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  background: var(--bg-elevated);
+  color: var(--text-muted);
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-style: italic;
+  cursor: pointer;
+  transition: all var(--dur-base) var(--ease-out);
+}
+
+.chip:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.chip[data-active='true'] {
+  background: var(--chip-colour, var(--accent));
+  color: #fff;
+  border-color: var(--chip-colour, var(--accent));
+}
+
+.chipDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+}
+
+.chip[data-active='true'] .chipDot {
+  background: #fff !important;
+}
+
+.clearBtn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  background: var(--bg-elevated);
+  color: var(--text-muted);
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all var(--dur-fast) var(--ease-out);
+}
+
+.clearBtn:hover {
+  color: var(--danger);
+  border-color: var(--danger);
+}
+
+/* ---------- Empty state ---------- */
+
+.empty {
+  width: min(560px, 90vw);
+  margin: var(--space-9) auto;
+  padding: var(--space-7);
+  text-align: center;
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.emptyTitle {
+  font-size: 1.6rem;
+  font-style: italic;
+  color: var(--text-strong);
+}
+
+.emptyNote {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  margin-bottom: var(--space-2);
+}
+
+/* ---------- Footnote (stream cheatsheet at page bottom) ---------- */
+
+.footnote {
+  margin-top: var(--space-9);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--border);
+  text-align: center;
+}
+
+.footnoteLabel {
+  display: block;
+  font-size: 0.7rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin-bottom: var(--space-3);
+}
+
+.footnoteList {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: var(--space-3);
+}
+
+.footnoteChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.footnoteChip strong {
+  color: var(--text);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+}
+
+.footnoteHint {
+  font-size: 0.78rem;
+  color: var(--text-faint);
+}
+
+.footnoteLink {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.footnoteLink:hover {
+  color: var(--accent-strong);
+}

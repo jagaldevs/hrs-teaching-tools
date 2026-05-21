@@ -49,6 +49,11 @@ export const TOOL_COMPONENTS: Record<string, LazyExoticComponent<ComponentType>>
   'place-value-chart': lazy(() => import('./teaching-aids/PlaceValueChart').then((m) => ({ default: m.PlaceValueChart }))),
   abacus: lazy(() => import('./teaching-aids/Abacus').then((m) => ({ default: m.Abacus }))),
   'fraction-tool': lazy(() => import('./teaching-aids/FractionTool').then((m) => ({ default: m.FractionTool }))),
+  'mab-blocks': lazy(() => import('./teaching-aids/MABBlocks').then((m) => ({ default: m.MABBlocks }))),
+  'cartesian-plane': lazy(() => import('./teaching-aids/CartesianPlane').then((m) => ({ default: m.CartesianPlane }))),
+  'ruler-protractor': lazy(() => import('./teaching-aids/RulerProtractor').then((m) => ({ default: m.RulerProtractor }))),
+  'world-map': lazy(() => import('./teaching-aids/WorldMap').then((m) => ({ default: m.WorldMap }))),
+  'timeline-builder': lazy(() => import('./teaching-aids/TimelineBuilder').then((m) => ({ default: m.TimelineBuilder }))),
 };
 
 export function hasComponent(id: string): boolean {

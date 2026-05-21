@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { RotateCcw } from 'lucide-react';
 import { ToolShell } from '../ToolShell';
 import { usePersistedState } from '../../hooks/usePersistedState';
@@ -34,7 +34,7 @@ export function Abacus() {
   const [rods, setRods] = useState<Rod[]>(() => Array.from({ length: rodCount }, () => blankRod()));
 
   // Resize rods when rodCount changes
-  useMemo(() => {
+  useEffect(() => {
     setRods((prev) => {
       if (prev.length === rodCount) return prev;
       if (prev.length < rodCount) {
@@ -44,7 +44,6 @@ export function Abacus() {
       // Trim from the left (drop highest place values)
       return prev.slice(prev.length - rodCount);
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rodCount]);
 
   function toggleHeaven(rodIdx: number) {
