@@ -31,14 +31,16 @@
   align-items: center;
   justify-content: center;
   font-family: var(--font-display);
-  font-size: clamp(4rem, 12vw, 6rem);
+  font-style: italic;
+  font-size: clamp(2rem, 6vw, 3.4rem);
+  letter-spacing: 0.04em;
   color: #fff;
   backface-visibility: hidden;
   background: radial-gradient(circle at 30% 30%, var(--accent-strong), var(--accent));
   border: 6px solid #fff;
   box-shadow:
     0 0 0 2px var(--accent),
-    0 20px 40px rgba(230, 0, 126, 0.3);
+    0 20px 40px rgba(162, 35, 95, 0.3);
 }
 
 .tails {

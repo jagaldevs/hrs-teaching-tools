@@ -71,8 +71,8 @@ export function FractionTool() {
     >
       <div className={styles.controls}>
         <div className={styles.stepper}>
-          <button type="button" className={styles.stepBtn} onClick={() => bumpNum(1)}>
-            <Plus size={14} />
+          <button type="button" className={styles.stepBtn} onClick={() => bumpNum(-1)} disabled={safeNum === 0} aria-label="Decrease numerator">
+            <Minus size={14} />
           </button>
           <input
             type="text"
@@ -80,15 +80,16 @@ export function FractionTool() {
             value={safeNum}
             onChange={(e) => setNumerator(Math.max(0, Number(e.target.value) || 0))}
             className={styles.numInput}
+            aria-label="Numerator"
           />
-          <button type="button" className={styles.stepBtn} onClick={() => bumpNum(-1)} disabled={safeNum === 0}>
-            <Minus size={14} />
+          <button type="button" className={styles.stepBtn} onClick={() => bumpNum(1)} aria-label="Increase numerator">
+            <Plus size={14} />
           </button>
         </div>
         <span className={styles.fracBar} />
         <div className={styles.stepper}>
-          <button type="button" className={styles.stepBtn} onClick={() => bumpDen(1)}>
-            <Plus size={14} />
+          <button type="button" className={styles.stepBtn} onClick={() => bumpDen(-1)} disabled={safeDen <= 1} aria-label="Decrease denominator">
+            <Minus size={14} />
           </button>
           <input
             type="text"
@@ -96,9 +97,10 @@ export function FractionTool() {
             value={safeDen}
             onChange={(e) => setDenominator(Math.max(1, Number(e.target.value) || 1))}
             className={styles.numInput}
+            aria-label="Denominator"
           />
-          <button type="button" className={styles.stepBtn} onClick={() => bumpDen(-1)} disabled={safeDen <= 1}>
-            <Minus size={14} />
+          <button type="button" className={styles.stepBtn} onClick={() => bumpDen(1)} aria-label="Increase denominator">
+            <Plus size={14} />
           </button>
         </div>
       </div>

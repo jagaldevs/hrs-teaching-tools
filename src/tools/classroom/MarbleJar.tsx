@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Plus, Minus, RotateCcw, Trophy, Settings } from 'lucide-react';
 import { ToolShell } from '../ToolShell';
 import { chimeComplete, chimeTick } from '../chime';
@@ -6,11 +6,35 @@ import { usePersistedState } from '../../hooks/usePersistedState';
 import common from '../common.module.css';
 import styles from './MarbleJar.module.css';
 
-const MARBLE_COLOURS = ['#E6007E', '#0EA5E9', '#10B981', '#F59E0B', '#A855F7', '#EF4444', '#FB7185'];
+const MARBLE_COLOURS = ['#A2235F', '#0EA5E9', '#10B981', '#F59E0B', '#A855F7', '#EF4444', '#FB7185'];
 
 interface Marble {
   id: string;
   colour: string;
+}
+
+// Jar interior dimensions in viewBox units.
+const JAR_X = 55;
+const JAR_W = 90;
+const JAR_TOP_Y = 60;
+const JAR_BOTTOM_Y = 230;
+const JAR_H = JAR_BOTTOM_Y - JAR_TOP_Y;
+
+/**
+ * Pick a marble radius + grid that lets `goal` marbles fill the jar nicely.
+ * Bigger goal = smaller marbles, more rows / columns.
+ */
+function computeLayout(goal: number) {
+  // Target packing: goal marbles fill ~80% of jar interior area.
+  // π * r² * goal ≈ JAR_W * JAR_H * 0.8
+  const ideal = Math.sqrt((JAR_W * JAR_H * 0.8) / (goal * Math.PI));
+  const radius = Math.max(2.4, Math.min(10, ideal));
+  const colSpacing = radius * 2.05;
+  const rowSpacing = radius * 2.0;
+  const cols = Math.max(1, Math.floor(JAR_W / colSpacing));
+  // Centre the column grid horizontally
+  const xPad = (JAR_W - cols * colSpacing) / 2 + colSpacing / 2;
+  return { radius, cols, colSpacing, rowSpacing, xPad };
 }
 
 export function MarbleJar() {
@@ -19,7 +43,10 @@ export function MarbleJar() {
   const [celebrating, setCelebrating] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
 
+  const layout = useMemo(() => computeLayout(goal), [goal]);
+
   function addMarble() {
+    if (marbles.length >= goal) return; // capped at the goal
     chimeTick();
     setMarbles((prev) => [
       ...prev,
@@ -46,6 +73,13 @@ export function MarbleJar() {
     }
     if (marbles.length < goal && celebrating) setCelebrating(false);
   }, [marbles.length, goal, celebrating]);
+
+  // If the new goal is smaller than current marble count, trim the marbles down
+  function applyGoal(next: number) {
+    const n = Math.max(1, Math.min(500, Math.floor(next) || 1));
+    setGoal(n);
+    if (marbles.length > n) setMarbles((prev) => prev.slice(0, n));
+  }
 
   const fillPct = goal > 0 ? Math.min(100, (marbles.length / goal) * 100) : 0;
 
@@ -78,38 +112,27 @@ export function MarbleJar() {
               className={styles.jarBody}
             />
 
-            {/* Marble pile (clipped to jar shape) */}
+            {/* Marble pile — packed so `goal` marbles fill the jar */}
             <g clipPath="url(#jarClip)">
               {marbles.map((m, i) => {
-                const row = Math.floor(i / 8);
-                const col = i % 8;
-                const cx = 60 + col * 10.5 + (row % 2) * 5.25;
-                const cy = 222 - row * 9;
+                const row = Math.floor(i / layout.cols);
+                const col = i % layout.cols;
+                const cx = JAR_X + layout.xPad + col * layout.colSpacing;
+                const cy =
+                  JAR_BOTTOM_Y - layout.radius - row * layout.rowSpacing;
                 return (
                   <circle
                     key={m.id}
                     cx={cx}
                     cy={cy}
-                    r={5}
+                    r={layout.radius}
                     fill={m.colour}
                     className={styles.marble}
-                    style={{ animationDelay: `${(marbles.length - 1 - i) * 12}ms` }}
+                    style={{ animationDelay: `${Math.min(400, (marbles.length - 1 - i) * 10)}ms` }}
                   />
                 );
               })}
             </g>
-
-            {/* Goal line */}
-            {goal > 0 && (
-              <line
-                x1="50"
-                y1={230 - Math.min(170, (goal / 60) * 170)}
-                x2="150"
-                y2={230 - Math.min(170, (goal / 60) * 170)}
-                className={styles.goalLine}
-                strokeDasharray="3 3"
-              />
-            )}
           </svg>
         </div>
 
@@ -136,6 +159,7 @@ export function MarbleJar() {
               type="button"
               className={`${common.btn} ${common.btnPrimary}`}
               onClick={addMarble}
+              disabled={marbles.length >= goal}
             >
               <Plus size={14} /> Add marble
             </button>
@@ -158,10 +182,24 @@ export function MarbleJar() {
               min={1}
               max={500}
               value={goal}
-              onChange={(e) => setGoal(Math.max(1, Number(e.target.value) || 1))}
+              onChange={(e) => applyGoal(Number(e.target.value))}
               className={common.numericInput}
             />
           </label>
+          <div className={styles.presetRow}>
+            <span className={common.labelText}>Quick set:</span>
+            {[10, 20, 30, 50, 100, 200].map((g) => (
+              <button
+                key={g}
+                type="button"
+                className={`${common.btn} ${styles.presetBtn}`}
+                data-active={goal === g}
+                onClick={() => applyGoal(g)}
+              >
+                {g}
+              </button>
+            ))}
+          </div>
         </section>
       )}
     </ToolShell>

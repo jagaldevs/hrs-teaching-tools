@@ -1,18 +1,34 @@
 import { useMemo, useState } from 'react';
-import { Sparkles, RotateCcw, Settings } from 'lucide-react';
+import { Sparkles, RotateCcw, Settings, UserPlus } from 'lucide-react';
 import { ToolShell } from '../ToolShell';
 import { randomInt, parseRoster } from './util';
 import { usePersistedState } from '../../hooks/usePersistedState';
 import common from '../common.module.css';
 import styles from './NamePicker.module.css';
 
+const ROSTER_KEY = 'namepicker.roster';
+
+/** Read the persisted roster directly so we can choose the right initial settingsOpen value. */
+function hasPersistedRoster(): boolean {
+  try {
+    const raw = localStorage.getItem(`hrs:${ROSTER_KEY}`);
+    if (!raw) return false;
+    const r = JSON.parse(raw) as string;
+    return parseRoster(r).length > 0;
+  } catch {
+    return false;
+  }
+}
+
 export function NamePicker() {
-  const [roster, setRoster] = usePersistedState<string>('namepicker.roster', '');
+  const [roster, setRoster] = usePersistedState<string>(ROSTER_KEY, '');
   const [fairMode, setFairMode] = usePersistedState<boolean>('namepicker.fair', true);
   const [picked, setPicked] = useState<string[]>([]);
   const [current, setCurrent] = useState<string | null>(null);
   const [animating, setAnimating] = useState(false);
-  const [settingsOpen, setSettingsOpen] = useState(false);
+  // Auto-open the roster panel when there are no saved names — otherwise the
+  // user lands on an empty stage with nothing to do.
+  const [settingsOpen, setSettingsOpen] = useState<boolean>(() => !hasPersistedRoster());
 
   const names = useMemo(() => parseRoster(roster), [roster]);
 
@@ -24,7 +40,6 @@ export function NamePicker() {
   function pick() {
     if (remaining.length === 0) return;
     setAnimating(true);
-    // Quick churn for drama
     let ticks = 0;
     const id = window.setInterval(() => {
       setCurrent(remaining[randomInt(remaining.length)] ?? null);
@@ -57,13 +72,22 @@ export function NamePicker() {
           className={common.btn}
           onClick={() => setSettingsOpen((s) => !s)}
         >
-          <Settings size={14} /> {settingsOpen ? 'Close' : 'Roster'}
+          <Settings size={14} /> {settingsOpen ? 'Close roster' : 'Edit roster'}
         </button>
       }
     >
       <div className={styles.stage}>
         {names.length === 0 ? (
-          <p className={styles.empty}>Add names below to get started.</p>
+          <div className={styles.emptyBlock}>
+            <p className={styles.empty}>No names in the class roster yet.</p>
+            <button
+              type="button"
+              className={`${common.btn} ${common.btnPrimary}`}
+              onClick={() => setSettingsOpen(true)}
+            >
+              <UserPlus size={14} /> Add names
+            </button>
+          </div>
         ) : showFairExhausted ? (
           <>
             <p className={styles.exhausted}>Everyone has had a turn.</p>
@@ -116,7 +140,7 @@ export function NamePicker() {
       {settingsOpen && (
         <section className={styles.settings}>
           <header className={styles.settingsHeader}>
-            <p className={common.labelText}>Class roster</p>
+            <p className={common.labelText}>Class roster · {names.length} name{names.length === 1 ? '' : 's'}</p>
             <label className={styles.fairToggle}>
               <input
                 type="checkbox"
@@ -130,10 +154,19 @@ export function NamePicker() {
             className={styles.textarea}
             value={roster}
             onChange={(e) => setRoster(e.target.value)}
-            placeholder={'One name per line, or comma-separated.\nE.g.\nAva\nNoah\nLiam, Mia, Zoe'}
+            placeholder={'One name per line, or comma-separated.\n\nE.g.\nAva\nNoah\nLiam, Mia, Zoe'}
             rows={10}
+            autoFocus={names.length === 0}
           />
-          <p className={styles.count}>{names.length} names</p>
+          {names.length > 0 && (
+            <button
+              type="button"
+              className={common.btn}
+              onClick={() => setSettingsOpen(false)}
+            >
+              Done
+            </button>
+          )}
         </section>
       )}
     </ToolShell>

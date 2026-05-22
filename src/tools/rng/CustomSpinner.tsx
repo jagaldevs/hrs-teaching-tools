@@ -75,11 +75,11 @@ export function CustomSpinner() {
       actions={
         <button
           type="button"
-          className={common.btn}
+          className={`${common.btn} ${editOpen ? '' : common.btnPrimary}`}
           onClick={() => setEditOpen((o) => !o)}
         >
           {editOpen ? <X size={14} /> : <Settings size={14} />}
-          {editOpen ? 'Done' : 'Edit wedges'}
+          {editOpen ? 'Done editing' : 'Edit wedges'}
         </button>
       }
     >

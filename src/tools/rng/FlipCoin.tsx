@@ -40,8 +40,8 @@ export function FlipCoin() {
       description="Animated flip with tally over multiple flips — useful for probability lessons."
     >
       <div className={styles.coin} data-flipping={flipping} data-side={result ?? 'heads'}>
-        <div className={`${styles.face} ${styles.heads}`}>H</div>
-        <div className={`${styles.face} ${styles.tails}`}>T</div>
+        <div className={`${styles.face} ${styles.heads}`}>Heads</div>
+        <div className={`${styles.face} ${styles.tails}`}>Tails</div>
       </div>
 
       <p className={styles.result}>

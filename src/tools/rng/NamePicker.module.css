@@ -7,6 +7,13 @@
   justify-content: center;
 }
 
+.emptyBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+}
+
 .empty {
   font-size: var(--fs-lead);
   color: var(--text-muted);

@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { Plus, RotateCcw, Edit3, BarChart3, Trophy } from 'lucide-react';
+import { Plus, RotateCcw, Edit3, BarChart3, Trophy, Pencil } from 'lucide-react';
 import { ToolShell } from '../ToolShell';
 import { usePersistedState } from '../../hooks/usePersistedState';
+import { chimeTick } from '../chime';
 import common from '../common.module.css';
 import styles from './Polling.module.css';
 
@@ -21,10 +22,15 @@ const DEFAULT_OPTIONS: Option[] = [
 ];
 
 export function Polling() {
-  const [question, setQuestion] = usePersistedState<string>('poll.question', 'Which answer is correct?');
+  const [question, setQuestion] = usePersistedState<string>(
+    'poll.question',
+    'Which answer is correct?',
+  );
   const [options, setOptions] = usePersistedState<Option[]>('poll.options', DEFAULT_OPTIONS);
   const [revealed, setRevealed] = useState(false);
   const [editing, setEditing] = useState(false);
+  // Per-option counter to retrigger pulse animation on each tally
+  const [pulseTick, setPulseTick] = useState<Record<string, number>>({});
 
   const total = options.reduce((s, o) => s + o.count, 0);
   const maxCount = Math.max(0, ...options.map((o) => o.count));
@@ -34,6 +40,8 @@ export function Polling() {
     setOptions((prev) =>
       prev.map((o) => (o.letter === letter ? { ...o, count: Math.max(0, o.count + delta) } : o)),
     );
+    setPulseTick((p) => ({ ...p, [letter]: (p[letter] ?? 0) + 1 }));
+    chimeTick();
   }
 
   function reset() {
@@ -47,7 +55,10 @@ export function Polling() {
 
   function addOption() {
     if (options.length >= 6) return;
-    setOptions((prev) => [...prev, { letter: LETTERS[prev.length]!, label: `Option ${LETTERS[prev.length]}`, count: 0 }]);
+    setOptions((prev) => [
+      ...prev,
+      { letter: LETTERS[prev.length]!, label: `Option ${LETTERS[prev.length]}`, count: 0 },
+    ]);
   }
 
   function removeOption() {
@@ -63,7 +74,7 @@ export function Polling() {
       actions={
         <>
           <button type="button" className={common.btn} onClick={() => setEditing((e) => !e)}>
-            <Edit3 size={14} /> {editing ? 'Done' : 'Edit'}
+            <Edit3 size={14} /> {editing ? 'Done editing' : 'Edit question & options'}
           </button>
           <button
             type="button"
@@ -80,15 +91,29 @@ export function Polling() {
       }
     >
       {editing ? (
-        <textarea
-          className={styles.questionEdit}
-          value={question}
-          onChange={(e) => setQuestion(e.target.value)}
-          rows={2}
-          autoFocus
-        />
+        <div className={styles.editWrap}>
+          <span className={styles.editLabel}>Question</span>
+          <textarea
+            className={styles.questionEdit}
+            value={question}
+            onChange={(e) => setQuestion(e.target.value)}
+            rows={2}
+            autoFocus
+            placeholder="Type your question…"
+          />
+        </div>
       ) : (
-        <h2 className={`font-display ${styles.question}`}>{question}</h2>
+        <button
+          type="button"
+          className={styles.questionBtn}
+          onClick={() => setEditing(true)}
+          title="Click to edit"
+        >
+          <h2 className={`font-display ${styles.question}`}>{question}</h2>
+          <span className={styles.editHint}>
+            <Pencil size={12} /> Click to edit
+          </span>
+        </button>
       )}
 
       <div className={styles.grid}>
@@ -116,22 +141,43 @@ export function Polling() {
                     </div>
                   </div>
                   <div className={styles.metrics}>
-                    <span className={styles.count}>{o.count}</span>
+                    <span
+                      key={`${o.letter}-${pulseTick[o.letter] ?? 0}`}
+                      className={styles.count}
+                    >
+                      {o.count}
+                    </span>
                     <span className={styles.pct}>{Math.round(pct)}%</span>
                   </div>
                 </>
               )}
 
+              {!revealed && (
+                <span
+                  key={`live-${o.letter}-${pulseTick[o.letter] ?? 0}`}
+                  className={styles.liveCount}
+                >
+                  {o.count}
+                </span>
+              )}
+
               {isWinner && <Trophy className={styles.trophy} size={20} />}
 
               <div className={styles.controls}>
-                <button type="button" className={common.btn} onClick={() => tally(o.letter, -1)}>
+                <button
+                  type="button"
+                  className={`${common.btn} ${styles.tallyBtn}`}
+                  onClick={() => tally(o.letter, -1)}
+                  disabled={o.count === 0}
+                  aria-label={`Subtract a vote from ${o.letter}`}
+                >
                   −1
                 </button>
                 <button
                   type="button"
-                  className={`${common.btn} ${common.btnPrimary}`}
+                  className={`${common.btn} ${common.btnPrimary} ${styles.tallyBtn}`}
                   onClick={() => tally(o.letter, 1)}
+                  aria-label={`Add a vote to ${o.letter}`}
                 >
                   +1
                 </button>
