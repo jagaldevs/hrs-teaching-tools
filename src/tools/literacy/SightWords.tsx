@@ -1,5 +1,15 @@
-import { useEffect, useState } from 'react';
-import { ChevronLeft, ChevronRight, Check, X as XIcon, Shuffle, RotateCcw, Volume2 } from 'lucide-react';
+import { useEffect, useMemo, useState } from 'react';
+import {
+  ChevronLeft,
+  ChevronRight,
+  Check,
+  X as XIcon,
+  Shuffle,
+  RotateCcw,
+  Volume2,
+  Info,
+  Circle,
+} from 'lucide-react';
 import { ToolShell } from '../ToolShell';
 import { usePersistedState } from '../../hooks/usePersistedState';
 import { shuffle } from '../rng/util';
@@ -8,53 +18,55 @@ import styles from './SightWords.module.css';
 
 type ListId = 'magic100' | 'magic200' | 'magic300';
 
+/**
+ * Magic Words sight-word lists (Lyn Stone, "Reading for Life").
+ * Each list is de-duplicated within itself so the same word never appears twice.
+ */
+const RAW_LISTS: Record<ListId, string[]> = {
+  magic100: [
+    'the', 'and', 'a', 'I', 'to', 'said', 'in', 'he', 'it', 'was',
+    'of', 'for', 'is', 'you', 'his', 'on', 'they', 'with', 'be', 'as',
+    'at', 'one', 'had', 'have', 'not', 'this', 'are', 'but', 'or', 'her',
+    'all', 'we', 'an', 'when', 'up', 'can', 'so', 'out', 'do', 'were',
+    'what', 'your', 'how', 'if', 'about', 'will', 'each', 'them', 'then',
+    'she', 'many', 'would', 'into', 'has', 'more', 'two', 'like', 'him', 'see',
+    'time', 'could', 'no', 'make', 'than', 'first', 'water', 'been', 'who', 'oil',
+    'its', 'now', 'find', 'long', 'down', 'day', 'did', 'get', 'come', 'made',
+    'may', 'part', 'over', 'new', 'sound', 'take', 'only', 'little', 'work', 'know',
+    'place', 'years', 'live', 'me', 'back', 'give', 'most', 'very', 'after', 'thing',
+  ],
+  magic200: [
+    'our', 'just', 'name', 'good', 'sentence', 'man', 'think', 'say', 'great', 'where',
+    'help', 'through', 'much', 'before', 'line', 'right', 'too', 'mean', 'old', 'any',
+    'same', 'tell', 'boy', 'follow', 'came', 'want', 'show', 'also', 'around', 'form',
+    'three', 'small', 'set', 'put', 'end', 'why', 'again', 'turn', 'here', 'off',
+    'went', 'number', 'large', 'must', 'big', 'even', 'such', 'because', 'asked',
+    'house', 'world', 'going', 'school', 'important', 'until', 'eyes', 'face', 'far',
+    'something', 'few', 'head', 'above', 'kind', 'began', 'almost', 'sometimes',
+    'mountain', 'cut', 'young', 'talk', 'soon', 'list', 'song', 'leave', 'family',
+    'body', 'music', 'colour', 'stand', 'sun', 'questions', 'fish', 'area', 'mark',
+    'dog', 'horse', 'birds', 'problem', 'complete', 'room', 'knew', 'since', 'ever',
+    'piece', 'told', 'usually', 'paper', 'often', 'together',
+  ],
+  magic300: [
+    'group', 'although', 'plant', 'last', 'father', 'keep', 'tree', 'never', 'started',
+    'city', 'earth', 'light', 'thought', 'under', 'story', 'saw', 'left', 'while', 'along',
+    'might', 'close', 'seem', 'next', 'hard', 'open', 'example', 'beginning', 'life',
+    'always', 'those', 'both', 'got', 'children', 'side', 'feet', 'car', 'mile', 'night',
+    'walked', 'white', 'sea', 'grow', 'took', 'river', 'four', 'carry', 'state', 'once',
+    'book', 'hear', 'stop', 'without', 'second', 'later', 'miss', 'idea', 'enough', 'eat',
+    'watch', 'really', 'let', 'girl', 'being', 'beautiful', 'every', 'laugh', 'people',
+    'their', 'because', 'high', 'change', 'world', 'better', 'box', 'animal', 'building',
+    'land', 'simple', 'plain', 'usual', 'bring', 'half', 'rock', 'order', 'red', 'fire',
+    'south', 'door', 'product', 'black', 'short', 'numeral', 'class', 'wind', 'question',
+    'happen', 'minute', 'strong',
+  ],
+};
+
 const LISTS: Record<ListId, { label: string; words: string[] }> = {
-  magic100: {
-    label: 'Magic 100',
-    // Most common ~100 English words. Order follows the Magic Words list (Lyn Stone).
-    words: [
-      'the', 'and', 'a', 'I', 'to', 'said', 'in', 'he', 'it', 'was',
-      'of', 'for', 'is', 'you', 'his', 'on', 'they', 'with', 'be', 'as',
-      'at', 'one', 'had', 'have', 'not', 'this', 'are', 'but', 'or', 'her',
-      'all', 'we', 'an', 'when', 'up', 'can', 'so', 'out', 'do', 'were',
-      'what', 'your', 'how', 'said', 'if', 'about', 'will', 'each', 'them', 'then',
-      'she', 'many', 'would', 'into', 'has', 'more', 'two', 'like', 'him', 'see',
-      'time', 'could', 'no', 'make', 'than', 'first', 'water', 'been', 'who', 'oil',
-      'its', 'now', 'find', 'long', 'down', 'day', 'did', 'get', 'come', 'made',
-      'may', 'part', 'over', 'new', 'sound', 'take', 'only', 'little', 'work', 'know',
-      'place', 'years', 'live', 'me', 'back', 'give', 'most', 'very', 'after', 'thing',
-    ],
-  },
-  magic200: {
-    label: 'Magic 200',
-    words: [
-      'our', 'just', 'name', 'good', 'sentence', 'man', 'think', 'say', 'great', 'where',
-      'help', 'through', 'much', 'before', 'line', 'right', 'too', 'mean', 'old', 'any',
-      'same', 'tell', 'boy', 'follow', 'came', 'want', 'show', 'also', 'around', 'form',
-      'three', 'small', 'set', 'put', 'end', 'why', 'again', 'turn', 'here', 'off',
-      'went', 'number', 'large', 'must', 'big', 'even', 'such', 'because', 'turn', 'asked',
-      'house', 'world', 'going', 'school', 'important', 'until', 'eyes', 'face', 'far', 'something',
-      'few', 'head', 'above', 'kind', 'began', 'almost', 'sometimes', 'mountain', 'cut', 'young',
-      'talk', 'soon', 'list', 'song', 'leave', 'family', 'body', 'music', 'colour', 'stand',
-      'sun', 'questions', 'fish', 'area', 'mark', 'dog', 'horse', 'birds', 'problem', 'complete',
-      'room', 'knew', 'since', 'ever', 'piece', 'told', 'usually', 'paper', 'often', 'together',
-    ],
-  },
-  magic300: {
-    label: 'Magic 300',
-    words: [
-      'group', 'although', 'plant', 'last', 'school', 'father', 'keep', 'tree', 'never', 'started',
-      'city', 'earth', 'eyes', 'light', 'thought', 'head', 'under', 'story', 'saw', 'left',
-      'few', 'while', 'along', 'might', 'close', 'something', 'seem', 'next', 'hard', 'open',
-      'example', 'beginning', 'life', 'always', 'those', 'both', 'paper', 'together', 'got', 'often',
-      'until', 'children', 'side', 'feet', 'car', 'mile', 'night', 'walked', 'white', 'sea',
-      'began', 'grow', 'took', 'river', 'four', 'carry', 'state', 'once', 'book', 'hear',
-      'stop', 'without', 'second', 'later', 'miss', 'idea', 'enough', 'eat', 'face', 'watch',
-      'far', 'Indian', 'really', 'almost', 'let', 'above', 'girl', 'sometimes', 'mountain', 'cut',
-      'young', 'talk', 'soon', 'list', 'song', 'being', 'leave', 'family', 'body', 'music',
-      'colour', 'stand', 'questions', 'mark', 'horse', 'birds', 'problem', 'complete', 'room', 'knew',
-    ],
-  },
+  magic100: { label: 'Magic 100', words: Array.from(new Set(RAW_LISTS.magic100)) },
+  magic200: { label: 'Magic 200', words: Array.from(new Set(RAW_LISTS.magic200)) },
+  magic300: { label: 'Magic 300', words: Array.from(new Set(RAW_LISTS.magic300)) },
 };
 
 function speakWord(word: string) {
@@ -71,29 +83,34 @@ interface Progress {
   unknown: string[];
 }
 
+type Status = 'unseen' | 'known' | 'unknown';
+
 export function SightWords() {
   const [listId, setListId] = usePersistedState<ListId>('sightwords.list', 'magic100');
-  const [shuffled, setShuffled] = useState<string[]>(LISTS[listId].words);
+  const [order, setOrder] = useState<string[]>(LISTS[listId].words);
   const [idx, setIdx] = useState(0);
   const [progress, setProgress] = usePersistedState<Progress>('sightwords.progress', {
     known: [],
     unknown: [],
   });
+  const [showInfo, setShowInfo] = useState(false);
 
   useEffect(() => {
-    setShuffled(LISTS[listId].words);
+    setOrder(LISTS[listId].words);
     setIdx(0);
   }, [listId]);
 
-  const current = shuffled[idx];
+  const current = order[idx];
+
+  const status: Status = useMemo(() => {
+    if (!current) return 'unseen';
+    if (progress.known.includes(current)) return 'known';
+    if (progress.unknown.includes(current)) return 'unknown';
+    return 'unseen';
+  }, [current, progress]);
 
   function go(delta: number) {
-    setIdx((i) => {
-      const next = i + delta;
-      if (next < 0) return 0;
-      if (next >= shuffled.length) return shuffled.length - 1;
-      return next;
-    });
+    setIdx((i) => Math.max(0, Math.min(order.length - 1, i + delta)));
   }
 
   function markKnown() {
@@ -102,7 +119,7 @@ export function SightWords() {
       known: [...new Set([...p.known, current])],
       unknown: p.unknown.filter((w) => w !== current),
     }));
-    if (idx < shuffled.length - 1) go(1);
+    if (idx < order.length - 1) go(1);
   }
 
   function markUnknown() {
@@ -111,31 +128,29 @@ export function SightWords() {
       known: p.known.filter((w) => w !== current),
       unknown: [...new Set([...p.unknown, current])],
     }));
-    if (idx < shuffled.length - 1) go(1);
+    if (idx < order.length - 1) go(1);
   }
 
   function reshuffle() {
-    setShuffled(shuffle(LISTS[listId].words));
+    setOrder(shuffle(LISTS[listId].words));
     setIdx(0);
   }
 
   function resetProgress() {
-    setProgress({ known: [], unknown: [] });
+    if (window.confirm('Clear all known/practice marks across all three lists?')) {
+      setProgress({ known: [], unknown: [] });
+    }
   }
 
-  const status = current
-    ? progress.known.includes(current)
-      ? 'known'
-      : progress.unknown.includes(current)
-        ? 'unknown'
-        : 'unseen'
-    : 'unseen';
+  const totalKnownInList = order.filter((w) => progress.known.includes(w)).length;
+  const totalPracticeInList = order.filter((w) => progress.unknown.includes(w)).length;
+  const pct = order.length > 0 ? (totalKnownInList / order.length) * 100 : 0;
 
   return (
     <ToolShell
       eyebrow="Literacy"
       title="Sight Word Flashcards"
-      description="Magic 100, 200 and 300 word lists. Click the speaker to hear the word. Mark each as known or needs practice."
+      description="Display sight words one at a time. Mark each as known or needs more practice."
       actions={
         <>
           <button type="button" className={common.btn} onClick={reshuffle}>
@@ -147,6 +162,7 @@ export function SightWords() {
         </>
       }
     >
+      {/* List picker with info toggle */}
       <div className={styles.listPicker}>
         {(Object.keys(LISTS) as ListId[]).map((id) => (
           <button
@@ -159,48 +175,130 @@ export function SightWords() {
             {LISTS[id].label}
           </button>
         ))}
+        <button
+          type="button"
+          className={`${common.btn} ${styles.infoBtn}`}
+          onClick={() => setShowInfo((s) => !s)}
+          aria-expanded={showInfo}
+        >
+          <Info size={14} /> {showInfo ? 'Hide info' : "What's this?"}
+        </button>
       </div>
 
-      <div className={styles.progressRow}>
-        <span className={styles.chip}>
-          {idx + 1} / {shuffled.length}
-        </span>
-        <span className={styles.chipKnown}>
-          <Check size={12} /> Known · {progress.known.length}
-        </span>
-        <span className={styles.chipUnknown}>
-          <XIcon size={12} /> Practice · {progress.unknown.length}
-        </span>
-      </div>
-
-      {current && (
-        <div className={styles.card} data-status={status}>
-          <button
-            type="button"
-            className={styles.speakerBtn}
-            onClick={() => speakWord(current)}
-            aria-label="Hear word"
-          >
-            <Volume2 size={20} />
-          </button>
-          <span className={`font-display ${styles.word}`}>{current}</span>
-        </div>
+      {showInfo && (
+        <aside className={styles.infoCard}>
+          <h3 className={`font-display ${styles.infoTitle}`}>About the Magic Words</h3>
+          <p>
+            The <strong>Magic 100, 200, and 300</strong> are the most common words children
+            encounter in early reading material — approximately 50%, 65%, and 75% of all words
+            on the page, respectively.
+          </p>
+          <p>
+            They are taught as <em>sight words</em> — recognised instantly rather than sounded
+            out letter-by-letter. Mastering all three lists is a key milestone in early
+            literacy and a strong predictor of fluent reading.
+          </p>
+          <p className={styles.infoSource}>
+            Lists compiled from Lyn Stone&rsquo;s <em>Reading for Life</em> programme.
+          </p>
+        </aside>
       )}
 
-      <div className={common.controlRow}>
-        <button type="button" className={common.btn} onClick={() => go(-1)} disabled={idx === 0}>
+      {/* Progress strip — clear, scannable */}
+      <div className={styles.progressStrip}>
+        <span className={styles.progressLabel}>
+          Word {idx + 1} of {order.length}
+        </span>
+        <div className={styles.progressBarWrap}>
+          <div className={styles.progressBar}>
+            <div className={styles.progressFill} style={{ width: `${pct}%` }} />
+          </div>
+          <span className={styles.progressPct}>{Math.round(pct)}% known</span>
+        </div>
+        <span className={styles.progressChip} data-kind="known">
+          <Check size={12} /> Known · {totalKnownInList}
+        </span>
+        <span className={styles.progressChip} data-kind="practice">
+          <Circle size={12} /> Practice · {totalPracticeInList}
+        </span>
+      </div>
+
+      {/* Flashcard with status badge */}
+      {current && (
+        <article className={styles.card} data-status={status}>
+          <span className={styles.statusBadge} data-status={status}>
+            {status === 'known' && (
+              <>
+                <Check size={14} /> Marked as known
+              </>
+            )}
+            {status === 'unknown' && (
+              <>
+                <Circle size={14} /> Marked for practice
+              </>
+            )}
+            {status === 'unseen' && (
+              <>
+                <Circle size={14} /> Unseen
+              </>
+            )}
+          </span>
+
+          <span className={`font-display ${styles.word}`}>{current}</span>
+
+          <button
+            type="button"
+            className={`${common.btn} ${styles.hearBtn}`}
+            onClick={() => speakWord(current)}
+          >
+            <Volume2 size={16} /> Hear word
+          </button>
+        </article>
+      )}
+
+      {/* Marking actions — primary focus */}
+      <section className={styles.markSection}>
+        <p className={styles.markLabel}>How well do you know this word?</p>
+        <div className={styles.markRow}>
+          <button
+            type="button"
+            className={`${styles.markBtn} ${styles.markPractice}`}
+            onClick={markUnknown}
+            data-current={status === 'unknown'}
+          >
+            <XIcon size={18} /> Needs practice
+          </button>
+          <button
+            type="button"
+            className={`${styles.markBtn} ${styles.markKnown}`}
+            onClick={markKnown}
+            data-current={status === 'known'}
+          >
+            <Check size={18} /> I know this
+          </button>
+        </div>
+        <p className={styles.markHint}>Marking moves you to the next word automatically.</p>
+      </section>
+
+      {/* Navigation — secondary */}
+      <nav className={styles.navRow} aria-label="Card navigation">
+        <button
+          type="button"
+          className={common.btn}
+          onClick={() => go(-1)}
+          disabled={idx === 0}
+        >
           <ChevronLeft size={14} /> Previous
         </button>
-        <button type="button" className={`${common.btn} ${styles.unknownBtn}`} onClick={markUnknown}>
-          <XIcon size={14} /> Needs practice
-        </button>
-        <button type="button" className={`${common.btn} ${styles.knownBtn}`} onClick={markKnown}>
-          <Check size={14} /> Known
-        </button>
-        <button type="button" className={common.btn} onClick={() => go(1)} disabled={idx >= shuffled.length - 1}>
+        <button
+          type="button"
+          className={common.btn}
+          onClick={() => go(1)}
+          disabled={idx >= order.length - 1}
+        >
           Next <ChevronRight size={14} />
         </button>
-      </div>
+      </nav>
     </ToolShell>
   );
 }

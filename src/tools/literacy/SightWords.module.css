@@ -1,65 +1,313 @@
+/* ===========================================================
+   Sight Word Flashcards
+   Layout:
+     1) List picker + info toggle
+     2) Optional info card
+     3) Progress strip (word X of N, bar, chips)
+     4) Big flashcard with status badge
+     5) Mark actions (primary)
+     6) Navigation (secondary)
+   =========================================================== */
+
 .listPicker {
   display: inline-flex;
-  gap: 6px;
   flex-wrap: wrap;
+  gap: 6px;
   justify-content: center;
-  margin-bottom: var(--space-5);
+  margin-bottom: var(--space-3);
 }
 
 .listBtn { padding: 8px 16px; font-size: 0.78rem; }
 
 .listBtn[data-active='true'] {
-  background: var(--accent); color: #fff; border-color: var(--accent);
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
 }
 
-.progressRow {
-  display: inline-flex; gap: var(--space-2); justify-content: center;
-  margin-bottom: var(--space-5); flex-wrap: wrap;
+.infoBtn {
+  padding: 8px 14px;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-muted);
 }
 
-.chip, .chipKnown, .chipUnknown {
-  display: inline-flex; align-items: center; gap: 6px;
-  padding: 6px 14px; border-radius: 999px; border: 1.5px solid var(--border-strong);
-  font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase;
+.infoBtn:hover { color: var(--accent); border-color: var(--accent); }
+
+/* ---------- Info card ---------- */
+
+.infoCard {
+  width: min(720px, 95vw);
+  padding: var(--space-4) var(--space-5);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg-card);
+  margin-bottom: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-.chip { color: var(--text-muted); }
+.infoTitle {
+  font-size: 1.2rem;
+  color: var(--text-strong);
+  margin: 0;
+}
 
-.chipKnown { color: var(--success); border-color: color-mix(in srgb, var(--success) 40%, transparent); }
+.infoCard p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--text);
+  line-height: 1.55;
+}
 
-.chipUnknown { color: var(--danger); border-color: color-mix(in srgb, var(--danger) 40%, transparent); }
+.infoCard strong { color: var(--accent); }
+
+.infoSource {
+  font-size: 0.78rem !important;
+  color: var(--text-faint) !important;
+  font-style: italic;
+}
+
+/* ---------- Progress strip ---------- */
+
+.progressStrip {
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  gap: var(--space-3);
+  align-items: center;
+  width: min(720px, 95vw);
+  padding: 12px 16px;
+  border: 1.5px solid var(--border);
+  border-radius: 999px;
+  background: var(--bg-card);
+  margin-bottom: var(--space-4);
+}
+
+@media (max-width: 640px) {
+  .progressStrip {
+    grid-template-columns: 1fr 1fr;
+    border-radius: var(--radius-md);
+  }
+}
+
+.progressLabel {
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.progressBarWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.progressBar {
+  height: 6px;
+  background: var(--bg);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--success), color-mix(in srgb, var(--success) 70%, var(--accent)));
+  transition: width 0.4s var(--ease-out);
+}
+
+.progressPct {
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  text-align: right;
+}
+
+.progressChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+  border: 1.5px solid;
+}
+
+.progressChip[data-kind='known'] {
+  color: var(--success);
+  border-color: color-mix(in srgb, var(--success) 45%, transparent);
+  background: color-mix(in srgb, var(--success) 8%, transparent);
+}
+
+.progressChip[data-kind='practice'] {
+  color: var(--warning);
+  border-color: color-mix(in srgb, var(--warning) 45%, transparent);
+  background: color-mix(in srgb, var(--warning) 8%, transparent);
+}
+
+/* ---------- Flashcard ---------- */
 
 .card {
   position: relative;
-  display: flex; align-items: center; justify-content: center;
-  padding: var(--space-9) var(--space-7); border-radius: var(--radius-lg);
-  border: 2px solid var(--border); background: var(--bg-card);
-  width: min(560px, 90vw); min-height: 260px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  padding: var(--space-9) var(--space-7);
+  border-radius: var(--radius-lg);
+  border: 2px solid var(--border-strong);
+  background: var(--bg-card);
+  width: min(720px, 95vw);
+  min-height: 320px;
   margin-bottom: var(--space-5);
   transition: all var(--dur-base) var(--ease-out);
 }
 
-.card[data-status='known'] { border-color: var(--success); background: color-mix(in srgb, var(--success) 10%, transparent); }
-.card[data-status='unknown'] { border-color: var(--danger); background: color-mix(in srgb, var(--danger) 10%, transparent); }
+.card[data-status='known'] {
+  border-color: var(--success);
+  background: color-mix(in srgb, var(--success) 6%, var(--bg-card));
+}
+
+.card[data-status='unknown'] {
+  border-color: var(--warning);
+  background: color-mix(in srgb, var(--warning) 5%, var(--bg-card));
+}
+
+.statusBadge {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1.5px solid;
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.statusBadge[data-status='unseen'] {
+  color: var(--text-muted);
+  border-color: var(--border-strong);
+  background: var(--bg-elevated);
+}
+
+.statusBadge[data-status='known'] {
+  color: var(--success);
+  border-color: var(--success);
+  background: color-mix(in srgb, var(--success) 14%, transparent);
+}
+
+.statusBadge[data-status='unknown'] {
+  color: var(--warning);
+  border-color: var(--warning);
+  background: color-mix(in srgb, var(--warning) 14%, transparent);
+}
 
 .word {
-  font-size: clamp(3rem, 12vw, 6rem); font-style: italic; color: var(--text-strong);
+  font-size: clamp(3.6rem, 14vw, 7rem);
+  font-style: italic;
+  color: var(--text-strong);
   letter-spacing: 0.02em;
+  line-height: 1;
 }
 
-.speakerBtn {
-  position: absolute; top: 16px; right: 16px;
-  display: inline-flex; align-items: center; justify-content: center;
-  width: 40px; height: 40px; border-radius: 999px;
-  border: 1.5px solid var(--border-strong); color: var(--text-muted);
-  background: var(--bg-elevated); cursor: pointer;
-  transition: color var(--dur-base) var(--ease-out), border-color var(--dur-base) var(--ease-out);
+.hearBtn {
+  padding: 10px 18px;
+  font-size: 0.85rem;
 }
 
-.speakerBtn:hover { color: var(--accent); border-color: var(--accent); }
+/* ---------- Mark actions (primary) ---------- */
 
-.knownBtn { color: var(--success); border-color: color-mix(in srgb, var(--success) 50%, transparent); }
-.knownBtn:hover { color: var(--success); border-color: var(--success); background: color-mix(in srgb, var(--success) 10%, transparent); }
+.markSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: var(--space-4);
+  width: min(720px, 95vw);
+}
 
-.unknownBtn { color: var(--danger); border-color: color-mix(in srgb, var(--danger) 50%, transparent); }
-.unknownBtn:hover { color: var(--danger); border-color: var(--danger); background: color-mix(in srgb, var(--danger) 10%, transparent); }
+.markLabel {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.1rem;
+  color: var(--text-strong);
+}
+
+.markRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+  width: 100%;
+}
+
+.markBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 18px 24px;
+  border-radius: var(--radius-md);
+  border: 2px solid;
+  background: var(--bg-card);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.25rem;
+  cursor: pointer;
+  color: var(--text-strong);
+  transition: all var(--dur-base) var(--ease-out);
+}
+
+.markBtn:hover {
+  transform: translateY(-2px);
+}
+
+.markPractice {
+  border-color: var(--warning);
+  color: var(--warning);
+}
+
+.markPractice:hover {
+  background: color-mix(in srgb, var(--warning) 14%, transparent);
+}
+
+.markKnown {
+  border-color: var(--success);
+  color: var(--success);
+}
+
+.markKnown:hover {
+  background: color-mix(in srgb, var(--success) 14%, transparent);
+}
+
+/* When already in this state, dim the button so the affordance is clearer */
+.markBtn[data-current='true'] {
+  opacity: 0.55;
+  background: color-mix(in srgb, currentColor 10%, var(--bg-card));
+}
+
+.markHint {
+  font-size: 0.78rem;
+  color: var(--text-faint);
+}
+
+/* ---------- Navigation (secondary) ---------- */
+
+.navRow {
+  display: inline-flex;
+  gap: var(--space-3);
+  justify-content: center;
+}
