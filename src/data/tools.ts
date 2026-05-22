@@ -1,5 +1,4 @@
 import {
-  Bell,
   UsersRound,
   Trophy,
   Award,
@@ -8,13 +7,9 @@ import {
   Grid3X3,
   Layers,
   Sparkles,
-  MoveRight,
-  Hash,
   Columns3,
   TrendingUp,
-  Ruler,
   Calculator,
-  AlignVerticalSpaceAround,
   Atom,
   Globe2,
   GitBranch,
@@ -27,11 +22,9 @@ import {
   HelpCircle,
   Vote,
   Type,
-  AudioLines,
   Bookmark,
   SpellCheck,
   PenLine,
-  Plus,
   Percent,
   type LucideIcon,
 } from 'lucide-react';
@@ -110,27 +103,6 @@ export const TOOLS: Tool[] = [
     icon: Layers,
   },
   {
-    id: 'story-starters',
-    name: 'Story Starters',
-    category: 'teaching-aids',
-    description: 'Genre-tagged prompts to kick off narrative writing across all year levels.',
-    icon: Sparkles,
-  },
-  {
-    id: 'number-line',
-    name: 'Number Line',
-    category: 'teaching-aids',
-    description: 'Customisable number line — integers, decimals, fractions, negative ranges.',
-    icon: MoveRight,
-  },
-  {
-    id: 'abacus',
-    name: 'Abacus',
-    category: 'teaching-aids',
-    description: 'On-screen abacus for early number sense and operation modelling.',
-    icon: Hash,
-  },
-  {
     id: 'fraction-wall',
     name: 'Fraction Wall',
     category: 'teaching-aids',
@@ -145,25 +117,11 @@ export const TOOLS: Tool[] = [
     icon: TrendingUp,
   },
   {
-    id: 'ruler-protractor',
-    name: 'Ruler & Protractor',
-    category: 'teaching-aids',
-    description: 'On-screen instruments that snap to a projected page or worked example.',
-    icon: Ruler,
-  },
-  {
     id: 'place-value-chart',
     name: 'Place Value Chart',
     category: 'teaching-aids',
     description: 'Drag digits into columns from thousandths through millions.',
     icon: Calculator,
-  },
-  {
-    id: 'ten-frame',
-    name: 'Ten Frame & Rekenrek',
-    category: 'teaching-aids',
-    description: 'Build numbers visually with counters and beads — core Lower Primary aid.',
-    icon: AlignVerticalSpaceAround,
   },
   {
     id: 'periodic-table',
@@ -231,13 +189,6 @@ export const TOOLS: Tool[] = [
     icon: Disc3,
   },
   {
-    id: 'team-buzzer',
-    name: 'Team Buzzers',
-    category: 'randomisers',
-    description: '2–6 colour buzzers with first-press lockout — great for quiz rounds.',
-    icon: Bell,
-  },
-  {
     id: 'question-generator',
     name: 'Question Generator',
     category: 'randomisers',
@@ -247,18 +198,18 @@ export const TOOLS: Tool[] = [
 
   // ---------------- LITERACY ----------------
   {
+    id: 'story-starters',
+    name: 'Story Starters',
+    category: 'literacy',
+    description: 'Genre-tagged prompts to kick off narrative writing across all year levels.',
+    icon: Sparkles,
+  },
+  {
     id: 'word-builder',
     name: 'Word Builder',
     category: 'literacy',
     description: 'Drag letter tiles to build, segment and blend words. Phonics-friendly.',
     icon: Type,
-  },
-  {
-    id: 'phonics-sound-wall',
-    name: 'Phonics Sound Wall',
-    category: 'literacy',
-    description: 'AC V9 phonics chart — vowels, consonants and digraphs, with audio.',
-    icon: AudioLines,
   },
   {
     id: 'sight-words',
@@ -283,13 +234,6 @@ export const TOOLS: Tool[] = [
   },
 
   // ---------------- NUMERACY ----------------
-  {
-    id: 'number-bonds',
-    name: 'Number Bonds',
-    category: 'numeracy',
-    description: 'Friends of 10, 20 and 100 with adaptive difficulty.',
-    icon: Plus,
-  },
   {
     id: 'fdp-converter',
     name: 'Fraction / Decimal / % Converter',
