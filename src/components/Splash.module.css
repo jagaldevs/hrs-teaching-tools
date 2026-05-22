@@ -81,7 +81,7 @@
   letter-spacing: var(--tracking-eyebrow);
   text-transform: uppercase;
   color: var(--accent);
-  border: 1px solid var(--accent);
+  border: 1.5px solid var(--accent);
   padding: 14px 38px;
   background: transparent;
   transition:

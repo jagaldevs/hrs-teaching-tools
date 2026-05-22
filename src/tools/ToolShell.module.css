@@ -16,7 +16,7 @@
   justify-content: space-between;
   gap: var(--space-5);
   padding-bottom: var(--space-5);
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1.5px solid var(--border);
 }
 
 .left {
@@ -76,7 +76,7 @@
   width: 32px;
   height: 32px;
   border-radius: 999px;
-  border: 1px solid var(--border-strong);
+  border: 1.5px solid var(--border-strong);
   color: var(--text-muted);
   transition:
     color var(--dur-base) var(--ease-out),

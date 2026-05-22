@@ -16,7 +16,7 @@
 .chip {
   padding: 6px 14px;
   border-radius: 999px;
-  border: 1px solid var(--border-strong);
+  border: 1.5px solid var(--border-strong);
   font-size: 0.72rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -40,7 +40,7 @@
   gap: var(--space-3);
   justify-content: center;
   padding: var(--space-5);
-  border: 1px solid var(--border);
+  border: 1.5px solid var(--border);
   border-radius: var(--radius-lg);
   background: var(--bg-card);
 }
@@ -52,7 +52,7 @@
   min-width: 96px;
   height: 96px;
   padding: 0 18px;
-  border: 1px solid var(--border-strong);
+  border: 1.5px solid var(--border-strong);
   border-radius: var(--radius-md);
   background: var(--bg-elevated);
   font-family: var(--font-display);
@@ -104,7 +104,7 @@
   justify-content: center;
   padding: var(--space-5);
   min-height: 100px;
-  border: 1.5px solid var(--border);
+  border: 2px solid var(--border);
   border-radius: var(--radius-md);
   background: var(--bg-card);
   color: var(--text-strong);
@@ -160,7 +160,7 @@
   align-items: center;
   gap: var(--space-3);
   padding: var(--space-5);
-  border: 1px solid var(--border);
+  border: 1.5px solid var(--border);
   border-radius: var(--radius-md);
   background: var(--bg-card);
   text-align: center;

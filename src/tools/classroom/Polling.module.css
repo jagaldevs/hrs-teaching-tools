@@ -1,6 +1,6 @@
 .questionBtn {
   background: none;
-  border: 1px dashed transparent;
+  border: 1.5px dashed transparent;
   border-radius: var(--radius-md);
   padding: var(--space-3) var(--space-5);
   cursor: pointer;
@@ -92,7 +92,7 @@
   flex-direction: column;
   gap: 10px;
   padding: var(--space-5);
-  border: 1.5px solid var(--border);
+  border: 2px solid var(--border);
   border-radius: var(--radius-md);
   background: var(--bg-card);
   transition: border-color var(--dur-base) var(--ease-out), transform var(--dur-base) var(--ease-out);
@@ -131,7 +131,7 @@
   font-style: italic;
   background: transparent;
   border: 0;
-  border-bottom: 1px dashed var(--border-strong);
+  border-bottom: 1.5px dashed var(--border-strong);
   color: var(--text-strong);
   padding: 4px 0;
 }

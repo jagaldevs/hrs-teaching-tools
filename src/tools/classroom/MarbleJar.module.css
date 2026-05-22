@@ -121,7 +121,7 @@
   align-items: center;
   gap: 10px;
   padding: 10px 18px;
-  border: 1px solid var(--accent);
+  border: 1.5px solid var(--accent);
   border-radius: 999px;
   background: var(--accent-soft);
   color: var(--accent);
@@ -140,7 +140,7 @@
 .settings {
   margin-top: var(--space-7);
   padding: var(--space-4) var(--space-5);
-  border: 1px solid var(--border);
+  border: 1.5px solid var(--border);
   border-radius: var(--radius-md);
   background: var(--bg-card);
   display: flex;

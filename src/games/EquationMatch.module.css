@@ -14,7 +14,7 @@
 .chip {
   padding: 6px 14px;
   border-radius: 999px;
-  border: 1px solid var(--border-strong);
+  border: 1.5px solid var(--border-strong);
   font-size: 0.72rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -57,13 +57,13 @@
   color: var(--text-faint);
   text-align: center;
   padding-bottom: var(--space-2);
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1.5px solid var(--border);
 }
 
 .tile {
   padding: 14px 16px;
   background: var(--bg-card);
-  border: 1.5px solid var(--border);
+  border: 2px solid var(--border);
   border-radius: var(--radius-md);
   color: var(--text-strong);
   font-family: var(--font-display);
@@ -120,7 +120,7 @@
   align-items: center;
   gap: var(--space-3);
   padding: var(--space-7);
-  border: 1px solid var(--accent);
+  border: 1.5px solid var(--accent);
   border-radius: var(--radius-lg);
   background: var(--accent-soft);
   width: min(520px, 90vw);

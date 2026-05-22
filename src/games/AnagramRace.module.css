@@ -14,7 +14,7 @@
 .chip {
   padding: 8px 14px;
   border-radius: 999px;
-  border: 1px solid var(--border-strong);
+  border: 1.5px solid var(--border-strong);
   text-align: center;
   font-size: 0.78rem;
   letter-spacing: 0.18em;
@@ -51,7 +51,7 @@
   align-items: center;
   gap: var(--space-3);
   padding: var(--space-7) var(--space-5);
-  border: 1.5px solid var(--border);
+  border: 2px solid var(--border);
   border-radius: var(--radius-lg);
   background: var(--bg-card);
   transition: all var(--dur-base) var(--ease-out);
@@ -111,7 +111,7 @@
   width: min(360px, 100%);
   padding: 12px 16px;
   background: var(--bg-elevated);
-  border: 1.5px solid var(--border-strong);
+  border: 2px solid var(--border-strong);
   border-radius: var(--radius-md);
   font-family: var(--font-sans);
   font-size: 1.1rem;
@@ -148,7 +148,7 @@
   align-items: center;
   gap: var(--space-3);
   padding: var(--space-7);
-  border: 1px solid var(--accent);
+  border: 1.5px solid var(--accent);
   border-radius: var(--radius-lg);
   background: var(--accent-soft);
   width: min(640px, 90vw);
@@ -195,12 +195,12 @@
 
 .wordItem[data-state='right'] {
   color: var(--success);
-  border: 1px solid color-mix(in srgb, var(--success) 40%, transparent);
+  border: 1.5px solid color-mix(in srgb, var(--success) 40%, transparent);
 }
 
 .wordItem[data-state='wrong'] {
   color: var(--danger);
-  border: 1px solid color-mix(in srgb, var(--danger) 40%, transparent);
+  border: 1.5px solid color-mix(in srgb, var(--danger) 40%, transparent);
   text-decoration: line-through;
 }
 

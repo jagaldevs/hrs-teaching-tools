@@ -3,7 +3,7 @@
 .header { display: inline-flex; gap: var(--space-2); justify-content: center; }
 
 .chip {
-  padding: 6px 14px; border-radius: 999px; border: 1px solid var(--border-strong);
+  padding: 6px 14px; border-radius: 999px; border: 1.5px solid var(--border-strong);
   font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-muted);
 }
 
@@ -13,7 +13,7 @@
 
 .row {
   display: grid; grid-template-columns: 32px 1fr auto auto; gap: var(--space-3); align-items: center;
-  padding: var(--space-3) var(--space-4); border: 1.5px solid var(--border);
+  padding: var(--space-3) var(--space-4); border: 2px solid var(--border);
   border-radius: var(--radius-md); background: var(--bg-card);
   transition: all var(--dur-base) var(--ease-out);
 }
@@ -41,7 +41,7 @@
 .arrowBtn {
   display: inline-flex; align-items: center; justify-content: center;
   width: 28px; height: 22px; border-radius: 4px;
-  border: 1px solid var(--border-strong); color: var(--text-muted); background: var(--bg-elevated);
+  border: 1.5px solid var(--border-strong); color: var(--text-muted); background: var(--bg-elevated);
   cursor: pointer;
 }
 

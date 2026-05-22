@@ -19,7 +19,7 @@
 
 .chip, .chipKnown, .chipUnknown {
   display: inline-flex; align-items: center; gap: 6px;
-  padding: 6px 14px; border-radius: 999px; border: 1px solid var(--border-strong);
+  padding: 6px 14px; border-radius: 999px; border: 1.5px solid var(--border-strong);
   font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase;
 }
 
@@ -51,7 +51,7 @@
   position: absolute; top: 16px; right: 16px;
   display: inline-flex; align-items: center; justify-content: center;
   width: 40px; height: 40px; border-radius: 999px;
-  border: 1px solid var(--border-strong); color: var(--text-muted);
+  border: 1.5px solid var(--border-strong); color: var(--text-muted);
   background: var(--bg-elevated); cursor: pointer;
   transition: color var(--dur-base) var(--ease-out), border-color var(--dur-base) var(--ease-out);
 }

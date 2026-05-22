@@ -50,7 +50,7 @@ export function ToolPlaceholder() {
                 width: 56,
                 height: 56,
                 borderRadius: 12,
-                border: '1px solid var(--accent)',
+                border: '1.5px solid var(--accent)',
                 color: 'var(--accent)',
                 background: 'var(--accent-soft)',
               }}

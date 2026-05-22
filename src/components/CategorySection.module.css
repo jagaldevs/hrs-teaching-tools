@@ -23,7 +23,7 @@
   width: 32px;
   height: 32px;
   border-radius: 999px;
-  border: 1px solid var(--border-strong);
+  border: 1.5px solid var(--border-strong);
   color: var(--accent);
 }
 

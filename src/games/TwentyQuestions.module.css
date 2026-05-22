@@ -1,6 +1,6 @@
 .startCard, .over {
   display: flex; flex-direction: column; align-items: center; gap: var(--space-3);
-  padding: var(--space-7); border: 1px solid var(--border); border-radius: var(--radius-lg);
+  padding: var(--space-7); border: 1.5px solid var(--border); border-radius: var(--radius-lg);
   background: var(--bg-card); width: min(560px, 90vw); text-align: center;
 }
 
@@ -14,14 +14,14 @@
 .header { display: flex; gap: var(--space-2); justify-content: space-between; flex-wrap: wrap; }
 
 .chip {
-  padding: 8px 16px; border-radius: 999px; border: 1px solid var(--border-strong);
+  padding: 8px 16px; border-radius: 999px; border: 1.5px solid var(--border-strong);
   font-size: 0.78rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent);
 }
 .chip[data-warning='true'] { color: var(--danger); border-color: var(--danger); }
 
 .targetCard {
   display: flex; flex-direction: column; align-items: center; gap: var(--space-2);
-  padding: var(--space-5); border: 1.5px solid var(--border); border-radius: var(--radius-md);
+  padding: var(--space-5); border: 2px solid var(--border); border-radius: var(--radius-md);
   background: var(--bg-card); text-align: center;
 }
 
@@ -39,7 +39,7 @@
 
 .ansBtn {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-  padding: 14px; border-radius: var(--radius-md); border: 1.5px solid; background: var(--bg-card);
+  padding: 14px; border-radius: var(--radius-md); border: 2px solid; background: var(--bg-card);
   font-family: var(--font-display); font-size: 1.1rem; font-style: italic; cursor: pointer;
   transition: transform 80ms var(--ease-out);
 }
@@ -58,7 +58,7 @@
 
 .logItem {
   display: grid; grid-template-columns: 40px 1fr auto; gap: 10px; align-items: center;
-  padding: 8px 12px; border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: 8px 12px; border: 1.5px solid var(--border); border-radius: var(--radius-sm);
   background: var(--bg-card); font-size: 0.85rem;
 }
 

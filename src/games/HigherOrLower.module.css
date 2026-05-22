@@ -14,7 +14,7 @@
 .scoreBadge {
   padding: 6px 14px;
   border-radius: 999px;
-  border: 1px solid var(--border-strong);
+  border: 1.5px solid var(--border-strong);
   color: var(--text-muted);
   font-size: 0.72rem;
   letter-spacing: 0.2em;
@@ -48,7 +48,7 @@
   padding: var(--space-7) var(--space-5);
   min-height: 260px;
   border-radius: var(--radius-lg);
-  border: 1.5px solid var(--border);
+  border: 2px solid var(--border);
   background: var(--bg-card);
   text-align: center;
   transition: all var(--dur-base) var(--ease-out);
@@ -113,7 +113,7 @@
   align-items: center;
   gap: var(--space-3);
   padding: var(--space-5);
-  border: 1px solid var(--border);
+  border: 1.5px solid var(--border);
   border-radius: var(--radius-md);
   background: var(--bg-card);
   text-align: center;

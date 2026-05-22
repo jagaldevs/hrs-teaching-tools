@@ -23,7 +23,7 @@
   width: 28px;
   height: 28px;
   border-radius: var(--radius-sm);
-  border: 1px solid var(--border-strong);
+  border: 1.5px solid var(--border-strong);
   background: var(--bg-elevated);
   color: var(--text-muted);
   cursor: pointer;
@@ -67,7 +67,7 @@
   align-items: center;
   gap: 4px;
   padding: var(--space-3);
-  border: 1px solid var(--border);
+  border: 1.5px solid var(--border);
   border-radius: var(--radius-md);
   background: var(--bg-card);
 }
@@ -140,7 +140,7 @@
 .bar {
   display: flex;
   height: 48px;
-  border: 1.5px solid var(--text-strong);
+  border: 2px solid var(--text-strong);
   border-radius: var(--radius-sm);
   overflow: hidden;
 }
@@ -148,13 +148,13 @@
 .barCellFilled {
   flex: 1;
   background: var(--accent);
-  border-right: 1px solid var(--bg);
+  border-right: 1.5px solid var(--bg);
 }
 
 .barCellEmpty {
   flex: 1;
   background: transparent;
-  border-right: 1px solid var(--text-muted);
+  border-right: 1.5px solid var(--text-muted);
 }
 
 .bar > :last-child { border-right: 0; }

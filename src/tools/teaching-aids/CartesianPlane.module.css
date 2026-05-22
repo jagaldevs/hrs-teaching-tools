@@ -6,7 +6,7 @@
   justify-content: center;
   margin-bottom: var(--space-5);
   padding: var(--space-3) var(--space-4);
-  border: 1px solid var(--border);
+  border: 1.5px solid var(--border);
   border-radius: var(--radius-md);
   background: var(--bg-card);
   width: min(720px, 95vw);
@@ -37,7 +37,7 @@
   width: min(560px, 95vw);
   aspect-ratio: 1;
   margin-bottom: var(--space-4);
-  border: 1.5px solid var(--border-strong);
+  border: 2px solid var(--border-strong);
   border-radius: var(--radius-md);
   background: var(--bg-card);
   overflow: hidden;
@@ -102,7 +102,7 @@
   align-items: center;
   gap: 6px;
   padding: 4px 10px 4px 8px;
-  border: 1px solid;
+  border: 1.5px solid;
   border-radius: 999px;
   background: var(--bg-card);
   font-family: var(--font-display);

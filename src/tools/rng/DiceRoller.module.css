@@ -14,7 +14,7 @@
   justify-content: center;
   width: clamp(80px, 14vw, 132px);
   aspect-ratio: 1;
-  border: 1.5px solid var(--border-strong);
+  border: 2px solid var(--border-strong);
   border-radius: var(--radius-md);
   background: var(--bg-card);
   transition: transform var(--dur-base) var(--ease-out);
@@ -54,7 +54,7 @@
   align-items: baseline;
   gap: var(--space-3);
   padding: 10px 22px;
-  border: 1px solid var(--border);
+  border: 1.5px solid var(--border);
   border-radius: 999px;
   background: var(--bg-card);
 }

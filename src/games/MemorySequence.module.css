@@ -4,7 +4,7 @@
   align-items: center;
   gap: var(--space-3);
   padding: var(--space-7);
-  border: 1px solid var(--border);
+  border: 1.5px solid var(--border);
   border-radius: var(--radius-lg);
   background: var(--bg-card);
   width: min(520px, 90vw);
@@ -46,7 +46,7 @@
 .chip {
   padding: 6px 14px;
   border-radius: 999px;
-  border: 1px solid var(--border-strong);
+  border: 1.5px solid var(--border-strong);
   font-size: 0.72rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;

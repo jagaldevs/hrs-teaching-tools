@@ -41,7 +41,7 @@
 .builtWord {
   padding: 10px 16px;
   border-radius: var(--radius-md);
-  border: 1.5px solid var(--border-strong);
+  border: 2px solid var(--border-strong);
   background: var(--bg-card);
   color: var(--text-strong);
   font-family: var(--font-display);
@@ -85,7 +85,7 @@
   flex-wrap: wrap;
   gap: 8px;
   padding: var(--space-4);
-  border: 1px solid var(--border);
+  border: 1.5px solid var(--border);
   border-radius: var(--radius-md);
   background: var(--bg-card);
   width: min(820px, 95vw);
@@ -103,7 +103,7 @@
 .trayWord {
   padding: 10px 16px;
   border-radius: var(--radius-md);
-  border: 1.5px solid var(--accent);
+  border: 2px solid var(--accent);
   background: linear-gradient(180deg, var(--accent-soft), transparent);
   color: var(--accent);
   font-family: var(--font-display);
