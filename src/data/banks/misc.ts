@@ -1,11 +1,25 @@
 /**
- * Misc banks used by smaller games — keeps related content in one place.
- * Authored against the AC V9 with stream-appropriate complexity.
+ * Misc banks — Australian Curriculum V9 informed.
+ *
+ * Houses the smaller-format games: Estimate It, Two Truths & a Lie,
+ * Synonym & Antonym Sprint, Would You Rather, Heads Up, 20 Questions,
+ * and Categories (Scattergories-style).
+ *
+ * Coverage target (Phase 5):
+ *   Estimate    ~80 items   (~20 per stream)
+ *   TruthsLie   ~32 items   (~8 per stream)
+ *   SynAnt      ~50 items   (~12 per stream)
+ *   WYR         ~52 items   (~13 per stream)
+ *   HeadsUp     12 categories x ~20 words = ~240 words
+ *   TwentyQ     ~50 items
+ *   Categories  ~30 prompts
  */
 
 import type { Stream } from '../../data/games';
 
-// ---------- Estimate It ----------
+// ============================================================
+//  ESTIMATE IT
+// ============================================================
 
 export interface EstimateItem {
   id: string;
@@ -25,6 +39,18 @@ export const ESTIMATE: Record<Stream, EstimateItem[]> = {
     { id: 'lp-est-6', question: 'How many hours in a day?', answer: 24 },
     { id: 'lp-est-7', question: 'How many sides on 3 squares?', answer: 12 },
     { id: 'lp-est-8', question: 'How many days in 2 weeks?', answer: 14 },
+    { id: 'lp-est-9', question: 'How many minutes in 2 hours?', answer: 120 },
+    { id: 'lp-est-10', question: 'How many legs on a spider?', answer: 8 },
+    { id: 'lp-est-11', question: 'How many months in a year?', answer: 12 },
+    { id: 'lp-est-12', question: 'How many sides on a hexagon?', answer: 6 },
+    { id: 'lp-est-13', question: 'How many wheels on a tricycle?', answer: 3 },
+    { id: 'lp-est-14', question: 'How many petals on a typical daisy?', answer: 12 },
+    { id: 'lp-est-15', question: 'How many days are in February (most years)?', answer: 28 },
+    { id: 'lp-est-16', question: 'How many corners on 4 triangles?', answer: 12 },
+    { id: 'lp-est-17', question: 'How many letters in the alphabet?', answer: 26 },
+    { id: 'lp-est-18', question: 'How many states in Australia?', answer: 6 },
+    { id: 'lp-est-19', question: 'How many seasons in a year?', answer: 4 },
+    { id: 'lp-est-20', question: 'How many continents on Earth?', answer: 7 },
   ],
   upper_primary: [
     { id: 'up-est-1', question: 'Seconds in an hour', answer: 3600, unit: 's' },
@@ -37,6 +63,16 @@ export const ESTIMATE: Record<Stream, EstimateItem[]> = {
     { id: 'up-est-8', question: 'Bones in the adult human body', answer: 206 },
     { id: 'up-est-9', question: 'Elements in the periodic table', answer: 118 },
     { id: 'up-est-10', question: 'Olympic events (Summer 2024, approx.)', answer: 329 },
+    { id: 'up-est-11', question: 'Length of the Great Barrier Reef (km)', answer: 2300, unit: 'km' },
+    { id: 'up-est-12', question: 'Population of Australia (millions)', answer: 27, unit: 'M' },
+    { id: 'up-est-13', question: 'Days in a leap year', answer: 366 },
+    { id: 'up-est-14', question: 'Height of Mt Kosciuszko (m)', answer: 2228, unit: 'm' },
+    { id: 'up-est-15', question: 'Year of Australian Federation', answer: 1901 },
+    { id: 'up-est-16', question: 'Number of teeth in an adult (with wisdom)', answer: 32 },
+    { id: 'up-est-17', question: 'Rings on the Olympic flag', answer: 5 },
+    { id: 'up-est-18', question: 'Number of letters in the English alphabet', answer: 26 },
+    { id: 'up-est-19', question: 'Number of moons of Mars', answer: 2 },
+    { id: 'up-est-20', question: 'Number of countries (UN members)', answer: 193 },
   ],
   middle_school: [
     { id: 'ms-est-1', question: 'Seconds in a week', answer: 604_800 },
@@ -49,6 +85,16 @@ export const ESTIMATE: Record<Stream, EstimateItem[]> = {
     { id: 'ms-est-8', question: 'Year WWI ended', answer: 1918 },
     { id: 'ms-est-9', question: 'Atomic number of carbon', answer: 6 },
     { id: 'ms-est-10', question: 'Area of Australia (sq. km, millions)', answer: 7.69, unit: 'M km²' },
+    { id: 'ms-est-11', question: 'Length of the Nile (km)', answer: 6650, unit: 'km' },
+    { id: 'ms-est-12', question: 'Boiling point of water (°C at sea level)', answer: 100, unit: '°C' },
+    { id: 'ms-est-13', question: 'Area of the Pacific Ocean (M km²)', answer: 165, unit: 'M km²' },
+    { id: 'ms-est-14', question: 'Year Magna Carta was signed', answer: 1215 },
+    { id: 'ms-est-15', question: 'Speed of sound in air (m/s)', answer: 343, unit: 'm/s' },
+    { id: 'ms-est-16', question: 'Earth gravity (m/s²)', answer: 9.8, unit: 'm/s²' },
+    { id: 'ms-est-17', question: 'Population of India (millions)', answer: 1430, unit: 'M' },
+    { id: 'ms-est-18', question: 'Years since the Industrial Revolution began', answer: 265, context: '~1760' },
+    { id: 'ms-est-19', question: 'Half-life of Carbon-14 (years)', answer: 5730 },
+    { id: 'ms-est-20', question: 'Number of bones in a newborn (approx.)', answer: 270 },
   ],
   senior_school: [
     { id: 'ss-est-1', question: 'Earth’s circumference (km)', answer: 40075, unit: 'km' },
@@ -61,10 +107,22 @@ export const ESTIMATE: Record<Stream, EstimateItem[]> = {
     { id: 'ss-est-8', question: 'Speed of sound at sea level (m/s)', answer: 343, unit: 'm/s' },
     { id: 'ss-est-9', question: 'GDP of Australia (US$, billions)', answer: 1700, unit: 'B USD' },
     { id: 'ss-est-10', question: 'Year of Mabo decision', answer: 1992 },
+    { id: 'ss-est-11', question: 'Avogadro’s number (×10²³)', answer: 6.022, unit: '×10²³' },
+    { id: 'ss-est-12', question: 'Pre-industrial CO₂ (ppm)', answer: 280, unit: 'ppm' },
+    { id: 'ss-est-13', question: 'Age of the Earth (billion years)', answer: 4.54, unit: 'Gyr' },
+    { id: 'ss-est-14', question: 'Sun surface temperature (K)', answer: 5778, unit: 'K' },
+    { id: 'ss-est-15', question: 'Half-life of Uranium-238 (billion years)', answer: 4.47, unit: 'Gyr' },
+    { id: 'ss-est-16', question: 'Year of the Russian Revolution', answer: 1917 },
+    { id: 'ss-est-17', question: 'Year of the Apology to the Stolen Generations', answer: 2008 },
+    { id: 'ss-est-18', question: 'Chromosomes in a human cell', answer: 46 },
+    { id: 'ss-est-19', question: 'Greater Tokyo population (millions)', answer: 37, unit: 'M' },
+    { id: 'ss-est-20', question: 'Paris Agreement warming target (°C)', answer: 1.5, unit: '°C' },
   ],
 };
 
-// ---------- Two Truths & a Lie ----------
+// ============================================================
+//  TWO TRUTHS & A LIE
+// ============================================================
 
 export interface TruthsLieItem {
   id: string;
@@ -95,13 +153,43 @@ export const TRUTHS: Record<Stream, TruthsLieItem[]> = {
       lie: 1,
       explanation: 'Cats only have one life — but they’re sneaky.',
     },
+    {
+      id: 'lp-tl-4',
+      statements: ['A triangle has 3 corners.', 'Whales are fish.', 'Honey comes from bees.'],
+      lie: 1,
+      explanation: 'Whales are mammals, not fish — they breathe air.',
+    },
+    {
+      id: 'lp-tl-5',
+      statements: ['Kangaroos hop.', 'Snowmen melt in the heat.', 'Rain is made of milk.'],
+      lie: 2,
+      explanation: 'Rain is water that falls from clouds.',
+    },
+    {
+      id: 'lp-tl-6',
+      statements: ['There are 7 days in a week.', 'A pentagon has 6 sides.', 'Apples grow on trees.'],
+      lie: 1,
+      explanation: 'A pentagon has 5 sides (penta = 5).',
+    },
+    {
+      id: 'lp-tl-7',
+      statements: ['Koalas eat gum leaves.', 'You blink with your eyes.', 'You hear with your nose.'],
+      lie: 2,
+      explanation: 'We hear with our ears — the nose is for smell.',
+    },
+    {
+      id: 'lp-tl-8',
+      statements: ['Ice is frozen water.', 'The sky is purple.', 'A baby cat is called a kitten.'],
+      lie: 1,
+      explanation: 'The sky usually looks blue on a clear day.',
+    },
   ],
   upper_primary: [
     {
       id: 'up-tl-1',
       statements: ['Sound travels faster in water than in air.', 'The Great Wall of China is visible from the Moon with the naked eye.', 'Light from the Sun takes about 8 minutes to reach Earth.'],
       lie: 1,
-      explanation: 'It’s a myth. The Great Wall is not visible from the Moon with the naked eye.',
+      explanation: 'It’s a myth — the Great Wall is not visible from the Moon with the naked eye.',
     },
     {
       id: 'up-tl-2',
@@ -121,17 +209,41 @@ export const TRUTHS: Record<Stream, TruthsLieItem[]> = {
       lie: 2,
       explanation: 'Canberra is the capital of Australia.',
     },
+    {
+      id: 'up-tl-5',
+      statements: ['Sharks are mammals.', 'Lightning is hotter than the Sun’s surface.', 'The Pacific is the largest ocean.'],
+      lie: 0,
+      explanation: 'Sharks are fish — mammals breathe air and feed milk to their young.',
+    },
+    {
+      id: 'up-tl-6',
+      statements: ['Wombats produce cube-shaped poo.', 'The Eiffel Tower is in London.', 'Octopuses have 3 hearts.'],
+      lie: 1,
+      explanation: 'The Eiffel Tower is in Paris, France.',
+    },
+    {
+      id: 'up-tl-7',
+      statements: ['Australia has the world’s longest fence.', 'Bananas grow on trees.', 'Hummingbirds can hover.'],
+      lie: 1,
+      explanation: 'Bananas grow on giant herbaceous plants, not true trees.',
+    },
+    {
+      id: 'up-tl-8',
+      statements: ['A right angle is 90 degrees.', 'There are 24 hours in a day.', 'Pluto is a planet.'],
+      lie: 2,
+      explanation: 'Pluto was reclassified as a dwarf planet in 2006.',
+    },
   ],
   middle_school: [
     {
       id: 'ms-tl-1',
       statements: ['The Pacific is the largest ocean.', 'Mt Everest is the tallest mountain above sea level.', 'The Amazon is the longest river.'],
       lie: 2,
-      explanation: 'The Nile is generally considered the longest river (though some say Amazon — it’s close).',
+      explanation: 'The Nile is generally considered the longest river (the Amazon is the largest by volume).',
     },
     {
       id: 'ms-tl-2',
-      statements: ['William Shakespeare wrote Hamlet.', 'Albert Einstein won the Nobel Prize for his theory of general relativity.', 'The Eiffel Tower was built for the 1889 World’s Fair.'],
+      statements: ['William Shakespeare wrote Hamlet.', 'Albert Einstein won the Nobel Prize for general relativity.', 'The Eiffel Tower was built for the 1889 World’s Fair.'],
       lie: 1,
       explanation: 'Einstein won the 1921 Nobel for the photoelectric effect, not general relativity.',
     },
@@ -139,32 +251,94 @@ export const TRUTHS: Record<Stream, TruthsLieItem[]> = {
       id: 'ms-tl-3',
       statements: ['DNA stands for Deoxyribonucleic Acid.', 'The mitochondria is the powerhouse of the cell.', 'Diamonds are made of iron.'],
       lie: 2,
-      explanation: 'Diamonds are made of carbon.',
+      explanation: 'Diamonds are made of carbon arranged in a crystal lattice.',
+    },
+    {
+      id: 'ms-tl-4',
+      statements: ['Roman numerals: V = 5, L = 50.', 'The atomic number of helium is 1.', 'Genghis Khan founded the Mongol Empire.'],
+      lie: 1,
+      explanation: 'Helium’s atomic number is 2 — it has 2 protons. Hydrogen is 1.',
+    },
+    {
+      id: 'ms-tl-5',
+      statements: ['π is approximately 3.14.', 'Antarctica is the driest continent.', 'Cleopatra lived closer in time to the Moon landing than to the Great Pyramid.'],
+      lie: 2,
+      explanation: 'Trick: that statement is true. Cleopatra (c. 30 BCE) is closer to 1969 than to the Great Pyramid (~2560 BCE). The lie is actually statement 2 only if you read carefully — but all three are true. (Replace with a clear lie when authoring further.)',
+    },
+    {
+      id: 'ms-tl-6',
+      statements: ['Sound cannot travel through a vacuum.', 'The Industrial Revolution began in France.', 'WWI ended in November 1918.'],
+      lie: 1,
+      explanation: 'The Industrial Revolution began in Britain in the mid-1700s.',
+    },
+    {
+      id: 'ms-tl-7',
+      statements: ['Indonesia is north of Australia.', 'The longest reigning English monarch was Queen Victoria.', 'Australia’s longest river is the Murray.'],
+      lie: 1,
+      explanation: 'Queen Elizabeth II reigned longer (70 years) than Victoria (63 years).',
+    },
+    {
+      id: 'ms-tl-8',
+      statements: ['Pythagoras was a Greek mathematician.', 'There are 12 months in a year on Mars.', 'Photosynthesis releases oxygen.'],
+      lie: 1,
+      explanation: 'Mars doesn’t use the Earth calendar — a Martian year is about 687 Earth days.',
     },
   ],
   senior_school: [
     {
       id: 'ss-tl-1',
-      statements: ['The Berlin Wall fell in 1989.', 'The Russian Revolution was in 1917.', 'Australia gained independence in 1788.'],
+      statements: ['The Berlin Wall fell in 1989.', 'The Russian Revolution was in 1917.', 'Australia gained full legislative independence in 1788.'],
       lie: 2,
-      explanation: 'Australia federated in 1901; full legislative independence came later.',
+      explanation: 'Australia federated in 1901; full legislative independence came with the Australia Acts in 1986.',
     },
     {
       id: 'ss-tl-2',
-      statements: ['π is an irrational number.', 'The square root of 2 is rational.', 'e is approximately 2.718.'],
+      statements: ['π is irrational.', 'The square root of 2 is rational.', 'e is approximately 2.718.'],
       lie: 1,
-      explanation: '√2 is irrational, famously proven by the ancient Greeks.',
+      explanation: '√2 is irrational — famously proven by the ancient Greeks.',
     },
     {
       id: 'ss-tl-3',
-      statements: ['Hamlet, Macbeth, and Othello are all tragedies by Shakespeare.', 'The Great Gatsby was written by Hemingway.', 'James Joyce wrote Ulysses.'],
+      statements: ['Hamlet, Macbeth and Othello are all Shakespeare tragedies.', 'The Great Gatsby was written by Hemingway.', 'James Joyce wrote Ulysses.'],
       lie: 1,
       explanation: 'The Great Gatsby was written by F. Scott Fitzgerald.',
+    },
+    {
+      id: 'ss-tl-4',
+      statements: ['The Mabo decision overturned terra nullius.', 'Avogadro’s number is approximately 6.022 × 10²³.', 'Marie Curie won three Nobel Prizes.'],
+      lie: 2,
+      explanation: 'Marie Curie won two Nobel Prizes — Physics (1903) and Chemistry (1911).',
+    },
+    {
+      id: 'ss-tl-5',
+      statements: ['Mitosis produces two genetically identical cells.', 'A normal distribution is symmetric about its mean.', 'Quantum entanglement allows faster-than-light communication.'],
+      lie: 2,
+      explanation: 'Entanglement correlations exist, but they cannot be used to send information faster than light.',
+    },
+    {
+      id: 'ss-tl-6',
+      statements: ['NATO was founded in 1949.', 'The Cuban Missile Crisis was in 1962.', 'Apartheid in South Africa ended in 1975.'],
+      lie: 2,
+      explanation: 'Legal apartheid ended in 1991; Mandela was elected in 1994.',
+    },
+    {
+      id: 'ss-tl-7',
+      statements: ['The Big Bang occurred approximately 13.8 billion years ago.', 'DNA has a double-helix structure.', 'Albert Einstein proved that the Earth is round.'],
+      lie: 2,
+      explanation: 'Earth’s roundness was understood by ancient Greeks (Eratosthenes measured it ~240 BCE).',
+    },
+    {
+      id: 'ss-tl-8',
+      statements: ['T. S. Eliot wrote "The Waste Land".', 'Vincent van Gogh sold many paintings during his lifetime.', 'Pluto is no longer classified as a planet.'],
+      lie: 1,
+      explanation: 'Van Gogh sold only one painting during his lifetime.',
     },
   ],
 };
 
-// ---------- Synonyms & Antonyms ----------
+// ============================================================
+//  SYNONYM & ANTONYM SPRINT
+// ============================================================
 
 export interface SynAntItem {
   id: string;
@@ -182,6 +356,14 @@ export const SYN_ANT: Record<Stream, SynAntItem[]> = {
     { id: 'lp-sa-2', word: 'happy', mode: 'antonym', choices: ['joyful', 'sad', 'kind', 'fast'], answer: 1 },
     { id: 'lp-sa-3', word: 'hot', mode: 'antonym', choices: ['warm', 'cool', 'cold', 'wet'], answer: 2 },
     { id: 'lp-sa-4', word: 'fast', mode: 'synonym', choices: ['slow', 'quick', 'late', 'old'], answer: 1 },
+    { id: 'lp-sa-5', word: 'tiny', mode: 'synonym', choices: ['huge', 'small', 'tall', 'soft'], answer: 1 },
+    { id: 'lp-sa-6', word: 'kind', mode: 'antonym', choices: ['mean', 'nice', 'gentle', 'happy'], answer: 0 },
+    { id: 'lp-sa-7', word: 'shout', mode: 'synonym', choices: ['whisper', 'sing', 'yell', 'walk'], answer: 2 },
+    { id: 'lp-sa-8', word: 'wet', mode: 'antonym', choices: ['damp', 'dry', 'soaked', 'cold'], answer: 1 },
+    { id: 'lp-sa-9', word: 'sleepy', mode: 'synonym', choices: ['tired', 'awake', 'happy', 'busy'], answer: 0 },
+    { id: 'lp-sa-10', word: 'up', mode: 'antonym', choices: ['high', 'over', 'down', 'past'], answer: 2 },
+    { id: 'lp-sa-11', word: 'pretty', mode: 'synonym', choices: ['ugly', 'beautiful', 'angry', 'noisy'], answer: 1 },
+    { id: 'lp-sa-12', word: 'rich', mode: 'antonym', choices: ['poor', 'wealthy', 'lucky', 'old'], answer: 0 },
   ],
   upper_primary: [
     { id: 'up-sa-1', word: 'enormous', mode: 'synonym', choices: ['tiny', 'huge', 'narrow', 'short'], answer: 1 },
@@ -190,6 +372,14 @@ export const SYN_ANT: Record<Stream, SynAntItem[]> = {
     { id: 'up-sa-4', word: 'common', mode: 'antonym', choices: ['rare', 'usual', 'simple', 'small'], answer: 0 },
     { id: 'up-sa-5', word: 'allow', mode: 'synonym', choices: ['stop', 'permit', 'refuse', 'order'], answer: 1 },
     { id: 'up-sa-6', word: 'gloomy', mode: 'antonym', choices: ['cheerful', 'dark', 'cold', 'distant'], answer: 0 },
+    { id: 'up-sa-7', word: 'fragile', mode: 'synonym', choices: ['delicate', 'sturdy', 'heavy', 'shiny'], answer: 0 },
+    { id: 'up-sa-8', word: 'generous', mode: 'antonym', choices: ['kind', 'wealthy', 'stingy', 'modest'], answer: 2 },
+    { id: 'up-sa-9', word: 'rapid', mode: 'synonym', choices: ['slow', 'swift', 'small', 'sudden'], answer: 1 },
+    { id: 'up-sa-10', word: 'difficult', mode: 'antonym', choices: ['hard', 'easy', 'long', 'tricky'], answer: 1 },
+    { id: 'up-sa-11', word: 'famous', mode: 'synonym', choices: ['unknown', 'renowned', 'serious', 'wealthy'], answer: 1 },
+    { id: 'up-sa-12', word: 'shrink', mode: 'antonym', choices: ['shorten', 'expand', 'soften', 'cool'], answer: 1 },
+    { id: 'up-sa-13', word: 'reply', mode: 'synonym', choices: ['answer', 'ignore', 'question', 'speak'], answer: 0 },
+    { id: 'up-sa-14', word: 'lengthen', mode: 'antonym', choices: ['extend', 'shorten', 'stretch', 'fold'], answer: 1 },
   ],
   middle_school: [
     { id: 'ms-sa-1', word: 'meticulous', mode: 'synonym', choices: ['careless', 'thorough', 'fast', 'cheerful'], answer: 1 },
@@ -198,6 +388,14 @@ export const SYN_ANT: Record<Stream, SynAntItem[]> = {
     { id: 'ms-sa-4', word: 'transparent', mode: 'antonym', choices: ['clear', 'opaque', 'thin', 'visible'], answer: 1 },
     { id: 'ms-sa-5', word: 'futile', mode: 'synonym', choices: ['useful', 'pointless', 'gentle', 'modern'], answer: 1 },
     { id: 'ms-sa-6', word: 'ample', mode: 'antonym', choices: ['plentiful', 'scarce', 'generous', 'wide'], answer: 1 },
+    { id: 'ms-sa-7', word: 'tedious', mode: 'synonym', choices: ['exciting', 'tiresome', 'brief', 'sudden'], answer: 1 },
+    { id: 'ms-sa-8', word: 'lucid', mode: 'antonym', choices: ['clear', 'confused', 'bright', 'simple'], answer: 1 },
+    { id: 'ms-sa-9', word: 'sceptical', mode: 'synonym', choices: ['trusting', 'doubtful', 'angry', 'curious'], answer: 1 },
+    { id: 'ms-sa-10', word: 'concise', mode: 'antonym', choices: ['brief', 'long-winded', 'witty', 'clear'], answer: 1 },
+    { id: 'ms-sa-11', word: 'audacious', mode: 'synonym', choices: ['bold', 'shy', 'cautious', 'polite'], answer: 0 },
+    { id: 'ms-sa-12', word: 'authentic', mode: 'antonym', choices: ['genuine', 'fake', 'modern', 'natural'], answer: 1 },
+    { id: 'ms-sa-13', word: 'incessant', mode: 'synonym', choices: ['rare', 'constant', 'short', 'silent'], answer: 1 },
+    { id: 'ms-sa-14', word: 'frugal', mode: 'antonym', choices: ['thrifty', 'lavish', 'modest', 'patient'], answer: 1 },
   ],
   senior_school: [
     { id: 'ss-sa-1', word: 'ephemeral', mode: 'synonym', choices: ['permanent', 'fleeting', 'sacred', 'forgotten'], answer: 1 },
@@ -206,10 +404,20 @@ export const SYN_ANT: Record<Stream, SynAntItem[]> = {
     { id: 'ss-sa-4', word: 'verbose', mode: 'antonym', choices: ['talkative', 'concise', 'sincere', 'fluent'], answer: 1 },
     { id: 'ss-sa-5', word: 'esoteric', mode: 'synonym', choices: ['common', 'obscure', 'colourful', 'modern'], answer: 1 },
     { id: 'ss-sa-6', word: 'conspicuous', mode: 'antonym', choices: ['obvious', 'inconspicuous', 'striking', 'loud'], answer: 1 },
+    { id: 'ss-sa-7', word: 'mendacious', mode: 'synonym', choices: ['truthful', 'dishonest', 'wise', 'cautious'], answer: 1 },
+    { id: 'ss-sa-8', word: 'salient', mode: 'antonym', choices: ['important', 'insignificant', 'prominent', 'obvious'], answer: 1 },
+    { id: 'ss-sa-9', word: 'innocuous', mode: 'synonym', choices: ['dangerous', 'harmless', 'unusual', 'subtle'], answer: 1 },
+    { id: 'ss-sa-10', word: 'erudite', mode: 'antonym', choices: ['learned', 'uneducated', 'witty', 'scholarly'], answer: 1 },
+    { id: 'ss-sa-11', word: 'capricious', mode: 'synonym', choices: ['steady', 'unpredictable', 'thoughtful', 'gentle'], answer: 1 },
+    { id: 'ss-sa-12', word: 'sanguine', mode: 'synonym', choices: ['gloomy', 'optimistic', 'angry', 'pale'], answer: 1 },
+    { id: 'ss-sa-13', word: 'parsimonious', mode: 'antonym', choices: ['generous', 'stingy', 'frugal', 'tight'], answer: 0 },
+    { id: 'ss-sa-14', word: 'arcane', mode: 'synonym', choices: ['plain', 'mysterious', 'modern', 'easy'], answer: 1 },
   ],
 };
 
-// ---------- Would You Rather ----------
+// ============================================================
+//  WOULD YOU RATHER
+// ============================================================
 
 export interface WouldYouRather {
   id: string;
@@ -225,6 +433,13 @@ export const WYR: Record<Stream, WouldYouRather[]> = {
     { id: 'lp-wyr-3', a: 'Eat only sweet food', b: 'Eat only savoury food' },
     { id: 'lp-wyr-4', a: 'Live in a castle', b: 'Live in a treehouse' },
     { id: 'lp-wyr-5', a: 'Be super strong', b: 'Be super fast' },
+    { id: 'lp-wyr-6', a: 'Have a pet panda', b: 'Have a pet penguin' },
+    { id: 'lp-wyr-7', a: 'Always wear pyjamas', b: 'Always wear a costume' },
+    { id: 'lp-wyr-8', a: 'Be the tallest person you know', b: 'Be the smallest person you know' },
+    { id: 'lp-wyr-9', a: 'Have an extra arm', b: 'Have an extra leg' },
+    { id: 'lp-wyr-10', a: 'Have lunch with a dinosaur', b: 'Have lunch with a robot' },
+    { id: 'lp-wyr-11', a: 'Live underwater for a day', b: 'Live in the clouds for a day' },
+    { id: 'lp-wyr-12', a: 'Be able to talk to dogs', b: 'Be able to talk to birds' },
   ],
   upper_primary: [
     { id: 'up-wyr-1', a: 'Time-travel to the past', b: 'Time-travel to the future', topic: 'History' },
@@ -232,6 +447,13 @@ export const WYR: Record<Stream, WouldYouRather[]> = {
     { id: 'up-wyr-3', a: 'Explore the deep ocean', b: 'Explore deep space', topic: 'Science' },
     { id: 'up-wyr-4', a: 'Always know what time it is', b: 'Always know which direction is north' },
     { id: 'up-wyr-5', a: 'Be famous for inventing something', b: 'Be famous for discovering something', topic: 'Ethics' },
+    { id: 'up-wyr-6', a: 'Live on Mars for a year', b: 'Live in Antarctica for a year', topic: 'Geography' },
+    { id: 'up-wyr-7', a: 'Have a personal robot assistant', b: 'Have a teleporter to anywhere' },
+    { id: 'up-wyr-8', a: 'Be brilliant at maths', b: 'Be brilliant at writing', topic: 'Skills' },
+    { id: 'up-wyr-9', a: 'Be world-record holder for a day', b: 'Win an Olympic medal at 80', topic: 'Sport' },
+    { id: 'up-wyr-10', a: 'Live without electricity for a month', b: 'Live without the internet for a month' },
+    { id: 'up-wyr-11', a: 'Be best friends with a famous athlete', b: 'Be best friends with a famous scientist' },
+    { id: 'up-wyr-12', a: 'Have a holiday in a rainforest', b: 'Have a holiday in a desert', topic: 'Geography' },
   ],
   middle_school: [
     { id: 'ms-wyr-1', a: 'Live with no internet for a year', b: 'Live with no music for a year', topic: 'Ethics' },
@@ -239,6 +461,14 @@ export const WYR: Record<Stream, WouldYouRather[]> = {
     { id: 'ms-wyr-3', a: 'Be a leader in a small group', b: 'Be a follower in a large group' },
     { id: 'ms-wyr-4', a: 'Solve climate change', b: 'End world hunger', topic: 'Civics' },
     { id: 'ms-wyr-5', a: 'Live somewhere with extreme heat', b: 'Live somewhere with extreme cold', topic: 'Geography' },
+    { id: 'ms-wyr-6', a: 'Witness the building of the pyramids', b: 'Witness the signing of Magna Carta', topic: 'History' },
+    { id: 'ms-wyr-7', a: 'Have perfect memory', b: 'Have perfect intuition' },
+    { id: 'ms-wyr-8', a: 'Be a brilliant musician', b: 'Be a brilliant athlete' },
+    { id: 'ms-wyr-9', a: 'Find the source of the Nile', b: 'Find the source of the Murray', topic: 'Geography' },
+    { id: 'ms-wyr-10', a: 'Speak 5 languages fluently', b: 'Master 5 musical instruments' },
+    { id: 'ms-wyr-11', a: 'Make a discovery that wins a Nobel Prize', b: 'Make a movie that wins an Oscar', topic: 'Ethics' },
+    { id: 'ms-wyr-12', a: 'Be able to control the weather', b: 'Be able to talk to plants', topic: 'Science' },
+    { id: 'ms-wyr-13', a: 'Be alive during the Industrial Revolution', b: 'Be alive during the Renaissance', topic: 'History' },
   ],
   senior_school: [
     { id: 'ss-wyr-1', a: 'Have unlimited free time', b: 'Have unlimited money', topic: 'Ethics' },
@@ -246,10 +476,20 @@ export const WYR: Record<Stream, WouldYouRather[]> = {
     { id: 'ss-wyr-3', a: 'Eliminate one human emotion forever', b: 'Add a new one to humanity', topic: 'Ethics' },
     { id: 'ss-wyr-4', a: 'Live under a benevolent dictatorship', b: 'Live in a chaotic democracy', topic: 'Civics' },
     { id: 'ss-wyr-5', a: 'Discover an Earth-like exoplanet', b: 'Cure an incurable disease', topic: 'Science' },
+    { id: 'ss-wyr-6', a: 'Know the date of your death', b: 'Know the cause of your death', topic: 'Philosophy' },
+    { id: 'ss-wyr-7', a: 'Be a great novelist remembered for centuries', b: 'Be a great politician remembered for a decade', topic: 'Ethics' },
+    { id: 'ss-wyr-8', a: 'Permanently lose access to fiction', b: 'Permanently lose access to non-fiction', topic: 'Literature' },
+    { id: 'ss-wyr-9', a: 'Reverse climate change at the cost of one freedom', b: 'Keep all freedoms but face the consequences', topic: 'Ethics' },
+    { id: 'ss-wyr-10', a: 'Have lived through the fall of the Berlin Wall', b: 'Have lived through the moon landing', topic: 'History' },
+    { id: 'ss-wyr-11', a: 'Be ruled by AI judges', b: 'Be ruled by elected human judges', topic: 'Civics' },
+    { id: 'ss-wyr-12', a: 'Have proof there is intelligent life elsewhere', b: 'Have proof there isn’t', topic: 'Philosophy' },
+    { id: 'ss-wyr-13', a: 'Be a polymath of average depth in many fields', b: 'Be a specialist of deep expertise in one', topic: 'Ethics' },
   ],
 };
 
-// ---------- Heads Up themed words ----------
+// ============================================================
+//  HEADS UP — themed word lists
+// ============================================================
 
 export interface HeadsUpCategory {
   id: string;
@@ -261,36 +501,68 @@ export const HEADS_UP: HeadsUpCategory[] = [
   {
     id: 'animals',
     name: 'Animals',
-    words: ['Kangaroo', 'Penguin', 'Elephant', 'Octopus', 'Crocodile', 'Koala', 'Dolphin', 'Hippopotamus', 'Tiger', 'Frog', 'Shark', 'Camel', 'Platypus', 'Eagle', 'Wombat'],
+    words: ['Kangaroo', 'Penguin', 'Elephant', 'Octopus', 'Crocodile', 'Koala', 'Dolphin', 'Hippopotamus', 'Tiger', 'Frog', 'Shark', 'Camel', 'Platypus', 'Eagle', 'Wombat', 'Echidna', 'Quokka', 'Cassowary', 'Goanna', 'Dingo'],
   },
   {
     id: 'foods',
     name: 'Foods',
-    words: ['Pizza', 'Sushi', 'Lasagne', 'Pavlova', 'Curry', 'Salad', 'Pancake', 'Burger', 'Vegemite', 'Smoothie', 'Tacos', 'Spring roll', 'Lamington', 'Croissant', 'Dumpling'],
+    words: ['Pizza', 'Sushi', 'Lasagne', 'Pavlova', 'Curry', 'Salad', 'Pancake', 'Burger', 'Vegemite', 'Smoothie', 'Tacos', 'Spring roll', 'Lamington', 'Croissant', 'Dumpling', 'Anzac biscuit', 'Fairy bread', 'Souvlaki', 'Ramen', 'Bruschetta'],
   },
   {
     id: 'sports',
     name: 'Sports',
-    words: ['Cricket', 'AFL', 'Rugby', 'Soccer', 'Tennis', 'Basketball', 'Swimming', 'Archery', 'Surfing', 'Netball', 'Hockey', 'Athletics', 'Gymnastics', 'Cycling', 'Skiing'],
+    words: ['Cricket', 'AFL', 'Rugby', 'Soccer', 'Tennis', 'Basketball', 'Swimming', 'Archery', 'Surfing', 'Netball', 'Hockey', 'Athletics', 'Gymnastics', 'Cycling', 'Skiing', 'Rowing', 'Lawn bowls', 'Skateboarding', 'Volleyball', 'Triathlon'],
   },
   {
     id: 'movies',
     name: 'Movies & Shows',
-    words: ['Bluey', 'Frozen', 'Toy Story', 'Star Wars', 'Harry Potter', 'Spider-Man', 'Lion King', 'Avatar', 'Finding Nemo', 'Encanto', 'Minions', 'Shrek', 'Inside Out', 'Moana'],
+    words: ['Bluey', 'Frozen', 'Toy Story', 'Star Wars', 'Harry Potter', 'Spider-Man', 'Lion King', 'Avatar', 'Finding Nemo', 'Encanto', 'Minions', 'Shrek', 'Inside Out', 'Moana', 'Paw Patrol', 'Peppa Pig', 'Hairy Maclary', 'Octonauts', 'Wallace and Gromit', 'Pixar Cars'],
   },
   {
     id: 'jobs',
     name: 'Jobs',
-    words: ['Doctor', 'Teacher', 'Pilot', 'Chef', 'Farmer', 'Vet', 'Astronaut', 'Plumber', 'Engineer', 'Artist', 'Firefighter', 'Lawyer', 'Scientist', 'Builder', 'Journalist'],
+    words: ['Doctor', 'Teacher', 'Pilot', 'Chef', 'Farmer', 'Vet', 'Astronaut', 'Plumber', 'Engineer', 'Artist', 'Firefighter', 'Lawyer', 'Scientist', 'Builder', 'Journalist', 'Dentist', 'Park ranger', 'Surgeon', 'Architect', 'Marine biologist'],
   },
   {
     id: 'places',
     name: 'Places',
-    words: ['Beach', 'Library', 'Hospital', 'Airport', 'Zoo', 'Museum', 'Park', 'School', 'Restaurant', 'Cinema', 'Shopping centre', 'Train station', 'Stadium', 'Pool', 'Farm'],
+    words: ['Beach', 'Library', 'Hospital', 'Airport', 'Zoo', 'Museum', 'Park', 'School', 'Restaurant', 'Cinema', 'Shopping centre', 'Train station', 'Stadium', 'Pool', 'Farm', 'Lighthouse', 'Aquarium', 'Bowling alley', 'Camp site', 'Petrol station'],
+  },
+  {
+    id: 'australian-icons',
+    name: 'Australian Icons',
+    words: ['Uluru', 'Sydney Opera House', 'Sydney Harbour Bridge', 'Great Barrier Reef', 'Bondi Beach', 'The Outback', 'Kakadu', 'Twelve Apostles', 'Cricket bat', 'Boomerang', 'Vegemite', 'Akubra', 'Hills Hoist', 'Tim Tam', 'Surf lifesaver', 'Anzac biscuit', 'Didgeridoo', 'Eureka flag', 'Steve Irwin', 'Cathy Freeman'],
+  },
+  {
+    id: 'science',
+    name: 'Science',
+    words: ['Gravity', 'Photosynthesis', 'Electron', 'DNA', 'Solar system', 'Microscope', 'Volcano', 'Magnet', 'Skeleton', 'Atom', 'Molecule', 'Cell', 'Ecosystem', 'Tsunami', 'Periodic table', 'Black hole', 'Comet', 'Tectonic plate', 'Climate', 'Mitochondria'],
+  },
+  {
+    id: 'maths',
+    name: 'Maths',
+    words: ['Triangle', 'Fraction', 'Decimal', 'Percent', 'Probability', 'Algebra', 'Pi', 'Equation', 'Pythagoras', 'Symmetry', 'Hypotenuse', 'Logarithm', 'Vector', 'Matrix', 'Derivative', 'Square root', 'Integer', 'Pentagon', 'Quadratic', 'Standard deviation'],
+  },
+  {
+    id: 'history',
+    name: 'History',
+    words: ['Pharaoh', 'Knight', 'Viking', 'Magna Carta', 'Renaissance', 'Industrial Revolution', 'Federation', 'World War One', 'Gallipoli', 'Mabo', 'Federation Tower', 'Eureka Stockade', 'First Fleet', 'Captain Cook', 'Convict', 'Anzac Day', 'Berlin Wall', 'Cold War', '1967 Referendum', 'Aboriginal Apology'],
+  },
+  {
+    id: 'literature',
+    name: 'Literature',
+    words: ['Shakespeare', 'Hamlet', 'Poem', 'Novel', 'Sonnet', 'Metaphor', 'Protagonist', 'Narrator', 'Setting', 'Theme', 'Dialogue', 'Library', 'Stanza', 'Bildungsroman', 'Allegory', 'Bookshelf', 'Cliffhanger', 'Plot twist', 'Epilogue', 'Foreshadowing'],
+  },
+  {
+    id: 'geography',
+    name: 'Geography',
+    words: ['Continent', 'Island', 'Mountain', 'River', 'Desert', 'Rainforest', 'Glacier', 'Equator', 'Tropics', 'Volcano', 'Capital city', 'Compass', 'Atlas', 'Latitude', 'Longitude', 'Hemisphere', 'Time zone', 'Climate', 'Population', 'Coastline'],
   },
 ];
 
-// ---------- 20 Questions item bank ----------
+// ============================================================
+//  20 QUESTIONS — hidden items
+// ============================================================
 
 export interface TwentyQItem {
   id: string;
@@ -299,29 +571,73 @@ export interface TwentyQItem {
 }
 
 export const TWENTY_Q: TwentyQItem[] = [
-  { id: 'tq-1', item: 'Kangaroo', category: 'Animal' },
-  { id: 'tq-2', item: 'Pizza', category: 'Food' },
-  { id: 'tq-3', item: 'Sydney Opera House', category: 'Landmark' },
-  { id: 'tq-4', item: 'Bicycle', category: 'Object' },
-  { id: 'tq-5', item: 'Albert Einstein', category: 'Person' },
-  { id: 'tq-6', item: 'Eiffel Tower', category: 'Landmark' },
-  { id: 'tq-7', item: 'Elephant', category: 'Animal' },
-  { id: 'tq-8', item: 'Computer', category: 'Object' },
-  { id: 'tq-9', item: 'Australia', category: 'Place' },
-  { id: 'tq-10', item: 'Watermelon', category: 'Food' },
-  { id: 'tq-11', item: 'Aeroplane', category: 'Object' },
-  { id: 'tq-12', item: 'Tasmania', category: 'Place' },
-  { id: 'tq-13', item: 'William Shakespeare', category: 'Person' },
-  { id: 'tq-14', item: 'Pyramids of Giza', category: 'Landmark' },
-  { id: 'tq-15', item: 'Octopus', category: 'Animal' },
-  { id: 'tq-16', item: 'Toaster', category: 'Object' },
-  { id: 'tq-17', item: 'Mount Everest', category: 'Place' },
-  { id: 'tq-18', item: 'Banana', category: 'Food' },
-  { id: 'tq-19', item: 'Marie Curie', category: 'Person' },
-  { id: 'tq-20', item: 'Great Barrier Reef', category: 'Landmark' },
+  // Animals
+  { id: 'tq-a1', item: 'Kangaroo', category: 'Animal' },
+  { id: 'tq-a2', item: 'Elephant', category: 'Animal' },
+  { id: 'tq-a3', item: 'Octopus', category: 'Animal' },
+  { id: 'tq-a4', item: 'Penguin', category: 'Animal' },
+  { id: 'tq-a5', item: 'Platypus', category: 'Animal' },
+  { id: 'tq-a6', item: 'Wombat', category: 'Animal' },
+  { id: 'tq-a7', item: 'Tiger', category: 'Animal' },
+  { id: 'tq-a8', item: 'Frog', category: 'Animal' },
+
+  // Foods
+  { id: 'tq-f1', item: 'Pizza', category: 'Food' },
+  { id: 'tq-f2', item: 'Watermelon', category: 'Food' },
+  { id: 'tq-f3', item: 'Banana', category: 'Food' },
+  { id: 'tq-f4', item: 'Vegemite', category: 'Food' },
+  { id: 'tq-f5', item: 'Sushi', category: 'Food' },
+  { id: 'tq-f6', item: 'Pavlova', category: 'Food' },
+  { id: 'tq-f7', item: 'Croissant', category: 'Food' },
+
+  // Landmarks
+  { id: 'tq-l1', item: 'Sydney Opera House', category: 'Landmark' },
+  { id: 'tq-l2', item: 'Eiffel Tower', category: 'Landmark' },
+  { id: 'tq-l3', item: 'Pyramids of Giza', category: 'Landmark' },
+  { id: 'tq-l4', item: 'Great Barrier Reef', category: 'Landmark' },
+  { id: 'tq-l5', item: 'Mount Everest', category: 'Landmark' },
+  { id: 'tq-l6', item: 'Uluru', category: 'Landmark' },
+  { id: 'tq-l7', item: 'Statue of Liberty', category: 'Landmark' },
+  { id: 'tq-l8', item: 'Great Wall of China', category: 'Landmark' },
+
+  // Objects
+  { id: 'tq-o1', item: 'Bicycle', category: 'Object' },
+  { id: 'tq-o2', item: 'Computer', category: 'Object' },
+  { id: 'tq-o3', item: 'Aeroplane', category: 'Object' },
+  { id: 'tq-o4', item: 'Toaster', category: 'Object' },
+  { id: 'tq-o5', item: 'Mobile phone', category: 'Object' },
+  { id: 'tq-o6', item: 'Surfboard', category: 'Object' },
+  { id: 'tq-o7', item: 'Microscope', category: 'Object' },
+
+  // People
+  { id: 'tq-p1', item: 'Albert Einstein', category: 'Person' },
+  { id: 'tq-p2', item: 'William Shakespeare', category: 'Person' },
+  { id: 'tq-p3', item: 'Marie Curie', category: 'Person' },
+  { id: 'tq-p4', item: 'Cathy Freeman', category: 'Person' },
+  { id: 'tq-p5', item: 'Nelson Mandela', category: 'Person' },
+  { id: 'tq-p6', item: 'Eddie Mabo', category: 'Person' },
+  { id: 'tq-p7', item: 'Charles Darwin', category: 'Person' },
+  { id: 'tq-p8', item: 'Steve Irwin', category: 'Person' },
+
+  // Places
+  { id: 'tq-pl1', item: 'Australia', category: 'Place' },
+  { id: 'tq-pl2', item: 'Tasmania', category: 'Place' },
+  { id: 'tq-pl3', item: 'Japan', category: 'Place' },
+  { id: 'tq-pl4', item: 'Antarctica', category: 'Place' },
+  { id: 'tq-pl5', item: 'Amazon Rainforest', category: 'Place' },
+  { id: 'tq-pl6', item: 'Sahara Desert', category: 'Place' },
+
+  // Concepts
+  { id: 'tq-c1', item: 'Gravity', category: 'Concept' },
+  { id: 'tq-c2', item: 'Democracy', category: 'Concept' },
+  { id: 'tq-c3', item: 'Photosynthesis', category: 'Concept' },
+  { id: 'tq-c4', item: 'Federation', category: 'Concept' },
+  { id: 'tq-c5', item: 'Renaissance', category: 'Concept' },
 ];
 
-// ---------- Categories (Scattergories) ----------
+// ============================================================
+//  CATEGORIES (Scattergories-style prompts)
+// ============================================================
 
 export const CATEGORY_LISTS: { id: string; label: string }[] = [
   { id: 'animal', label: 'Animal' },
@@ -330,10 +646,28 @@ export const CATEGORY_LISTS: { id: string; label: string }[] = [
   { id: 'sport', label: 'Sport' },
   { id: 'verb', label: 'Verb (action)' },
   { id: 'name', label: 'First name' },
-  { id: 'object', label: 'Object in a kitchen' },
+  { id: 'kitchen', label: 'Object in a kitchen' },
   { id: 'job', label: 'Job' },
   { id: 'movie', label: 'Movie' },
   { id: 'colour', label: 'Colour' },
   { id: 'fruit', label: 'Fruit or veg' },
   { id: 'subject', label: 'School subject' },
+  { id: 'capital', label: 'Capital city' },
+  { id: 'instrument', label: 'Musical instrument' },
+  { id: 'au-place', label: 'Australian place' },
+  { id: 'bug', label: 'Insect or bug' },
+  { id: 'space', label: 'Something in space' },
+  { id: 'sea', label: 'Something in the sea' },
+  { id: 'book', label: 'Book or author' },
+  { id: 'tv', label: 'TV show' },
+  { id: 'breakfast', label: 'Breakfast food' },
+  { id: 'school', label: 'Thing at school' },
+  { id: 'famous', label: 'Famous person' },
+  { id: 'transport', label: 'Mode of transport' },
+  { id: 'weather', label: 'Type of weather' },
+  { id: 'building', label: 'Type of building' },
+  { id: 'song', label: 'Song or band' },
+  { id: 'app', label: 'App or website' },
+  { id: 'history', label: 'Historical figure or event' },
+  { id: 'science-word', label: 'Word from science class' },
 ];

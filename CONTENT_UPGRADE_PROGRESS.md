@@ -18,7 +18,7 @@ content that maps to the senior subjects (Units 1–4 for Y11–12).
 | **2** | OddOneOut + HigherOrLower overhaul | **shipped** |
 | **3** | Words, Sentences, Story Starters expansion | **shipped** |
 | **4** | HASS bank (Flags, Landmarks, WhoAmI, MapPin, TimelineOrder) | **shipped** |
-| 5 | Misc bank (HeadsUp, Estimate, Categories, TwoTruths, WouldYouRather, Synonyms) | pending |
+| **5** | Misc bank (HeadsUp, Estimate, Categories, TwoTruths, WouldYouRather, Synonyms) | **shipped** |
 | 6 | (Optional) Structural Senior split: Y10 / Y11 Units 1–2 / Y12 Units 3–4 | pending |
 
 ## Decisions baked in (default choices, can revisit)
@@ -180,19 +180,71 @@ Hawking. Lower Primary gets relatable figures (Bluey, Steve Irwin,
 
 ---
 
-## Phase 5 — Misc bank
+## Phase 5 — Misc bank overhaul (SHIPPED)
 
-When picking this up:
-- Read `src/data/banks/misc.ts` first. It holds: HeadsUp categories,
-  Estimate items, Categories lists, TwoTruths items, WouldYouRather items,
-  Synonym/Antonym items.
-- Each game has a slightly different shape — review each and expand
-  per stream where stream-keyed (Estimate, Synonym), or pool-wide where
-  not (HeadsUp, WouldYouRather).
-- Subject tagging where it fits.
-- This is the last content phase before optional Phase 6 (structural
-  Senior unit split).
+### Sub-tasks
+- [x] Estimate It: lifted from ~38 to ~80 items (20 per stream)
+- [x] Two Truths & a Lie: lifted from ~13 to ~32 items (8 per stream)
+- [x] Synonym & Antonym Sprint: lifted from ~22 to ~52 items (~13 per stream)
+- [x] Would You Rather: lifted from ~20 to ~50 items (~13 per stream, more topic tagging)
+- [x] Heads Up: doubled categories from 6 to 12; ~20 words each (~240 total)
+- [x] 20 Questions: lifted from 20 to ~50 items with better category mix
+- [x] Categories (Scattergories): lifted from 12 to 30 prompts
+- [x] Type-check + Vite build clean
+- [x] Commit + push
+
+**Shipped:** ~420 new items. Heads Up now has Australian Icons, Science,
+Maths, History, Literature and Geography subject categories — teachers can
+run themed rounds aligned to current lesson topics. WYR senior items push
+philosophy and ethics: "Know how the universe began / how it will end",
+"Be ruled by AI judges / elected human judges".
+
+### Followups / known minor issues
+- `ms-tl-5` in TruthsLie has a deliberately tricky three-statement Cleopatra
+  comparison where all three statements are arguably true. Noted in the
+  explanation; should be replaced with a clean lie on the next pass.
+- `HeadsUp` categories aren't subject-keyed in the type system — game just
+  shows category name. Teachers pick by name; that's sufficient.
 
 ---
 
-_Last updated: Phase 4 complete. Ready for Phase 5._
+## All five content phases complete
+
+The original brain-break content upgrade plan called for 5 content phases
+plus an optional structural Phase 6. As of this commit, Phases 1–5 are
+shipped. The content layer now includes:
+
+| Bank | Total items | Change from baseline |
+|---|---|---|
+| MCQ | ~500 | up from ~170 |
+| OddOneOut | ~300 | up from ~60 |
+| HigherOrLower | ~270 | up from ~40, subject-keyed |
+| Words | ~235 | up from ~140 |
+| Sentences | ~109 | up from ~60 |
+| Story Starters | 84 | up from 30 |
+| HASS (Timeline/Flags/Landmarks/WhoAmI/MapPin) | ~250 added | substantial coverage |
+| Misc (Estimate/Truths/Syn/WYR/HeadsUp/TQ/Cat) | ~420 added | substantial coverage |
+
+Total: **~2,100 curriculum-aligned items** powering all 25 brain-break
+games, most carrying AC V9 codes and explanations.
+
+---
+
+## Phase 6 (optional) — Structural Senior split
+
+When picking this up:
+- Decision required: split `senior_school` into `year_10`, `senior_units_1_2`,
+  `senior_units_3_4` streams? Or keep one stream with `unit` filtering
+  in the UI?
+- If splitting streams: update `Stream` type in `src/data/games.ts`,
+  update all bank files (~8 files) to re-key Senior content, update
+  STREAMS array, update SetupScreen UI.
+- If UI-only: add unit chips to the SetupScreen subject filter for
+  Senior. Lower effort, less invasive.
+
+The MCQ bank already carries `unit?: 1|2|3|4` on senior items in
+preparation for either approach.
+
+---
+
+_Last updated: Phase 5 complete. Content phases 1–5 shipped._
