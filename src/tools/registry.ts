@@ -45,7 +45,6 @@ export const TOOL_COMPONENTS: Record<string, LazyExoticComponent<ComponentType>>
   'fraction-tool': lazy(() => import('./teaching-aids/FractionTool').then((m) => ({ default: m.FractionTool }))),
   'mab-blocks': lazy(() => import('./teaching-aids/MABBlocks').then((m) => ({ default: m.MABBlocks }))),
   'cartesian-plane': lazy(() => import('./teaching-aids/CartesianPlane').then((m) => ({ default: m.CartesianPlane }))),
-  'world-map': lazy(() => import('./teaching-aids/WorldMap').then((m) => ({ default: m.WorldMap }))),
   'timeline-builder': lazy(() => import('./teaching-aids/TimelineBuilder').then((m) => ({ default: m.TimelineBuilder }))),
 };
 

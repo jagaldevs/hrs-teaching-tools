@@ -11,7 +11,6 @@ import {
   TrendingUp,
   Calculator,
   Atom,
-  Globe2,
   GitBranch,
   Dice5,
   CircleDollarSign,
@@ -129,13 +128,6 @@ export const TOOLS: Tool[] = [
     category: 'teaching-aids',
     description: 'Interactive table with electron configuration, group highlights and isotope data.',
     icon: Atom,
-  },
-  {
-    id: 'world-map',
-    name: 'World Map',
-    category: 'teaching-aids',
-    description: 'Clickable continents and major regions with facts. Companion to the Map Pin game.',
-    icon: Globe2,
   },
   {
     id: 'timeline-builder',
