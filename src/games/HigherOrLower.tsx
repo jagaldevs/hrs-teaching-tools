@@ -30,8 +30,10 @@ export function HigherOrLower() {
   const [lastChoice, setLastChoice] = useState<'higher' | 'lower' | null>(null);
 
   function start(sel: SetupSelections) {
-    // HoL bank is subject-agnostic ('general'). Pull plenty so the chain can run.
-    const pulled = pickFromBank(HOL_BANK, sel.stream, 'mix', Math.max(15, sel.count + 5));
+    // HoL bank is subject-keyed (general / maths / history / geography / science).
+    // 'mix' draws across all subjects for a varied chain; selecting a single
+    // subject narrows the round to that domain (e.g. all history years).
+    const pulled = pickFromBank(HOL_BANK, sel.stream, sel.subject, Math.max(15, sel.count + 5));
     if (pulled.items.length < 2) return;
     setRound({ items: pulled.items });
     setPosition(0);
@@ -81,7 +83,6 @@ export function HigherOrLower() {
       {phase === 'setup' && (
         <SetupScreen
           storageKey="higherlower"
-          showSubject={false}
           countOptions={[10, 15, 20]}
           onStart={start}
         />

@@ -45,6 +45,8 @@ export interface HoLItem {
   unit?: string;
   /** Optional context tooltip. */
   context?: string;
+  /** Australian Curriculum V9 code, e.g. "AC9HS6K02". */
+  acCode?: string;
 }
 
 export const SUBJECTS: { id: Subject; label: string }[] = [

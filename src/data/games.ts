@@ -85,10 +85,10 @@ export const GAMES: Game[] = [
     id: 'higher-or-lower',
     name: 'Higher or Lower',
     group: 'rapid',
-    description: 'Numbers, years, populations, distances — students predict the next reveal.',
+    description: 'Numbers, years, populations, scientific constants — students predict the next reveal. Filter by subject for themed rounds.',
     icon: ArrowUpDown,
     streams: ALL_STREAMS,
-    subjects: ['maths', 'history', 'geography'],
+    subjects: ['maths', 'history', 'geography', 'science', 'general'],
     durationMin: 3,
   },
   {

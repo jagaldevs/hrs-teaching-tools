@@ -15,7 +15,7 @@ content that maps to the senior subjects (Units 1–4 for Y11–12).
 | # | Scope | Status |
 |---|---|---|
 | **1** | MCQ_BANK overhaul (Quick Quiz, Buzzer Round, Question Generator) | **shipped** |
-| 2 | OddOneOut + HigherOrLower overhaul | pending |
+| **2** | OddOneOut + HigherOrLower overhaul | **shipped** |
 | 3 | Words, Sentences, Story Starters expansion | pending |
 | 4 | HASS bank (Flags, Landmarks, WhoAmI, MapPin, TimelineOrder) | pending |
 | 5 | Misc bank (HeadsUp, Estimate, Categories, TwoTruths, WouldYouRather, Synonyms) | pending |
@@ -93,4 +93,55 @@ Units 1–4 mapping for senior content.
 
 ---
 
-_Last updated: Phase 1 complete. Ready to pick up Phase 2 (OddOneOut + HigherOrLower)._
+## Phase 2 — OddOneOut + HigherOrLower overhaul
+
+Targets:
+- **OddOneOut**: 4 streams × 5 subjects × ~15 items = ~300 items. Add Science.
+  Optional `acCode` + `explanation` (already exists on type).
+- **HigherOrLower**: subject-key the bank (currently general-only). English
+  doesn't fit numeric comparison so it's intentionally skipped. Add buckets
+  for general, maths, history, geography, science. ~15 items per (stream ×
+  subject) = ~300 items. Add `acCode` + `context` where useful.
+
+### Sub-tasks
+
+- [x] Add optional `acCode?: string` to OddItem (already existed)
+- [x] Add optional `acCode?: string` to HoLItem
+- [x] OddOneOut: rebuild all 20 (stream × subject) cells with Science added — 12-15 items each, ~300 total
+- [x] HigherOrLower: rebuild with subject-keyed structure (general / maths / history / geography / science) — 8-14 items per cell, ~270 total
+- [x] HigherOrLower game: stop hiding subject picker; pass `sel.subject` to `pickFromBank` so themed rounds work
+- [x] Update `higher-or-lower` game `subjects` array in games.ts to include science + general
+- [x] Type-check + Vite build clean
+- [x] Commit + push
+
+**Shipped:** ~570 new content items across OddOneOut + HoL. AC codes on most.
+HoL teachers can now run a "Year 9 History" round (years of WWI battles), a
+"Senior Science" round (Planck constant, Avogadro's number), etc.
+
+### Followups / known minor issues
+
+- A couple of population/area numbers will drift over time (population of
+  India, CO₂ ppm, etc.). Considered acceptable for AC V9 alignment — the
+  curriculum doesn't pin to specific year-end figures.
+- English deliberately omitted from HoL bank (numeric comparison doesn't fit
+  the subject). Brain Breaks filter still allows english as a Subject chip
+  but selecting it on HoL will yield no items — game gracefully handles
+  empty results.
+
+---
+
+## Phase 3 — Words, Sentences, Story Starters expansion
+
+When picking this up:
+- Read `src/data/banks/words.ts`, `sentences.ts`, `stories.ts` first.
+- Words already has subject tagging (added in Phase 5 of the earlier upgrade
+  cycle). Quantity is ~30 per stream — could lift to 50+ per stream and add
+  more AC English-strand tagging.
+- Sentences uses `SentenceEntry { text; subject? }`. Same approach — expand
+  to ~25 per stream per subject.
+- Story Starters has primary/secondary bands. Worth adding stream-level
+  granularity if Phase 6 doesn't supersede it.
+
+---
+
+_Last updated: Phase 2 complete. Ready for Phase 3._
