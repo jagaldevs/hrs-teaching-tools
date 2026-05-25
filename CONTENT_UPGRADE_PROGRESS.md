@@ -16,7 +16,7 @@ content that maps to the senior subjects (Units 1–4 for Y11–12).
 |---|---|---|
 | **1** | MCQ_BANK overhaul (Quick Quiz, Buzzer Round, Question Generator) | **shipped** |
 | **2** | OddOneOut + HigherOrLower overhaul | **shipped** |
-| 3 | Words, Sentences, Story Starters expansion | pending |
+| **3** | Words, Sentences, Story Starters expansion | **shipped** |
 | 4 | HASS bank (Flags, Landmarks, WhoAmI, MapPin, TimelineOrder) | pending |
 | 5 | Misc bank (HeadsUp, Estimate, Categories, TwoTruths, WouldYouRather, Synonyms) | pending |
 | 6 | (Optional) Structural Senior split: Y10 / Y11 Units 1–2 / Y12 Units 3–4 | pending |
@@ -130,18 +130,41 @@ HoL teachers can now run a "Year 9 History" round (years of WWI battles), a
 
 ---
 
-## Phase 3 — Words, Sentences, Story Starters expansion
+## Phase 3 — Words, Sentences, Story Starters expansion (SHIPPED)
 
-When picking this up:
-- Read `src/data/banks/words.ts`, `sentences.ts`, `stories.ts` first.
-- Words already has subject tagging (added in Phase 5 of the earlier upgrade
-  cycle). Quantity is ~30 per stream — could lift to 50+ per stream and add
-  more AC English-strand tagging.
-- Sentences uses `SentenceEntry { text; subject? }`. Same approach — expand
-  to ~25 per stream per subject.
-- Story Starters has primary/secondary bands. Worth adding stream-level
-  granularity if Phase 6 doesn't supersede it.
+### Sub-tasks
+- [x] Words: lift to ~60+ per stream with balanced 5-subject coverage. ~235 total.
+- [x] Sentences: ~27 per stream with all 5 subjects represented. ~109 total.
+- [x] Story Starters: expand from 30 to 84 prompts, ~6 per (genre × band).
+- [x] Type-check + Vite build clean.
+- [x] Commit + push.
+
+**Shipped:** ~340 new content items across words, sentences and stories. Words
+and sentences now have proper subject distribution at every stream level
+(previously English was thin at Lower Primary). Senior sentences include
+postcolonial criticism, calculus, complex numbers, normal distribution,
+decolonisation, conservation of energy — Y11-12-pitch content.
+
+### Followups
+- WordEntry doesn't carry `acCode` (subject tag is the closest curriculum
+  link). Could add strand-level tagging later if teachers want to filter to
+  "AC9E10LA*" style.
+- StoryStarters still uses primary/secondary bands. A future polish pass
+  could add explicit `streams: Stream[]` and update the UI filter chips.
 
 ---
 
-_Last updated: Phase 2 complete. Ready for Phase 3._
+## Phase 4 — HASS bank (Flags, Landmarks, WhoAmI, MapPin, TimelineOrder)
+
+When picking this up:
+- Read `src/data/banks/hass.ts` first to see the current item shapes.
+- Each game type uses a different bank entry (FlagItem, LandmarkItem,
+  MapItem, WhoAmIFigure, TimelineEvent). Expand each per stream.
+- Add Science where it makes sense (e.g. famous scientists in WhoAmI,
+  geographic-science landmarks in Landmark Snap).
+- AC code tagging on TimelineEvents will pair well with the Phase 6
+  Modern History / Ancient History unit split.
+
+---
+
+_Last updated: Phase 3 complete. Ready for Phase 4._
