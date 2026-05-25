@@ -22,10 +22,17 @@ export function OddOneOut() {
   const [current, setCurrent] = useState(0);
   const [score, setScore] = useState(0);
   const [picked, setPicked] = useState<number | null>(null);
+  const [startError, setStartError] = useState<string | null>(null);
 
   function start(sel: SetupSelections) {
+    setStartError(null);
     const pulled = pickFromBank(ODD_BANK, sel.stream, sel.subject, sel.count);
-    if (pulled.items.length === 0) return;
+    if (pulled.items.length === 0) {
+      setStartError(
+        'No items found for that stream and subject. Try a different subject, or hard-refresh (Ctrl+Shift+R) to pick up the latest content.',
+      );
+      return;
+    }
     setSetup(sel);
     setRound({ items: pulled.items, subjects: pulled.subjects });
     setCurrent(0);
@@ -55,7 +62,12 @@ export function OddOneOut() {
       title="Odd One Out"
       description="Four items — three belong together, one doesn’t. Pick the misfit and justify why."
     >
-      {phase === 'setup' && <SetupScreen storageKey="oddone" onStart={start} />}
+      {phase === 'setup' && (
+        <>
+          {startError && <p className={styles.startError}>{startError}</p>}
+          <SetupScreen storageKey="oddone" onStart={start} />
+        </>
+      )}
 
       {phase === 'playing' && round && (
         <Playing

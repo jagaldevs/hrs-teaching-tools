@@ -3,8 +3,15 @@ import type { Bank, Subject } from './types';
 import { shuffle } from '../tools/rng/util';
 
 /**
- * Pull questions from a bank for a given stream + subject choice ("mix" means all subjects).
- * Returns up to `count` questions, shuffled.
+ * Pull questions from a bank for a given stream + subject choice.
+ *
+ *   "mix" → all subjects in the stream.
+ *   <subject> → just that subject. If the subject yields zero items
+ *               (e.g. a stale service-worker bundle predates new content),
+ *               we automatically fall back to "mix" so the user isn't left
+ *               with a button that silently does nothing.
+ *
+ * Returns up to `count` items, shuffled, paired with their subject tag.
  */
 export function pickFromBank<Q>(
   bank: Bank<Q>,
@@ -13,16 +20,24 @@ export function pickFromBank<Q>(
   count: number,
 ): { items: Q[]; subjects: Subject[] } {
   const streamData = bank.byStreamSubject[stream] ?? {};
-  const subjects = subject === 'mix'
-    ? (Object.keys(streamData) as Subject[])
-    : [subject];
 
-  // Track which subject each item came from (for breakdown display).
-  const tagged: { item: Q; subject: Subject }[] = [];
-  for (const s of subjects) {
-    const list = streamData[s];
-    if (!list) continue;
-    for (const item of list) tagged.push({ item, subject: s });
+  function gather(s: Subject | 'mix'): { item: Q; subject: Subject }[] {
+    const subjectKeys = s === 'mix'
+      ? (Object.keys(streamData) as Subject[])
+      : [s];
+    const out: { item: Q; subject: Subject }[] = [];
+    for (const key of subjectKeys) {
+      const list = streamData[key];
+      if (!list) continue;
+      for (const item of list) out.push({ item, subject: key });
+    }
+    return out;
+  }
+
+  let tagged = gather(subject);
+  // Fall back to mix if a specific subject turned up nothing.
+  if (tagged.length === 0 && subject !== 'mix') {
+    tagged = gather('mix');
   }
 
   const shuffled = shuffle(tagged);

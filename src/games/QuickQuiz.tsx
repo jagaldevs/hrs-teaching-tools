@@ -24,10 +24,17 @@ export function QuickQuiz() {
   const [picked, setPicked] = useState<number | null>(null);
   const [revealed, setRevealed] = useState(false);
   const [bySubject, setBySubject] = useState<Partial<Record<Subject, { right: number; total: number }>>>({});
+  const [startError, setStartError] = useState<string | null>(null);
 
   function start(sel: SetupSelections) {
+    setStartError(null);
     const pulled = pickFromBank(MCQ_BANK, sel.stream, sel.subject, sel.count);
-    if (pulled.items.length === 0) return;
+    if (pulled.items.length === 0) {
+      setStartError(
+        'No questions found for that stream and subject. Try a different subject, or hard-refresh the page (Ctrl+Shift+R) to pick up the latest content.',
+      );
+      return;
+    }
     setSetup(sel);
     setRound({ questions: pulled.items, subjects: pulled.subjects });
     setCurrent(0);
@@ -66,11 +73,16 @@ export function QuickQuiz() {
     }
   }
 
-  const description = 'Multiple-choice questions across English, Maths, History and Geography.';
+  const description = 'Multiple-choice questions across English, Maths, History, Geography and Science. AC V9-aligned.';
 
   return (
     <GameShell title="Quick Quiz" description={description}>
-      {phase === 'setup' && <SetupScreen storageKey="quickquiz" onStart={start} />}
+      {phase === 'setup' && (
+        <>
+          {startError && <p className={styles.startError}>{startError}</p>}
+          <SetupScreen storageKey="quickquiz" onStart={start} />
+        </>
+      )}
 
       {phase === 'playing' && round && (
         <PlayingScreen

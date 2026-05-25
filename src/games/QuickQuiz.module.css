@@ -231,3 +231,15 @@
   font-style: normal;
   font-size: 0.8rem;
 }
+
+.startError {
+  width: min(640px, 90vw);
+  margin-bottom: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border: 1.5px solid var(--warning);
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--warning) 12%, transparent);
+  color: var(--warning);
+  font-size: 0.9rem;
+  text-align: center;
+}

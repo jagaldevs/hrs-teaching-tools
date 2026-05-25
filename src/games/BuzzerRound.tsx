@@ -46,10 +46,17 @@ export function BuzzerRound() {
   const [answerShown, setAnswerShown] = useState(false);
   // Teams that have been "locked out" for this question by getting it wrong
   const [lockedTeams, setLockedTeams] = useState<Set<string>>(new Set());
+  const [startError, setStartError] = useState<string | null>(null);
 
   function start(sel: SetupSelections) {
+    setStartError(null);
     const pulled = pickFromBank(MCQ_BANK, sel.stream, sel.subject, sel.count);
-    if (pulled.items.length === 0) return;
+    if (pulled.items.length === 0) {
+      setStartError(
+        'No questions found for that stream and subject. Try a different subject, or hard-refresh (Ctrl+Shift+R) to pick up the latest content.',
+      );
+      return;
+    }
     setRound({ questions: pulled.items, subjects: pulled.subjects });
     setCurrent(0);
     setBuzzed(null);
@@ -139,6 +146,9 @@ export function BuzzerRound() {
       title="Buzzer Round"
       description="Teacher-led quiz with team buzzers. First team to buzz answers; correct = point, wrong = locked out, others may buzz."
     >
+      {phase === 'setup' && startError && (
+        <p className={styles.startError}>{startError}</p>
+      )}
       {phase === 'setup' && (
         <SetupScreen
           storageKey="buzzround"
