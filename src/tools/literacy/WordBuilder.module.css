@@ -9,12 +9,103 @@
 .streamBtn { padding: 8px 14px; font-size: 0.75rem; }
 .streamBtn[data-active='true'] { background: var(--accent); color: #fff; border-color: var(--accent); }
 
-.hintRow { margin-bottom: var(--space-5); text-align: center; }
+.subjectRow {
+  display: inline-flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: var(--space-5);
+}
+
+.subjectLabel {
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-right: 4px;
+}
+
+.subjectChip { padding: 6px 12px; font-size: 0.72rem; }
+.subjectChip[data-active='true'] {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+.subjectClear {
+  background: transparent;
+  border: none;
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  cursor: pointer;
+  padding: 4px 6px;
+}
+.subjectClear:hover { color: var(--accent); }
+
+.emptyNote {
+  width: min(640px, 95vw);
+  padding: var(--space-5);
+  border: 1.5px dashed var(--border-strong);
+  border-radius: var(--radius-md);
+  background: var(--bg-card);
+  color: var(--text-muted);
+  font-style: italic;
+  text-align: center;
+}
+
+.hintRow {
+  margin-bottom: var(--space-5);
+  display: flex;
+  justify-content: center;
+}
+
+.hintToggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border-radius: 999px;
+  border: 2px solid var(--accent);
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+  color: var(--accent);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all var(--dur-base) var(--ease-out);
+}
+.hintToggle:hover {
+  background: var(--accent);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.hintRevealed {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px;
+  border-radius: 999px;
+  border: 2px solid var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent);
+  cursor: pointer;
+  max-width: min(720px, 95vw);
+  text-align: left;
+  transition: all var(--dur-base) var(--ease-out);
+}
+.hintRevealed:hover {
+  border-color: var(--text-faint);
+}
 
 .hintText {
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   font-style: italic;
-  color: var(--text-muted);
+  color: var(--text-strong);
+  line-height: 1.4;
 }
 
 .slotRow {

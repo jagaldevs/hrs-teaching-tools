@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Check, RotateCcw, SkipForward, Volume2, Lightbulb } from 'lucide-react';
 import { ToolShell } from '../ToolShell';
-import { WORDS, type WordEntry } from '../../data/banks/words';
+import { WORDS, pickWordsFiltered, type WordEntry } from '../../data/banks/words';
 import { shuffle } from '../rng/util';
 import { usePersistedState } from '../../hooks/usePersistedState';
 import type { Stream } from '../../data/games';
+import { SUBJECTS, type Subject } from '../../games/types';
 import common from '../common.module.css';
 import styles from './WordBuilder.module.css';
 
@@ -51,9 +52,19 @@ const STREAMS: { id: Stream; label: string }[] = [
   { id: 'senior_school', label: 'Senior School' },
 ];
 
+function pickPool(stream: Stream, subjects: Subject[]): WordEntry[] {
+  if (subjects.length === 0) {
+    // No filter → use the full bank for this stream
+    return shuffle(WORDS[stream] ?? []);
+  }
+  // Filter → pull the whole filtered set (large count) and shuffle
+  return shuffle(pickWordsFiltered(stream, subjects, 999));
+}
+
 export function WordBuilder() {
   const [stream, setStream] = usePersistedState<Stream>('wbuild.stream', 'lower_primary');
-  const [pool, setPool] = useState<WordEntry[]>(() => shuffle(WORDS[stream]));
+  const [subjects, setSubjects] = usePersistedState<Subject[]>('wbuild.subjects', []);
+  const [pool, setPool] = useState<WordEntry[]>(() => pickPool(stream, subjects));
   const [idx, setIdx] = useState(0);
   const [tiles, setTiles] = useState<Tile[]>([]);
   const [slots, setSlots] = useState<Slot[]>([]);
@@ -72,11 +83,16 @@ export function WordBuilder() {
     setShowHint(false);
   }, [current?.word]);
 
-  // Re-shuffle pool when stream changes
+  // Re-shuffle pool when stream or subject filter changes
   useEffect(() => {
-    setPool(shuffle(WORDS[stream]));
+    setPool(pickPool(stream, subjects));
     setIdx(0);
-  }, [stream]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [stream, subjects.join('|')]);
+
+  function toggleSubject(s: Subject) {
+    setSubjects((prev) => (prev.includes(s) ? prev.filter((x) => x !== s) : [...prev, s]));
+  }
 
   function placeTile(tile: Tile) {
     if (solved) return;
@@ -132,37 +148,31 @@ export function WordBuilder() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [slots]);
 
-  if (!current) {
-    return (
-      <ToolShell title="Word Builder" eyebrow="Literacy" description="">
-        <p>No words available for this stream.</p>
-      </ToolShell>
-    );
-  }
-
   return (
     <ToolShell
       eyebrow="Literacy"
       title="Word Builder"
       description="Drag-free word building. Click letters to fill the slots. Auto-checks when all slots are full."
       actions={
-        <>
-          <button
-            type="button"
-            className={common.btn}
-            onClick={() => speakWord(current.word)}
-            aria-label="Hear word"
-          >
-            <Volume2 size={14} /> Hear
-          </button>
-          <button
-            type="button"
-            className={common.btn}
-            onClick={() => speakStretched(current.word)}
-          >
-            Stretch
-          </button>
-        </>
+        current ? (
+          <>
+            <button
+              type="button"
+              className={common.btn}
+              onClick={() => speakWord(current.word)}
+              aria-label="Hear word"
+            >
+              <Volume2 size={14} /> Hear
+            </button>
+            <button
+              type="button"
+              className={common.btn}
+              onClick={() => speakStretched(current.word)}
+            >
+              Stretch
+            </button>
+          </>
+        ) : null
       }
     >
       <div className={styles.streamRow}>
@@ -179,13 +189,58 @@ export function WordBuilder() {
         ))}
       </div>
 
+      <div className={styles.subjectRow} aria-label="Filter by subject">
+        <span className={styles.subjectLabel}>Subject</span>
+        {SUBJECTS.map((s) => (
+          <button
+            key={s.id}
+            type="button"
+            className={`${common.btn} ${styles.subjectChip}`}
+            data-active={subjects.includes(s.id)}
+            onClick={() => toggleSubject(s.id)}
+          >
+            {s.label}
+          </button>
+        ))}
+        {subjects.length > 0 && (
+          <button
+            type="button"
+            className={styles.subjectClear}
+            onClick={() => setSubjects([])}
+          >
+            Clear
+          </button>
+        )}
+      </div>
+
+      {!current ? (
+        <p className={styles.emptyNote}>
+          No words match the current subject filter for this stream. Try clearing the
+          filter or switching streams.
+        </p>
+      ) : (
+        <>
+
       {current.hint && (
         <div className={styles.hintRow}>
           {showHint ? (
-            <p className={`font-display ${styles.hintText}`}>{current.hint}</p>
+            <button
+              type="button"
+              className={styles.hintRevealed}
+              onClick={() => setShowHint(false)}
+              aria-label="Hide meaning"
+              title="Tap to hide"
+            >
+              <Lightbulb size={16} />
+              <span className={`font-display ${styles.hintText}`}>{current.hint}</span>
+            </button>
           ) : (
-            <button type="button" className={common.btn} onClick={() => setShowHint(true)}>
-              <Lightbulb size={14} /> Show meaning
+            <button
+              type="button"
+              className={styles.hintToggle}
+              onClick={() => setShowHint(true)}
+            >
+              <Lightbulb size={16} /> Show meaning
             </button>
           )}
         </div>
@@ -233,6 +288,8 @@ export function WordBuilder() {
           <SkipForward size={14} /> {solved ? 'Next word' : 'Skip word'}
         </button>
       </div>
+        </>
+      )}
     </ToolShell>
   );
 }

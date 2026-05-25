@@ -9,6 +9,53 @@
 .streamBtn { padding: 8px 14px; font-size: 0.75rem; }
 .streamBtn[data-active='true'] { background: var(--accent); color: #fff; border-color: var(--accent); }
 
+.subjectRow {
+  display: inline-flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: var(--space-5);
+}
+
+.subjectLabel {
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-right: 4px;
+}
+
+.subjectChip { padding: 6px 12px; font-size: 0.72rem; }
+.subjectChip[data-active='true'] {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+.subjectClear {
+  background: transparent;
+  border: none;
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  cursor: pointer;
+  padding: 4px 6px;
+}
+.subjectClear:hover { color: var(--accent); }
+
+.emptyNote {
+  width: min(820px, 95vw);
+  padding: var(--space-5);
+  border: 1.5px dashed var(--border-strong);
+  border-radius: var(--radius-md);
+  background: var(--bg-card);
+  color: var(--text-muted);
+  font-style: italic;
+  text-align: center;
+}
+
 .builtArea {
   position: relative;
   display: flex;

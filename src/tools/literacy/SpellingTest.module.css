@@ -53,6 +53,75 @@
   gap: 6px;
 }
 
+.optionsRow {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-4);
+  align-items: start;
+}
+
+@media (max-width: 640px) {
+  .optionsRow { grid-template-columns: 1fr; }
+}
+
+.optionField {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.voicePickerRow {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.voiceSelect {
+  flex: 1;
+  min-width: 0;
+  padding: 10px 12px;
+  background: var(--bg);
+  border: 1.5px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.voiceSelect:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.previewBtn {
+  padding: 10px 14px;
+  font-size: 0.78rem;
+  white-space: nowrap;
+}
+
+.voiceHint {
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  color: var(--text-faint);
+  font-style: italic;
+}
+
+.voiceTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border: 1.5px solid var(--border-strong);
+  border-radius: 999px;
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-top: var(--space-2);
+}
+
 .startBtn { align-self: center; padding: 14px 32px; }
 
 .running { width: min(640px, 95vw); display: flex; flex-direction: column; gap: var(--space-4); align-items: center; }

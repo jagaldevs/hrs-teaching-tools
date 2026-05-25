@@ -1,6 +1,6 @@
 import type { Stream } from '../data/games';
 
-export type Subject = 'english' | 'maths' | 'history' | 'geography' | 'general';
+export type Subject = 'english' | 'maths' | 'history' | 'geography' | 'science' | 'general';
 
 export interface Bank<Q> {
   /** Questions grouped by stream then subject. */
@@ -46,6 +46,7 @@ export const SUBJECTS: { id: Subject; label: string }[] = [
   { id: 'maths', label: 'Maths' },
   { id: 'history', label: 'History' },
   { id: 'geography', label: 'Geography' },
+  { id: 'science', label: 'Science' },
 ];
 
 export const SUBJECT_COLOURS: Record<Subject, string> = {
@@ -53,5 +54,6 @@ export const SUBJECT_COLOURS: Record<Subject, string> = {
   maths: '#0EA5E9',
   history: '#F59E0B',
   geography: '#10B981',
-  general: '#A855F7',
+  science: '#A855F7',
+  general: '#6B7280',
 };
