@@ -17,7 +17,7 @@ content that maps to the senior subjects (Units 1–4 for Y11–12).
 | **1** | MCQ_BANK overhaul (Quick Quiz, Buzzer Round, Question Generator) | **shipped** |
 | **2** | OddOneOut + HigherOrLower overhaul | **shipped** |
 | **3** | Words, Sentences, Story Starters expansion | **shipped** |
-| 4 | HASS bank (Flags, Landmarks, WhoAmI, MapPin, TimelineOrder) | pending |
+| **4** | HASS bank (Flags, Landmarks, WhoAmI, MapPin, TimelineOrder) | **shipped** |
 | 5 | Misc bank (HeadsUp, Estimate, Categories, TwoTruths, WouldYouRather, Synonyms) | pending |
 | 6 | (Optional) Structural Senior split: Y10 / Y11 Units 1–2 / Y12 Units 3–4 | pending |
 
@@ -154,17 +154,45 @@ decolonisation, conservation of energy — Y11-12-pitch content.
 
 ---
 
-## Phase 4 — HASS bank (Flags, Landmarks, WhoAmI, MapPin, TimelineOrder)
+## Phase 4 — HASS bank overhaul (SHIPPED)
 
-When picking this up:
-- Read `src/data/banks/hass.ts` first to see the current item shapes.
-- Each game type uses a different bank entry (FlagItem, LandmarkItem,
-  MapItem, WhoAmIFigure, TimelineEvent). Expand each per stream.
-- Add Science where it makes sense (e.g. famous scientists in WhoAmI,
-  geographic-science landmarks in Landmark Snap).
-- AC code tagging on TimelineEvents will pair well with the Phase 6
-  Modern History / Ancient History unit split.
+### Sub-tasks
+- [x] Add optional `acCode` to TimelineEvent type
+- [x] Timeline: LP 12, UP 26, MS 30, SS 35 — ~100 events total
+- [x] Flags: LP 10, UP 15, MS 15, SS 15 — ~55 flags
+- [x] Landmarks: LP 8, UP 12, MS 12, SS 12 — ~44 items
+- [x] WhoAmI: LP 4, UP 6, MS 6, SS 6 — ~22 figures, scientists added
+- [x] MapPin: expanded from 21 to 30 prompts (more landmarks + wine regions)
+- [x] Type-check + Vite build clean
+- [x] Commit + push
+
+**Shipped:** ~250 new HASS items. Timeline is now AC-V9-tagged across all
+four streams (AC9HS, AC9HH, AC9HG codes). Scientists added to WhoAmI:
+Newton, Einstein, Darwin, Galileo, Marie Curie, Rosalind Franklin, Stephen
+Hawking. Lower Primary gets relatable figures (Bluey, Steve Irwin,
+"a kangaroo").
+
+### Followups
+- LandmarkItem & FlagItem don't carry `acCode` yet — could add for
+  Geography-strand tagging if Phase 6 expands the senior subject filter.
+- MapPin remains a single flat pool (not stream-keyed). Game does not
+  filter on stream — could later, but content is currently universal.
 
 ---
 
-_Last updated: Phase 3 complete. Ready for Phase 4._
+## Phase 5 — Misc bank
+
+When picking this up:
+- Read `src/data/banks/misc.ts` first. It holds: HeadsUp categories,
+  Estimate items, Categories lists, TwoTruths items, WouldYouRather items,
+  Synonym/Antonym items.
+- Each game has a slightly different shape — review each and expand
+  per stream where stream-keyed (Estimate, Synonym), or pool-wide where
+  not (HeadsUp, WouldYouRather).
+- Subject tagging where it fits.
+- This is the last content phase before optional Phase 6 (structural
+  Senior unit split).
+
+---
+
+_Last updated: Phase 4 complete. Ready for Phase 5._
