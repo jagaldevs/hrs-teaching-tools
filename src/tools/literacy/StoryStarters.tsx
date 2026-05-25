@@ -58,7 +58,7 @@ export function StoryStarters() {
 
   return (
     <ToolShell
-      eyebrow="Teaching Aids"
+      eyebrow="Literacy"
       title="Story Starters"
       description="Genre-tagged narrative prompts for any year level."
       actions={

@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { Loader, Repeat } from 'lucide-react';
 import { ToolShell } from '../ToolShell';
 import { Wheel } from './Wheel';
@@ -14,26 +14,57 @@ export function NumberSpinner() {
   const [landed, setLanded] = useState<number | null>(null);
   const [spinning, setSpinning] = useState(false);
 
-  const segments = useMemo(() => {
+  const { lo, hi, segments, rangeMatchesWedges } = useMemo(() => {
     const lo = Math.min(min, max);
     const hi = Math.max(min, max);
-    const count = Math.min(hi - lo + 1, 24); // cap for readability
-    const step = (hi - lo + 1) / count;
-    return Array.from({ length: count }, (_, i) => ({
-      label: String(Math.round(lo + i * step)),
-    }));
+    const rangeSize = hi - lo + 1;
+    // Up to 24 wedges: each wedge = one number, the label is the result.
+    // Beyond 24: wedges are evenly-spaced sample labels (purely visual); the
+    // actual result is drawn uniformly across the full range.
+    const count = Math.min(rangeSize, 24);
+    const step = rangeSize / count;
+    return {
+      lo,
+      hi,
+      segments: Array.from({ length: count }, (_, i) => ({
+        label: String(Math.round(lo + i * step)),
+      })),
+      rangeMatchesWedges: rangeSize <= 24,
+    };
   }, [min, max]);
 
   function spin() {
     if (segments.length === 0) return;
-    const t = randomInt(segments.length);
     setLanded(null);
     setSpinning(true);
-    setTarget(t);
+    if (rangeMatchesWedges) {
+      // Each wedge IS a unique value: pick a wedge directly.
+      setTarget(randomInt(segments.length));
+    } else {
+      // Decouple visual from result. Draw uniformly across the real range
+      // and pick a roughly-corresponding wedge to land on for visual flavour.
+      const pick = lo + randomInt(hi - lo + 1);
+      const wedge = Math.min(
+        segments.length - 1,
+        Math.floor(((pick - lo) / (hi - lo + 1)) * segments.length),
+      );
+      // Stash the real result on the target object via a parallel state field.
+      pendingResultRef.current = pick;
+      setTarget(wedge);
+    }
   }
 
+  // Holds the "true" random pick for ranges larger than 24 wedges, so onLanded
+  // can show the actual value rather than the wedge's representative label.
+  const pendingResultRef = useRef<number | null>(null);
+
   function onLanded(idx: number) {
-    setLanded(Number(segments[idx]!.label));
+    if (rangeMatchesWedges) {
+      setLanded(Number(segments[idx]!.label));
+    } else if (pendingResultRef.current != null) {
+      setLanded(pendingResultRef.current);
+      pendingResultRef.current = null;
+    }
     setSpinning(false);
   }
 
