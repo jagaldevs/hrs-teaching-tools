@@ -1,7 +1,13 @@
 import { useMemo, useState } from 'react';
-import { Plus, Trash2, RotateCcw, Bookmark } from 'lucide-react';
+import { Plus, Trash2, RotateCcw, Bookmark, ChevronDown } from 'lucide-react';
 import { ToolShell } from '../ToolShell';
 import { usePersistedState } from '../../hooks/usePersistedState';
+import {
+  TIMELINE_PRESETS,
+  STREAM_LABELS,
+  type TimelinePreset,
+} from '../../data/banks/timelines';
+import type { Stream } from '../../data/games';
 import common from '../common.module.css';
 import styles from './TimelineBuilder.module.css';
 
@@ -28,90 +34,25 @@ interface TimelineState {
 
 const PALETTE = ['#A2235F', '#0EA5E9', '#10B981', '#F59E0B', '#A855F7', '#EF4444', '#FB7185', '#22D3EE'];
 
-interface Preset {
-  id: string;
-  label: string;
-  state: TimelineState;
+const STORAGE_KEY = 'timeline.state';
+const DEFAULT_PRESET = TIMELINE_PRESETS.find((p) => p.id === 'up-federation-to-now') ?? TIMELINE_PRESETS[0]!;
+
+function presetToState(p: TimelinePreset): TimelineState {
+  return {
+    rangeStart: p.rangeStart,
+    rangeEnd: p.rangeEnd,
+    events: p.events.map((e) => ({ ...e })),
+  };
 }
 
-const PRESETS: Preset[] = [
-  {
-    id: 'aus',
-    label: 'Australian history',
-    state: {
-      rangeStart: 1700,
-      rangeEnd: 2025,
-      events: [
-        { id: 'p-1', year: 1770, label: 'Cook reaches Botany Bay' },
-        { id: 'p-2', year: 1788, label: 'First Fleet arrives' },
-        { id: 'p-3', year: 1851, label: 'Gold discovered' },
-        { id: 'p-4', year: 1854, label: 'Eureka Stockade' },
-        { id: 'p-5', year: 1901, label: 'Federation' },
-        { id: 'p-6', year: 1915, label: 'Gallipoli landing' },
-        { id: 'p-7', year: 1967, label: '1967 Referendum' },
-        { id: 'p-8', year: 1992, label: 'Mabo decision' },
-        { id: 'p-9', year: 2008, label: 'Apology to Stolen Generations' },
-      ],
-    },
-  },
-  {
-    id: 'ancient',
-    label: 'Ancient civilisations',
-    state: {
-      rangeStart: -3500,
-      rangeEnd: 500,
-      events: [
-        { id: 'a-1', year: -3100, label: 'Pyramids of Giza era begins' },
-        { id: 'a-2', year: -1750, label: 'Code of Hammurabi' },
-        { id: 'a-3', year: -776, label: 'First Olympic Games' },
-        { id: 'a-4', year: -509, label: 'Roman Republic founded' },
-        { id: 'a-5', year: -221, label: 'Qin unifies China' },
-        { id: 'a-6', year: -44, label: 'Julius Caesar assassinated' },
-        { id: 'a-7', year: 79, label: 'Pompeii destroyed' },
-        { id: 'a-8', year: 476, label: 'Fall of Western Rome' },
-      ],
-    },
-  },
-  {
-    id: 'c20',
-    label: 'The 20th century',
-    state: {
-      rangeStart: 1900,
-      rangeEnd: 2000,
-      events: [
-        { id: 'c-1', year: 1914, label: 'WWI begins' },
-        { id: 'c-2', year: 1918, label: 'WWI ends' },
-        { id: 'c-3', year: 1929, label: 'Great Depression' },
-        { id: 'c-4', year: 1939, label: 'WWII begins' },
-        { id: 'c-5', year: 1945, label: 'WWII ends' },
-        { id: 'c-6', year: 1962, label: 'Cuban Missile Crisis' },
-        { id: 'c-7', year: 1969, label: 'Apollo 11 moon landing' },
-        { id: 'c-8', year: 1989, label: 'Berlin Wall falls' },
-        { id: 'c-9', year: 1991, label: 'Apartheid ends' },
-      ],
-    },
-  },
-  {
-    id: 'blank',
-    label: 'Blank timeline',
-    state: {
-      rangeStart: 0,
-      rangeEnd: 2025,
-      events: [],
-    },
-  },
-];
-
-const STORAGE_KEY = 'timeline.state';
-
 export function TimelineBuilder() {
-  const [state, setState] = usePersistedState<TimelineState>(STORAGE_KEY, PRESETS[0]!.state);
+  const [state, setState] = usePersistedState<TimelineState>(STORAGE_KEY, presetToState(DEFAULT_PRESET));
 
   // Sort events for display
   const sorted = useMemo(() => [...state.events].sort((a, b) => a.year - b.year), [state.events]);
 
-  function applyPreset(p: Preset) {
-    setState(p.state);
+  function applyPreset(p: TimelinePreset) {
+    setState(presetToState(p));
   }
 
   function addEvent(year: number, label: string, note: string) {
@@ -168,23 +109,127 @@ export function TimelineBuilder() {
   );
 }
 
-function PresetRow({ onPick }: { onPick: (p: Preset) => void }) {
+const STREAM_ORDER: Stream[] = ['lower_primary', 'upper_primary', 'middle_school', 'senior_school'];
+
+function PresetRow({ onPick }: { onPick: (p: TimelinePreset) => void }) {
+  const [open, setOpen] = useState(false);
+  const [activeStream, setActiveStream] = usePersistedState<Stream | 'all'>(
+    'timeline.preset.stream',
+    'upper_primary',
+  );
+
+  const grouped = useMemo(() => {
+    const byStream = new Map<Stream | 'general', TimelinePreset[]>();
+    for (const p of TIMELINE_PRESETS) {
+      const key = p.stream ?? 'general';
+      const list = byStream.get(key) ?? [];
+      list.push(p);
+      byStream.set(key, list);
+    }
+    return byStream;
+  }, []);
+
+  const visiblePresets =
+    activeStream === 'all'
+      ? TIMELINE_PRESETS.filter((p) => p.stream !== null)
+      : grouped.get(activeStream) ?? [];
+  const generalPresets = grouped.get('general') ?? [];
+
+  function choose(p: TimelinePreset) {
+    onPick(p);
+    setOpen(false);
+  }
+
   return (
-    <div className={styles.presetRow}>
-      <Bookmark size={14} className={styles.presetIcon} />
-      <span className={common.labelText}>Load preset:</span>
-      {PRESETS.map((p) => (
-        <button
-          key={p.id}
-          type="button"
-          className={`${common.btn} ${styles.presetBtn}`}
-          onClick={() => onPick(p)}
-        >
-          {p.label}
-        </button>
-      ))}
+    <div className={styles.presetWrap}>
+      <button
+        type="button"
+        className={`${common.btn} ${styles.presetTrigger}`}
+        onClick={() => setOpen((o) => !o)}
+        aria-expanded={open}
+      >
+        <Bookmark size={14} className={styles.presetIcon} />
+        <span>Load preset</span>
+        <ChevronDown size={14} style={{ transform: open ? 'rotate(180deg)' : 'none', transition: 'transform 180ms' }} />
+      </button>
+
+      {open && (
+        <div className={styles.presetPanel} role="menu">
+          <div className={styles.presetStreamRow}>
+            {STREAM_ORDER.map((s) => (
+              <button
+                key={s}
+                type="button"
+                className={`${common.btn} ${styles.presetStreamBtn}`}
+                data-active={activeStream === s}
+                onClick={() => setActiveStream(s)}
+              >
+                {STREAM_LABELS[s]}
+              </button>
+            ))}
+            <button
+              type="button"
+              className={`${common.btn} ${styles.presetStreamBtn}`}
+              data-active={activeStream === 'all'}
+              onClick={() => setActiveStream('all')}
+            >
+              All
+            </button>
+          </div>
+
+          <ul className={styles.presetList}>
+            {visiblePresets.length === 0 ? (
+              <li className={styles.presetEmpty}>No presets for this stream yet.</li>
+            ) : (
+              visiblePresets.map((p) => (
+                <li key={p.id}>
+                  <button
+                    type="button"
+                    className={styles.presetItem}
+                    onClick={() => choose(p)}
+                  >
+                    <span className={styles.presetItemLabel}>{p.label}</span>
+                    <span className={styles.presetItemMeta}>
+                      {p.events.length} events · {fmtRange(p.rangeStart, p.rangeEnd)}
+                    </span>
+                  </button>
+                </li>
+              ))
+            )}
+          </ul>
+
+          {generalPresets.length > 0 && (
+            <>
+              <div className={styles.presetDivider}>General</div>
+              <ul className={styles.presetList}>
+                {generalPresets.map((p) => (
+                  <li key={p.id}>
+                    <button
+                      type="button"
+                      className={styles.presetItem}
+                      onClick={() => choose(p)}
+                    >
+                      <span className={styles.presetItemLabel}>{p.label}</span>
+                      <span className={styles.presetItemMeta}>
+                        {p.events.length === 0
+                          ? 'empty'
+                          : `${p.events.length} events · ${fmtRange(p.rangeStart, p.rangeEnd)}`}
+                      </span>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
+        </div>
+      )}
     </div>
   );
+}
+
+function fmtRange(start: number, end: number) {
+  const fmt = (y: number) => (y < 0 ? `${Math.abs(y)} BCE` : `${y}`);
+  return `${fmt(start)} – ${fmt(end)}`;
 }
 
 function Timeline({
