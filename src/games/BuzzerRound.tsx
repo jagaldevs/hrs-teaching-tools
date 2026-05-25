@@ -39,7 +39,6 @@ interface Round {
 
 export function BuzzerRound() {
   const [phase, setPhase] = useState<Phase>('setup');
-  const [setup, setSetup] = useState<SetupSelections | null>(null);
   const [round, setRound] = useState<Round | null>(null);
   const [current, setCurrent] = useState(0);
   const [teams, setTeams] = usePersistedState<Team[]>('buzzround.teams', defaultTeams(3));
@@ -51,7 +50,6 @@ export function BuzzerRound() {
   function start(sel: SetupSelections) {
     const pulled = pickFromBank(MCQ_BANK, sel.stream, sel.subject, sel.count);
     if (pulled.items.length === 0) return;
-    setSetup(sel);
     setRound({ questions: pulled.items, subjects: pulled.subjects });
     setCurrent(0);
     setBuzzed(null);
@@ -189,7 +187,7 @@ export function BuzzerRound() {
         />
       )}
 
-      {phase === 'result' && setup && (
+      {phase === 'result' && (
         <ResultBoard teams={teams} onPlayAgain={() => setPhase('setup')} />
       )}
     </GameShell>
@@ -305,12 +303,12 @@ function Playing({
       </div>
 
       <div className={styles.bottomControls}>
-        {(allLocked || answerShown) && !answerShown && (
-          <button type="button" className={common.btn} onClick={onReveal}>
-            <Eye size={14} /> Reveal answer
+        {allLocked && !answerShown && (
+          <button type="button" className={`${common.btn} ${common.btnPrimary}`} onClick={onReveal}>
+            <Eye size={14} /> All teams locked — reveal answer
           </button>
         )}
-        {!answerShown && !buzzed && (
+        {!answerShown && !buzzed && !allLocked && (
           <button type="button" className={common.btn} onClick={onReveal}>
             <EyeOff size={14} /> Skip — reveal answer
           </button>

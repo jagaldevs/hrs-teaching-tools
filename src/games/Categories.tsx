@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Play, RotateCcw, Pause, Shuffle } from 'lucide-react';
+import { Play, Pause, Shuffle } from 'lucide-react';
 import { GameShell } from './GameShell';
 import { CATEGORY_LISTS } from '../data/banks/misc';
 import { shuffle, randomInt } from '../tools/rng/util';
@@ -95,11 +95,6 @@ export function Categories() {
         </div>
       )}
 
-      {phase === 'over' && (
-        <button type="button" className={common.btn} onClick={start}>
-          <RotateCcw size={14} /> Play again
-        </button>
-      )}
     </GameShell>
   );
 }

@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { ChevronRight, RotateCcw, Vote } from 'lucide-react';
+import { ChevronRight, RotateCcw, Vote, Sparkles } from 'lucide-react';
 import { GameShell, SetupScreen, type SetupSelections } from './GameShell';
 import { WYR, type WouldYouRather as WYRItem } from '../data/banks/misc';
 import { shuffle } from '../tools/rng/util';
 import common from '../tools/common.module.css';
 import styles from './WouldYouRather.module.css';
 
-type Phase = 'setup' | 'playing';
+type Phase = 'setup' | 'playing' | 'done';
 
 interface Votes {
   a: number;
@@ -39,7 +39,7 @@ export function WouldYouRather() {
 
   function next() {
     if (idx + 1 >= items.length) {
-      setPhase('setup');
+      setPhase('done');
       return;
     }
     setIdx((i) => i + 1);
@@ -114,6 +114,22 @@ export function WouldYouRather() {
             <button type="button" className={`${common.btn} ${common.btnPrimary}`} onClick={next}>
               {idx + 1 >= items.length ? 'Finish' : 'Next dilemma'}
               <ChevronRight size={14} />
+            </button>
+          </div>
+        </div>
+      )}
+
+      {phase === 'done' && (
+        <div className={styles.done}>
+          <Sparkles size={36} className={styles.doneIcon} />
+          <p className="eyebrow">Session complete</p>
+          <h2 className={`font-display ${styles.doneTitle}`}>
+            All {items.length} dilemma{items.length === 1 ? '' : 's'} debated.
+          </h2>
+          <p className={styles.doneNote}>Pick up a new round or head back to the menu.</p>
+          <div className={common.controlRow}>
+            <button type="button" className={`${common.btn} ${common.btnPrimary}`} onClick={() => setPhase('setup')}>
+              <RotateCcw size={14} /> New round
             </button>
           </div>
         </div>

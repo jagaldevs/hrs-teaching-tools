@@ -34,12 +34,9 @@ export function TwentyQuestions() {
 
   function recordAnswer(answer: QuestionLog['answer']) {
     if (questionsLeft <= 0) return;
-    const t = window.prompt(
-      'Type the question that was asked (so it appears in the log):',
-      '',
-    );
-    if (t == null) return;
-    setLog((l) => [...l, { text: t.trim() || `Question ${log.length + 1}`, answer }]);
+    // Just tally the answer; no prompt. The class hears the question — the
+    // log gives a running count of how many of each answer type came up.
+    setLog((l) => [...l, { text: `Question ${l.length + 1}`, answer }]);
     setQuestionsLeft((n) => n - 1);
   }
 

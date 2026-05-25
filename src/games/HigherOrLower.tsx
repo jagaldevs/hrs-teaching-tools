@@ -103,7 +103,9 @@ export function HigherOrLower() {
       {phase === 'gameover' && (
         <ResultScreen
           score={score}
-          total={Math.max(score, 1)}
+          // Total = how far you got in the chain (correct streak + the one that ended it,
+          // or the full chain if the run completed without a wrong answer).
+          total={Math.max(score + 1, round ? round.items.length - 1 : score + 1)}
           onPlayAgain={() => setPhase('setup')}
           breakdown={[
             { label: 'Streak', value: score },
