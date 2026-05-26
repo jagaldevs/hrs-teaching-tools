@@ -47,6 +47,8 @@ source-material/*
 !source-material/maths/
 !source-material/science/
 !source-material/humanities/
+!source-material/arts/
+!source-material/technology/
 !source-material/languages/
 !source-material/health-and-pe/
 !source-material/electives/

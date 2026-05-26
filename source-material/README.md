@@ -15,23 +15,25 @@ machine.
 
 ## HRS subjects represented
 
-Mirrors HRS Middle School + Senior structure:
+Aligned to HRS Middle School + Senior offerings (see
+[`PROGRESS-LOG.md`](./PROGRESS-LOG.md) for the full catalog):
 
 | Folder | What it covers |
 |---|---|
-| `english/` | English (Y7–10), VCE English, Literature, EAL |
-| `maths/` | Mathematics (Y7–10), VCE Methods / General / Specialist / Foundation |
-| `science/` | Science (Y7–10), VCE Biology / Chemistry / Physics / Psychology |
-| `humanities/` | Humanities (Y7–10), VCE Modern / Ancient / Revolutions / Australian History / Geography / Economics / Legal Studies |
-| `languages/` | Chinese (Y7–12), French (Y7–12) |
-| `health-and-pe/` | Health and Physical Education (Y7–12) |
-| `electives/` | Year-specific electives (Drama, Food Tech, Forensic Sci, Game Dev, Mechatronics, Media, Music, Sports Performance, The Power of Words, Visual Art, Visual Comm & Design, Woodwork) |
+| `english/` | English (Y7–10), VCE English 1–4, Literature 1–2 |
+| `maths/` | Mathematics (Y7–10), VCE Methods / General / Specialist / Foundation (all 1–4) |
+| `science/` | Science (Y7–10), VCE Biology / Chemistry / Physics / Psychology (all 1–4) |
+| `humanities/` | Humanities (Y7–10), VCE History / Geography / Economics / Legal Studies / Sociology / Accounting / Business Management (1–4); Politics (1–2 only) |
+| `arts/` | VCE Art Making / Visual Communication Design / Music (all 1–4); Media (1–2 only); Theatre Studies (1–2 only) |
+| `technology/` | VCE Applied Computing 1–2; Software Development 3–4 |
+| `languages/` | Chinese & French Y7–9 electives; VCE Chinese as a First Language 1–4 |
+| `health-and-pe/` | HPE Y7–10; VCE Health and Human Development, Physical Education, Outdoor and Environmental Studies (all 1–4) |
+| `electives/` | Year-specific electives by year (Y8 and Y9 populated; Y7 pending) |
 
-See [`PROGRESS-LOG.md`](./PROGRESS-LOG.md) for the full HRS subject →
-brain-break app mapping. Some HRS subjects (Languages, HPE, most
-electives) don't yet have a matching subject in the brain-break app
-itself — folders exist to collect material now so content is ready when
-the app is extended.
+Some HRS subjects (Arts, Technology, Languages, HPE, most electives)
+don't yet have a matching subject in the brain-break app — folders exist
+to collect material now so content is ready when the app is extended.
+See `PROGRESS-LOG.md` for the full HRS subject → bank mapping.
 
 ## Where to drop a file
 
