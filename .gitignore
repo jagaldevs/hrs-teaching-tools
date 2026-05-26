@@ -32,3 +32,11 @@ Thumbs.db
 
 # Claude Code per-project settings (local only)
 .claude
+
+# HRS internal source material (SACs, scope & sequences, internal docs)
+# Used to anchor brain-break content generation. Ignored to keep IP off
+# GitHub. Keep README.md and .gitkeep so the folder structure is visible
+# to anyone cloning the repo.
+source-material/*
+!source-material/README.md
+!source-material/.gitkeep
