@@ -3,7 +3,7 @@ import { Check, X as XIcon, ChevronRight } from 'lucide-react';
 import { GameShell, SetupScreen, type SetupSelections } from './GameShell';
 import { ResultScreen } from './ResultScreen';
 import { MCQ_BANK } from '../data/banks/mcq';
-import { pickFromBank } from './bankUtils';
+import { pickFromBank, unitFilterFor } from './bankUtils';
 import { SUBJECT_COLOURS, SUBJECTS, type MCQ, type Subject } from './types';
 import common from '../tools/common.module.css';
 import styles from './QuickQuiz.module.css';
@@ -28,7 +28,8 @@ export function QuickQuiz() {
 
   function start(sel: SetupSelections) {
     setStartError(null);
-    const pulled = pickFromBank(MCQ_BANK, sel.stream, sel.subject, sel.count);
+    const unitFilter = unitFilterFor(sel);
+    const pulled = pickFromBank(MCQ_BANK, sel.stream, sel.subject, sel.count, unitFilter);
     if (pulled.items.length === 0) {
       setStartError(
         'No questions found for that stream and subject. Try a different subject, or hard-refresh the page (Ctrl+Shift+R) to pick up the latest content.',
@@ -80,7 +81,7 @@ export function QuickQuiz() {
       {phase === 'setup' && (
         <>
           {startError && <p className={styles.startError}>{startError}</p>}
-          <SetupScreen storageKey="quickquiz" onStart={start} />
+          <SetupScreen storageKey="quickquiz" onStart={start} showSeniorUnits />
         </>
       )}
 

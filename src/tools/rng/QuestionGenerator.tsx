@@ -14,22 +14,44 @@ interface Drawn {
   subject: Subject;
 }
 
+type UnitGroup = 'any' | 'units_1_2' | 'units_3_4';
+
+const SENIOR_UNIT_GROUPS: { id: UnitGroup; label: string; sub: string }[] = [
+  { id: 'any', label: 'Any', sub: 'All senior content' },
+  { id: 'units_1_2', label: 'Y11', sub: 'Units 1 & 2' },
+  { id: 'units_3_4', label: 'Y12', sub: 'Units 3 & 4' },
+];
+
 export function QuestionGenerator() {
   const [stream, setStream] = usePersistedState<Stream>('qgen.stream', 'upper_primary');
   const [subject, setSubject] = usePersistedState<Subject | 'mix'>('qgen.subject', 'mix');
+  const [unitGroup, setUnitGroup] = usePersistedState<UnitGroup>('qgen.unitGroup', 'any');
   const [drawn, setDrawn] = useState<Drawn | null>(null);
   const [revealed, setRevealed] = useState(false);
 
+  const showUnits = stream === 'senior_school';
+
+  const unitFilter = useMemo<((q: MCQ) => boolean) | undefined>(() => {
+    if (!showUnits || unitGroup === 'any') return undefined;
+    if (unitGroup === 'units_1_2') return (q) => q.unit === 1 || q.unit === 2;
+    return (q) => q.unit === 3 || q.unit === 4;
+  }, [showUnits, unitGroup]);
+
   const bankSize = useMemo(() => {
     const streamData = MCQ_BANK.byStreamSubject[stream] ?? {};
-    if (subject === 'mix') {
-      return Object.values(streamData).reduce((s, list) => s + (list?.length ?? 0), 0);
+    const subjectLists = subject === 'mix'
+      ? (Object.values(streamData) as (MCQ[] | undefined)[])
+      : [streamData[subject]];
+    let total = 0;
+    for (const list of subjectLists) {
+      if (!list) continue;
+      total += unitFilter ? list.filter(unitFilter).length : list.length;
     }
-    return streamData[subject]?.length ?? 0;
-  }, [stream, subject]);
+    return total;
+  }, [stream, subject, unitFilter]);
 
   function draw() {
-    const picked = pickFromBank(MCQ_BANK, stream, subject, 1);
+    const picked = pickFromBank(MCQ_BANK, stream, subject, 1, unitFilter);
     if (picked.items.length === 0) {
       setDrawn(null);
       return;
@@ -97,6 +119,25 @@ export function QuestionGenerator() {
             ))}
           </div>
         </div>
+        {showUnits && (
+          <div className={styles.filterRow}>
+            <p className={common.labelText}>Senior cohort</p>
+            <div className={styles.choices}>
+              {SENIOR_UNIT_GROUPS.map((g) => (
+                <button
+                  key={g.id}
+                  type="button"
+                  className={`${common.btn} ${styles.choice}`}
+                  data-active={unitGroup === g.id}
+                  onClick={() => setUnitGroup(g.id)}
+                  title={g.sub}
+                >
+                  {g.label} · {g.sub}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
         <p className={styles.bankSize}>{bankSize} questions in this bank</p>
       </section>
 

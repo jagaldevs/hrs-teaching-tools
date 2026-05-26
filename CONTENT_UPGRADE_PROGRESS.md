@@ -19,7 +19,7 @@ content that maps to the senior subjects (Units 1–4 for Y11–12).
 | **3** | Words, Sentences, Story Starters expansion | **shipped** |
 | **4** | HASS bank (Flags, Landmarks, WhoAmI, MapPin, TimelineOrder) | **shipped** |
 | **5** | Misc bank (HeadsUp, Estimate, Categories, TwoTruths, WouldYouRather, Synonyms) | **shipped** |
-| 6 | (Optional) Structural Senior split: Y10 / Y11 Units 1–2 / Y12 Units 3–4 | pending |
+| **6 (UI)** | Senior cohort filter chips (Y11 Units 1–2 / Y12 Units 3–4) on MCQ games | **shipped** |
 
 ## Decisions baked in (default choices, can revisit)
 
@@ -230,21 +230,26 @@ games, most carrying AC V9 codes and explanations.
 
 ---
 
-## Phase 6 (optional) — Structural Senior split
+## Phase 6 (UI path) — Senior cohort filter (SHIPPED)
 
-When picking this up:
-- Decision required: split `senior_school` into `year_10`, `senior_units_1_2`,
-  `senior_units_3_4` streams? Or keep one stream with `unit` filtering
-  in the UI?
-- If splitting streams: update `Stream` type in `src/data/games.ts`,
-  update all bank files (~8 files) to re-key Senior content, update
-  STREAMS array, update SetupScreen UI.
-- If UI-only: add unit chips to the SetupScreen subject filter for
-  Senior. Lower effort, less invasive.
+The UI-only path was chosen instead of a full structural split (less
+invasive, immediately realises the Senior Units 1–2 teacher use case
+without rewriting 8 bank files).
 
-The MCQ bank already carries `unit?: 1|2|3|4` on senior items in
-preparation for either approach.
+### Sub-tasks
+- [x] Added `unitGroup: 'any' | 'units_1_2' | 'units_3_4'` to SetupSelections
+- [x] SetupScreen renders a "Senior cohort" chip strip when `showSeniorUnits` prop is true AND `senior_school` is the active stream
+- [x] `pickFromBank` accepts an optional `filter` predicate (post-subject, pre-slice). If filter eliminates everything, it falls back to the unfiltered pool — start button never silently fails
+- [x] New `unitFilterFor(sel)` helper in bankUtils builds the right predicate from the SetupSelections
+- [x] Wired through Quick Quiz and Buzzer Round (both pass `showSeniorUnits` to SetupScreen and `unitFilterFor(sel)` to pickFromBank)
+- [x] Wired through Question Generator tool (own UI — added an inline unit-group filter row that only renders for Senior)
+- [x] Type-check + Vite build clean
+- [x] Commit + push
+
+The structural split (separate streams for Y10 / Y11 / Y12) remains
+available as a future option if the unit filter proves popular and a more
+prominent place for it is wanted. Data is already tagged either way.
 
 ---
 
-_Last updated: Phase 5 complete. Content phases 1–5 shipped._
+_Last updated: All content phases (1–5) + Phase 6 UI shipped._

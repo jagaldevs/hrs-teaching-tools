@@ -63,6 +63,15 @@ export interface SetupSelections {
   stream: Stream;
   subject: Subject | 'mix';
   count: number;
+  /**
+   * AC V9 Senior secondary unit group. Only meaningful when stream is
+   * `senior_school` AND the game uses a bank that carries `unit` tags
+   * (currently MCQ-based: Quick Quiz, Buzzer Round, Question Generator).
+   *   any        → Y10 + all senior units mixed (default)
+   *   units_1_2  → Y11 content only (items tagged unit 1 or 2)
+   *   units_3_4  → Y12 content only (items tagged unit 3 or 4)
+   */
+  unitGroup: 'any' | 'units_1_2' | 'units_3_4';
 }
 
 interface SetupScreenProps {
@@ -72,10 +81,21 @@ interface SetupScreenProps {
   countOptions?: number[];
   /** If false, hides the subject row (e.g. for word-only games). */
   showSubject?: boolean;
+  /**
+   * If true, shows the Senior unit-group chip strip when senior_school is
+   * selected. Default false — only MCQ-bank games should enable this.
+   */
+  showSeniorUnits?: boolean;
   onStart: (sel: SetupSelections) => void;
   /** Extra content rendered above the start button (e.g. game-specific options). */
   extra?: ReactNode;
 }
+
+const SENIOR_UNIT_GROUPS: { id: SetupSelections['unitGroup']; label: string; sub: string }[] = [
+  { id: 'any', label: 'Any', sub: 'All senior content' },
+  { id: 'units_1_2', label: 'Y11', sub: 'Units 1 & 2' },
+  { id: 'units_3_4', label: 'Y12', sub: 'Units 3 & 4' },
+];
 
 export function SetupScreen({
   storageKey,
@@ -83,6 +103,7 @@ export function SetupScreen({
   availableSubjects,
   countOptions = [5, 10, 15],
   showSubject = true,
+  showSeniorUnits = false,
   onStart,
   extra,
 }: SetupScreenProps) {
@@ -98,9 +119,14 @@ export function SetupScreen({
     `${storageKey}.count`,
     countOptions[0]!,
   );
+  const [unitGroup, setUnitGroup] = usePersistedState<SetupSelections['unitGroup']>(
+    `${storageKey}.unitGroup`,
+    'any',
+  );
 
   const subjects = availableSubjects ?? SUBJECTS.map((s) => s.id);
   const streamObjs = STREAMS.filter((s) => availableStreams.includes(s.id));
+  const showUnits = showSeniorUnits && stream === 'senior_school';
 
   return (
     <div className={styles.setup}>
@@ -156,6 +182,26 @@ export function SetupScreen({
         </section>
       )}
 
+      {showUnits && (
+        <section className={styles.setupSection}>
+          <p className="eyebrow">Senior cohort</p>
+          <div className={styles.choices}>
+            {SENIOR_UNIT_GROUPS.map((g) => (
+              <button
+                key={g.id}
+                type="button"
+                className={styles.choice}
+                data-active={unitGroup === g.id}
+                onClick={() => setUnitGroup(g.id)}
+              >
+                <span className={styles.choiceLabel}>{g.label}</span>
+                <span className={styles.choiceSub}>{g.sub}</span>
+              </button>
+            ))}
+          </div>
+        </section>
+      )}
+
       <section className={styles.setupSection}>
         <p className="eyebrow">How many questions</p>
         <div className={styles.choices}>
@@ -178,7 +224,7 @@ export function SetupScreen({
       <button
         type="button"
         className={`${common.btn} ${common.btnPrimary} ${styles.startBtn}`}
-        onClick={() => onStart({ stream, subject, count })}
+        onClick={() => onStart({ stream, subject, count, unitGroup })}
       >
         Start game
       </button>

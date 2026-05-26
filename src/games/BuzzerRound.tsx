@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { Check, X as XIcon, ChevronRight, Eye, EyeOff, Trophy } from 'lucide-react';
 import { GameShell, SetupScreen, type SetupSelections } from './GameShell';
 import { MCQ_BANK } from '../data/banks/mcq';
-import { pickFromBank } from './bankUtils';
+import { pickFromBank, unitFilterFor } from './bankUtils';
 import { SUBJECTS, SUBJECT_COLOURS, type MCQ, type Subject } from './types';
 import { chimeTick, chimeComplete } from '../tools/chime';
 import { usePersistedState } from '../hooks/usePersistedState';
@@ -50,7 +50,8 @@ export function BuzzerRound() {
 
   function start(sel: SetupSelections) {
     setStartError(null);
-    const pulled = pickFromBank(MCQ_BANK, sel.stream, sel.subject, sel.count);
+    const unitFilter = unitFilterFor(sel);
+    const pulled = pickFromBank(MCQ_BANK, sel.stream, sel.subject, sel.count, unitFilter);
     if (pulled.items.length === 0) {
       setStartError(
         'No questions found for that stream and subject. Try a different subject, or hard-refresh (Ctrl+Shift+R) to pick up the latest content.',
@@ -153,6 +154,7 @@ export function BuzzerRound() {
         <SetupScreen
           storageKey="buzzround"
           onStart={start}
+          showSeniorUnits
           extra={
             <section className={styles.teamSetup}>
               <p className="eyebrow">Teams · {teams.length}</p>
