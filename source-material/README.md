@@ -4,113 +4,83 @@ This folder holds **HRS internal teaching documents** — SACs, scope &
 sequence documents, unit overviews, textbook chapters — that Claude reads
 when generating curriculum-anchored brain-break content.
 
-The folder's **contents are gitignored**. Only this README, the top-level
-`.gitkeep`, the five subject folders, and each subject's `.gitkeep` are
-tracked. Nothing you drop inside the subject folders ever leaves your
+The folder's **contents are gitignored**. Only this README,
+`PROGRESS-LOG.md`, the `.gitkeep` files at the top level and inside each
+subject folder, and the seven HRS subject folders themselves are tracked
+in git. Anything you drop inside any of those folders stays on your
 machine.
 
-## Structure
+> See [`PROGRESS-LOG.md`](./PROGRESS-LOG.md) for the running list of
+> what's been processed per subject × year.
 
-```
-source-material/
-├── README.md                  ← committed
-├── .gitkeep                   ← committed
-│
-├── english/                   ← committed (5 subject roots are tracked)
-│   ├── .gitkeep
-│   ├── f-2/                   ← local-only, gitignored
-│   ├── 3-6/
-│   ├── 7-9/
-│   ├── year-10/
-│   ├── units-1-2/             ← VCE Y11 English
-│   ├── units-3-4/             ← VCE Y12 English
-│   ├── literature-1-2/        ← VCE Y11 Literature
-│   ├── literature-3-4/
-│   ├── eal-1-2/               ← VCE Y11 English as Additional Language
-│   └── eal-3-4/
-│
-├── maths/
-│   ├── .gitkeep
-│   ├── f-2/
-│   ├── 3-6/
-│   ├── 7-9/
-│   ├── year-10/
-│   ├── methods-1-2/           ← VCE Mathematical Methods Y11
-│   ├── methods-3-4/
-│   ├── general-1-2/           ← VCE General Maths Y11
-│   ├── general-3-4/
-│   ├── specialist-1-2/        ← VCE Specialist Maths Y11
-│   ├── specialist-3-4/
-│   ├── foundation-1-2/        ← VCE Foundation Maths Y11
-│   └── foundation-3-4/
-│
-├── science/
-│   ├── .gitkeep
-│   ├── f-6/
-│   ├── 7-10/
-│   ├── biology-1-2/           ← VCE Biology Y11
-│   ├── biology-3-4/
-│   ├── chemistry-1-2/
-│   ├── chemistry-3-4/
-│   ├── physics-1-2/
-│   ├── physics-3-4/
-│   ├── psychology-1-2/
-│   └── psychology-3-4/
-│
-├── history/
-│   ├── .gitkeep
-│   ├── f-6/
-│   ├── 7-10/
-│   ├── modern-1-2/            ← VCE Modern History Y11
-│   ├── modern-3-4/
-│   ├── ancient-1-2/           ← VCE Ancient History Y11
-│   ├── ancient-3-4/
-│   ├── revolutions-3-4/       ← VCE History: Revolutions Y12
-│   ├── australian-1-2/        ← VCE Australian History Y11
-│   └── australian-3-4/
-│
-└── geography/
-    ├── .gitkeep
-    ├── f-6/
-    ├── 7-10/
-    ├── units-1-2/             ← VCE Geography Y11
-    └── units-3-4/             ← VCE Geography Y12
-```
+## HRS subjects represented
 
-Year subfolders are pre-created on this machine for convenience, but
-they are **gitignored** — they won't appear after a fresh clone until you
-recreate them.
+Mirrors HRS Middle School + Senior structure:
 
-## How to use
+| Folder | What it covers |
+|---|---|
+| `english/` | English (Y7–10), VCE English, Literature, EAL |
+| `maths/` | Mathematics (Y7–10), VCE Methods / General / Specialist / Foundation |
+| `science/` | Science (Y7–10), VCE Biology / Chemistry / Physics / Psychology |
+| `humanities/` | Humanities (Y7–10), VCE Modern / Ancient / Revolutions / Australian History / Geography / Economics / Legal Studies |
+| `languages/` | Chinese (Y7–12), French (Y7–12) |
+| `health-and-pe/` | Health and Physical Education (Y7–12) |
+| `electives/` | Year-specific electives (Drama, Food Tech, Forensic Sci, Game Dev, Mechatronics, Media, Music, Sports Performance, The Power of Words, Visual Art, Visual Comm & Design, Woodwork) |
 
-1. **Drop files** into the right subject + year subfolder.
-2. **Naming convention** — lowercase, hyphens not spaces, topical name:
-   - `senior-english-units-3-4-sac1-creative-response.md`
-   - `y9-science-evolution-and-natural-selection.pdf`
-   - `methods-3-4-functions-and-graphs-unit-overview.md`
-3. **One file per logical unit** — one SAC = one file. Don't jam multiple
-   SACs or topics into a single mega-file.
-4. **Tell Claude in chat** what you've added — e.g. *"I've dropped a
-   Senior English Units 1-2 SAC in `source-material/english/units-1-2/`"*.
+See [`PROGRESS-LOG.md`](./PROGRESS-LOG.md) for the full HRS subject →
+brain-break app mapping. Some HRS subjects (Languages, HPE, most
+electives) don't yet have a matching subject in the brain-break app
+itself — folders exist to collect material now so content is ready when
+the app is extended.
+
+## Where to drop a file
+
+Naming convention: **lowercase, hyphens not spaces, topical name**.
+
+| You have… | Drop it in… |
+|---|---|
+| A Year 8 English SAC | `english/year-8/year-8-english-sac1-<topic>.md` |
+| A Y11 Methods unit overview | `maths/methods-1-2/unit-overview-functions-and-graphs.md` |
+| A Y10 Humanities scope & sequence | `humanities/year-10/y10-scope-and-sequence.md` |
+| A Year 9 Chinese vocabulary list | `languages/chinese/year-9/y9-chinese-vocab-unit-3.md` |
+| A Y8 Forensic Science SAC | `electives/year-8/forensic-science/sac-fingerprints.pdf` |
+
+One file per logical unit — one SAC = one file. Don't jam multiple SACs
+or topics into a single mega-file.
 
 ## Supported formats (best → workable)
 
 | Format | Verdict | Notes |
 |---|---|---|
 | `.md` / `.txt` | **Best** | Instant read, easy to grep across folders. Default for copy-pasted content. |
-| `.pdf` | Works | Claude reads in 20-page chunks. Scans get OCR'd automatically (multimodal). |
-| `.docx` | Works | Extracted via the docx skill, slight overhead. If copy-pasting, save as `.md` instead. |
+| `.pdf` | Works | Claude reads in 20-page chunks. Scans get OCR'd automatically. |
+| `.docx` | Works | Extracted via the docx skill. If copy-pasting, save as `.md` instead. |
 
-## What Claude does with these files
+## Workflow
+
+1. **Audit your subjects** — confirm which HRS subjects are real for
+   your cohort (e.g. some electives don't run every year, Senior
+   subjects depend on enrolment).
+2. **Drop material** — one subject + year at a time. Avoid the
+   temptation to dump everything at once; we want to calibrate one
+   batch before scaling.
+3. **Tell Claude** in chat what you've added — e.g. *"I've dropped the
+   Y8 Humanities Term 2 SAC and unit overview in
+   `humanities/year-8/`"*.
+4. **Claude reads, audits existing bank content, rewrites** the items
+   that touch that subject + year, then commits the updated bank.
+   Source files never get committed.
+5. **You review** one round; we calibrate; next batch.
+6. `PROGRESS-LOG.md` is updated each session with what was processed.
+
+## What Claude does
 
 - **Inspired by, never copy-paste verbatim.** Brain-break items are
   written in the game's voice, calibrated to the SAC's depth and
   terminology, but never lift a teacher's question word-for-word.
-- **AC V9 tagging** — keep the existing `acCode` tags on generated items
-  where possible.
-- **Progress tracked** in `CONTENT_UPGRADE_PROGRESS.md` (Phase 7 matrix)
-  so any future session knows which subjects are still on
-  training-knowledge content vs which have had a SAC-anchored pass.
+- **AC V9 tagging** preserved — keep the existing `acCode` tags on
+  generated items where possible.
+- **Progress tracked** in `PROGRESS-LOG.md`.
 
 ## What Claude does NOT do
 

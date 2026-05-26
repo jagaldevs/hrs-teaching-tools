@@ -35,16 +35,20 @@ Thumbs.db
 
 # HRS internal source material (SACs, scope & sequences, internal docs)
 # Used to anchor brain-break content generation. Contents ignored to keep
-# IP off GitHub. Keep README.md, .gitkeep, the subject folders, and each
-# subject's .gitkeep so the high-level structure is visible to anyone
-# cloning the repo. Year-level / unit subfolders are local-only.
+# IP off GitHub. Keep README.md, PROGRESS-LOG.md, .gitkeep, the HRS
+# subject folders, and each subject's .gitkeep so the high-level
+# structure is visible to anyone cloning the repo. Year-level / unit
+# subfolders and dropped files are local-only.
 source-material/*
 !source-material/README.md
+!source-material/PROGRESS-LOG.md
 !source-material/.gitkeep
 !source-material/english/
 !source-material/maths/
 !source-material/science/
-!source-material/history/
-!source-material/geography/
+!source-material/humanities/
+!source-material/languages/
+!source-material/health-and-pe/
+!source-material/electives/
 source-material/*/*
 !source-material/*/.gitkeep
