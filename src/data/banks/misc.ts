@@ -2,17 +2,19 @@
  * Misc banks — Australian Curriculum V9 informed.
  *
  * Houses the smaller-format games: Estimate It, Two Truths & a Lie,
- * Synonym & Antonym Sprint, Would You Rather, Heads Up, 20 Questions,
- * and Categories (Scattergories-style).
+ * Synonym & Antonym Sprint, Would You Rather, and Categories
+ * (Scattergories-style prompts).
  *
- * Coverage target (Phase 5):
+ * Coverage:
  *   Estimate    ~80 items   (~20 per stream)
  *   TruthsLie   ~32 items   (~8 per stream)
  *   SynAnt      ~50 items   (~12 per stream)
  *   WYR         ~52 items   (~13 per stream)
- *   HeadsUp     12 categories x ~20 words = ~240 words
- *   TwentyQ     ~50 items
  *   Categories  ~30 prompts
+ *
+ * Removed (incompatible with projector-only model):
+ *   - Heads Up — relied on passing the device to one student
+ *   - 20 Questions — relied on a "teacher-private" hidden item view
  */
 
 import type { Stream } from '../../data/games';
@@ -486,154 +488,6 @@ export const WYR: Record<Stream, WouldYouRather[]> = {
     { id: 'ss-wyr-13', a: 'Be a polymath of average depth in many fields', b: 'Be a specialist of deep expertise in one', topic: 'Ethics' },
   ],
 };
-
-// ============================================================
-//  HEADS UP — themed word lists
-// ============================================================
-
-export interface HeadsUpCategory {
-  id: string;
-  name: string;
-  words: string[];
-}
-
-export const HEADS_UP: HeadsUpCategory[] = [
-  {
-    id: 'animals',
-    name: 'Animals',
-    words: ['Kangaroo', 'Penguin', 'Elephant', 'Octopus', 'Crocodile', 'Koala', 'Dolphin', 'Hippopotamus', 'Tiger', 'Frog', 'Shark', 'Camel', 'Platypus', 'Eagle', 'Wombat', 'Echidna', 'Quokka', 'Cassowary', 'Goanna', 'Dingo'],
-  },
-  {
-    id: 'foods',
-    name: 'Foods',
-    words: ['Pizza', 'Sushi', 'Lasagne', 'Pavlova', 'Curry', 'Salad', 'Pancake', 'Burger', 'Vegemite', 'Smoothie', 'Tacos', 'Spring roll', 'Lamington', 'Croissant', 'Dumpling', 'Anzac biscuit', 'Fairy bread', 'Souvlaki', 'Ramen', 'Bruschetta'],
-  },
-  {
-    id: 'sports',
-    name: 'Sports',
-    words: ['Cricket', 'AFL', 'Rugby', 'Soccer', 'Tennis', 'Basketball', 'Swimming', 'Archery', 'Surfing', 'Netball', 'Hockey', 'Athletics', 'Gymnastics', 'Cycling', 'Skiing', 'Rowing', 'Lawn bowls', 'Skateboarding', 'Volleyball', 'Triathlon'],
-  },
-  {
-    id: 'movies',
-    name: 'Movies & Shows',
-    words: ['Bluey', 'Frozen', 'Toy Story', 'Star Wars', 'Harry Potter', 'Spider-Man', 'Lion King', 'Avatar', 'Finding Nemo', 'Encanto', 'Minions', 'Shrek', 'Inside Out', 'Moana', 'Paw Patrol', 'Peppa Pig', 'Hairy Maclary', 'Octonauts', 'Wallace and Gromit', 'Pixar Cars'],
-  },
-  {
-    id: 'jobs',
-    name: 'Jobs',
-    words: ['Doctor', 'Teacher', 'Pilot', 'Chef', 'Farmer', 'Vet', 'Astronaut', 'Plumber', 'Engineer', 'Artist', 'Firefighter', 'Lawyer', 'Scientist', 'Builder', 'Journalist', 'Dentist', 'Park ranger', 'Surgeon', 'Architect', 'Marine biologist'],
-  },
-  {
-    id: 'places',
-    name: 'Places',
-    words: ['Beach', 'Library', 'Hospital', 'Airport', 'Zoo', 'Museum', 'Park', 'School', 'Restaurant', 'Cinema', 'Shopping centre', 'Train station', 'Stadium', 'Pool', 'Farm', 'Lighthouse', 'Aquarium', 'Bowling alley', 'Camp site', 'Petrol station'],
-  },
-  {
-    id: 'australian-icons',
-    name: 'Australian Icons',
-    words: ['Uluru', 'Sydney Opera House', 'Sydney Harbour Bridge', 'Great Barrier Reef', 'Bondi Beach', 'The Outback', 'Kakadu', 'Twelve Apostles', 'Cricket bat', 'Boomerang', 'Vegemite', 'Akubra', 'Hills Hoist', 'Tim Tam', 'Surf lifesaver', 'Anzac biscuit', 'Didgeridoo', 'Eureka flag', 'Steve Irwin', 'Cathy Freeman'],
-  },
-  {
-    id: 'science',
-    name: 'Science',
-    words: ['Gravity', 'Photosynthesis', 'Electron', 'DNA', 'Solar system', 'Microscope', 'Volcano', 'Magnet', 'Skeleton', 'Atom', 'Molecule', 'Cell', 'Ecosystem', 'Tsunami', 'Periodic table', 'Black hole', 'Comet', 'Tectonic plate', 'Climate', 'Mitochondria'],
-  },
-  {
-    id: 'maths',
-    name: 'Maths',
-    words: ['Triangle', 'Fraction', 'Decimal', 'Percent', 'Probability', 'Algebra', 'Pi', 'Equation', 'Pythagoras', 'Symmetry', 'Hypotenuse', 'Logarithm', 'Vector', 'Matrix', 'Derivative', 'Square root', 'Integer', 'Pentagon', 'Quadratic', 'Standard deviation'],
-  },
-  {
-    id: 'history',
-    name: 'History',
-    words: ['Pharaoh', 'Knight', 'Viking', 'Magna Carta', 'Renaissance', 'Industrial Revolution', 'Federation', 'World War One', 'Gallipoli', 'Mabo', 'Federation Tower', 'Eureka Stockade', 'First Fleet', 'Captain Cook', 'Convict', 'Anzac Day', 'Berlin Wall', 'Cold War', '1967 Referendum', 'Aboriginal Apology'],
-  },
-  {
-    id: 'literature',
-    name: 'Literature',
-    words: ['Shakespeare', 'Hamlet', 'Poem', 'Novel', 'Sonnet', 'Metaphor', 'Protagonist', 'Narrator', 'Setting', 'Theme', 'Dialogue', 'Library', 'Stanza', 'Bildungsroman', 'Allegory', 'Bookshelf', 'Cliffhanger', 'Plot twist', 'Epilogue', 'Foreshadowing'],
-  },
-  {
-    id: 'geography',
-    name: 'Geography',
-    words: ['Continent', 'Island', 'Mountain', 'River', 'Desert', 'Rainforest', 'Glacier', 'Equator', 'Tropics', 'Volcano', 'Capital city', 'Compass', 'Atlas', 'Latitude', 'Longitude', 'Hemisphere', 'Time zone', 'Climate', 'Population', 'Coastline'],
-  },
-];
-
-// ============================================================
-//  20 QUESTIONS — hidden items
-// ============================================================
-
-export interface TwentyQItem {
-  id: string;
-  item: string;
-  category: string;
-}
-
-export const TWENTY_Q: TwentyQItem[] = [
-  // Animals
-  { id: 'tq-a1', item: 'Kangaroo', category: 'Animal' },
-  { id: 'tq-a2', item: 'Elephant', category: 'Animal' },
-  { id: 'tq-a3', item: 'Octopus', category: 'Animal' },
-  { id: 'tq-a4', item: 'Penguin', category: 'Animal' },
-  { id: 'tq-a5', item: 'Platypus', category: 'Animal' },
-  { id: 'tq-a6', item: 'Wombat', category: 'Animal' },
-  { id: 'tq-a7', item: 'Tiger', category: 'Animal' },
-  { id: 'tq-a8', item: 'Frog', category: 'Animal' },
-
-  // Foods
-  { id: 'tq-f1', item: 'Pizza', category: 'Food' },
-  { id: 'tq-f2', item: 'Watermelon', category: 'Food' },
-  { id: 'tq-f3', item: 'Banana', category: 'Food' },
-  { id: 'tq-f4', item: 'Vegemite', category: 'Food' },
-  { id: 'tq-f5', item: 'Sushi', category: 'Food' },
-  { id: 'tq-f6', item: 'Pavlova', category: 'Food' },
-  { id: 'tq-f7', item: 'Croissant', category: 'Food' },
-
-  // Landmarks
-  { id: 'tq-l1', item: 'Sydney Opera House', category: 'Landmark' },
-  { id: 'tq-l2', item: 'Eiffel Tower', category: 'Landmark' },
-  { id: 'tq-l3', item: 'Pyramids of Giza', category: 'Landmark' },
-  { id: 'tq-l4', item: 'Great Barrier Reef', category: 'Landmark' },
-  { id: 'tq-l5', item: 'Mount Everest', category: 'Landmark' },
-  { id: 'tq-l6', item: 'Uluru', category: 'Landmark' },
-  { id: 'tq-l7', item: 'Statue of Liberty', category: 'Landmark' },
-  { id: 'tq-l8', item: 'Great Wall of China', category: 'Landmark' },
-
-  // Objects
-  { id: 'tq-o1', item: 'Bicycle', category: 'Object' },
-  { id: 'tq-o2', item: 'Computer', category: 'Object' },
-  { id: 'tq-o3', item: 'Aeroplane', category: 'Object' },
-  { id: 'tq-o4', item: 'Toaster', category: 'Object' },
-  { id: 'tq-o5', item: 'Mobile phone', category: 'Object' },
-  { id: 'tq-o6', item: 'Surfboard', category: 'Object' },
-  { id: 'tq-o7', item: 'Microscope', category: 'Object' },
-
-  // People
-  { id: 'tq-p1', item: 'Albert Einstein', category: 'Person' },
-  { id: 'tq-p2', item: 'William Shakespeare', category: 'Person' },
-  { id: 'tq-p3', item: 'Marie Curie', category: 'Person' },
-  { id: 'tq-p4', item: 'Cathy Freeman', category: 'Person' },
-  { id: 'tq-p5', item: 'Nelson Mandela', category: 'Person' },
-  { id: 'tq-p6', item: 'Eddie Mabo', category: 'Person' },
-  { id: 'tq-p7', item: 'Charles Darwin', category: 'Person' },
-  { id: 'tq-p8', item: 'Steve Irwin', category: 'Person' },
-
-  // Places
-  { id: 'tq-pl1', item: 'Australia', category: 'Place' },
-  { id: 'tq-pl2', item: 'Tasmania', category: 'Place' },
-  { id: 'tq-pl3', item: 'Japan', category: 'Place' },
-  { id: 'tq-pl4', item: 'Antarctica', category: 'Place' },
-  { id: 'tq-pl5', item: 'Amazon Rainforest', category: 'Place' },
-  { id: 'tq-pl6', item: 'Sahara Desert', category: 'Place' },
-
-  // Concepts
-  { id: 'tq-c1', item: 'Gravity', category: 'Concept' },
-  { id: 'tq-c2', item: 'Democracy', category: 'Concept' },
-  { id: 'tq-c3', item: 'Photosynthesis', category: 'Concept' },
-  { id: 'tq-c4', item: 'Federation', category: 'Concept' },
-  { id: 'tq-c5', item: 'Renaissance', category: 'Concept' },
-];
 
 // ============================================================
 //  CATEGORIES (Scattergories-style prompts)

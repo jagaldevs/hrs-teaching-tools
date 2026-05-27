@@ -38,8 +38,6 @@ export const GAME_COMPONENTS: Record<string, LazyExoticComponent<ComponentType>>
   'landmark-snap': lazy(() => import('./LandmarkSnap').then((m) => ({ default: m.LandmarkSnap }))),
 
   // Whole-class energiser
-  'heads-up': lazy(() => import('./HeadsUp').then((m) => ({ default: m.HeadsUp }))),
   'would-you-rather': lazy(() => import('./WouldYouRather').then((m) => ({ default: m.WouldYouRather }))),
   'memory-sequence': lazy(() => import('./MemorySequence').then((m) => ({ default: m.MemorySequence }))),
-  'twenty-questions': lazy(() => import('./TwentyQuestions').then((m) => ({ default: m.TwentyQuestions }))),
 };

@@ -18,12 +18,10 @@ import {
   GitBranch,
   MapPin,
   Flag,
-  Eye,
   Mountain,
   UserSquare2,
   Scale3d,
   Brain,
-  MessageCircleQuestion,
   type LucideIcon,
 } from 'lucide-react';
 
@@ -280,16 +278,6 @@ export const GAMES: Game[] = [
 
   // -------- Whole-class energiser --------
   {
-    id: 'heads-up',
-    name: 'Heads Up',
-    group: 'whole-class',
-    description: 'A word appears behind one student; the class gives clues until they guess.',
-    icon: Eye,
-    streams: ALL_STREAMS,
-    subjects: ['general'],
-    durationMin: 5,
-  },
-  {
     id: 'would-you-rather',
     name: 'Would You Rather',
     group: 'whole-class',
@@ -308,16 +296,6 @@ export const GAMES: Game[] = [
     streams: ALL_STREAMS,
     subjects: ['general'],
     durationMin: 3,
-  },
-  {
-    id: 'twenty-questions',
-    name: '20 Questions',
-    group: 'whole-class',
-    description: 'Class narrows down a hidden curriculum item with yes/no questions.',
-    icon: MessageCircleQuestion,
-    streams: ALL_STREAMS,
-    subjects: ['general'],
-    durationMin: 6,
   },
 ];
 

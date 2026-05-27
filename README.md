@@ -6,7 +6,7 @@ React + Vite PWA. Dark-first. Works offline. All state stored in the browser.
 ## What's in here
 
 - **26 classroom tools** across 5 categories — Classroom Management, Teaching Aids, Randomisers, Literacy, Numeracy.
-- **25 brain-break games** across 5 groups (Quick & Energetic, Word & Language, Number & Logic, History & Geography, Whole-Class Energiser), each tagged to one or more AC V9 streams (Foundation–Y2, Y3–Y6, Y7–Y9, Y10–Y12) and subjects (English, Maths, History, Geography, Science, General).
+- **23 brain-break games** across 5 groups (Quick & Energetic, Word & Language, Number & Logic, History & Geography, Whole-Class Energiser), each tagged to one or more AC V9 streams (Foundation–Y2, Y3–Y6, Y7–Y9, Y10–Y12) and subjects (English, Maths, History, Geography, Science, General). All games run from the teacher's projected screen — no per-student devices required.
 - **AC V9-aligned content banks** under `src/data/banks/` — MCQs, odd-one-out items, higher-or-lower facts, vocabulary with optional subject tags, sight-word lists, sentences, timelines, HASS items (flags, landmarks, maps, historical figures) and more.
 - **Splash → Dashboard** routing with optional "don't show again" via localStorage.
 - **Dark / Light theme** with system-preference fallback, persisted across visits.
