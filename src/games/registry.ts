@@ -18,13 +18,10 @@ export const GAME_COMPONENTS: Record<string, LazyExoticComponent<ComponentType>>
   'anagram-race': lazy(() => import('./AnagramRace').then((m) => ({ default: m.AnagramRace }))),
   'word-chain': lazy(() => import('./WordChain').then((m) => ({ default: m.WordChain }))),
   'synonym-antonym': lazy(() => import('./SynonymSprint').then((m) => ({ default: m.SynonymSprint }))),
-  'spelling-bee': lazy(() => import('./SpellingBee').then((m) => ({ default: m.SpellingBee }))),
   'define-it': lazy(() => import('./DefineIt').then((m) => ({ default: m.DefineIt }))),
-  categories: lazy(() => import('./Categories').then((m) => ({ default: m.Categories }))),
 
   // Number & logic
   'mental-maths-ladder': lazy(() => import('./MentalMathsLadder').then((m) => ({ default: m.MentalMathsLadder }))),
-  'equation-match': lazy(() => import('./EquationMatch').then((m) => ({ default: m.EquationMatch }))),
   'pattern-next': lazy(() => import('./PatternNext').then((m) => ({ default: m.PatternNext }))),
   'estimate-it': lazy(() => import('./EstimateIt').then((m) => ({ default: m.EstimateIt }))),
   codebreaker: lazy(() => import('./Codebreaker').then((m) => ({ default: m.Codebreaker }))),

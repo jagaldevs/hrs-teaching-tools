@@ -2,19 +2,18 @@
  * Misc banks — Australian Curriculum V9 informed.
  *
  * Houses the smaller-format games: Estimate It, Two Truths & a Lie,
- * Synonym & Antonym Sprint, Would You Rather, and Categories
- * (Scattergories-style prompts).
+ * Synonym & Antonym Sprint, and Would You Rather.
  *
  * Coverage:
  *   Estimate    ~80 items   (~20 per stream)
  *   TruthsLie   ~32 items   (~8 per stream)
  *   SynAnt      ~50 items   (~12 per stream)
  *   WYR         ~52 items   (~13 per stream)
- *   Categories  ~30 prompts
  *
- * Removed (incompatible with projector-only model):
+ * Removed games (and their constants):
  *   - Heads Up — relied on passing the device to one student
  *   - 20 Questions — relied on a "teacher-private" hidden item view
+ *   - Categories — teacher feedback that it didn't earn its place
  */
 
 import type { Stream } from '../../data/games';
@@ -489,39 +488,3 @@ export const WYR: Record<Stream, WouldYouRather[]> = {
   ],
 };
 
-// ============================================================
-//  CATEGORIES (Scattergories-style prompts)
-// ============================================================
-
-export const CATEGORY_LISTS: { id: string; label: string }[] = [
-  { id: 'animal', label: 'Animal' },
-  { id: 'food', label: 'Food' },
-  { id: 'country', label: 'Country' },
-  { id: 'sport', label: 'Sport' },
-  { id: 'verb', label: 'Verb (action)' },
-  { id: 'name', label: 'First name' },
-  { id: 'kitchen', label: 'Object in a kitchen' },
-  { id: 'job', label: 'Job' },
-  { id: 'movie', label: 'Movie' },
-  { id: 'colour', label: 'Colour' },
-  { id: 'fruit', label: 'Fruit or veg' },
-  { id: 'subject', label: 'School subject' },
-  { id: 'capital', label: 'Capital city' },
-  { id: 'instrument', label: 'Musical instrument' },
-  { id: 'au-place', label: 'Australian place' },
-  { id: 'bug', label: 'Insect or bug' },
-  { id: 'space', label: 'Something in space' },
-  { id: 'sea', label: 'Something in the sea' },
-  { id: 'book', label: 'Book or author' },
-  { id: 'tv', label: 'TV show' },
-  { id: 'breakfast', label: 'Breakfast food' },
-  { id: 'school', label: 'Thing at school' },
-  { id: 'famous', label: 'Famous person' },
-  { id: 'transport', label: 'Mode of transport' },
-  { id: 'weather', label: 'Type of weather' },
-  { id: 'building', label: 'Type of building' },
-  { id: 'song', label: 'Song or band' },
-  { id: 'app', label: 'App or website' },
-  { id: 'history', label: 'Historical figure or event' },
-  { id: 'science-word', label: 'Word from science class' },
-];

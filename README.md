@@ -9,7 +9,7 @@ device.
 ## What's in here
 
 ### Brain Breaks (the headline)
-- **22 brain-break games** across 5 groups (Quick & Energetic, Word & Language, Number & Logic, History & Geography, Whole-Class Energiser)
+- **19 brain-break games** across 5 groups (Quick & Energetic, Word & Language, Number & Logic, History & Geography, Whole-Class Energiser)
 - Each game tagged to one or more AC V9 streams (Foundation–Y2, Y3–Y6, Y7–Y9, Y10–Y12) and subjects (English, Maths, History, Geography, Science, General)
 - Senior cohort filter (Y11 Units 1–2 / Y12 Units 3–4) on MCQ-driven games
 - ~2,100 curriculum-aligned content items across the banks, most with AC V9 codes and explanations

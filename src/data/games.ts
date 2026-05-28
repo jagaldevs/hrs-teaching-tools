@@ -6,11 +6,8 @@ import {
   Shuffle,
   Link2,
   ArrowLeftRight,
-  Mic2,
   BookA,
-  ListOrdered,
   Calculator,
-  Equal,
   Sparkles,
   Scale,
   KeyRound,
@@ -131,16 +128,6 @@ export const GAMES: Game[] = [
     durationMin: 2,
   },
   {
-    id: 'spelling-bee',
-    name: 'Spelling Bee',
-    group: 'language',
-    description: 'Text-to-speech reads the word. Students type or write — auto-marked.',
-    icon: Mic2,
-    streams: ALL_STREAMS,
-    subjects: ['english'],
-    durationMin: 5,
-  },
-  {
     id: 'define-it',
     name: 'Define It',
     group: 'language',
@@ -150,17 +137,6 @@ export const GAMES: Game[] = [
     subjects: ['english'],
     durationMin: 3,
   },
-  {
-    id: 'categories',
-    name: 'Categories',
-    group: 'language',
-    description: 'Random letter plus five categories. Sixty seconds to list one item per category.',
-    icon: ListOrdered,
-    streams: ['upper_primary', 'middle_school', 'senior_school'],
-    subjects: ['general'],
-    durationMin: 3,
-  },
-
   // -------- Number & logic --------
   {
     id: 'mental-maths-ladder',
@@ -171,16 +147,6 @@ export const GAMES: Game[] = [
     streams: ALL_STREAMS,
     subjects: ['maths'],
     durationMin: 4,
-  },
-  {
-    id: 'equation-match',
-    name: 'Equation Match',
-    group: 'logic',
-    description: 'Drag expressions onto their matching results. Beat the clock.',
-    icon: Equal,
-    streams: ['upper_primary', 'middle_school', 'senior_school'],
-    subjects: ['maths'],
-    durationMin: 3,
   },
   {
     id: 'pattern-next',
