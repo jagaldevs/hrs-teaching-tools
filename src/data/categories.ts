@@ -1,18 +1,18 @@
 import {
   Users,
-  BookOpen,
   Dices,
   Feather,
   Calculator,
+  FlaskConical,
   type LucideIcon,
 } from 'lucide-react';
 
 export type CategoryId =
   | 'classroom'
-  | 'teaching-aids'
   | 'randomisers'
   | 'literacy'
-  | 'numeracy';
+  | 'numeracy'
+  | 'science';
 
 export interface Category {
   id: CategoryId;
@@ -35,12 +35,6 @@ export const CATEGORIES: Category[] = [
     icon: Dices,
   },
   {
-    id: 'teaching-aids',
-    name: 'Teaching Aids',
-    description: 'Visual aids and explorables for any subject.',
-    icon: BookOpen,
-  },
-  {
     id: 'literacy',
     name: 'Literacy',
     description: 'Reading, writing and language tools aligned to AC V9.',
@@ -49,7 +43,13 @@ export const CATEGORIES: Category[] = [
   {
     id: 'numeracy',
     name: 'Numeracy',
-    description: 'Number sense, fluency and reasoning.',
+    description: 'Number sense, fluency and reasoning — visualisers, manipulatives and converters.',
     icon: Calculator,
+  },
+  {
+    id: 'science',
+    name: 'Science',
+    description: 'Interactive references and explorables for science teaching.',
+    icon: FlaskConical,
   },
 ];

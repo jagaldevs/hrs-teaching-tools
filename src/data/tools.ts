@@ -11,7 +11,6 @@ import {
   TrendingUp,
   Calculator,
   Atom,
-  GitBranch,
   Dice5,
   CircleDollarSign,
   Loader,
@@ -77,64 +76,6 @@ export const TOOLS: Tool[] = [
     category: 'classroom',
     description: 'Run a quick A/B/C/D poll. Students answer on devices via short code, no accounts.',
     icon: Vote,
-  },
-
-  // ---------------- TEACHING AIDS ----------------
-  {
-    id: 'fraction-tool',
-    name: 'Fraction Tool',
-    category: 'teaching-aids',
-    description: 'Visualise fractions as circles, bars and on a number line.',
-    icon: PieChart,
-  },
-  {
-    id: 'hundreds-chart',
-    name: 'Hundreds Chart',
-    category: 'teaching-aids',
-    description: 'Interactive 1–100 grid for counting patterns, primes and skip counting.',
-    icon: Grid3X3,
-  },
-  {
-    id: 'mab-blocks',
-    name: 'MAB Blocks',
-    category: 'teaching-aids',
-    description: 'Drag base-10 blocks to model place value and operations.',
-    icon: Layers,
-  },
-  {
-    id: 'fraction-wall',
-    name: 'Fraction Wall',
-    category: 'teaching-aids',
-    description: 'Stacked fraction strips for comparing and finding equivalents.',
-    icon: Columns3,
-  },
-  {
-    id: 'cartesian-plane',
-    name: 'Cartesian Plane',
-    category: 'teaching-aids',
-    description: 'Plot points, draw lines and explore transformations on a configurable grid.',
-    icon: TrendingUp,
-  },
-  {
-    id: 'place-value-chart',
-    name: 'Place Value Chart',
-    category: 'teaching-aids',
-    description: 'Drag digits into columns from thousandths through millions.',
-    icon: Calculator,
-  },
-  {
-    id: 'periodic-table',
-    name: 'Periodic Table',
-    category: 'teaching-aids',
-    description: 'Interactive table with electron configuration, group highlights and isotope data.',
-    icon: Atom,
-  },
-  {
-    id: 'timeline-builder',
-    name: 'Timeline Builder',
-    category: 'teaching-aids',
-    description: 'Drag events onto a scrollable timeline. Reusable across History and Civics.',
-    icon: GitBranch,
   },
 
   // ---------------- RANDOMISERS ----------------
@@ -227,11 +168,62 @@ export const TOOLS: Tool[] = [
 
   // ---------------- NUMERACY ----------------
   {
+    id: 'fraction-tool',
+    name: 'Fraction Tool',
+    category: 'numeracy',
+    description: 'Visualise fractions as circles, bars and on a number line.',
+    icon: PieChart,
+  },
+  {
+    id: 'hundreds-chart',
+    name: 'Hundreds Chart',
+    category: 'numeracy',
+    description: 'Interactive 1–100 grid for counting patterns, primes and skip counting.',
+    icon: Grid3X3,
+  },
+  {
+    id: 'mab-blocks',
+    name: 'MAB Blocks',
+    category: 'numeracy',
+    description: 'Drag base-10 blocks to model place value and operations.',
+    icon: Layers,
+  },
+  {
+    id: 'fraction-wall',
+    name: 'Fraction Wall',
+    category: 'numeracy',
+    description: 'Stacked fraction strips for comparing and finding equivalents.',
+    icon: Columns3,
+  },
+  {
+    id: 'cartesian-plane',
+    name: 'Cartesian Plane',
+    category: 'numeracy',
+    description: 'Plot points, draw lines and explore transformations on a configurable grid.',
+    icon: TrendingUp,
+  },
+  {
+    id: 'place-value-chart',
+    name: 'Place Value Chart',
+    category: 'numeracy',
+    description: 'Drag digits into columns from thousandths through millions.',
+    icon: Calculator,
+  },
+  {
     id: 'fdp-converter',
     name: 'Fraction / Decimal / % Converter',
     category: 'numeracy',
     description: 'Live converter — type any value and see all three representations.',
     icon: Percent,
+  },
+
+  // ---------------- SCIENCE ----------------
+  {
+    id: 'periodic-table',
+    name: 'Periodic Table',
+    category: 'science',
+    description: 'Interactive table with electron configuration, group highlights and isotope data.',
+    icon: Atom,
   },
 ];
 

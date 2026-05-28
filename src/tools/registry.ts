@@ -35,17 +35,16 @@ export const TOOL_COMPONENTS: Record<string, LazyExoticComponent<ComponentType>>
   'sentence-builder': lazy(() => import('./literacy/SentenceBuilder').then((m) => ({ default: m.SentenceBuilder }))),
 
   // ---------- Numeracy ----------
+  'fraction-tool': lazy(() => import('./numeracy/FractionTool').then((m) => ({ default: m.FractionTool }))),
+  'hundreds-chart': lazy(() => import('./numeracy/HundredsChart').then((m) => ({ default: m.HundredsChart }))),
+  'mab-blocks': lazy(() => import('./numeracy/MABBlocks').then((m) => ({ default: m.MABBlocks }))),
+  'fraction-wall': lazy(() => import('./numeracy/FractionWall').then((m) => ({ default: m.FractionWall }))),
+  'cartesian-plane': lazy(() => import('./numeracy/CartesianPlane').then((m) => ({ default: m.CartesianPlane }))),
+  'place-value-chart': lazy(() => import('./numeracy/PlaceValueChart').then((m) => ({ default: m.PlaceValueChart }))),
   'fdp-converter': lazy(() => import('./numeracy/FDPConverter').then((m) => ({ default: m.FDPConverter }))),
 
-  // ---------- Teaching Aids ----------
-  'hundreds-chart': lazy(() => import('./teaching-aids/HundredsChart').then((m) => ({ default: m.HundredsChart }))),
-  'fraction-wall': lazy(() => import('./teaching-aids/FractionWall').then((m) => ({ default: m.FractionWall }))),
-  'periodic-table': lazy(() => import('./teaching-aids/PeriodicTable').then((m) => ({ default: m.PeriodicTable }))),
-  'place-value-chart': lazy(() => import('./teaching-aids/PlaceValueChart').then((m) => ({ default: m.PlaceValueChart }))),
-  'fraction-tool': lazy(() => import('./teaching-aids/FractionTool').then((m) => ({ default: m.FractionTool }))),
-  'mab-blocks': lazy(() => import('./teaching-aids/MABBlocks').then((m) => ({ default: m.MABBlocks }))),
-  'cartesian-plane': lazy(() => import('./teaching-aids/CartesianPlane').then((m) => ({ default: m.CartesianPlane }))),
-  'timeline-builder': lazy(() => import('./teaching-aids/TimelineBuilder').then((m) => ({ default: m.TimelineBuilder }))),
+  // ---------- Science ----------
+  'periodic-table': lazy(() => import('./science/PeriodicTable').then((m) => ({ default: m.PeriodicTable }))),
 };
 
 export function hasComponent(id: string): boolean {
