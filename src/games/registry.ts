@@ -28,7 +28,6 @@ export const GAME_COMPONENTS: Record<string, LazyExoticComponent<ComponentType>>
 
   // History & Geography
   'timeline-order': lazy(() => import('./TimelineOrder').then((m) => ({ default: m.TimelineOrder }))),
-  'map-pin': lazy(() => import('./MapPin').then((m) => ({ default: m.MapPin }))),
   'flag-flash': lazy(() => import('./FlagFlash').then((m) => ({ default: m.FlagFlash }))),
   'who-am-i': lazy(() => import('./WhoAmI').then((m) => ({ default: m.WhoAmI }))),
 
