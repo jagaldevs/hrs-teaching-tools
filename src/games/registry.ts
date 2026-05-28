@@ -11,7 +11,6 @@ export const GAME_COMPONENTS: Record<string, LazyExoticComponent<ComponentType>>
   // Quick & energetic
   'quick-quiz': lazy(() => import('./QuickQuiz').then((m) => ({ default: m.QuickQuiz }))),
   'odd-one-out': lazy(() => import('./OddOneOut').then((m) => ({ default: m.OddOneOut }))),
-  'higher-or-lower': lazy(() => import('./HigherOrLower').then((m) => ({ default: m.HigherOrLower }))),
   'two-truths-one-lie': lazy(() => import('./TwoTruthsLie').then((m) => ({ default: m.TwoTruthsLie }))),
   'buzzer-round': lazy(() => import('./BuzzerRound').then((m) => ({ default: m.BuzzerRound }))),
 

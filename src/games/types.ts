@@ -35,20 +35,6 @@ export interface OddItem {
   acCode?: string;
 }
 
-/** Higher-or-lower item: a value with a comparison-friendly label. */
-export interface HoLItem {
-  id: string;
-  /** What this represents: "Population of Darwin", "Year of Federation". */
-  label: string;
-  value: number;
-  /** Unit suffix shown on screen: "", "km", "$" etc. */
-  unit?: string;
-  /** Optional context tooltip. */
-  context?: string;
-  /** Australian Curriculum V9 code, e.g. "AC9HS6K02". */
-  acCode?: string;
-}
-
 export const SUBJECTS: { id: Subject; label: string }[] = [
   { id: 'english', label: 'English' },
   { id: 'maths', label: 'Maths' },

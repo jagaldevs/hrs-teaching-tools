@@ -1,7 +1,6 @@
 import {
   Zap,
   CircleSlash2,
-  ArrowUpDown,
   HelpCircle,
   Bell,
   Shuffle,
@@ -78,16 +77,6 @@ export const GAMES: Game[] = [
     streams: ALL_STREAMS,
     subjects: ['english', 'maths', 'history', 'geography', 'science'],
     durationMin: 2,
-  },
-  {
-    id: 'higher-or-lower',
-    name: 'Higher or Lower',
-    group: 'rapid',
-    description: 'Numbers, years, populations, scientific constants — students predict the next reveal. Filter by subject for themed rounds.',
-    icon: ArrowUpDown,
-    streams: ALL_STREAMS,
-    subjects: ['maths', 'history', 'geography', 'science', 'general'],
-    durationMin: 3,
   },
   {
     id: 'two-truths-one-lie',
