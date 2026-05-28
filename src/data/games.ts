@@ -14,7 +14,6 @@ import {
   GitBranch,
   MapPin,
   Flag,
-  Mountain,
   UserSquare2,
   Scale3d,
   Brain,
@@ -220,17 +219,6 @@ export const GAMES: Game[] = [
     subjects: ['history'],
     durationMin: 4,
   },
-  {
-    id: 'landmark-snap',
-    name: 'Landmark Snap',
-    group: 'hass',
-    description: 'Identify the landmark, biome or landform from a single image.',
-    icon: Mountain,
-    streams: ALL_STREAMS,
-    subjects: ['geography'],
-    durationMin: 3,
-  },
-
   // -------- Whole-class energiser --------
   {
     id: 'would-you-rather',

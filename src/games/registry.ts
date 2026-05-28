@@ -31,7 +31,6 @@ export const GAME_COMPONENTS: Record<string, LazyExoticComponent<ComponentType>>
   'map-pin': lazy(() => import('./MapPin').then((m) => ({ default: m.MapPin }))),
   'flag-flash': lazy(() => import('./FlagFlash').then((m) => ({ default: m.FlagFlash }))),
   'who-am-i': lazy(() => import('./WhoAmI').then((m) => ({ default: m.WhoAmI }))),
-  'landmark-snap': lazy(() => import('./LandmarkSnap').then((m) => ({ default: m.LandmarkSnap }))),
 
   // Whole-class energiser
   'would-you-rather': lazy(() => import('./WouldYouRather').then((m) => ({ default: m.WouldYouRather }))),
