@@ -8,16 +8,23 @@ export function Header() {
   return (
     <header className={styles.header}>
       <div className={`container ${styles.bar}`}>
-        <Link to="/dashboard" className={styles.brand} aria-label="Haileybury Rendall School — Home">
+        <Link to="/" className={styles.brand} aria-label="Haileybury Rendall School — Home">
           <Crest size={56} />
         </Link>
 
         <nav className={styles.tabs} aria-label="Primary">
-          <NavLink to="/dashboard" className={({ isActive }) => `${styles.tab} ${isActive ? styles.tabActive : ''}`}>
-            Teacher Tools
-          </NavLink>
-          <NavLink to="/brain-breaks" className={({ isActive }) => `${styles.tab} ${isActive ? styles.tabActive : ''}`}>
+          <NavLink
+            to="/"
+            end
+            className={({ isActive }) => `${styles.tab} ${isActive ? styles.tabActive : ''}`}
+          >
             Brain Breaks
+          </NavLink>
+          <NavLink
+            to="/tools"
+            className={({ isActive }) => `${styles.tab} ${isActive ? styles.tabActive : ''}`}
+          >
+            Teacher Tools
           </NavLink>
         </nav>
 

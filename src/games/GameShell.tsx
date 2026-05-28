@@ -35,9 +35,9 @@ export function GameShell({ title, description, children }: GameShellProps) {
     <div className={styles.shell}>
       <div className={`container ${styles.bar}`}>
         <div className={styles.left}>
-          <Link to="/brain-breaks" className={styles.back} aria-label="Back to brain breaks">
+          <Link to="/" className={styles.back} aria-label="Back to Brain Breaks">
             <ArrowLeft size={14} />
-            <span>Back to brain breaks</span>
+            <span>Back to Brain Breaks</span>
           </Link>
           <div className={styles.titles}>
             <span className="eyebrow">Brain Break</span>

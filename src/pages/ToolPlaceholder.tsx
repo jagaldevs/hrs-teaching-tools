@@ -23,11 +23,11 @@ export function ToolPlaceholder() {
             <p className={`eyebrow ${styles.placeholderEyebrow}`}>Not found</p>
             <h1 className={`font-display ${styles.placeholderTitle}`}>Unknown tool</h1>
             <p className={styles.placeholderDesc}>
-              We couldn&rsquo;t locate &ldquo;{id}&rdquo;. Head back to the dashboard.
+              We couldn&rsquo;t locate &ldquo;{id}&rdquo;. Head back to the Teacher Tools list.
             </p>
-            <Link to="/dashboard" className={styles.placeholderBack}>
+            <Link to="/tools" className={styles.placeholderBack}>
               <ArrowLeft size={14} style={{ display: 'inline', marginRight: 6, verticalAlign: 'middle' }} />
-              Back to tools
+              Back to Teacher Tools
             </Link>
           </div>
         </div>

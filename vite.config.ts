@@ -9,9 +9,9 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['crest.svg', 'favicon.ico'],
       manifest: {
-        name: 'Haileybury Rendall School — Teaching Tools',
-        short_name: 'HRS Tools',
-        description: 'Teaching tools, brain-break games and student tools for HRS classrooms.',
+        name: 'HRS Brain Breaks',
+        short_name: 'Brain Breaks',
+        description: 'AC V9-aligned brain-break games for Haileybury Rendall School classrooms. Projector-ready, with a Teacher Tools section for everyday classroom utilities.',
         theme_color: '#0A0A0B',
         background_color: '#0A0A0B',
         display: 'standalone',

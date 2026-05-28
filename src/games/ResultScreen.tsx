@@ -49,7 +49,7 @@ export function ResultScreen({ score, total, onPlayAgain, breakdown }: ResultScr
         >
           <RotateCcw size={14} /> Play again
         </button>
-        <Link to="/brain-breaks" className={common.btn}>
+        <Link to="/" className={common.btn}>
           More games
         </Link>
       </div>

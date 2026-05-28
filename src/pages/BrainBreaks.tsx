@@ -78,8 +78,9 @@ export function BrainBreaks() {
           <p className="eyebrow">Curriculum-aligned</p>
           <h1 className={`font-display ${page.heroTitle}`}>Brain Breaks</h1>
           <p className={page.heroSub}>
-            {GAMES.length} games across English, Maths, History and Geography. Streamed to
-            Foundation through Year 12 against the Australian Curriculum V9.
+            {GAMES.length} games across English, Maths, History, Geography and Science.
+            Streamed Foundation through Year 12 against AC V9 — projector-ready,
+            no per-student devices required.
           </p>
 
           <div className={styles.heroActions}>

@@ -46,9 +46,9 @@ export function About() {
           </p>
 
           <div style={{ marginTop: 32, textAlign: 'center' }}>
-            <Link to="/dashboard" className={styles.placeholderBack}>
+            <Link to="/" className={styles.placeholderBack}>
               <ArrowLeft size={14} style={{ display: 'inline', marginRight: 6, verticalAlign: 'middle' }} />
-              Back to tools
+              Back to Brain Breaks
             </Link>
           </div>
         </div>

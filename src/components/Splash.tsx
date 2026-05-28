@@ -12,12 +12,10 @@ export function Splash() {
   const navigate = useNavigate();
 
   function enter() {
-    navigate('/dashboard');
-  }
-
-  function enterAndRemember() {
+    // Set the skip flag so we don't bounce back here on every page load.
+    // Users can clear localStorage to see this again.
     localStorage.setItem(SKIP_KEY, '1');
-    navigate('/dashboard');
+    navigate('/');
   }
 
   return (
@@ -27,9 +25,9 @@ export function Splash() {
           <Crest size={200} />
         </div>
 
-        <p className={`eyebrow fade-in ${styles.eyebrow}`}>Teaching Toolkit</p>
+        <p className={`eyebrow fade-in ${styles.eyebrow}`}>AC V9 brain-break games · projector-ready</p>
 
-        <h1 className={`font-display ${styles.title}`}>Teaching Tools</h1>
+        <h1 className={`font-display ${styles.title}`}>Brain Breaks</h1>
 
         <p className={styles.byline}>
           DIGITAL INNOVATION · INNOVATION CENTRE
@@ -38,9 +36,6 @@ export function Splash() {
         <div className={styles.actions}>
           <button onClick={enter} className={styles.enter}>
             Enter
-          </button>
-          <button onClick={enterAndRemember} className={styles.skip}>
-            Don&rsquo;t show this again
           </button>
         </div>
       </div>
