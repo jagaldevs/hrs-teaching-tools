@@ -145,6 +145,11 @@ TEMPLATE_BODY = '''
 > every section — anything you give me is better than nothing. The more
 > detail, the more curriculum-anchored my brain-break questions become.
 > Delete this note when you're done.
+>
+> Sources that work well here (use whatever you have):
+>   - Y7–10: unit overviews, term planners, assignment briefs, rubrics
+>   - Y11 (Units 1–2): unit overviews, outcome assessment tasks
+>   - Y12 (Units 3–4): SACs, unit outlines, practice exams
 
 ## Scope this year/unit
 
@@ -173,9 +178,12 @@ key concepts, vocabulary, and AC V9 codes if known.]
 
 ## Assessment style
 
-[How are SACs / assignments structured? Examples: "Short-answer +
-extended paragraph", "Source analysis with quotes", "Multi-step
-problem-solving", "Practical lab report".]
+[How are tasks structured at HRS? Examples: "Short-answer + extended
+paragraph response", "Source analysis with quote integration",
+"Multi-step problem-solving with working shown", "Practical lab report
+with hypothesis / method / conclusion". For Units 3–4, describe SAC
+formats. For Y7–10, describe the assignment / test format students
+encounter.]
 
 ## Depth expectations
 
