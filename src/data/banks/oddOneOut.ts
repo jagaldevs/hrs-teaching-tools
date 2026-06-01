@@ -364,6 +364,95 @@ const SENIOR_SCIENCE: OddItem[] = [
   { id: 'ss-s-15', items: ['Kepler', 'Galileo', 'Copernicus', 'Mendel'], outlier: 3, explanation: '"Mendel" pioneered genetics; the others were astronomers.', acCode: 'AC9S10U04' },
 ];
 
+// ============================================================
+//  SENIOR — COMPUTING  (VCE Software Development Units 3–4)
+//  Anchored to VCAA Applied Computing Study Design 2025–2028.
+// ============================================================
+const SENIOR_COMPUTING: OddItem[] = [
+  // -- Unit 3 AOS 1: Programming --
+  { id: 'ss-comp-1', items: ['abstraction', 'encapsulation', 'inheritance', 'iteration'], outlier: 3, explanation: '"iteration" is a control structure; the others are OOP principles.' },
+  { id: 'ss-comp-2', items: ['sequence', 'selection', 'iteration', 'encapsulation'], outlier: 3, explanation: '"encapsulation" is an OOP principle; the others are control structures.' },
+  { id: 'ss-comp-3', items: ['integer', 'string', 'Boolean', 'array'], outlier: 3, explanation: '"array" is a data structure; the others are primitive data types.' },
+  { id: 'ss-comp-4', items: ['1D array', '2D array', 'record', 'breakpoint'], outlier: 3, explanation: '"breakpoint" is a debugging tool; the others are data structures.' },
+  { id: 'ss-comp-5', items: ['TXT', 'CSV', 'XML', 'JPG'], outlier: 3, explanation: '"JPG" is an image format; the others are data-source file formats.' },
+  { id: 'ss-comp-6', items: ['Hungarian notation', 'camelCase', 'snake_case', 'pseudocode'], outlier: 3, explanation: '"pseudocode" is a design tool; the others are naming conventions.' },
+  { id: 'ss-comp-7', items: ['existence check', 'type check', 'range check', 'binary search'], outlier: 3, explanation: '"binary search" is a search algorithm; the others are validation techniques.' },
+  { id: 'ss-comp-8', items: ['selection sort', 'quick sort', 'merge sort', 'linear search'], outlier: 3, explanation: '"linear search" is a search; the others are sorting algorithms.' },
+  { id: 'ss-comp-9', items: ['linear search', 'binary search', 'sequential search', 'bubble sort'], outlier: 3, explanation: '"bubble sort" is a sort; the others are searches.' },
+  { id: 'ss-comp-10', items: ['syntax error', 'logic error', 'runtime error', 'permission error'], outlier: 3, explanation: '"permission error" isn\'t a VCAA category; the three errors recognised are syntax, logic and runtime.' },
+  { id: 'ss-comp-11', items: ['overflow', 'index out of range', 'divide by zero', 'missing semicolon'], outlier: 3, explanation: '"missing semicolon" is a syntax error; the others are runtime errors.' },
+  { id: 'ss-comp-12', items: ['breakpoint', 'debugging statement', 'testing table', 'mood board'], outlier: 3, explanation: '"mood board" is an ideation tool; the others are debugging/testing techniques.' },
+  { id: 'ss-comp-13', items: ['IPO chart', 'data dictionary', 'pseudocode', 'Gantt chart'], outlier: 3, explanation: '"Gantt chart" is a project-management tool; the others are software design tools.' },
+  { id: 'ss-comp-14', items: ['FOR', 'WHILE', 'REPEAT...UNTIL', 'IF...ELSE'], outlier: 3, explanation: '"IF...ELSE" is selection; the others are iteration constructs.' },
+  { id: 'ss-comp-15', items: ['variable', 'constant', 'function', 'compiler'], outlier: 3, explanation: '"compiler" is a tool; the others are language constructs you write.' },
+  { id: 'ss-comp-16', items: ['class', 'object', 'method', 'process'], outlier: 3, explanation: '"process" is OS terminology; the others are OOP constructs.' },
+  { id: 'ss-comp-17', items: ['integer', 'floating point', 'date/time', 'JSON'], outlier: 3, explanation: '"JSON" is a data format; the others are numeric/temporal data types.' },
+  { id: 'ss-comp-18', items: ['public', 'protected', 'private', 'parallel'], outlier: 3, explanation: '"parallel" isn\'t an access modifier.' },
+  { id: 'ss-comp-19', items: ['= (assignment)', '== (equality)', '> (greater than)', '+ (addition)'], outlier: 3, explanation: '"+" is arithmetic; the others are assignment/comparison operators.' },
+  { id: 'ss-comp-20', items: ['AND', 'OR', 'NOT', 'WHILE'], outlier: 3, explanation: '"WHILE" is iteration; the others are logical operators.' },
+  { id: 'ss-comp-21', items: ['camelCase', 'snake_case', 'PascalCase', 'binary'], outlier: 3, explanation: '"binary" is a number system; the others are naming/case conventions.' },
+  { id: 'ss-comp-22', items: ['comment', 'docstring', 'placeholder stub', 'compiler flag'], outlier: 3, explanation: '"compiler flag" is a build option; the others are internal documentation.' },
+  { id: 'ss-comp-23', items: ['function', 'method', 'procedure', 'attribute'], outlier: 3, explanation: '"attribute" is data; the others are callable code units.' },
+  { id: 'ss-comp-24', items: ['analysis', 'design', 'development', 'deployment'], outlier: 3, explanation: '"deployment" isn\'t in the VCAA four-stage methodology — the four stages are analysis, design, development and evaluation.' },
+  { id: 'ss-comp-25', items: ['low-code platforms', 'AI code generators', 'automated debugging', 'magnetic tape'], outlier: 3, explanation: '"magnetic tape" isn\'t a current programming trend; the others are emerging programming trends.' },
+
+  // -- Unit 3 AOS 2: Analysis & Design --
+  { id: 'ss-comp-26', items: ['task identification', 'sequencing', 'time allocation', 'compiling'], outlier: 3, explanation: '"compiling" is build-time; the others are Gantt/project-management features.' },
+  { id: 'ss-comp-27', items: ['milestone', 'dependency', 'critical path', 'array'], outlier: 3, explanation: '"array" is a data structure; the others are project-management terms.' },
+  { id: 'ss-comp-28', items: ['interview', 'survey', 'observation', 'mock-up'], outlier: 3, explanation: '"mock-up" is a design tool; the others are data-collection methods.' },
+  { id: 'ss-comp-29', items: ['functional requirement', 'non-functional requirement', 'constraint', 'iteration'], outlier: 3, explanation: '"iteration" is a control structure; the others are analysis artefacts.' },
+  { id: 'ss-comp-30', items: ['economic', 'legal', 'social', 'syntactic'], outlier: 3, explanation: '"syntactic" isn\'t a study-design constraint category; the four categories are economic, legal, social and technical.' },
+  { id: 'ss-comp-31', items: ['context diagram', 'data flow diagram', 'use case diagram', 'Venn diagram'], outlier: 3, explanation: '"Venn diagram" is a maths tool; the others are analytical tools for software analysis.' },
+  { id: 'ss-comp-32', items: ['actor', 'use case', 'system boundary', 'database'], outlier: 3, explanation: '"database" isn\'t a use-case-diagram element; the other three are.' },
+  { id: 'ss-comp-33', items: ['process', 'entity', 'data store', 'class'], outlier: 3, explanation: '"class" is OOP; the other three are DFD components.' },
+  { id: 'ss-comp-34', items: ['requirements', 'constraints', 'scope', 'colour scheme'], outlier: 3, explanation: '"colour scheme" isn\'t a typical SRS section; the other three are.' },
+  { id: 'ss-comp-35', items: ['full backup', 'incremental backup', 'differential backup', 'parallel backup'], outlier: 3, explanation: '"parallel backup" isn\'t a recognised backup type — full, incremental and differential are.' },
+  { id: 'ss-comp-36', items: ['naming conventions', 'version control', 'backups', 'profiling'], outlier: 3, explanation: '"profiling" is performance analysis; the others are file-management techniques.' },
+  { id: 'ss-comp-37', items: ['mood board', 'brainstorming', 'mind map', 'data dictionary'], outlier: 3, explanation: '"data dictionary" is a detailed design tool; the others are ideation tools.' },
+  { id: 'ss-comp-38', items: ['data dictionary', 'mock-up', 'IPO chart', 'mood board'], outlier: 3, explanation: '"mood board" is ideation; the others are detailed design tools.' },
+  { id: 'ss-comp-39', items: ['affordance', 'interoperability', 'usability', 'compilation'], outlier: 3, explanation: '"compilation" is a build step; the others are UX characteristics.' },
+  { id: 'ss-comp-40', items: ['alignment', 'balance', 'contrast', 'recursion'], outlier: 3, explanation: '"recursion" is a programming technique; the others are design principles.' },
+  { id: 'ss-comp-41', items: ['Copyright Act 1968', 'Privacy Act 1988', 'Privacy and Data Protection Act 2014', 'Magna Carta'], outlier: 3, explanation: '"Magna Carta" isn\'t a current Australian act; the others are study-design legal references.' },
+  { id: 'ss-comp-42', items: ['APP 1', 'APP 6', 'APP 11', 'APP 99'], outlier: 3, explanation: 'There are 13 Australian Privacy Principles (APP 1–13); APP 99 doesn\'t exist.' },
+  { id: 'ss-comp-43', items: ['brief', 'project plan', 'SRS', 'unit test'], outlier: 3, explanation: '"unit test" is a development artefact; the others are analysis/planning artefacts.' },
+  { id: 'ss-comp-44', items: ['problem outline', 'proposed users', 'programming language', 'compiler flags'], outlier: 3, explanation: '"compiler flags" don\'t belong in a brief; the other three do.' },
+  { id: 'ss-comp-45', items: ['sketches', 'annotations', 'mood boards', 'pseudocode'], outlier: 3, explanation: '"pseudocode" is a design tool; the others are ideation outputs.' },
+
+  // -- Unit 4 AOS 1: Development & Evaluation --
+  { id: 'ss-comp-46', items: ['user-centred design', 'clear concise code', 'detailed internal documentation', 'shortest possible variable names'], outlier: 3, explanation: 'Cryptic short names hurt readability; the others are characteristics of efficient/effective solutions.' },
+  { id: 'ss-comp-47', items: ['public', 'protected', 'private', 'pseudo'], outlier: 3, explanation: '"pseudo" isn\'t an access modifier.' },
+  { id: 'ss-comp-48', items: ['code repository', 'API', 'library', 'mood board'], outlier: 3, explanation: '"mood board" is design ideation; the others are dev-time tools/approaches.' },
+  { id: 'ss-comp-49', items: ['breakpoint', 'commenting out code', 'test case', 'sketch'], outlier: 3, explanation: '"sketch" is ideation; the others are debugging/alpha-testing techniques.' },
+  { id: 'ss-comp-50', items: ['alpha testing', 'beta testing', 'unit testing', 'colour testing'], outlier: 3, explanation: '"colour testing" isn\'t a software testing category; the other three are.' },
+  { id: 'ss-comp-51', items: ['test plan', 'test scenarios', 'observation', 'salary review'], outlier: 3, explanation: '"salary review" isn\'t a beta-testing element; the other three are.' },
+  { id: 'ss-comp-52', items: ['criteria', 'time frame', 'responsibility', 'colour palette'], outlier: 3, explanation: '"colour palette" isn\'t an evaluation-strategy feature; the other three are.' },
+  { id: 'ss-comp-53', items: ['scope creep', 'personnel changes', 'technical issues', 'sunny weather'], outlier: 3, explanation: 'Weather isn\'t a recognised project-plan effectiveness factor.' },
+  { id: 'ss-comp-54', items: ['Gantt chart', 'project journal', 'log', 'compiler'], outlier: 3, explanation: '"compiler" is a build tool; the others are progress-recording tools.' },
+  { id: 'ss-comp-55', items: ['typical input', 'boundary input', 'invalid input', 'random emoji'], outlier: 3, explanation: 'Random emoji isn\'t a recognised test-data category; the other three are.' },
+  { id: 'ss-comp-56', items: ['accessibility', 'maintainability', 'reliability', 'syntax'], outlier: 3, explanation: '"syntax" is a programming concept; the others are non-functional quality attributes.' },
+  { id: 'ss-comp-57', items: ['adjust tasks', 'adjust timeframes', 'annotate project plan', 'rename project file'], outlier: 3, explanation: 'Renaming the file is admin; the others are recognised progress-recording techniques.' },
+  { id: 'ss-comp-58', items: ['evaluate efficiency', 'evaluate effectiveness', 'assess the project plan', 'rewrite the brief'], outlier: 3, explanation: 'Rewriting the brief isn\'t part of the evaluation stage.' },
+  { id: 'ss-comp-59', items: ['version control', 'code repository', 'branch', 'inheritance'], outlier: 3, explanation: '"inheritance" is an OOP concept; the others are source-management terms.' },
+  { id: 'ss-comp-60', items: ['observation', 'documentation of results', 'test scenarios', 'colour grading'], outlier: 3, explanation: '"colour grading" is a film term; the others are beta-testing strategy elements.' },
+
+  // -- Unit 4 AOS 2: Cyber security: secure dev practices --
+  { id: 'ss-comp-61', items: ['malware', 'unpatched software', 'man-in-the-middle attack', 'firewall'], outlier: 3, explanation: '"firewall" is a security control; the others are threats/vulnerabilities.' },
+  { id: 'ss-comp-62', items: ['version control', 'encryption', 'code review', 'phishing'], outlier: 3, explanation: '"phishing" is an attack; the others are security controls.' },
+  { id: 'ss-comp-63', items: ['virus', 'worm', 'ransomware', 'JSON'], outlier: 3, explanation: '"JSON" is a data format; the others are malware types.' },
+  { id: 'ss-comp-64', items: ['define security requirements', 'identify threats', 'mitigate threats', 'launch marketing'], outlier: 3, explanation: 'Marketing isn\'t a threat-modelling step; the other three are.' },
+  { id: 'ss-comp-65', items: ['Essential Eight', 'Information Security Manual', 'AI Ethics Principles', 'Periodic Table'], outlier: 3, explanation: 'The Periodic Table is chemistry; the others are cyber-relevant Australian frameworks.' },
+  { id: 'ss-comp-66', items: ['insider threat', 'man-in-the-middle', 'supply-chain attack', 'syntax error'], outlier: 3, explanation: '"syntax error" is a coding bug, not a security threat.' },
+  { id: 'ss-comp-67', items: ['confidentiality', 'integrity', 'availability', 'verbosity'], outlier: 3, explanation: '"verbosity" isn\'t a CIA triad element; the other three are the foundations of infosec.' },
+  { id: 'ss-comp-68', items: ['separated environments', 'patching', 'code review', 'shared admin password'], outlier: 3, explanation: 'A shared admin password is poor practice; the others are good security controls.' },
+  { id: 'ss-comp-69', items: ['MFA', 'least privilege', 'patching', 'colour theme'], outlier: 3, explanation: 'Colour theme isn\'t a security control; the other three are.' },
+  { id: 'ss-comp-70', items: ['Copyright Act 1968', 'Essential Eight', 'ISM', 'AC9MA10'], outlier: 3, explanation: '"AC9MA10" is an Australian Curriculum maths code; the others are cyber-security legal/framework references.' },
+  { id: 'ss-comp-71', items: ['onboarding training', 'risk management plan', 'code review', 'colour palette'], outlier: 3, explanation: 'Colour palette isn\'t a secure-dev improvement strategy; the others are.' },
+  { id: 'ss-comp-72', items: ['encryption at rest', 'encryption in transit', 'hashed passwords', 'plaintext storage'], outlier: 3, explanation: 'Plaintext storage is exactly what good security avoids; the others are protective practices.' },
+  { id: 'ss-comp-73', items: ['intellectual property', 'copyright', 'AI ethics', 'compile time'], outlier: 3, explanation: '"compile time" is a build concept; the others are ethical/legal concerns in secure development.' },
+  { id: 'ss-comp-74', items: ['development environment', 'testing environment', 'production environment', 'fashion environment'], outlier: 3, explanation: 'Fashion isn\'t a software environment; the other three are the separated dev/test/prod tiers.' },
+  { id: 'ss-comp-75', items: ['APP 11 (security)', 'APP 6 (use/disclosure)', 'IPP 4 (security)', 'TCP/IP'], outlier: 3, explanation: '"TCP/IP" is a networking protocol; the others are privacy-principle references.' },
+];
+
 export const ODD_BANK: Bank<OddItem> = {
   byStreamSubject: {
     lower_primary: {
@@ -393,6 +482,7 @@ export const ODD_BANK: Bank<OddItem> = {
       history: SENIOR_HISTORY,
       geography: SENIOR_GEOGRAPHY,
       science: SENIOR_SCIENCE,
+      computing: SENIOR_COMPUTING,
     },
   },
 };

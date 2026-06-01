@@ -16,7 +16,7 @@ import common from '../tools/common.module.css';
 import styles from './BrainBreaks.module.css';
 import page from './Page.module.css';
 
-type Subject = 'english' | 'maths' | 'history' | 'geography' | 'science' | 'general';
+type Subject = 'english' | 'maths' | 'history' | 'geography' | 'science' | 'computing' | 'general';
 
 const SUBJECTS: { id: Subject; label: string; colour: string }[] = [
   { id: 'english', label: 'English', colour: '#E6007E' },
@@ -24,6 +24,7 @@ const SUBJECTS: { id: Subject; label: string; colour: string }[] = [
   { id: 'history', label: 'History', colour: '#F59E0B' },
   { id: 'geography', label: 'Geography', colour: '#10B981' },
   { id: 'science', label: 'Science', colour: '#A855F7' },
+  { id: 'computing', label: 'Computing', colour: '#14B8A6' },
   { id: 'general', label: 'General', colour: '#6B7280' },
 ];
 

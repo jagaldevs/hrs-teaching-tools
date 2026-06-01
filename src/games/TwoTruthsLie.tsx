@@ -45,7 +45,15 @@ export function TwoTruthsLie() {
   const [score, setScore] = useState(0);
 
   function start(sel: SetupSelections) {
-    const list = shuffle(TRUTHS[sel.stream] ?? []).slice(0, sel.count);
+    const pool = TRUTHS[sel.stream] ?? [];
+    // Subject filter: keep items whose subject matches; if zero match, fall back
+    // to the whole stream pool so we never start an empty round.
+    let narrowed = pool;
+    if (sel.subject !== 'mix') {
+      const filtered = pool.filter((t) => t.subject === sel.subject);
+      if (filtered.length > 0) narrowed = filtered;
+    }
+    const list = shuffle(narrowed).slice(0, sel.count);
     setSetup(sel);
     setRound({ items: list });
     setIdx(0);
@@ -78,7 +86,7 @@ export function TwoTruthsLie() {
       description="Three statements appear. Two are true; one is a lie. Spot the lie."
     >
       {phase === 'setup' && (
-        <SetupScreen storageKey="twotruths" showSubject={false} onStart={start} />
+        <SetupScreen storageKey="twotruths" onStart={start} />
       )}
 
       {phase === 'playing' && current && (
