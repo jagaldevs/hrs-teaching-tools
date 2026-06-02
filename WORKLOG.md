@@ -322,6 +322,12 @@ folder is suspiciously empty, the real project is at
 
 ## 6. Recipe: adding a new HRS-class subject end-to-end
 
+> **There is a project skill for this.** Read
+> `.claude/skills/onboard-class/SKILL.md` first — it captures the
+> SD3-4 playbook in full and triggers automatically when the user
+> asks to onboard a new class. The summary below is a quick
+> pointer; the skill is the source of truth.
+
 (Tested against the VCE Software Development 3-4 rollout, Jun 2026.)
 
 ### Step 1: Decide the subject id and surface

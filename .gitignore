@@ -30,8 +30,11 @@ Thumbs.db
 !.vscode/settings.json
 .idea
 
-# Claude Code per-project settings (local only)
-.claude
+# Claude Code per-project settings (local only) — BUT keep project-shared
+# skills tracked so everyone gets the onboarding playbook etc.
+.claude/*
+!.claude/skills/
+.claude/settings.local.json
 
 # HRS internal source material (SACs, scope & sequences, internal docs)
 # Used to anchor brain-break content generation. Contents ignored to keep
