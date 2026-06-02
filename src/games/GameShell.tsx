@@ -127,18 +127,43 @@ export function SetupScreen({
     return YEAR_BANDS.filter((b) => supported.has(BAND_TO_STREAM[b.id])).map((b) => b.id);
   }, [game]);
 
-  // Default class: prefer a migrated old selection from the legacy
-  // stream + subject + unitGroup keys, then fall back to the first
-  // anchored class for this game's supported bands, then to anything.
+  // Default class — picked in priority order:
+  //   1. Legacy-key migration (pre-rework localStorage values)
+  //   2. Landing-page hint: the last class the teacher toggled on the
+  //      Brain Breaks landing filter (so clicking a game card after
+  //      filtering "feels" like navigation, not a reset).
+  //   3. ANY anchored class in supported bands — scanned across all
+  //      supportedBands FIRST, so we don't fall back to F-2 English
+  //      when an anchored VCE class exists higher up the list.
+  //   4. First class in the first supported band (last-resort default).
   const defaultClassId = useMemo(() => {
     const migrated = migrateLegacySelection(storageKey, supportedBands);
     if (migrated) return migrated;
+
+    const landingHint = readLs('brainbreaks.lastClass');
+    if (landingHint) {
+      const klass = findClass(landingHint);
+      if (
+        klass &&
+        supportedBands.includes(klass.yearBand) &&
+        (game?.subjects.includes(klass.subject) ?? true)
+      ) {
+        return klass.id;
+      }
+    }
+
+    // First pass: any anchored class whose subject the game supports.
     for (const band of supportedBands) {
       const classes = classesForBand(band);
       const anchored = classes.find(
         (c) => c.anchored && (game?.subjects.includes(c.subject) ?? true),
       );
       if (anchored) return anchored.id;
+    }
+
+    // Second pass: first available class in any supported band.
+    for (const band of supportedBands) {
+      const classes = classesForBand(band);
       if (classes[0]) return classes[0].id;
     }
     return HRS_CLASSES[0]?.id ?? '';

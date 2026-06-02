@@ -108,12 +108,35 @@ export function BrainBreaks() {
   }
 
   function toggleClass(id: string) {
-    setClassIds((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
+    setClassIds((prev) => {
+      const next = prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id];
+      // Hint for game SetupScreens — the most recently turned-on class
+      // pre-fills the picker when the teacher clicks into a game.
+      if (typeof window !== 'undefined') {
+        try {
+          if (!prev.includes(id)) {
+            window.localStorage.setItem('brainbreaks.lastClass', JSON.stringify(id));
+          } else if (next.length === 0) {
+            window.localStorage.removeItem('brainbreaks.lastClass');
+          }
+        } catch {
+          /* ignore */
+        }
+      }
+      return next;
+    });
   }
 
   function clearFilters() {
     setYearBands([]);
     setClassIds([]);
+    if (typeof window !== 'undefined') {
+      try {
+        window.localStorage.removeItem('brainbreaks.lastClass');
+      } catch {
+        /* ignore */
+      }
+    }
   }
 
   function surpriseMe() {
