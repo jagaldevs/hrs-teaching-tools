@@ -4,10 +4,18 @@ import { Gamepad2, Sparkles, X as XIcon } from 'lucide-react';
 import {
   GAMES,
   GAME_GROUPS,
-  STREAMS,
   type Game,
   type Stream,
 } from '../data/games';
+import {
+  YEAR_BANDS,
+  HRS_CLASSES,
+  classesForBands,
+  findClass,
+  type YearBand,
+  type HrsClass,
+} from '../data/classes';
+import { SUBJECT_COLOURS } from '../games/types';
 import { CategorySection } from '../components/CategorySection';
 import { ToolCard } from '../components/ToolCard';
 import { randomChoice } from '../tools/rng/util';
@@ -16,52 +24,96 @@ import common from '../tools/common.module.css';
 import styles from './BrainBreaks.module.css';
 import page from './Page.module.css';
 
-type Subject = 'english' | 'maths' | 'history' | 'geography' | 'science' | 'computing' | 'general';
-
-const SUBJECTS: { id: Subject; label: string; colour: string }[] = [
-  { id: 'english', label: 'English', colour: '#E6007E' },
-  { id: 'maths', label: 'Maths', colour: '#0EA5E9' },
-  { id: 'history', label: 'History', colour: '#F59E0B' },
-  { id: 'geography', label: 'Geography', colour: '#10B981' },
-  { id: 'science', label: 'Science', colour: '#A855F7' },
-  { id: 'computing', label: 'Computing', colour: '#14B8A6' },
-  { id: 'general', label: 'General', colour: '#6B7280' },
-];
-
-const STREAM_SHORT: Record<Stream, string> = {
-  lower_primary: 'Lower',
-  upper_primary: 'Upper',
-  middle_school: 'Middle',
-  senior_school: 'Senior',
+/**
+ * Map a YearBand to the legacy `Stream` it falls under. Used to decide
+ * which games show up when a year band is selected (each game's
+ * `game.streams` still references the legacy 4 streams).
+ *
+ * If we later refactor `Game.streams` → `Game.yearBands`, this helper
+ * goes away.
+ */
+const BAND_TO_STREAM: Record<YearBand, Stream> = {
+  'f-2': 'lower_primary',
+  '3-6': 'upper_primary',
+  y7: 'middle_school',
+  y8: 'middle_school',
+  y9: 'middle_school',
+  y10: 'senior_school',
+  'vce-1-2': 'senior_school',
+  'vce-3-4': 'senior_school',
 };
 
-function matchesFilter(g: Game, streams: Stream[], subjects: Subject[]): boolean {
-  if (streams.length > 0 && !g.streams.some((s) => streams.includes(s))) return false;
-  if (subjects.length > 0 && !g.subjects.some((s) => subjects.includes(s as Subject))) return false;
+function gameMatchesFilters(
+  g: Game,
+  selectedBands: YearBand[],
+  selectedClassIds: string[],
+): boolean {
+  // No filters → show every game (preserves the pre-filter landing experience).
+  if (selectedBands.length === 0 && selectedClassIds.length === 0) return true;
+
+  // Year-band filter: keep games whose declared streams cover any of the
+  // selected bands.
+  if (selectedBands.length > 0) {
+    const wantedStreams = new Set(selectedBands.map((b) => BAND_TO_STREAM[b]));
+    if (!g.streams.some((s) => wantedStreams.has(s))) return false;
+  }
+
+  // Class filter (Q5: cards aren't filtered out, just colour-coded). However,
+  // we DO narrow by subject mapping so a class chip narrows visibly. A game
+  // shows if it can serve any selected class's subject.
+  if (selectedClassIds.length > 0) {
+    const wantedSubjects = new Set(
+      selectedClassIds.map((id) => findClass(id)?.subject).filter(Boolean),
+    );
+    if (!g.subjects.some((s) => wantedSubjects.has(s))) return false;
+  }
+
   return true;
 }
 
 export function BrainBreaks() {
   const navigate = useNavigate();
-  const [streams, setStreams] = usePersistedState<Stream[]>('brainbreaks.filters.streams', []);
-  const [subjects, setSubjects] = usePersistedState<Subject[]>('brainbreaks.filters.subjects', []);
-
-  const filtered = useMemo(
-    () => GAMES.filter((g) => matchesFilter(g, streams, subjects)),
-    [streams, subjects],
+  const [yearBands, setYearBands] = usePersistedState<YearBand[]>(
+    'brainbreaks.filters.yearBands',
+    [],
+  );
+  const [classIds, setClassIds] = usePersistedState<string[]>(
+    'brainbreaks.filters.classes',
+    [],
   );
 
-  function toggleStream(s: Stream) {
-    setStreams((prev) => (prev.includes(s) ? prev.filter((x) => x !== s) : [...prev, s]));
+  const visibleClasses = useMemo<HrsClass[]>(
+    () => (yearBands.length === 0 ? [] : classesForBands(yearBands)),
+    [yearBands],
+  );
+
+  const filtered = useMemo(
+    () => GAMES.filter((g) => gameMatchesFilters(g, yearBands, classIds)),
+    [yearBands, classIds],
+  );
+
+  function toggleBand(b: YearBand) {
+    setYearBands((prev) => (prev.includes(b) ? prev.filter((x) => x !== b) : [...prev, b]));
+    // When changing bands, prune class selections that no longer fit any selected band.
+    setClassIds((prev) => {
+      const nextBands = yearBands.includes(b)
+        ? yearBands.filter((x) => x !== b)
+        : [...yearBands, b];
+      if (nextBands.length === 0) return prev;
+      return prev.filter((id) => {
+        const klass = findClass(id);
+        return klass ? nextBands.includes(klass.yearBand) : false;
+      });
+    });
   }
 
-  function toggleSubject(s: Subject) {
-    setSubjects((prev) => (prev.includes(s) ? prev.filter((x) => x !== s) : [...prev, s]));
+  function toggleClass(id: string) {
+    setClassIds((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
   }
 
   function clearFilters() {
-    setStreams([]);
-    setSubjects([]);
+    setYearBands([]);
+    setClassIds([]);
   }
 
   function surpriseMe() {
@@ -70,7 +122,7 @@ export function BrainBreaks() {
     if (pick) navigate(`/brain-breaks/${pick.id}`);
   }
 
-  const hasFilters = streams.length > 0 || subjects.length > 0;
+  const hasFilters = yearBands.length > 0 || classIds.length > 0;
 
   return (
     <div className={page.page}>
@@ -79,9 +131,8 @@ export function BrainBreaks() {
           <p className="eyebrow">Curriculum-aligned</p>
           <h1 className={`font-display ${page.heroTitle}`}>Brain Breaks</h1>
           <p className={page.heroSub}>
-            {GAMES.length} games across English, Maths, History, Geography and Science.
-            Streamed Foundation through Year 12 against AC V9 — projector-ready,
-            no per-student devices required.
+            {GAMES.length} projector-ready games. Filter by your class — from
+            Foundation through Year 12 and the full VCE Unit 1–4 spread.
           </p>
 
           <div className={styles.heroActions}>
@@ -101,40 +152,51 @@ export function BrainBreaks() {
 
         <section className={styles.filterBar} aria-label="Filter games">
           <div className={styles.filterCol}>
-            <span className={styles.filterLabel}>Stream</span>
+            <span className={styles.filterLabel}>Year level</span>
             <div className={styles.chipRow}>
-              {STREAMS.map((s) => (
+              {YEAR_BANDS.map((b) => (
                 <button
-                  key={s.id}
+                  key={b.id}
                   type="button"
                   className={styles.chip}
-                  data-active={streams.includes(s.id)}
-                  onClick={() => toggleStream(s.id)}
+                  data-active={yearBands.includes(b.id)}
+                  onClick={() => toggleBand(b.id)}
+                  title={b.label}
                 >
-                  {s.label}
+                  {b.shortLabel}
                 </button>
               ))}
             </div>
           </div>
 
-          <div className={styles.filterCol}>
-            <span className={styles.filterLabel}>Subject</span>
-            <div className={styles.chipRow}>
-              {SUBJECTS.map((s) => (
-                <button
-                  key={s.id}
-                  type="button"
-                  className={styles.chip}
-                  data-active={subjects.includes(s.id)}
-                  onClick={() => toggleSubject(s.id)}
-                  style={{ ['--chip-colour' as string]: s.colour }}
-                >
-                  <span className={styles.chipDot} style={{ background: s.colour }} />
-                  {s.label}
-                </button>
-              ))}
+          {yearBands.length > 0 && (
+            <div className={styles.filterCol}>
+              <span className={styles.filterLabel}>
+                Class {visibleClasses.length > 0 && `· ${visibleClasses.length}`}
+              </span>
+              <div className={styles.chipRow}>
+                {visibleClasses.map((c) => {
+                  const colour = SUBJECT_COLOURS[c.subject];
+                  const active = classIds.includes(c.id);
+                  return (
+                    <button
+                      key={c.id}
+                      type="button"
+                      className={styles.chip}
+                      data-active={active}
+                      onClick={() => toggleClass(c.id)}
+                      style={{ ['--chip-colour' as string]: colour }}
+                      title={c.anchored ? 'HRS-anchored content available' : 'Generic AC V9 content'}
+                    >
+                      <span className={styles.chipDot} style={{ background: colour }} />
+                      {c.name}
+                      {c.anchored && <span className={styles.chipBadge}>✓</span>}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
-          </div>
+          )}
 
           {hasFilters && (
             <button type="button" className={styles.clearBtn} onClick={clearFilters}>
@@ -149,7 +211,7 @@ export function BrainBreaks() {
             <h2 className={`font-display ${styles.emptyTitle}`}>
               No games match those filters.
             </h2>
-            <p className={styles.emptyNote}>Try removing a stream or subject filter.</p>
+            <p className={styles.emptyNote}>Try removing a year band or class filter.</p>
             <button
               type="button"
               className={`${common.btn} ${common.btnPrimary}`}
@@ -179,11 +241,7 @@ export function BrainBreaks() {
                     name={game.name}
                     description={game.description}
                     icon={game.icon}
-                    meta={
-                      game.streams.length === 4
-                        ? 'All streams'
-                        : game.streams.map((s) => STREAM_SHORT[s]).join(' · ')
-                    }
+                    meta={gameMeta(game)}
                   />
                 ))}
               </CategorySection>
@@ -191,15 +249,18 @@ export function BrainBreaks() {
           })
         )}
 
-        {/* Footer: stream cheatsheet, kept from the original page */}
         <footer className={styles.footnote}>
-          <span className={styles.footnoteLabel}>Streams aligned to AC V9</span>
+          <span className={styles.footnoteLabel}>Class-anchored at HRS</span>
           <div className={styles.footnoteList}>
-            {STREAMS.map((s) => (
-              <span key={s.id} className={styles.footnoteChip}>
-                <strong>{s.label}</strong> · {s.years}
+            {HRS_CLASSES.filter((c) => c.anchored).map((c) => (
+              <span key={c.id} className={styles.footnoteChip} title="HRS-anchored content available">
+                <strong>{c.name}</strong> · ✓
               </span>
             ))}
+            <span className={styles.footnoteChip}>
+              {HRS_CLASSES.length - HRS_CLASSES.filter((c) => c.anchored).length} other classes use
+              generic AC V9 content
+            </span>
           </div>
           <p className={styles.footnoteHint}>
             Want a quick teacher walkthrough?{' '}
@@ -211,4 +272,17 @@ export function BrainBreaks() {
       </div>
     </div>
   );
+}
+
+function gameMeta(game: Game): string {
+  // Map the game's declared streams back to year-band shorthand.
+  const bandsForGame = new Set<string>();
+  for (const stream of game.streams) {
+    for (const band of YEAR_BANDS) {
+      if (BAND_TO_STREAM[band.id] === stream) bandsForGame.add(band.shortLabel);
+    }
+  }
+  const labels = Array.from(bandsForGame);
+  if (labels.length === YEAR_BANDS.length) return 'All year levels';
+  return labels.join(' · ');
 }

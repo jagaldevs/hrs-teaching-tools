@@ -97,6 +97,22 @@
   background: #fff !important;
 }
 
+.chipBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 4px;
+  padding: 1px 6px;
+  font-size: 10px;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+}
+
+.chip[data-active='true'] .chipBadge {
+  background: rgba(255, 255, 255, 0.32);
+}
+
 .clearBtn {
   position: absolute;
   top: 12px;
