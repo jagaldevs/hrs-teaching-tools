@@ -124,7 +124,7 @@ export function WordChain() {
       description="Each new word must start with the last letter of the previous. No repeats. 12 seconds per turn."
     >
       {phase === 'setup' && (
-        <SetupScreen storageKey="wordchain" showSubject={false} countOptions={[10]} onStart={start} />
+        <SetupScreen gameId="word-chain" storageKey="wordchain" showSubject={false} countOptions={[10]} onStart={start} />
       )}
 
       {phase === 'playing' && (

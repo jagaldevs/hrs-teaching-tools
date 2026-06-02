@@ -1,7 +1,7 @@
 import { useState, type ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, Maximize2, Minimize2 } from 'lucide-react';
-import { STREAMS, type Stream } from '../data/games';
+import { STREAMS, findGame, type Stream } from '../data/games';
 import { SUBJECTS, SUBJECT_COLOURS, type Subject } from './types';
 import { usePersistedState } from '../hooks/usePersistedState';
 import { useEffect } from 'react';
@@ -76,6 +76,14 @@ export interface SetupSelections {
 
 interface SetupScreenProps {
   storageKey: string;
+  /**
+   * If provided, defaults `availableStreams` and `availableSubjects` to the
+   * matching Game's declared `streams` / `subjects` from the registry — so
+   * the setup screen can't offer a stream or subject the game doesn't
+   * actually support. Explicit `availableStreams` / `availableSubjects`
+   * props still win when passed.
+   */
+  gameId?: string;
   availableStreams?: Stream[];
   availableSubjects?: Subject[];
   countOptions?: number[];
@@ -91,6 +99,8 @@ interface SetupScreenProps {
   extra?: ReactNode;
 }
 
+const ALL_STREAMS_DEFAULT: Stream[] = ['lower_primary', 'upper_primary', 'middle_school', 'senior_school'];
+
 const SENIOR_UNIT_GROUPS: { id: SetupSelections['unitGroup']; label: string; sub: string }[] = [
   { id: 'any', label: 'Any', sub: 'All senior content' },
   { id: 'units_1_2', label: 'Y11', sub: 'Units 1 & 2' },
@@ -99,7 +109,8 @@ const SENIOR_UNIT_GROUPS: { id: SetupSelections['unitGroup']; label: string; sub
 
 export function SetupScreen({
   storageKey,
-  availableStreams = ['lower_primary', 'upper_primary', 'middle_school', 'senior_school'],
+  gameId,
+  availableStreams,
   availableSubjects,
   countOptions = [5, 10, 15],
   showSubject = true,
@@ -107,9 +118,21 @@ export function SetupScreen({
   onStart,
   extra,
 }: SetupScreenProps) {
+  // Pull defaults from the game registry when gameId is provided. Explicit
+  // props still override (e.g. WhoAmI passes countOptions). game.subjects
+  // may include 'general'; we filter to subjects that have a SUBJECTS entry
+  // so they actually render as chips.
+  const game = gameId ? findGame(gameId) : undefined;
+  const renderableSubjectIds = SUBJECTS.map((s) => s.id);
+  const effectiveStreams: Stream[] =
+    availableStreams ?? game?.streams ?? ALL_STREAMS_DEFAULT;
+  const effectiveSubjects: Subject[] =
+    availableSubjects ??
+    (game ? (game.subjects as Subject[]).filter((s) => renderableSubjectIds.includes(s)) : renderableSubjectIds);
+
   const [stream, setStream] = usePersistedState<Stream>(
     `${storageKey}.stream`,
-    availableStreams[0]!,
+    effectiveStreams[0]!,
   );
   const [subject, setSubject] = usePersistedState<Subject | 'mix'>(
     `${storageKey}.subject`,
@@ -124,8 +147,25 @@ export function SetupScreen({
     'any',
   );
 
-  const subjects = availableSubjects ?? SUBJECTS.map((s) => s.id);
-  const streamObjs = STREAMS.filter((s) => availableStreams.includes(s.id));
+  // If a persisted stream is no longer offered (e.g. game was restricted),
+  // snap to the first available stream so the picker doesn't render nothing
+  // selected and the game doesn't try to query a missing pool.
+  useEffect(() => {
+    if (!effectiveStreams.includes(stream)) {
+      setStream(effectiveStreams[0]!);
+    }
+  }, [effectiveStreams, stream, setStream]);
+
+  // Same defensive snap for subject — if the game stops offering the
+  // persisted subject, fall back to 'mix'.
+  useEffect(() => {
+    if (subject !== 'mix' && !effectiveSubjects.includes(subject)) {
+      setSubject('mix');
+    }
+  }, [effectiveSubjects, subject, setSubject]);
+
+  const subjects = effectiveSubjects;
+  const streamObjs = STREAMS.filter((s) => effectiveStreams.includes(s.id));
   const showUnits = showSeniorUnits && stream === 'senior_school';
 
   return (

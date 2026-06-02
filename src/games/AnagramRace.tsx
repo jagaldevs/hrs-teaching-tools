@@ -138,6 +138,7 @@ export function AnagramRace() {
     >
       {phase === 'setup' && (
         <SetupScreen
+          gameId="anagram-race"
           storageKey="anagram"
           showSubject={false}
           countOptions={[10, 15, 20]}

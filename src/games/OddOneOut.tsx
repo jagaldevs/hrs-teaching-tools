@@ -65,7 +65,7 @@ export function OddOneOut() {
       {phase === 'setup' && (
         <>
           {startError && <p className={styles.startError}>{startError}</p>}
-          <SetupScreen storageKey="oddone" onStart={start} />
+          <SetupScreen gameId="odd-one-out" storageKey="oddone" onStart={start} />
         </>
       )}
 

@@ -114,7 +114,7 @@ export function DefineIt() {
       title="Define It"
       description="Guess the word from its definition. Reveal letters as hints — each one lowers your score."
     >
-      {phase === 'setup' && <SetupScreen storageKey="defineit" showSubject={false} onStart={start} />}
+      {phase === 'setup' && <SetupScreen gameId="define-it" storageKey="defineit" showSubject={false} onStart={start} />}
 
       {phase === 'playing' && current && (
         <div className={styles.playing}>

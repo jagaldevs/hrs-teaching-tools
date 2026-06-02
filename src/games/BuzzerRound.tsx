@@ -152,6 +152,7 @@ export function BuzzerRound() {
       )}
       {phase === 'setup' && (
         <SetupScreen
+          gameId="buzzer-round"
           storageKey="buzzround"
           onStart={start}
           showSeniorUnits

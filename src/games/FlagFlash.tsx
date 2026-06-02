@@ -65,7 +65,7 @@ export function FlagFlash() {
       description="Identify the flag. Streams scale from Australian neighbours to global geopolitics."
     >
       {phase === 'setup' && (
-        <SetupScreen storageKey="flags" showSubject={false} onStart={start} />
+        <SetupScreen gameId="flag-flash" storageKey="flags" showSubject={false} onStart={start} />
       )}
 
       {phase === 'playing' && current && (

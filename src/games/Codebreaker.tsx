@@ -119,7 +119,7 @@ export function Codebreaker() {
       description="Each letter has been shifted forward in the alphabet. Crack the code."
     >
       {phase === 'setup' && (
-        <SetupScreen storageKey="codebreaker" showSubject={false} onStart={start} />
+        <SetupScreen gameId="codebreaker" storageKey="codebreaker" showSubject={false} onStart={start} />
       )}
 
       {phase === 'playing' && current && (

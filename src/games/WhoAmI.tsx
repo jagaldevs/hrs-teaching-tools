@@ -105,7 +105,7 @@ export function WhoAmI() {
       description="Five clues reveal one at a time. Guess earlier for more points."
     >
       {phase === 'setup' && (
-        <SetupScreen storageKey="whoami" showSubject={false} countOptions={[3, 5]} onStart={start} />
+        <SetupScreen gameId="who-am-i" storageKey="whoami" showSubject={false} countOptions={[3, 5]} onStart={start} />
       )}
 
       {phase === 'playing' && current && (

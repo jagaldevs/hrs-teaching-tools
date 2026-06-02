@@ -239,6 +239,7 @@ export function MentalMathsLadder() {
     >
       {phase === 'setup' && (
         <SetupScreen
+          gameId="mental-maths-ladder"
           storageKey="mml"
           showSubject={false}
           countOptions={[10]}

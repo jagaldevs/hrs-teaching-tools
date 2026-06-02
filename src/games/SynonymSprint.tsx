@@ -80,7 +80,7 @@ export function SynonymSprint() {
       description="Pick the matching synonym or antonym before the timer runs out."
     >
       {phase === 'setup' && (
-        <SetupScreen storageKey="synant" showSubject={false} onStart={start} />
+        <SetupScreen gameId="synonym-antonym" storageKey="synant" showSubject={false} onStart={start} />
       )}
 
       {phase === 'playing' && current && (

@@ -6,6 +6,7 @@ import { TRUTHS, type TruthsLieItem } from '../data/banks/misc';
 import { shuffle } from '../tools/rng/util';
 import common from '../tools/common.module.css';
 import styles from './TwoTruthsLie.module.css';
+import quickStyles from './QuickQuiz.module.css';
 
 type Phase = 'setup' | 'playing' | 'result';
 
@@ -43,15 +44,28 @@ export function TwoTruthsLie() {
   const [idx, setIdx] = useState(0);
   const [picked, setPicked] = useState<number | null>(null);
   const [score, setScore] = useState(0);
+  const [startError, setStartError] = useState<string | null>(null);
 
   function start(sel: SetupSelections) {
+    setStartError(null);
     const pool = TRUTHS[sel.stream] ?? [];
-    // Subject filter: keep items whose subject matches; if zero match, fall back
-    // to the whole stream pool so we never start an empty round.
+    // Subject filter: if a specific subject is selected but yields zero items
+    // at this stream, refuse to start and surface a visible warning rather
+    // than silently serving content from a different subject.
     let narrowed = pool;
     if (sel.subject !== 'mix') {
       const filtered = pool.filter((t) => t.subject === sel.subject);
-      if (filtered.length > 0) narrowed = filtered;
+      if (filtered.length === 0) {
+        setStartError(
+          `No Two Truths items tagged for that subject at this stream yet. Try "Mixed" or pick a different stream.`,
+        );
+        return;
+      }
+      narrowed = filtered;
+    }
+    if (narrowed.length === 0) {
+      setStartError('No items found for that stream. Try a different stream.');
+      return;
     }
     const list = shuffle(narrowed).slice(0, sel.count);
     setSetup(sel);
@@ -86,7 +100,10 @@ export function TwoTruthsLie() {
       description="Three statements appear. Two are true; one is a lie. Spot the lie."
     >
       {phase === 'setup' && (
-        <SetupScreen storageKey="twotruths" onStart={start} />
+        <>
+          {startError && <p className={quickStyles.startError}>{startError}</p>}
+          <SetupScreen gameId="two-truths-one-lie" storageKey="twotruths" onStart={start} />
+        </>
       )}
 
       {phase === 'playing' && current && (

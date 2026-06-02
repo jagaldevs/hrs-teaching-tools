@@ -81,7 +81,7 @@ export function QuickQuiz() {
       {phase === 'setup' && (
         <>
           {startError && <p className={styles.startError}>{startError}</p>}
-          <SetupScreen storageKey="quickquiz" onStart={start} showSeniorUnits />
+          <SetupScreen gameId="quick-quiz" storageKey="quickquiz" onStart={start} showSeniorUnits />
         </>
       )}
 
