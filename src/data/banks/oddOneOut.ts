@@ -482,7 +482,11 @@ export const ODD_BANK: Bank<OddItem> = {
       history: SENIOR_HISTORY,
       geography: SENIOR_GEOGRAPHY,
       science: SENIOR_SCIENCE,
-      computing: SENIOR_COMPUTING,
+      // 'computing' deliberately omitted from byStreamSubject.
+      // The 75 SD3-4 OOO items are class-anchored in byClass below.
     },
+  },
+  byClass: {
+    'vce-software-development-3-4': SENIOR_COMPUTING,
   },
 };

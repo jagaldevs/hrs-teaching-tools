@@ -3,8 +3,18 @@ import type { Stream } from '../data/games';
 export type Subject = 'english' | 'maths' | 'history' | 'geography' | 'science' | 'computing' | 'general';
 
 export interface Bank<Q> {
-  /** Questions grouped by stream then subject. */
+  /**
+   * Legacy AC V9 lookup. Generic items live here and are reached when a
+   * class picker selection has no anchored content (see pickFromClass()
+   * for the backfill rule).
+   */
   byStreamSubject: Partial<Record<Stream, Partial<Record<Subject, Q[]>>>>;
+  /**
+   * HRS-anchored content keyed by HrsClass id (see src/data/classes.ts).
+   * When set for a class, this takes precedence over byStreamSubject in
+   * the new class picker model.
+   */
+  byClass?: Partial<Record<string, Q[]>>;
 }
 
 /** Single multiple-choice question. */

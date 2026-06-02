@@ -744,7 +744,11 @@ export const MCQ_BANK: Bank<MCQ> = {
       history: SENIOR_HISTORY,
       geography: SENIOR_GEOGRAPHY,
       science: SENIOR_SCIENCE,
-      computing: SENIOR_COMPUTING,
+      // 'computing' deliberately omitted from byStreamSubject.
+      // The 100 SD3-4 MCQs are class-anchored in byClass below.
     },
+  },
+  byClass: {
+    'vce-software-development-3-4': SENIOR_COMPUTING,
   },
 };

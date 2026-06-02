@@ -1,4 +1,5 @@
 import type { Stream } from '../data/games';
+import { findClass } from '../data/classes';
 import type { Bank, MCQ, Subject } from './types';
 import { shuffle } from '../tools/rng/util';
 import type { SetupSelections } from './GameShell';
@@ -74,5 +75,64 @@ export function pickFromBank<Q>(
   return {
     items: slice.map((t) => t.item),
     subjects: slice.map((t) => t.subject),
+  };
+}
+
+/**
+ * Pull questions from a bank for a given HRS class.
+ *
+ *   - If the class has anchored content (`bank.byClass[classId]`) and at
+ *     least `count` items, returns a shuffled slice of those.
+ *   - Otherwise tops up from the legacy generic pool via `pickFromBank`,
+ *     keyed by the class's `legacyStream` + `subject` and narrowed by
+ *     `legacyUnits` when present.
+ *   - If neither yields anything, returns an empty result.
+ *
+ * The `subjects` array is filled with the class's declared subject for
+ * every returned item — anchored items don't carry their own subject
+ * (the class owns it).
+ */
+export function pickFromClass<Q>(
+  bank: Bank<Q>,
+  classId: string,
+  count: number,
+): { items: Q[]; subjects: Subject[]; classId: string } {
+  const klass = findClass(classId);
+  if (!klass) return { items: [], subjects: [], classId };
+
+  const anchored = bank.byClass?.[classId] ?? [];
+  if (anchored.length >= count) {
+    const items = shuffle(anchored).slice(0, count);
+    return {
+      items,
+      subjects: items.map(() => klass.subject),
+      classId,
+    };
+  }
+
+  // Need more — top up from legacy.
+  const need = count - anchored.length;
+  if (klass.legacyStream) {
+    const unitFilter = klass.legacyUnits
+      ? (q: Q) => klass.legacyUnits!.includes((q as unknown as MCQ).unit as 1 | 2 | 3 | 4)
+      : undefined;
+    const legacy = pickFromBank(bank, klass.legacyStream, klass.subject, need, unitFilter);
+    const combined = shuffle([
+      ...anchored.map((item) => ({ item, subject: klass.subject as Subject })),
+      ...legacy.items.map((item, i) => ({ item, subject: legacy.subjects[i]! })),
+    ]).slice(0, count);
+    return {
+      items: combined.map((t) => t.item),
+      subjects: combined.map((t) => t.subject),
+      classId,
+    };
+  }
+
+  // No legacy backfill — just return whatever's anchored.
+  const items = shuffle(anchored).slice(0, count);
+  return {
+    items,
+    subjects: items.map(() => klass.subject),
+    classId,
   };
 }
