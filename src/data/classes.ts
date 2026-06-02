@@ -257,7 +257,7 @@ export const HRS_CLASSES: HrsClass[] = [
   vce34('vce-geography-3-4',            'VCE Geography 3-4',                     'geography', 'humanities/geography-3-4'),
   vce34('vce-economics-3-4',            'VCE Economics 3-4',                     'history',   'humanities/economics-3-4'),
   vce34('vce-legal-studies-3-4',        'VCE Legal Studies 3-4',                 'history',   'humanities/legal-studies-3-4'),
-  vce34('vce-sociology-3-4',            'VCE Sociology 3-4',                     'history',   'humanities/sociology-3-4'),
+  vce34('vce-sociology-3-4',            'VCE Sociology 3-4',                     'history',   'humanities/sociology-3-4', /* anchored */ true),
   vce34('vce-accounting-3-4',           'VCE Accounting 3-4',                    'history',   'humanities/accounting-3-4'),
   vce34('vce-business-management-3-4',  'VCE Business Management 3-4',           'history',   'humanities/business-management-3-4'),
   // Arts

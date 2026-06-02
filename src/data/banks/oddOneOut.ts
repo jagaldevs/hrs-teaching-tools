@@ -453,6 +453,95 @@ const SENIOR_COMPUTING: OddItem[] = [
   { id: 'ss-comp-75', items: ['APP 11 (security)', 'APP 6 (use/disclosure)', 'IPP 4 (security)', 'TCP/IP'], outlier: 3, explanation: '"TCP/IP" is a networking protocol; the others are privacy-principle references.' },
 ];
 
+// ============================================================
+//  SENIOR — SOCIOLOGY (VCE Sociology Units 3–4)
+//  Anchored to VCAA Sociology Study Design 2024.
+// ============================================================
+const SENIOR_SOCIOLOGY: OddItem[] = [
+  // -- Unit 3 AOS 1: Indigenous cultures --
+  { id: 'ss-soc-1', items: ['Charles Wright Mills', 'Evan Willis', 'Stuart Hall', 'Erica Chenoweth'], outlier: 3, explanation: '"Chenoweth" is the social-movements theorist; the others are most associated with the sociological imagination and culture.' },
+  { id: 'ss-soc-2', items: ['Tools', 'Clothing', 'Artworks', 'Beliefs'], outlier: 3, explanation: '"Beliefs" are non-material culture; the others are material.' },
+  { id: 'ss-soc-3', items: ['Values', 'Language', 'Norms', 'Pottery'], outlier: 3, explanation: '"Pottery" is material culture; the others are non-material.' },
+  { id: 'ss-soc-4', items: ['Wurundjeri', 'Yorta Yorta', 'Larrakia', 'Vietnamese'], outlier: 3, explanation: '"Vietnamese" is an ethnic group; the others are Australian Indigenous nations.' },
+  { id: 'ss-soc-5', items: ['Protection', 'Segregation', 'Assimilation', 'Reconciliation'], outlier: 3, explanation: '"Reconciliation" is a contemporary process; the others are suppression-era government policies.' },
+  { id: 'ss-soc-6', items: ['Mabo decision', 'The Apology', 'Uluru Statement', 'The Intervention'], outlier: 3, explanation: '"The Intervention" (NTER) is a suppression-era policy; the others are reconciliation milestones.' },
+  { id: 'ss-soc-7', items: ['Acknowledgement of Country', 'Welcome to Country', 'The Apology', 'Closing the Gap'], outlier: 3, explanation: '"Closing the Gap" is practical reconciliation; the others are symbolic.' },
+  { id: 'ss-soc-8', items: ['Terra nullius', 'One Indigenous culture', 'Arid-areas-only', 'Cultural diversity'], outlier: 3, explanation: '"Cultural diversity" is a fact; the others are public misconceptions VCAA identifies.' },
+  { id: 'ss-soc-9', items: ['Stolen Generations', 'Mission stations', 'Forced removal', 'Native title'], outlier: 3, explanation: '"Native title" is a contemporary legal recognition; the others are products of suppression-era policy.' },
+  { id: 'ss-soc-10', items: ['Ethnocentric', 'Culturally relativist', 'Symbolic', 'Practical'], outlier: 0, explanation: '"Ethnocentric" is the only term in that pair; the other three connect to reconciliation or representation analysis differently — VCAA pairs ethnocentric vs culturally relativist; symbolic vs practical reconciliation.' },
+  { id: 'ss-soc-11', items: ['1788', '1901', '1992', '2008'], outlier: 0, explanation: '1788 is European arrival; the others are reconciliation milestones (Federation, Mabo, Apology).' },
+  { id: 'ss-soc-12', items: ['Songlines', 'Dreaming stories', 'Language', 'Boomerangs'], outlier: 3, explanation: '"Boomerangs" are material culture; the others are non-material.' },
+  { id: 'ss-soc-13', items: ['Sociological imagination', 'Historical facet', 'Cultural facet', 'Algorithmic facet'], outlier: 3, explanation: '"Algorithmic" is not one of Evan Willis\'s four facets. Willis names historical, cultural, structural and critical.' },
+  { id: 'ss-soc-14', items: ['Truth telling', 'The Apology', 'Acknowledgement of Country', 'Government funding for Indigenous health'], outlier: 3, explanation: '"Funding for health" is practical reconciliation; the others are symbolic.' },
+  { id: 'ss-soc-15', items: ['Mills', 'Willis', 'Keating', 'Tönnies'], outlier: 3, explanation: '"Tönnies" is the community theorist; the others connect to the sociological imagination or symbolic reconciliation.' },
+  { id: 'ss-soc-16', items: ['Protection', 'Assimilation', 'Integration', 'Multiculturalism'], outlier: 3, explanation: '"Multiculturalism" celebrates diversity; the others are suppression-era policies.' },
+  { id: 'ss-soc-17', items: ['Material culture', 'Non-material culture', 'Sociological imagination', 'Coercive power'], outlier: 3, explanation: '"Coercive power" belongs to social movements; the others are U3 culture concepts.' },
+  { id: 'ss-soc-18', items: ['Stereotyping', 'Prejudice', 'Discrimination', 'Reconciliation'], outlier: 3, explanation: '"Reconciliation" repairs harm; the others can perpetuate it.' },
+
+  // -- Unit 3 AOS 2: Ethnicity --
+  { id: 'ss-soc-19', items: ['Ethnicity', 'Race', 'Hybridity', 'Multiculturalism'], outlier: 1, explanation: '"Race" is the category sociologists largely reject; the others are sociologically accepted concepts.' },
+  { id: 'ss-soc-20', items: ['Voluntary participation', 'Informed consent', 'Privacy', 'Coercive participation'], outlier: 3, explanation: '"Coercive participation" violates ethical methodology; the others are its required elements.' },
+  { id: 'ss-soc-21', items: ['Stuart Hall', 'Cultural hybridity', 'Diaspora', 'Stanley Cohen'], outlier: 3, explanation: '"Stanley Cohen" wrote on moral panic (Unit 2); the others connect to ethnicity / hybridity.' },
+  { id: 'ss-soc-22', items: ['Othering', 'In-group', 'Out-group', 'Practical reconciliation'], outlier: 3, explanation: '"Practical reconciliation" is U3 AOS 1; the others connect to othering and ethnicity.' },
+  { id: 'ss-soc-23', items: ['White Australia Policy', 'Assimilation policy', 'Integration policy', 'Multiculturalism'], outlier: 3, explanation: '"Multiculturalism" (1973+) replaced the exclusionary policies the others represent.' },
+  { id: 'ss-soc-24', items: ['Whitlam government', '1973', 'Multiculturalism', '1788'], outlier: 3, explanation: '"1788" is European arrival; the others mark the introduction of multiculturalism.' },
+  { id: 'ss-soc-25', items: ['Confidentiality of data', 'Privacy', 'Informed consent', 'Loud disclosure'], outlier: 3, explanation: 'There is no "loud disclosure" principle; the others are real ethical elements.' },
+  { id: 'ss-soc-26', items: ['Diaspora', 'Migration', 'Hybridity', 'Coercive power'], outlier: 3, explanation: '"Coercive power" is from U4 social movements; the others connect to ethnicity.' },
+  { id: 'ss-soc-27', items: ['Cultural practices', 'Media representations', 'Political factors', 'Geographical proximity'], outlier: 3, explanation: '"Geographical proximity" belongs to community theory; the others are factors influencing belonging in multicultural Australia.' },
+  { id: 'ss-soc-28', items: ['Religion', 'Language', 'Cuisine', 'Census taxpayer ID'], outlier: 3, explanation: 'A "taxpayer ID" is administrative; the others are markers of cultural identity.' },
+  { id: 'ss-soc-29', items: ['TASA guidelines', 'Voluntary participation', 'Informed consent', 'Astrological matching'], outlier: 3, explanation: 'Astrology is not a research methodology; the others are ethical methodology references.' },
+  { id: 'ss-soc-30', items: ['Stereotype', 'Prejudice', 'Discrimination', 'Sociological imagination'], outlier: 3, explanation: 'The "sociological imagination" is an analytical tool; the others are forms of harm.' },
+  { id: 'ss-soc-31', items: ['Chinese-Australian', 'Vietnamese-Australian', 'Greek-Australian', 'Wurundjeri'], outlier: 3, explanation: 'Wurundjeri is an Australian Indigenous nation, not a migrant ethnic group.' },
+  { id: 'ss-soc-32', items: ['Hybridity', 'Diaspora', 'Identity', 'Bureaucratisation'], outlier: 3, explanation: '"Bureaucratisation" is a social-movement stage; the others connect to ethnicity / identity.' },
+  { id: 'ss-soc-33', items: ['Ethnocentrism', 'Cultural relativism', 'Othering', 'Coalescence'], outlier: 3, explanation: '"Coalescence" is a social-movement stage; the others are culture / ethnicity concepts.' },
+  { id: 'ss-soc-34', items: ['Stuart Hall', 'Cultural hybridity', 'Postmodern identity', 'Gemeinschaft'], outlier: 3, explanation: '"Gemeinschaft" is Tönnies\'s concept; the others connect to Hall\'s hybridity.' },
+  { id: 'ss-soc-35', items: ['Withdrawal rights', 'Anonymity', 'Informed consent', 'Surveillance'], outlier: 3, explanation: '"Surveillance" violates ethical methodology; the others enable it.' },
+  { id: 'ss-soc-36', items: ['Voluntary', 'Informed', 'Private', 'Public'], outlier: 3, explanation: 'Ethical methodology requires data NOT be public by default; the others are required elements.' },
+  { id: 'ss-soc-37', items: ['Self-identification', 'Common heritage', 'Shared language', 'Visible skin colour'], outlier: 3, explanation: '"Visible skin colour" is part of the rejected concept of race; the others are ethnicity components.' },
+
+  // -- Unit 4 AOS 1: Community --
+  { id: 'ss-soc-38', items: ['Ferdinand Tönnies', 'Michel Maffesoli', 'Gemeinschaft', 'Stuart Hall'], outlier: 3, explanation: '"Stuart Hall" works on ethnicity / hybridity; the others connect to community theory.' },
+  { id: 'ss-soc-39', items: ['Gemeinschaft', 'Gesellschaft', 'Neo-tribe', 'Diaspora'], outlier: 3, explanation: '"Diaspora" is an ethnicity concept; the others are community theory concepts.' },
+  { id: 'ss-soc-40', items: ['Traditional', 'Rural', 'Kinship', 'Transactional'], outlier: 3, explanation: '"Transactional" describes Gesellschaft; the others describe Gemeinschaft.' },
+  { id: 'ss-soc-41', items: ['Urban', 'Modern', 'Contractual', 'Kin-based'], outlier: 3, explanation: '"Kin-based" describes Gemeinschaft; the others describe Gesellschaft.' },
+  { id: 'ss-soc-42', items: ['Fan club', 'Music festival crowd', 'Online community', 'Medieval village'], outlier: 3, explanation: 'A medieval village is Gemeinschaft; the others are Maffesoli neo-tribes.' },
+  { id: 'ss-soc-43', items: ['Active participation', 'Emotional connection', 'Belonging', 'Coercive power'], outlier: 3, explanation: '"Coercive power" is U4 AOS 2; the others build sense of community.' },
+  { id: 'ss-soc-44', items: ['Economic factors', 'Social factors', 'Political factors', 'Astrological factors'], outlier: 3, explanation: 'Astrology is not a factor in community; the others are explicit study-design influences.' },
+  { id: 'ss-soc-45', items: ['Climate', 'Landforms', 'Proximity', 'Algorithm'], outlier: 3, explanation: '"Algorithm" is a digital concept; the others are geographical characteristics.' },
+  { id: 'ss-soc-46', items: ['ICT', 'Social media', 'Online forum', 'Town square'], outlier: 3, explanation: '"Town square" is a physical third place; the others are ICT-enabled.' },
+  { id: 'ss-soc-47', items: ['Community garden', 'Sports club', 'Men\'s shed', 'Parliament'], outlier: 3, explanation: 'Parliament is a formal political institution; the others are local communities of practice.' },
+  { id: 'ss-soc-48', items: ['Maffesoli', 'Neo-tribe', 'Postmodernity', 'Symbolic reconciliation'], outlier: 3, explanation: '"Symbolic reconciliation" is U3 AOS 1; the others connect to Maffesoli\'s neo-tribes.' },
+  { id: 'ss-soc-49', items: ['Tönnies', 'Gemeinschaft', 'Gesellschaft', 'Cultural hybridity'], outlier: 3, explanation: '"Cultural hybridity" is Hall\'s concept; the others belong to Tönnies.' },
+  { id: 'ss-soc-50', items: ['Belonging', 'Trust', 'Participation', 'Bureaucratisation'], outlier: 3, explanation: '"Bureaucratisation" is a social-movement stage; the others underpin sense of community.' },
+  { id: 'ss-soc-51', items: ['Online fandom', 'Sports supporter club', 'Music subculture', 'Medieval guild'], outlier: 3, explanation: 'A medieval guild is more Gemeinschaft; the others are clear examples of Maffesoli\'s neo-tribes.' },
+  { id: 'ss-soc-52', items: ['Local newsletter', 'Community festival', 'Council policy', 'Stock-market trading'], outlier: 3, explanation: '"Stock-market trading" doesn\'t build community ties; the others do.' },
+  { id: 'ss-soc-53', items: ['Geographical proximity', 'Shared interest', 'Mutual ideology', 'Coercive power'], outlier: 3, explanation: '"Coercive power" is U4 AOS 2; the others are bases for community formation.' },
+  { id: 'ss-soc-54', items: ['Gemeinschaft', 'Gesellschaft', 'Neo-tribe', 'Othering'], outlier: 3, explanation: '"Othering" is U3 AOS 2; the others are community-theory categories.' },
+  { id: 'ss-soc-55', items: ['Kinship', 'Tradition', 'Shared values', 'Hashtag'], outlier: 3, explanation: 'A "hashtag" is a modern digital tool; the others define traditional Gemeinschaft.' },
+
+  // -- Unit 4 AOS 2: Social movements --
+  { id: 'ss-soc-56', items: ['Alternative', 'Redemptive', 'Reformative', 'Bureaucratisation'], outlier: 3, explanation: '"Bureaucratisation" is a STAGE, not a TYPE. Types: alternative, redemptive, reformative, revolutionary.' },
+  { id: 'ss-soc-57', items: ['Emergence', 'Coalescence', 'Bureaucratisation', 'Revolutionary'], outlier: 3, explanation: '"Revolutionary" is a TYPE, not a STAGE. Stages: emergence, coalescence, bureaucratisation, decline.' },
+  { id: 'ss-soc-58', items: ['Reward', 'Coercive', 'Referent', 'Symbolic'], outlier: 3, explanation: '"Symbolic" is from U3 reconciliation; the others are forms of power per VCAA.' },
+  { id: 'ss-soc-59', items: ['Reward', 'Coercive', 'Expert', 'Bureaucratisation'], outlier: 3, explanation: '"Bureaucratisation" is a stage; the others are forms of power.' },
+  { id: 'ss-soc-60', items: ['Legitimate', 'Expert', 'Informational', 'Neo-tribe'], outlier: 3, explanation: '"Neo-tribe" is community theory; the others are forms of power.' },
+  { id: 'ss-soc-61', items: ['Mothers Against Drunk Driving', 'Alcoholics Anonymous', 'Environmental movement', 'A symphony orchestra'], outlier: 3, explanation: 'A symphony orchestra is not a social movement; the others are textbook examples.' },
+  { id: 'ss-soc-62', items: ['Civil Rights Movement', 'Suffrage Movement', 'Climate movement', 'Census collection'], outlier: 3, explanation: 'A census is a government activity; the others are social movements.' },
+  { id: 'ss-soc-63', items: ['Petition', 'Lobbying', 'Public letter', 'Coercive force'], outlier: 3, explanation: 'Coercive force is associated with violent action; the others are non-violent reformative tactics.' },
+  { id: 'ss-soc-64', items: ['Erica Chenoweth', 'Non-violent civil disobedience', 'Statistical analysis of movements', 'Stuart Hall'], outlier: 3, explanation: '"Stuart Hall" works on cultural hybridity; the others connect to Chenoweth\'s research on movement success.' },
+  { id: 'ss-soc-65', items: ['Co-optation', 'Repression', 'Success', 'Coalescence'], outlier: 3, explanation: '"Coalescence" is a stage; the others are causes of decline.' },
+  { id: 'ss-soc-66', items: ['Alternative', 'Limited change', 'Limited population', 'Whole society'], outlier: 3, explanation: 'Alternative movements target a limited population — NOT the whole society.' },
+  { id: 'ss-soc-67', items: ['Revolutionary', 'Radical change', 'Whole society', 'Limited population'], outlier: 3, explanation: 'Revolutionary movements target the WHOLE society, not a limited population.' },
+  { id: 'ss-soc-68', items: ['Redemptive', 'Radical change', 'Limited population', 'Whole society'], outlier: 3, explanation: 'Redemptive movements target a LIMITED population (individuals), not the whole society.' },
+  { id: 'ss-soc-69', items: ['Reformative', 'Limited change', 'Whole society', 'Radical change'], outlier: 3, explanation: 'Reformative = LIMITED change across the whole society, not radical change.' },
+  { id: 'ss-soc-70', items: ['Emergence', 'Coalescence', 'Bureaucratisation', 'Hybridity'], outlier: 3, explanation: '"Hybridity" is Hall\'s ethnicity concept; the others are movement stages.' },
+  { id: 'ss-soc-71', items: ['Decline', 'Coalescence', 'Bureaucratisation', 'Gemeinschaft'], outlier: 3, explanation: '"Gemeinschaft" is community theory; the others are movement stages.' },
+  { id: 'ss-soc-72', items: ['Non-violent civil disobedience', 'Mass protest', 'Boycotts', 'Armed insurrection'], outlier: 3, explanation: 'Armed insurrection is violent; the others are non-violent tactics Chenoweth highlights as more effective.' },
+  { id: 'ss-soc-73', items: ['Reward power', 'Coercive power', 'Material culture', 'Expert power'], outlier: 2, explanation: '"Material culture" is U3; the others are forms of power.' },
+  { id: 'ss-soc-74', items: ['Social movement', 'Social change', 'Civil disobedience', 'Ethnocentrism'], outlier: 3, explanation: '"Ethnocentrism" is U3; the others belong to U4 social movements.' },
+  { id: 'ss-soc-75', items: ['Charisma', 'Referent power', 'Movement leader', 'Coercive force'], outlier: 3, explanation: 'Coercive force is the opposite of referent power, which is charisma-based.' },
+];
+
 export const ODD_BANK: Bank<OddItem> = {
   byStreamSubject: {
     lower_primary: {
@@ -488,5 +577,6 @@ export const ODD_BANK: Bank<OddItem> = {
   },
   byClass: {
     'vce-software-development-3-4': SENIOR_COMPUTING,
+    'vce-sociology-3-4': SENIOR_SOCIOLOGY,
   },
 };
