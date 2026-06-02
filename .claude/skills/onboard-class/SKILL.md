@@ -288,6 +288,44 @@ Workflow:
 
 See `ba3326f` (Sociology batch 2, +100 MCQs) for the worked example.
 
+### 5g. MCQ quality checklist — apply to every item
+
+Added Jun 2026 after a Sociology audit found ~50 of 300 items had
+obvious-answer tells. Every new and edited MCQ must satisfy:
+
+1. **Length parity.** All four choice strings within ±30% length
+   of each other. The correct option is NOT the longest, never the
+   only one with a comma-clause or em-dash explanation.
+2. **No "Only X" distractors.** Strings starting with "Only" or
+   "Just" almost always flag a wrong option to test-savvy students.
+   Rewrite distractors as plausible alternative claims.
+3. **No em-dash explanations on the correct option only.** If you
+   use em-dashes to add detail, use them on at least two options
+   or none.
+4. **Plausible misconceptions.** Every distractor must be something
+   a confused student could actually believe. "Coca-Cola funded a
+   climate movement" is a joke distractor; "Greenpeace funded it"
+   tests whether the student knows the textbook's specific answer.
+5. **No telegraphed stems.** The stem must not name the answer's
+   surface feature. Bad: "as the textbook quotes:" with only one
+   quoted option. Good: "the textbook justifies this primarily on:".
+6. **Page references in explanation, not stem.** If you anchor to
+   a textbook page, put the reference in `explanation`. Never in
+   the question text or a choice — that primes recognition.
+
+Quick grep check before committing a batch:
+
+```bash
+# Find Only/Just distractors
+grep -nE "'(Only |Just )[a-z]" src/data/banks/mcq.ts | grep <prefix>
+
+# Find em-dash tells (em-dash in choices array — needs eyeballing)
+grep -nE "' — [a-z]" src/data/banks/mcq.ts | grep <prefix>
+```
+
+See commits `b3a3e?? `… for the Sociology audit pass that
+established this rule.
+
 ### 5e. Style anchors (the exam-faithful pattern)
 
 If a VCAA exam exists for the discipline, mine it explicitly
