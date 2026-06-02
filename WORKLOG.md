@@ -340,6 +340,73 @@ py -c "import pypdf; r = pypdf.PdfReader(r'<path>.pdf'); open(r'<same-folder>\te
 Then Grep the extracted text for terms, Read the matching offsets.
 The skill's Step 1 now points at this workaround.
 
+### 5.10 The "obvious-answer" anti-pattern audit (Jun 2026)
+
+**Symptom:** Jack asked "I'm concerned about the rigour... many
+answers are just obvious." Audit found ~60+ items across Sociology
+AND SD3-4 with one or more obvious-answer tells.
+
+**Root anti-patterns:**
+1. **"Only X" distractors** — the correct option was always the
+   non-"Only" one (e.g. ss-comp-45's "Only the user interface"
+   alongside the only comprehensive option)
+2. **Em-dash explanations on the correct option only** — the right
+   answer carried " — explanation" that distractors did not
+   (rampant in the Sunrise textbook-anchored batch)
+3. **Joke distractors** — e.g. ss-soc-291 originally had
+   "Coca-Cola and Pepsi" as a Sunrise-funder distractor; ss-comp-51
+   had "Programmer jokes" as a data-dictionary contents distractor
+4. **Telegraphed stems** — "as the textbook quotes:" with only one
+   quoted option (ss-soc-290)
+
+**Fix:** Established a 6-point rigour checklist in SKILL §5g. Did
+two rewrite passes:
+- Sociology: 44 items rewritten (commit `dceb249`)
+- SD3-4: ~13 worst offenders rewritten (commit pending)
+
+**Lesson:** Apply the checklist on the way IN. The grep commands
+in SKILL §5g (looking for `'Only `, `'Just `, em-dash patterns)
+find most failures in seconds. Don't ship a batch without running
+them.
+
+### 5.11 OCR workflow for scanned textbooks (Jun 2026)
+
+**Symptom:** The SD3-4 "textbook" PDF is 371MB and pypdf extracted
+zero text from any page. Turned out to be an image-only scanned PDF.
+Tried Read tool — refused (100MB limit, file is 371MB).
+
+**Fix:** Installed the OCR toolchain via:
+```powershell
+winget install -e --id UB-Mannheim.TesseractOCR --silent
+py -m pip install pytesseract PyMuPDF --quiet
+```
+
+Tesseract installs to `%LOCALAPPDATA%\Programs\Tesseract-OCR\` — no
+admin/UAC needed for the UB-Mannheim build. PyMuPDF (fitz) handles
+PDF rasterisation without needing Poppler.
+
+OCR script (using fitz + pytesseract at 200 DPI):
+
+```python
+import fitz, pytesseract, io
+from PIL import Image
+pytesseract.pytesseract.tesseract_cmd = r'%LOCALAPPDATA%\Programs\Tesseract-OCR\tesseract.exe'
+doc = fitz.open('input.pdf')
+with open('textbook-extracted.txt', 'w', encoding='utf-8') as f:
+    for i, page in enumerate(doc):
+        pix = page.get_pixmap(dpi=200)
+        img = Image.open(io.BytesIO(pix.tobytes('png')))
+        f.write(f'=== PAGE {i+1} ===\n{pytesseract.image_to_string(img, lang="eng")}\n')
+```
+
+Performance: ~3-5 sec per page on this machine (334 pages → ~25 min).
+Quality: clean prose; tables and code blocks get some OCR noise but
+remain Greppable. Output for SD3-4: 24,368 lines from 334 pages.
+
+**Lesson:** Before assuming a textbook is unreadable, check whether
+it's image-only or text-embedded. The pypdf one-liner from §5.8 is
+fast; if it produces empty pages, switch to the OCR pipeline above.
+
 ### 5.9 Class onboarding "second batch" is now a deliberate pattern (Jun 2026)
 
 **What:** The full anchored class pool is now:
