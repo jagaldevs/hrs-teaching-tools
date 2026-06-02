@@ -308,6 +308,49 @@ Workers → Unregister, or open in incognito. The fix isn't "do the
 change again differently" — it's "force the browser to load the
 new bundle".
 
+### 5.8 The "skip textbooks >5MB" rule has a nuance (Jun 2026)
+
+**Symptom:** During VCE Sociology 3-4 onboarding, I skipped the 19MB
+textbook per Step 1 of the onboard-class skill ("Skip unless < 5MB").
+Jack asked "did you use the textbook at all?" — I had to admit no.
+The first 200-item batch was anchored only to the study design + two
+exams, and missed specific case-study detail (K'gari, Australian
+Men's Shed, Keysborough CFA, Sunrise Movement) that the textbook
+elaborates richly.
+
+**Cause:** The size rule treats "can't be cleanly Read" as "shouldn't
+be consulted at all". For revision-style brain-break content, the
+study design IS canonical for scope; the textbook adds named case
+studies that make MCQ stems vivid and exam-faithful. Worth the cost.
+
+**Fix:** Used `py -m pip install pypdf` then a one-liner to extract
+the whole PDF to a `textbook-extracted.txt` file in the same folder
+(gitignored). After that, Grep + targeted Reads gave fast access to
+exactly the sections needed (revision questions per AOS, then the
+named case studies). Authored a second batch of 100 MCQs anchored to
+that specific detail, bringing Sociology to 450 items total.
+
+**Lesson:** If a textbook PDF is too big for Read, **don't skip it —
+extract it**. The pypdf workaround:
+
+```powershell
+py -c "import pypdf; r = pypdf.PdfReader(r'<path>.pdf'); open(r'<same-folder>\textbook-extracted.txt','w',encoding='utf-8').write('\n'.join(f'=== PAGE {i+1} ===\n' + p.extract_text() for i,p in enumerate(r.pages)))"
+```
+
+Then Grep the extracted text for terms, Read the matching offsets.
+The skill's Step 1 now points at this workaround.
+
+### 5.9 Class onboarding "second batch" is now a deliberate pattern (Jun 2026)
+
+**What:** The full anchored class pool is now:
+- Batch 1: 200 MCQ from study design + exams (study-design-faithful)
+- Batch 2: 100 MCQ from textbook case studies (case-study-anchored)
+- 75 OOO + 75 TL alongside
+- Total: **450 items per anchored class**
+
+SD3-4 and Sociology 3-4 are both at this distribution. Use it as the
+default for future VCE 3-4 classes — see SKILL §5b for the workflow.
+
 ### 5.7 Lost the working directory between sessions
 
 **Symptom:** Tried to work from `C:\Users\jack.galbraith\OneDrive –
@@ -407,7 +450,20 @@ filled in (vce-software-development-3-4). The other 113 still
 contain the template. Per-class authoring is the long-term work —
 see §6 recipe.
 
-### 7.4 Source material progress log
+### 7.4 Next class to onboard
+
+Two classes are now HRS-anchored at the full 450-item distribution:
+- VCE Software Development 3-4 (350 items + 100 exam-style batch 2 = 450)
+- VCE Sociology 3-4 (200 + 100 textbook + 75 OOO + 75 TL = 450)
+
+The other 112 entries in `HRS_CLASSES` still rely on generic AC V9
+backfill. **No specific class is queued next** — confirm the target
+with Jack at the start of any new onboarding session. Likely
+candidates based on what teaching staff have asked for so far: other
+VCE 3-4 classes (Methods, Biology, English), or the Y9 electives
+that have study material in `source-material/`.
+
+### 7.5 Source material progress log
 
 `source-material/PROGRESS-LOG.md` was set up to track which subjects
 have been HRS-anchored. It still uses the old "SAC-anchored" status
@@ -418,6 +474,12 @@ The new way to track anchoring is the `anchored: true` flag in
 
 ---
 
-_Last updated: 2026-06-02 by Claude (Opus 4.7) during the VCE
-Software Development 3-4 rollout. Append, don't overwrite — and date
+_Last updated: 2026-06-02 by Claude (Opus 4.7) at the end of the VCE
+Sociology 3-4 rollout (450 items). Append, don't overwrite — and date
 new entries so future readers know what's fresh._
+
+**Session handoff (2026-06-02, end of context):** Both anchored
+classes are at 450 items. The onboard-class skill is the source of
+truth for adding the next one — it has been refreshed with the pypdf
+workaround and the 200+100+75+75 distribution. The next session
+should start by asking Jack which class to onboard next (see §7.4).

@@ -46,16 +46,41 @@ Identify what's there. Typical files:
 - `<Subject> examination.pdf` — **canonical for question style**
   when available (VCAA writes the exam, so its question shape is
   exactly what the discipline tests)
-- `<Textbook>.pdf` — usually large (100MB+). **Skip unless < 5MB.**
-  Textbooks elaborate dot-points the study design already lists;
-  reading them whole burns context for no benefit. Only dip into
-  them if a specific bank item needs a fact the study design
-  doesn't cover.
+- `<Textbook>.pdf` — usually large (50–500MB). **Do not read
+  page-by-page.** Textbooks elaborate dot-points the study design
+  already lists, but they DO have specific case studies (named
+  movements, named communities, named Indigenous nations) that
+  produce vivid, exam-faithful MCQs. Always plan to consult them —
+  see §1a for how.
 - `_overview.md` — the scaffolded template; we'll populate it.
 
-If the textbook is larger than ~5MB, **do not** sequentially read
-all pages. Use page ranges (e.g. `pages: "1-20"`) only if you
-genuinely need a specific concept the study design doesn't cover.
+### 1a — Textbooks the Read tool can't handle (the pypdf workaround)
+
+The Read tool can't open PDFs > ~10MB on this Windows box (the
+`pdftoppm` binary is missing). For any textbook in that situation,
+extract it to plain text once, then Grep/Read the extraction.
+
+```powershell
+py -m pip install pypdf --quiet
+py -c "import pypdf; r = pypdf.PdfReader(r'<absolute-path-to-textbook>.pdf'); open(r'<same-folder>\textbook-extracted.txt','w',encoding='utf-8').write('\n'.join(f'=== PAGE {i+1} ===\n' + p.extract_text() for i,p in enumerate(r.pages)))"
+```
+
+The extraction lives next to the PDF, is gitignored (whole
+`source-material/` is), and gives you:
+- Page markers (`=== PAGE 78 ===`) so you can cross-reference with
+  the printed textbook
+- Fast Grep-able access to specific named case studies, theorists,
+  and "test your knowledge" / revision-question sections
+
+Workflow:
+1. Extract once.
+2. Grep the TOC and revision questions per AOS.
+3. Grep + Read the specific case studies the textbook centres on.
+4. Mine those for the second MCQ batch (see Step 5f).
+
+This was added during the VCE Sociology 3-4 onboarding (Jun 2026)
+after the original "skip if > 5MB" rule led to a 200-item batch that
+missed the textbook's case studies — see WORKLOG §5.8.
 
 ## Step 2 — Read the source PDFs (small to large)
 
@@ -123,14 +148,19 @@ The `anchored` flag drives:
 
 ## Step 5 — Author the content (the ~350-item target)
 
-Default distribution per class:
+Default distribution per VCE 3-4 class — now **450 items** in three
+deliberate batches:
 
-| Game(s) | Bank file | Count | Notes |
-|---|---|---|---|
-| Quick Quiz + Buzzer Round | `src/data/banks/mcq.ts` | **200** | Shared MCQ pool. Tag every item with `unit: 1/2/3/4` for VCE classes. |
-| Odd One Out | `src/data/banks/oddOneOut.ts` | **75** | 4 items, 1 outlier, explanation. |
-| Two Truths and a Lie | `src/data/banks/misc.ts` | **75** | Three statements, exactly one false. Tag each item with `subject` AND `classId`. |
-| | | **350** total | |
+| Game(s) | Bank file | Count | Source anchor | Notes |
+|---|---|---|---|---|
+| Quick Quiz + Buzzer Round (Batch 1) | `src/data/banks/mcq.ts` | **200** | Study design + exams | Foundational + exam-style. Tag every item with `unit: 3/4`. |
+| Quick Quiz + Buzzer Round (Batch 2) | `src/data/banks/mcq.ts` | **100** | **Textbook case studies** | Anchored to specific named case studies (people, places, dates). See §5f. |
+| Odd One Out | `src/data/banks/oddOneOut.ts` | **75** | Mixed | 4 items, 1 outlier, explanation. |
+| Two Truths and a Lie | `src/data/banks/misc.ts` | **75** | Mixed | Three statements, exactly one false. Tag each item with `subject` AND `classId`. |
+| | | **450** total | | |
+
+Both anchored classes (VCE Software Development 3-4 and VCE Sociology
+3-4) are now at this distribution. Use it as the default.
 
 ### 5a. ID prefix convention
 
@@ -216,6 +246,47 @@ Verify: every item has EXACTLY ONE confidently false
 statement. The other two MUST be confidently true. Avoid
 ambiguous "actually all three are true" items (this happened
 in `ms-tl-5` and is the cause of WORKLOG §5.5).
+
+### 5f. Batch 2 — textbook-anchored MCQs (the case-study pattern)
+
+After Batch 1 (200 study-design + exam-style MCQs) is in and
+type-checked, mine the textbook for a second batch of 100. The
+purpose is to add **named, concrete, exam-faithful** items that the
+study design alone is too abstract to support.
+
+Workflow:
+
+1. **Extract the textbook** if you haven't already (§1a).
+2. **Grep the extracted text** for the AOS revision questions /
+   "test your knowledge" / activity callouts. Use them as a style
+   reference — they're the textbook author's idea of what students
+   should be able to recall.
+3. **Identify the named case studies** the textbook centres each AOS
+   on. For Sociology 3-4 these were K'gari/Butchulla, Australian
+   Men's Shed, Keysborough CFA, and the Sunrise Movement. Each
+   textbook will have its own.
+4. **Read each case study end-to-end** in the extracted text (use
+   line offsets — they're usually ~150-300 lines per case study).
+5. **Author ~25 MCQs per AOS** anchored to specific textbook detail:
+   dates, named people, named places, specific numbers, classification
+   choices the textbook makes (e.g. "the textbook classifies X as
+   reformative because...").
+6. **Number sequentially after Batch 1**: e.g. `ss-soc-201` through
+   `ss-soc-300` (Batch 1 was 1–200).
+7. **Insert with a comment marker** so the batch boundary is grep-able:
+
+   ```ts
+   { id: 'ss-soc-200', /* last batch-1 item */ ... },
+   // ── Textbook-anchored batch (ss-soc-201 to ss-soc-300) ──
+   // AOS 1 — <AOS name> (<textbook case study>)
+   { id: 'ss-soc-201', ... },
+   ```
+
+8. **Type-check, commit, push**. Commit body should call out the
+   named case studies mined — that's how future-you confirms the
+   anchoring without re-reading the textbook.
+
+See `ba3326f` (Sociology batch 2, +100 MCQs) for the worked example.
 
 ### 5e. Style anchors (the exam-faithful pattern)
 
