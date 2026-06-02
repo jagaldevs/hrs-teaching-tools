@@ -62,22 +62,32 @@ Current subjects + colours:
 | computing | `#14B8A6` (teal) | VCE Software Dev 3-4 (added Jun 2026) |
 | general | `#6B7280` (slate) | Whole-class items with no subject home |
 
-### 3.2 Stream taxonomy (currently)
+### 3.2 Class taxonomy (current model)
 
-Four AC V9 streams: `lower_primary` (F–2), `upper_primary` (3–6),
-`middle_school` (7–9), `senior_school` (10–12).
+The project switched from AC V9 streams to per-HRS-class targeting
+on 2026-06-02 (commits b306dd8 → 6f338bc). See `src/data/classes.ts`.
 
-**This is under review** — the project is moving toward per-class
-content (e.g. "VCE Software Dev 3-4" as its own selectable unit
-rather than "Senior + Computing"). See §7 Open questions.
+- **Year bands** (`YearBand`): `f-2 | 3-6 | y7 | y8 | y9 | y10 | vce-1-2 | vce-3-4`.
+- **HRS classes** (`HRS_CLASSES`): 114 entries, one per leaf under
+  `source-material/`. Each carries id, name, subject, sourcePath,
+  optional `anchored` flag, `legacyStream` (for backfill), and
+  `legacyUnits` (for VCE classes — narrows the MCQ legacy pool to
+  the right unit tags).
+- The **legacy `Stream` type** still exists on `Game.streams` and
+  inside `Bank.byStreamSubject` for backfill — it's not user-facing.
 
-### 3.3 Senior unit tagging
+User-facing pickers (landing page + SetupScreen):
+- **Year band** (single-select on SetupScreen, multi-select on landing)
+- **Class** (single-select on SetupScreen, multi-select on landing)
+- The Subject chip strip is gone — class implicitly carries subject.
 
-MCQ items in `senior_school` may carry `unit: 1 | 2 | 3 | 4`. The
-SetupScreen's "Senior cohort" chip strip (visible when stream =
-senior_school AND game passes `showSeniorUnits`) narrows to Y11
-(units 1–2) or Y12 (units 3–4). Only Quick Quiz, Buzzer Round and
-Question Generator opt into this.
+### 3.3 Senior unit tagging (still relevant)
+
+MCQ items can carry `unit: 1 | 2 | 3 | 4`. The narrowing now happens
+implicitly via the `HrsClass.legacyUnits` field — when a teacher
+picks a `vce-3-4` class, `pickFromClass` filters legacy backfill to
+items with `unit: 3` or `4`. The "Senior cohort" chip strip on
+SetupScreen is gone (`showSeniorUnits` prop removed).
 
 ### 3.4 ID naming for bank items
 
@@ -107,22 +117,37 @@ id** (like `comp-`) so they're easy to grep and update later.
 { id, items: [4], outlier: 0..3, explanation, acCode? }
 
 // TruthsLieItem (misc.ts) — Two Truths and a Lie
-{ id, statements: [3], lie: 0|1|2, explanation, subject?: Subject }
+{ id, statements: [3], lie: 0|1|2, explanation, subject?: Subject, classId?: string }
 ```
 
-Note: `TruthsLieItem` is the only one with an optional `subject` tag
-on the item itself — because the TRUTHS bank is keyed only by stream,
-not by stream+subject. The filtering happens inside `TwoTruthsLie.tsx`.
-The MCQ and OddItem banks are nested `Bank<Q>` (stream → subject → []),
-so the subject is structural.
+Bank<Q> has two indices:
+- `byStreamSubject` — legacy AC V9 pool (used as backfill).
+- `byClass` — HRS-anchored content keyed by `HrsClass.id`. Preferred
+  source when the user picks a specific class.
+
+`pickFromClass(bank, classId, count)` is the canonical lookup — it
+pulls anchored items first, tops up from legacy via the class's
+`legacyStream` + `subject` + `legacyUnits`.
+
+`TruthsLieItem` carries the class tag on the item itself (rather
+than living in `Bank.byClass`) because TRUTHS is a
+`Record<Stream, TruthsLieItem[]>`. The TwoTruthsLie game filters
+items by `classId` at start-time.
 
 ### 3.6 SetupScreen prop wiring
 
 Every game's `<SetupScreen>` call **must pass `gameId={"..."}`** so
-streams + subjects default to what the Game declares in `games.ts`,
-not the global "all four streams" or "all six subjects" defaults.
-Forgetting this prop is what caused the Lower Primary Two Truths
-bug in Jun 2026.
+the year-band picker narrows to the bands the game supports (via
+`Game.streams` → year-band mapping). Forgetting this prop falls back
+to all 8 bands and all 114 classes.
+
+`SetupSelections` is `{ classId, stream, count }` — `stream` is a
+derived convenience field (from `findClass(classId).legacyStream`).
+Games that only ever needed `sel.stream` keep working unchanged.
+
+Removed props (don't pass these — they're gone):
+- `showSubject` — there's no Subject row any more
+- `showSeniorUnits` — Senior cohort is folded into year band
 
 ### 3.7 Commit messages
 
@@ -266,7 +291,24 @@ Pyramid" gotcha is true, making it not a lie at all.
 false statement. Verify each one before committing. Two-and-a-Truth
 or All-Three-True items break the game.
 
-### 5.6 Lost the working directory between sessions
+### 5.6 Class-filter rework: PWA cache made the previous fix appear broken (Jun 2026)
+
+**Symptom:** After commit 9a9fec9 ("SetupScreen: derive streams +
+subjects from game registry"), Jack screenshotted Two Truths still
+showing Lower Primary chips with full bell. The code on main was
+correct.
+
+**Cause:** Vite PWA service worker served the previously-cached
+bundle. Hard-refresh / SW unregister required to see the new code.
+
+**Lesson:** When confirming a UI change, always check whether the
+running bundle is the latest. Tell the user how to bypass the SW:
+hard-refresh (Ctrl+Shift+R), DevTools → Application → Service
+Workers → Unregister, or open in incognito. The fix isn't "do the
+change again differently" — it's "force the browser to load the
+new bundle".
+
+### 5.7 Lost the working directory between sessions
 
 **Symptom:** Tried to work from `C:\Users\jack.galbraith\OneDrive –
 Haileybury\Desktop\hrs_teaching_tools` (only contains .claude/) instead
@@ -335,49 +377,29 @@ If you hit something new or surprising, document it in §5.
 
 ## 7. Open questions / deferred decisions
 
-### 7.1 The big one: stream taxonomy is too coarse
+### ~~7.1 The big one: stream taxonomy is too coarse~~ ✅ RESOLVED 2026-06-02
 
-The four AC V9 streams (lower_primary / upper_primary / middle_school /
-senior_school) made sense when content was generic AC V9. Now that
-we're populating per-HRS-class content (e.g. "VCE Software Dev 3-4"
-is genuinely different from "VCE Data Analytics 3-4" which is
-genuinely different from "Senior Computing in general"), the stream
-abstraction is bleeding.
+Resolved by the class-filter rework (`PLAN-CLASS-FILTER.md` →
+commits b306dd8 through 6f338bc). The four AC V9 streams are gone
+from user-facing UI; `src/data/classes.ts` is the single source of
+truth with 114 HRS classes. See §3.2 for the current model.
 
-**Pain points:**
-- `Game.streams` says "senior_school" but really we mean "Y11 OR Y12 OR specific VCE subjects".
-- A Y8 Science teacher and a Y10 Science teacher both get
-  `middle_school` items mixed together.
-- VCE Software Dev 3-4 items live alongside generic Senior Science
-  items in the same subject-mix bucket.
+### 7.2 Question Generator still uses the legacy stream/subject UI
 
-**Direction being explored (June 2026):**
-Move to a **class-content filter model** where the teacher selects
-a specific class (e.g. "Year 8 Science", "VCE Software Dev 3-4",
-"Year 10 English") rather than a stream + subject. The class
-taxonomy mirrors the `source-material/` folder structure.
+`src/tools/rng/QuestionGenerator.tsx` (a Teacher Tool, not a Brain
+Break game) still renders Stream + Subject + Unit-group pickers and
+calls `pickFromBank` directly. It works because the legacy
+`byStreamSubject` index is still populated for generic content,
+but it doesn't know about the new `byClass` index — so the 250
+SD3-4 items are invisible to it. Migrate to `pickFromClass` and
+a year-band + class UI when it next needs a touch.
 
-**Decisions needed before building:**
-- Is the class picker a flat list, grouped by year level, or
-  hierarchical (year → subject → unit)?
-- Do existing AC V9 items get migrated to per-year classes, or
-  do they live under "generic Year X" buckets?
-- Does the senior unit (1-2 / 3-4) chip strip get folded into the
-  class picker (e.g. "VCE Methods 1-2" and "VCE Methods 3-4" as
-  separate classes), or stay as a sub-filter?
-- Backwards compatibility for already-played sessions
-  (localStorage keys for stream/subject/unitGroup)?
+### 7.3 Many class folders still have empty `_overview.md`s
 
-### 7.2 Two Truths only carries `subject` on the item
-
-Other banks use the structural `Bank<Q>` shape (stream → subject → []).
-Migrate TRUTHS to the same shape if the per-class filter model lands.
-
-### 7.3 Question Generator tool
-
-Lives at `src/tools/rng/QuestionGenerator.tsx`. Uses MCQ_BANK. Worth
-checking it also passes a `gameId`-equivalent prop when the rework
-happens — currently uses its own SUBJECTS reference.
+114 classes × 1 overview each = 114 overview files. Currently 1 is
+filled in (vce-software-development-3-4). The other 113 still
+contain the template. Per-class authoring is the long-term work —
+see §6 recipe.
 
 ### 7.4 Source material progress log
 
@@ -385,6 +407,8 @@ happens — currently uses its own SUBJECTS reference.
 have been HRS-anchored. It still uses the old "SAC-anchored" status
 label and is missing rows for the primary humanities + primary science
 splits that were added Jun 2026. Update before next subject onboarding.
+The new way to track anchoring is the `anchored: true` flag in
+`HRS_CLASSES` — could be auto-generated from that going forward.
 
 ---
 

@@ -1,9 +1,20 @@
 # PLAN — Per-class filter rework
 
-**Status:** Draft. Awaiting sign-off from Jack before any code changes.
+**Status:** ✅ **SHIPPED** 2026-06-02. All six phases (P1–P6) on `main`.
 **Author:** Claude (Opus 4.7), 2026-06-02.
 **Supersedes:** the stream+subject filter model described in
 `WORKLOG.md` §3.2 and §7.1.
+
+**Shipped commits:**
+- `b306dd8` P1 — `src/data/classes.ts` (114 HRS classes)
+- `f9fe8b5` P2 — `Bank.byClass` + `pickFromClass()` + SD3-4 migration
+- `c95ff68` P3 — BrainBreaks landing rework
+- `6f338bc` P4+P5 — SetupScreen rework + legacy localStorage migration
+- _this commit_ P6 — WORKLOG cleanup + status flip
+
+Refer to `WORKLOG.md` §3.2–§3.6 for the current conventions.
+
+---
 
 ---
 
