@@ -8,6 +8,15 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       includeAssets: ['crest.svg', 'favicon.ico'],
+      /**
+       * IMPORTANT: keep the service worker OFF in `npm run dev`.
+       *
+       * Otherwise the SW installed by a previous `npm run preview` or
+       * production visit will keep serving cached JS even when Vite's
+       * dev server delivers fresh source. This burned us multiple times
+       * during the class-filter rework — see WORKLOG §5.6.
+       */
+      devOptions: { enabled: false },
       manifest: {
         name: 'HRS Brain Breaks',
         short_name: 'Brain Breaks',
@@ -25,6 +34,14 @@ export default defineConfig({
         ],
       },
       workbox: {
+        /**
+         * `skipWaiting` + `clientsClaim` collapse SW activation to a
+         * single reload after a deploy. Without these, autoUpdate needs
+         * TWO reloads (install on reload 1, activate on reload 2) and
+         * teachers see stale UI in between.
+         */
+        skipWaiting: true,
+        clientsClaim: true,
         globPatterns: ['**/*.{js,css,html,svg,png,ico,woff2}'],
         runtimeCaching: [
           {
