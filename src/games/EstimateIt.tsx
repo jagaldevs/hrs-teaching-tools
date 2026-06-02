@@ -93,7 +93,7 @@ export function EstimateIt() {
       description="The closer to the real answer, the more points. Up to 100 per round."
     >
       {phase === 'setup' && (
-        <SetupScreen gameId="estimate-it" storageKey="estimate" showSubject={false} onStart={start} />
+        <SetupScreen gameId="estimate-it" storageKey="estimate" onStart={start} />
       )}
 
       {phase === 'playing' && current && (

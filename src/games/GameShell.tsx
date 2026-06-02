@@ -1,17 +1,24 @@
 import { useState, type ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, Maximize2, Minimize2 } from 'lucide-react';
-import { STREAMS, findGame, type Stream } from '../data/games';
-import { SUBJECTS, SUBJECT_COLOURS, type Subject } from './types';
+import { findGame, type Stream } from '../data/games';
+import { SUBJECT_COLOURS } from './types';
+import {
+  YEAR_BANDS,
+  classesForBand,
+  findClass,
+  HRS_CLASSES,
+  type YearBand,
+  type HrsClass,
+} from '../data/classes';
 import { usePersistedState } from '../hooks/usePersistedState';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import styles from './GameShell.module.css';
 import common from '../tools/common.module.css';
 
 interface GameShellProps {
   title: string;
   description: string;
-  /** If a setup screen is being shown, pass a render fn; otherwise pass the playing UI. */
   children: ReactNode;
 }
 
@@ -58,189 +65,163 @@ export function GameShell({ title, description, children }: GameShellProps) {
   );
 }
 
-/** Setup screen — stream + subject pickers + start button. */
+// ============================================================
+//  SetupScreen — year band + class picker
+// ============================================================
+
+/**
+ * Selections returned by the SetupScreen on Start.
+ *
+ * `classId` is the primary key — everything else (stream, subject) is
+ * derived from it via findClass(). The derived fields are present for
+ * convenience so games that only ever needed a stream don't have to
+ * call findClass() themselves.
+ */
 export interface SetupSelections {
+  /** HRS class id from src/data/classes.ts. */
+  classId: string;
+  /** Derived from findClass(classId).legacyStream. */
   stream: Stream;
-  subject: Subject | 'mix';
   count: number;
-  /**
-   * AC V9 Senior secondary unit group. Only meaningful when stream is
-   * `senior_school` AND the game uses a bank that carries `unit` tags
-   * (currently MCQ-based: Quick Quiz, Buzzer Round, Question Generator).
-   *   any        → Y10 + all senior units mixed (default)
-   *   units_1_2  → Y11 content only (items tagged unit 1 or 2)
-   *   units_3_4  → Y12 content only (items tagged unit 3 or 4)
-   */
-  unitGroup: 'any' | 'units_1_2' | 'units_3_4';
 }
+
+const BAND_TO_STREAM: Record<YearBand, Stream> = {
+  'f-2': 'lower_primary',
+  '3-6': 'upper_primary',
+  y7: 'middle_school',
+  y8: 'middle_school',
+  y9: 'middle_school',
+  y10: 'senior_school',
+  'vce-1-2': 'senior_school',
+  'vce-3-4': 'senior_school',
+};
 
 interface SetupScreenProps {
   storageKey: string;
   /**
-   * If provided, defaults `availableStreams` and `availableSubjects` to the
-   * matching Game's declared `streams` / `subjects` from the registry — so
-   * the setup screen can't offer a stream or subject the game doesn't
-   * actually support. Explicit `availableStreams` / `availableSubjects`
-   * props still win when passed.
+   * Looks up the matching Game in the registry and restricts the year-
+   * band + class picker to bands whose mapped stream is in
+   * `game.streams`. Without `gameId`, all bands and classes are
+   * available.
    */
   gameId?: string;
-  availableStreams?: Stream[];
-  availableSubjects?: Subject[];
   countOptions?: number[];
-  /** If false, hides the subject row (e.g. for word-only games). */
-  showSubject?: boolean;
-  /**
-   * If true, shows the Senior unit-group chip strip when senior_school is
-   * selected. Default false — only MCQ-bank games should enable this.
-   */
-  showSeniorUnits?: boolean;
   onStart: (sel: SetupSelections) => void;
-  /** Extra content rendered above the start button (e.g. game-specific options). */
+  /** Extra content rendered above the start button. */
   extra?: ReactNode;
 }
-
-const ALL_STREAMS_DEFAULT: Stream[] = ['lower_primary', 'upper_primary', 'middle_school', 'senior_school'];
-
-const SENIOR_UNIT_GROUPS: { id: SetupSelections['unitGroup']; label: string; sub: string }[] = [
-  { id: 'any', label: 'Any', sub: 'All senior content' },
-  { id: 'units_1_2', label: 'Y11', sub: 'Units 1 & 2' },
-  { id: 'units_3_4', label: 'Y12', sub: 'Units 3 & 4' },
-];
 
 export function SetupScreen({
   storageKey,
   gameId,
-  availableStreams,
-  availableSubjects,
   countOptions = [5, 10, 15],
-  showSubject = true,
-  showSeniorUnits = false,
   onStart,
   extra,
 }: SetupScreenProps) {
-  // Pull defaults from the game registry when gameId is provided. Explicit
-  // props still override (e.g. WhoAmI passes countOptions). game.subjects
-  // may include 'general'; we filter to subjects that have a SUBJECTS entry
-  // so they actually render as chips.
   const game = gameId ? findGame(gameId) : undefined;
-  const renderableSubjectIds = SUBJECTS.map((s) => s.id);
-  const effectiveStreams: Stream[] =
-    availableStreams ?? game?.streams ?? ALL_STREAMS_DEFAULT;
-  const effectiveSubjects: Subject[] =
-    availableSubjects ??
-    (game ? (game.subjects as Subject[]).filter((s) => renderableSubjectIds.includes(s)) : renderableSubjectIds);
 
-  const [stream, setStream] = usePersistedState<Stream>(
-    `${storageKey}.stream`,
-    effectiveStreams[0]!,
-  );
-  const [subject, setSubject] = usePersistedState<Subject | 'mix'>(
-    `${storageKey}.subject`,
-    'mix',
+  // Year bands the game supports → derived from game.streams.
+  const supportedBands = useMemo<YearBand[]>(() => {
+    if (!game) return YEAR_BANDS.map((b) => b.id);
+    const supported = new Set<Stream>(game.streams);
+    return YEAR_BANDS.filter((b) => supported.has(BAND_TO_STREAM[b.id])).map((b) => b.id);
+  }, [game]);
+
+  // Default class: prefer a migrated old selection from the legacy
+  // stream + subject + unitGroup keys, then fall back to the first
+  // anchored class for this game's supported bands, then to anything.
+  const defaultClassId = useMemo(() => {
+    const migrated = migrateLegacySelection(storageKey, supportedBands);
+    if (migrated) return migrated;
+    for (const band of supportedBands) {
+      const classes = classesForBand(band);
+      const anchored = classes.find(
+        (c) => c.anchored && (game?.subjects.includes(c.subject) ?? true),
+      );
+      if (anchored) return anchored.id;
+      if (classes[0]) return classes[0].id;
+    }
+    return HRS_CLASSES[0]?.id ?? '';
+  }, [storageKey, supportedBands, game]);
+
+  const [classId, setClassId] = usePersistedState<string>(
+    `${storageKey}.classId`,
+    defaultClassId,
   );
   const [count, setCount] = usePersistedState<number>(
     `${storageKey}.count`,
     countOptions[0]!,
   );
-  const [unitGroup, setUnitGroup] = usePersistedState<SetupSelections['unitGroup']>(
-    `${storageKey}.unitGroup`,
-    'any',
-  );
 
-  // If a persisted stream is no longer offered (e.g. game was restricted),
-  // snap to the first available stream so the picker doesn't render nothing
-  // selected and the game doesn't try to query a missing pool.
+  // Defensive snap: if persisted classId is no longer offered, reset.
   useEffect(() => {
-    if (!effectiveStreams.includes(stream)) {
-      setStream(effectiveStreams[0]!);
+    const klass = findClass(classId);
+    if (!klass || !supportedBands.includes(klass.yearBand)) {
+      setClassId(defaultClassId);
     }
-  }, [effectiveStreams, stream, setStream]);
+  }, [classId, defaultClassId, supportedBands, setClassId]);
 
-  // Same defensive snap for subject — if the game stops offering the
-  // persisted subject, fall back to 'mix'.
-  useEffect(() => {
-    if (subject !== 'mix' && !effectiveSubjects.includes(subject)) {
-      setSubject('mix');
-    }
-  }, [effectiveSubjects, subject, setSubject]);
+  const currentClass = findClass(classId);
+  const currentBand = currentClass?.yearBand ?? supportedBands[0]!;
 
-  const subjects = effectiveSubjects;
-  const streamObjs = STREAMS.filter((s) => effectiveStreams.includes(s.id));
-  const showUnits = showSeniorUnits && stream === 'senior_school';
+  function pickBand(band: YearBand) {
+    const classes = classesForBand(band);
+    if (classes.length === 0) return;
+    // Try to keep the same subject if the new band has it.
+    const sameSubject = classes.find((c) => c.subject === currentClass?.subject);
+    setClassId((sameSubject ?? classes[0]!).id);
+  }
+
+  function pickClass(id: string) {
+    setClassId(id);
+  }
+
+  function handleStart() {
+    const klass = findClass(classId);
+    if (!klass) return;
+    onStart({
+      classId: klass.id,
+      stream: klass.legacyStream ?? BAND_TO_STREAM[klass.yearBand],
+      count,
+    });
+  }
+
+  const yearBandObjs = YEAR_BANDS.filter((b) => supportedBands.includes(b.id));
+  const classesInBand = classesForBand(currentBand);
 
   return (
     <div className={styles.setup}>
       <section className={styles.setupSection}>
-        <p className="eyebrow">Stream</p>
+        <p className="eyebrow">Year level</p>
         <div className={styles.choices}>
-          {streamObjs.map((s) => (
+          {yearBandObjs.map((b) => (
             <button
-              key={s.id}
+              key={b.id}
               type="button"
               className={styles.choice}
-              data-active={stream === s.id}
-              onClick={() => setStream(s.id)}
+              data-active={currentBand === b.id}
+              onClick={() => pickBand(b.id)}
             >
-              <span className={styles.choiceLabel}>{s.label}</span>
-              <span className={styles.choiceSub}>{s.years}</span>
+              <span className={styles.choiceLabel}>{b.shortLabel}</span>
+              <span className={styles.choiceSub}>{b.label}</span>
             </button>
           ))}
         </div>
       </section>
 
-      {showSubject && (
-        <section className={styles.setupSection}>
-          <p className="eyebrow">Subject</p>
-          <div className={styles.choices}>
-            <button
-              type="button"
-              className={styles.choice}
-              data-active={subject === 'mix'}
-              onClick={() => setSubject('mix')}
-            >
-              <span className={styles.choiceLabel}>Mixed</span>
-              <span className={styles.choiceSub}>All subjects</span>
-            </button>
-            {subjects.map((sid) => {
-              const sObj = SUBJECTS.find((s) => s.id === sid);
-              if (!sObj) return null;
-              return (
-                <button
-                  key={sid}
-                  type="button"
-                  className={styles.choice}
-                  data-active={subject === sid}
-                  onClick={() => setSubject(sid)}
-                  style={{ ['--accent-tint' as string]: SUBJECT_COLOURS[sid] }}
-                >
-                  <span className={styles.choiceDot} style={{ background: SUBJECT_COLOURS[sid] }} />
-                  <span className={styles.choiceLabel}>{sObj.label}</span>
-                </button>
-              );
-            })}
-          </div>
-        </section>
-      )}
-
-      {showUnits && (
-        <section className={styles.setupSection}>
-          <p className="eyebrow">Senior cohort</p>
-          <div className={styles.choices}>
-            {SENIOR_UNIT_GROUPS.map((g) => (
-              <button
-                key={g.id}
-                type="button"
-                className={styles.choice}
-                data-active={unitGroup === g.id}
-                onClick={() => setUnitGroup(g.id)}
-              >
-                <span className={styles.choiceLabel}>{g.label}</span>
-                <span className={styles.choiceSub}>{g.sub}</span>
-              </button>
-            ))}
-          </div>
-        </section>
-      )}
+      <section className={styles.setupSection}>
+        <p className="eyebrow">
+          Class · {classesInBand.length}
+          {currentClass?.anchored && (
+            <span className={styles.eyebrowBadge}> · HRS-anchored ✓</span>
+          )}
+        </p>
+        <div className={styles.choices}>
+          {classesInBand.map((c) => (
+            <ClassChoice key={c.id} klass={c} active={classId === c.id} onPick={pickClass} />
+          ))}
+        </div>
+      </section>
 
       <section className={styles.setupSection}>
         <p className="eyebrow">How many questions</p>
@@ -264,10 +245,103 @@ export function SetupScreen({
       <button
         type="button"
         className={`${common.btn} ${common.btnPrimary} ${styles.startBtn}`}
-        onClick={() => onStart({ stream, subject, count, unitGroup })}
+        onClick={handleStart}
       >
         Start game
       </button>
     </div>
+  );
+}
+
+/**
+ * One-shot migration of legacy persisted selections.
+ *
+ * Before the class-filter rework each game persisted
+ *   <storageKey>.stream    : Stream
+ *   <storageKey>.subject   : Subject | 'mix'
+ *   <storageKey>.unitGroup : 'any' | 'units_1_2' | 'units_3_4'
+ *
+ * After the rework only <storageKey>.classId matters. If a teacher's
+ * old keys exist but new ones don't, derive a sensible classId so the
+ * picker opens roughly where they left off.
+ *
+ * Returns undefined if nothing useful can be inferred — caller falls
+ * back to the anchored-default logic. Reads localStorage directly to
+ * avoid React state-init dependencies.
+ */
+function migrateLegacySelection(
+  storageKey: string,
+  supportedBands: YearBand[],
+): string | undefined {
+  if (typeof window === 'undefined' || !window.localStorage) return undefined;
+  // If a classId is already set, we're past migration.
+  const existingClass = readLs(`${storageKey}.classId`);
+  if (existingClass) return undefined;
+
+  const oldStream = readLs(`${storageKey}.stream`) as Stream | null;
+  const oldSubject = readLs(`${storageKey}.subject`);
+  const oldUnitGroup = readLs(`${storageKey}.unitGroup`);
+  if (!oldStream) return undefined;
+
+  // Pick the year band that best matches old stream + unit group.
+  let targetBand: YearBand | undefined;
+  if (oldStream === 'lower_primary') targetBand = 'f-2';
+  else if (oldStream === 'upper_primary') targetBand = '3-6';
+  else if (oldStream === 'middle_school') targetBand = 'y8'; // middle: default to Y8
+  else if (oldStream === 'senior_school') {
+    if (oldUnitGroup === 'units_1_2') targetBand = 'vce-1-2';
+    else if (oldUnitGroup === 'units_3_4') targetBand = 'vce-3-4';
+    else targetBand = 'y10';
+  }
+  if (!targetBand || !supportedBands.includes(targetBand)) return undefined;
+
+  const classes = classesForBand(targetBand);
+  if (classes.length === 0) return undefined;
+
+  // Prefer a class whose subject matches the old subject pick.
+  if (oldSubject && oldSubject !== 'mix' && oldSubject !== '"mix"') {
+    const stripped = oldSubject.replace(/"/g, '');
+    const match = classes.find((c) => c.subject === stripped);
+    if (match) return match.id;
+  }
+  // Otherwise, the first anchored class in the band, else the first class.
+  const anchored = classes.find((c) => c.anchored);
+  return (anchored ?? classes[0]).id;
+}
+
+function readLs(key: string): string | null {
+  try {
+    const raw = window.localStorage.getItem(key);
+    if (raw === null) return null;
+    // usePersistedState stores JSON strings — strip quotes for plain strings.
+    if (raw.startsWith('"') && raw.endsWith('"')) return raw.slice(1, -1);
+    return raw;
+  } catch {
+    return null;
+  }
+}
+
+function ClassChoice({
+  klass,
+  active,
+  onPick,
+}: {
+  klass: HrsClass;
+  active: boolean;
+  onPick: (id: string) => void;
+}) {
+  const colour = SUBJECT_COLOURS[klass.subject];
+  return (
+    <button
+      type="button"
+      className={styles.choice}
+      data-active={active}
+      onClick={() => onPick(klass.id)}
+      style={{ ['--accent-tint' as string]: colour }}
+    >
+      <span className={styles.choiceDot} style={{ background: colour }} />
+      <span className={styles.choiceLabel}>{klass.name}</span>
+      {klass.anchored && <span className={styles.choiceSub}>HRS-anchored ✓</span>}
+    </button>
   );
 }

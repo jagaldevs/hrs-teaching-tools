@@ -140,7 +140,6 @@ export function AnagramRace() {
         <SetupScreen
           gameId="anagram-race"
           storageKey="anagram"
-          showSubject={false}
           countOptions={[10, 15, 20]}
           onStart={start}
         />

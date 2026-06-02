@@ -48,23 +48,17 @@ export function TwoTruthsLie() {
 
   function start(sel: SetupSelections) {
     setStartError(null);
-    const pool = TRUTHS[sel.stream] ?? [];
-    // Subject filter: if a specific subject is selected but yields zero items
-    // at this stream, refuse to start and surface a visible warning rather
-    // than silently serving content from a different subject.
-    let narrowed = pool;
-    if (sel.subject !== 'mix') {
-      const filtered = pool.filter((t) => t.subject === sel.subject);
-      if (filtered.length === 0) {
-        setStartError(
-          `No Two Truths items tagged for that subject at this stream yet. Try "Mixed" or pick a different stream.`,
-        );
-        return;
-      }
-      narrowed = filtered;
-    }
+    // Class-anchored items first — items tagged with this classId.
+    const streamPool = TRUTHS[sel.stream] ?? [];
+    const anchored = streamPool.filter((t) => t.classId === sel.classId);
+    // Backfill: any items at this stream WITHOUT a classId (generic AC V9).
+    const generic = streamPool.filter((t) => !t.classId);
+    const narrowed = anchored.length >= sel.count
+      ? anchored
+      : [...anchored, ...generic];
+
     if (narrowed.length === 0) {
-      setStartError('No items found for that stream. Try a different stream.');
+      setStartError('No Two Truths items found for that class. Try a different class.');
       return;
     }
     const list = shuffle(narrowed).slice(0, sel.count);

@@ -3,7 +3,7 @@ import { Check, X as XIcon, ChevronRight } from 'lucide-react';
 import { GameShell, SetupScreen, type SetupSelections } from './GameShell';
 import { ResultScreen } from './ResultScreen';
 import { ODD_BANK } from '../data/banks/oddOneOut';
-import { pickFromBank } from './bankUtils';
+import { pickFromClass } from './bankUtils';
 import { SUBJECT_COLOURS, SUBJECTS, type OddItem, type Subject } from './types';
 import common from '../tools/common.module.css';
 import styles from './OddOneOut.module.css';
@@ -26,10 +26,10 @@ export function OddOneOut() {
 
   function start(sel: SetupSelections) {
     setStartError(null);
-    const pulled = pickFromBank(ODD_BANK, sel.stream, sel.subject, sel.count);
+    const pulled = pickFromClass(ODD_BANK, sel.classId, sel.count);
     if (pulled.items.length === 0) {
       setStartError(
-        'No items found for that stream and subject. Try a different subject, or hard-refresh (Ctrl+Shift+R) to pick up the latest content.',
+        'No items found for that class. Try a different class, or hard-refresh (Ctrl+Shift+R) to pick up the latest content.',
       );
       return;
     }

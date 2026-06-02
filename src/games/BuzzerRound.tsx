@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { Check, X as XIcon, ChevronRight, Eye, EyeOff, Trophy } from 'lucide-react';
 import { GameShell, SetupScreen, type SetupSelections } from './GameShell';
 import { MCQ_BANK } from '../data/banks/mcq';
-import { pickFromBank, unitFilterFor } from './bankUtils';
+import { pickFromClass } from './bankUtils';
 import { SUBJECTS, SUBJECT_COLOURS, type MCQ, type Subject } from './types';
 import { chimeTick, chimeComplete } from '../tools/chime';
 import { usePersistedState } from '../hooks/usePersistedState';
@@ -50,11 +50,10 @@ export function BuzzerRound() {
 
   function start(sel: SetupSelections) {
     setStartError(null);
-    const unitFilter = unitFilterFor(sel);
-    const pulled = pickFromBank(MCQ_BANK, sel.stream, sel.subject, sel.count, unitFilter);
+    const pulled = pickFromClass(MCQ_BANK, sel.classId, sel.count);
     if (pulled.items.length === 0) {
       setStartError(
-        'No questions found for that stream and subject. Try a different subject, or hard-refresh (Ctrl+Shift+R) to pick up the latest content.',
+        'No questions found for that class. Try a different class, or hard-refresh (Ctrl+Shift+R) to pick up the latest content.',
       );
       return;
     }
@@ -155,7 +154,6 @@ export function BuzzerRound() {
           gameId="buzzer-round"
           storageKey="buzzround"
           onStart={start}
-          showSeniorUnits
           extra={
             <section className={styles.teamSetup}>
               <p className="eyebrow">Teams · {teams.length}</p>

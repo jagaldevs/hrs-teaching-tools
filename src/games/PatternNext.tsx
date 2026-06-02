@@ -214,7 +214,7 @@ export function PatternNext() {
       description="Spot the rule and predict the next value or shape."
     >
       {phase === 'setup' && (
-        <SetupScreen gameId="pattern-next" storageKey="patternnext" showSubject={false} onStart={start} />
+        <SetupScreen gameId="pattern-next" storageKey="patternnext" onStart={start} />
       )}
 
       {phase === 'playing' && patterns[current] && (

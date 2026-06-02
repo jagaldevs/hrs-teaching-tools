@@ -2,23 +2,6 @@ import type { Stream } from '../data/games';
 import { findClass } from '../data/classes';
 import type { Bank, MCQ, Subject } from './types';
 import { shuffle } from '../tools/rng/util';
-import type { SetupSelections } from './GameShell';
-
-/**
- * Build a predicate for filtering MCQs by the Senior unit group chosen on
- * SetupScreen. Returns `undefined` when no narrowing should apply
- * (non-senior stream or unitGroup === 'any').
- */
-export function unitFilterFor(sel: SetupSelections): ((q: MCQ) => boolean) | undefined {
-  if (sel.stream !== 'senior_school') return undefined;
-  if (sel.unitGroup === 'units_1_2') {
-    return (q) => q.unit === 1 || q.unit === 2;
-  }
-  if (sel.unitGroup === 'units_3_4') {
-    return (q) => q.unit === 3 || q.unit === 4;
-  }
-  return undefined;
-}
 
 /**
  * Pull questions from a bank for a given stream + subject choice.

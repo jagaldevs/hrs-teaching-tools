@@ -53,7 +53,7 @@ export function WouldYouRather() {
       description="Class debates a dilemma. Tally votes with the buttons, reveal results to spark discussion."
     >
       {phase === 'setup' && (
-        <SetupScreen gameId="would-you-rather" storageKey="wyr" showSubject={false} onStart={start} />
+        <SetupScreen gameId="would-you-rather" storageKey="wyr" onStart={start} />
       )}
 
       {phase === 'playing' && current && (

@@ -85,7 +85,7 @@ export function TimelineOrder() {
       description="Five events. Drag-free reordering with the up/down arrows. Get them in chronological order."
     >
       {phase === 'setup' && (
-        <SetupScreen gameId="timeline-order" storageKey="timeline" showSubject={false} countOptions={[3, 5]} onStart={start} />
+        <SetupScreen gameId="timeline-order" storageKey="timeline" countOptions={[3, 5]} onStart={start} />
       )}
 
       {phase === 'playing' && round && (
