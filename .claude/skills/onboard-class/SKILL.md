@@ -313,18 +313,50 @@ obvious-answer tells. Every new and edited MCQ must satisfy:
    a textbook page, put the reference in `explanation`. Never in
    the question text or a choice — that primes recognition.
 
-Quick grep check before committing a batch:
+Three-tier audit check before committing a batch:
+
+**Tier 1 — Greps (catches "Only X" tells and em-dash patterns):**
 
 ```bash
 # Find Only/Just distractors
 grep -nE "'(Only |Just )[a-z]" src/data/banks/mcq.ts | grep <prefix>
 
-# Find em-dash tells (em-dash in choices array — needs eyeballing)
-grep -nE "' — [a-z]" src/data/banks/mcq.ts | grep <prefix>
+# Find em-dash tells (em-dash in choices array — needs eyeballing
+# to confirm it's only on the correct option)
+grep -nE "', '[^']* — " src/data/banks/mcq.ts | grep <prefix>
 ```
 
-See commits `b3a3e?? `… for the Sociology audit pass that
-established this rule.
+**Tier 2 — Python length-asymmetry audit (catches the "right
+answer is the longest" tell that grep can't find):**
+
+```python
+import re
+with open('src/data/banks/mcq.ts', 'r', encoding='utf-8') as f:
+    src = f.read()
+pat = re.compile(r"\{ id: '(<prefix>-\d+)', q: '[^']+', choices: \[((?:'[^']+', ?){3}'[^']+')\], answer: (\d)")
+for m in pat.finditer(src):
+    id_, choices_str, ans = m.group(1), m.group(2), int(m.group(3))
+    choices = re.findall(r"'([^']+)'", choices_str)
+    if len(choices) != 4: continue
+    correct = choices[ans]
+    wrong_max = max(len(c) for i, c in enumerate(choices) if i != ans)
+    ratio = len(correct) / max(wrong_max, 1)
+    if ratio > 2.5:
+        print(f'{id_}: {ratio:.1f}x ({len(correct)}c vs {wrong_max}c)')
+```
+
+Target: **0 items at >2.5x ratio.** Items at 1.5–2.5x are a soft
+asymmetry — acceptable if distractors are all plausible.
+
+**Tier 3 — Eyeball pass on items the script flags:** rewrite
+the correct option as a tight phrase, move detail to the
+`explanation` field, beef up distractors to similar length
+with plausible alternative misconceptions.
+
+Worked examples: commits `dceb249`, `aa527c7`, `cb97519`, `69ef07d`,
+`fc4c553`, `051e129` (the 5-commit Sociology + SD3-4 audit in
+2026-06-03 that brought 89 length-asymmetric items down to 0). See
+WORKLOG §5.10 and §5.12 for the full story.
 
 ### 5e. Style anchors (the exam-faithful pattern)
 

@@ -407,6 +407,106 @@ remain Greppable. Output for SD3-4: 24,368 lines from 334 pages.
 it's image-only or text-embedded. The pypdf one-liner from §5.8 is
 fast; if it produces empty pages, switch to the OCR pipeline above.
 
+### 5.12 The 5-commit rigour audit (Jun 3 2026)
+
+**Symptom:** Jack pushed back on bank quality with "many answers are
+just obvious" and asked for a full rigour pass. §5.10 captured the
+first two commits (57 items). This entry covers the full picture
+after the complete audit landed.
+
+**Anti-patterns swept for (full list):**
+1. `'Only X'` / `'Just X'` distractors (the "rule out the verbose
+   short option" tell)
+2. Em-dash explanations exclusively on the correct option
+3. Joke distractors (Coca-Cola as a Sunrise funder, "Stock market
+   trading" as a Sunrise School subject, "Programmer jokes" as data
+   dictionary contents)
+4. Telegraphed stems ("as the textbook quotes:" with only one
+   quoted option)
+5. **Length asymmetry — correct option more than 2.5x the longest
+   distractor.** This is the one easy greps don't find; needs a
+   script.
+
+**Quantification script (lives nowhere — re-run as needed):**
+
+```python
+import re
+with open('src/data/banks/mcq.ts', 'r', encoding='utf-8') as f:
+    src = f.read()
+pat = re.compile(r"\{ id: '(ss-(?:soc|comp)-\d+)', q: '[^']+', choices: \[((?:'[^']+', ?){3}'[^']+')\], answer: (\d)")
+for m in pat.finditer(src):
+    id_, choices_str, ans = m.group(1), m.group(2), int(m.group(3))
+    choices = re.findall(r"'([^']+)'", choices_str)
+    if len(choices) != 4: continue
+    correct = choices[ans]
+    wrong_max = max(len(c) for i, c in enumerate(choices) if i != ans)
+    ratio = len(correct) / max(wrong_max, 1)
+    if ratio > 2.5:
+        print(f'{id_}: {ratio:.1f}x ({len(correct)}c vs {wrong_max}c)')
+```
+
+**Commits (6 total this session):**
+- `ba3326f` — Sociology textbook batch 2 (+100 items)
+- `da761d2` — WORKLOG + SKILL refresh
+- `dceb249` — Sociology rigour pass #1 (44 items, "Only X" + em-dash)
+- `aa527c7` — SD3-4 rigour pass #1 (13 items, joke distractors)
+- `cb97519` — Cross-cutting pass (23 items, mixed)
+- `69ef07d`, `fc4c553`, `051e129` — Length-asymmetry passes (72 items
+  across three commits, all >2.5x violations)
+- `76c6529` — Landing filter removal
+
+**Total rewritten this session: ~152 of 500 anchored MCQs.**
+
+**Final audit state (post commit `051e129`):**
+- 0 items at >3.0x length asymmetry
+- 0 items at >2.5x length asymmetry
+- 5 remaining `'Only X'` hits, all manually verified as legitimate
+  technical claims (e.g. `'Only the class that declares it'` IS
+  the correct answer for `private` access modifier)
+- ~120 items at 1.5–2.5x soft asymmetry remain. Not telegraphing
+  (distractors are plausible misconceptions) but technically still
+  visible to a length-counting student. Acceptable.
+
+**Lesson:** Three-tier audit discipline. (1) Grep for `'Only ` and
+`'Just ` distractors. (2) Grep for em-dash patterns in choices.
+(3) Run the Python length-asymmetry script above. The first two
+catch ~30% of failures fast; the script is the only way to find
+the rest. **Bake the script into SKILL §5g** (TODO this session —
+done in commit pending).
+
+### 5.13 Landing filter removed (Jun 3 2026)
+
+**Symptom:** Jack: "The filter section on the home page needs to
+go, it doesn't really achieve anything due to the fact the selecting
+an activity means you need to filter a second time."
+
+**Cause:** The landing-page year-band + class chip strip was added
+during the class-filter rework (commit `c95ff68`, see §3.2) on the
+assumption it would narrow the visible game cards AND pre-seed the
+SetupScreen for the chosen game. The first part worked but mostly
+just hid cards the teacher wasn't choosing from anyway; the second
+part was redundant because SetupScreen already has its own picker
+with sensible defaults.
+
+**Fix:** Commit `76c6529` removes the entire filter section
+(year-band chips, class chips, clear button, empty state, the
+"X games match" counter). The Surprise Me button now picks from
+all 17 games. Subhead updated to "Pick one — then choose your
+class on the next screen."
+
+**Orphaned localStorage keys** (harmless, no migration needed):
+- `brainbreaks.filters.yearBands`
+- `brainbreaks.filters.classes`
+- `brainbreaks.lastClass` — was a hint from landing to SetupScreen;
+  the read path in `GameShell.tsx:143` still exists as dead-but-safe
+  code. SetupScreen falls back to its other defaults (per-game
+  persisted key → anchored-class scan → first available).
+
+**Lesson:** When a UI element exists to reduce clicks, check whether
+the destination it routes to actually USES the choice. If the next
+screen makes you re-decide, the earlier picker isn't saving work —
+it's adding it.
+
 ### 5.9 Class onboarding "second batch" is now a deliberate pattern (Jun 2026)
 
 **What:** The full anchored class pool is now:
@@ -530,6 +630,34 @@ candidates based on what teaching staff have asked for so far: other
 VCE 3-4 classes (Methods, Biology, English), or the Y9 electives
 that have study material in `source-material/`.
 
+### 7.6 Out-of-scope follow-ups identified Jun 3 2026
+
+The rigour audit (§5.12) and textbook OCR (§5.11) opened up three
+adjacent work streams that did NOT get done this session:
+
+1. **SD3-4 textbook-anchored batch 2.** The 371MB scanned textbook
+   was OCRed (commit `aa527c7`) and now sits as
+   `source-material/technology/software-development-3-4/textbook-extracted.txt`
+   — 24,368 lines of greppable text. **No MCQs have yet been mined
+   from it.** SD3-4 still has only the original 200 MCQs (vs
+   Sociology's 300 with batch 2 from the textbook). Authoring
+   `ss-comp-201..300` from textbook case studies would bring SD3-4
+   to the same 450-item-and-rigorous standard. Follow SKILL §5f.
+
+2. **Non-anchored bank rigour audit.** The 5-commit audit only
+   covered the ~500 anchored MCQs (Sociology + SD3-4). The other
+   ~1500 items across primary/middle/senior generic AC V9 banks
+   were NOT audited and likely have the same anti-patterns at
+   similar density. They'd benefit from the same treatment. Use
+   the SKILL §5g grep commands + the Python script in WORKLOG
+   §5.12 — both work across the whole `mcq.ts` file unchanged.
+
+3. **Formal OOO + Two Truths audit.** Spot checks looked clean
+   (different format, less prone to the MCQ anti-patterns) but
+   no systematic pass was run. If a teacher reports an obvious
+   answer in either game, run the equivalent grep sweep against
+   `oddOneOut.ts` and `misc.ts`.
+
 ### 7.5 Source material progress log
 
 `source-material/PROGRESS-LOG.md` was set up to track which subjects
@@ -541,12 +669,30 @@ The new way to track anchoring is the `anchored: true` flag in
 
 ---
 
-_Last updated: 2026-06-02 by Claude (Opus 4.7) at the end of the VCE
-Sociology 3-4 rollout (450 items). Append, don't overwrite — and date
-new entries so future readers know what's fresh._
+_Last updated: 2026-06-03 by Claude (Opus 4.7) at the end of the
+rigour-audit session. Append, don't overwrite — and date new entries
+so future readers know what's fresh._
 
-**Session handoff (2026-06-02, end of context):** Both anchored
-classes are at 450 items. The onboard-class skill is the source of
-truth for adding the next one — it has been refreshed with the pypdf
-workaround and the 200+100+75+75 distribution. The next session
-should start by asking Jack which class to onboard next (see §7.4).
+**Session handoff (2026-06-03, end of context):** Big quality and
+infrastructure session. Six commits landed:
+
+- `ba3326f` Sociology textbook batch 2 (+100 items)
+- `da761d2` WORKLOG + SKILL refresh after previous handoff
+- `dceb249` → `051e129` Five-commit rigour audit: ~152 of 500
+  anchored MCQs rewritten. Zero items remain at >2.5x length
+  asymmetry. See §5.12 for full breakdown.
+- `aa527c7` (also) installed Tesseract OCR + OCRed the 371MB scanned
+  SD3-4 textbook into 24,368 lines of greppable text. See §5.11.
+- `76c6529` Removed the redundant landing-page filter — Surprise Me
+  still works, subhead now reads "Pick one — then choose your class
+  on the next screen." See §5.13.
+
+**Three follow-ups are queued (see §7.6):** SD3-4 textbook batch 2
+(textbook now extracted, MCQs not yet written), audit of the ~1500
+non-anchored MCQs, formal OOO + Two Truths audit. The next session
+should ask Jack which to tackle first — these are all independent.
+
+**The onboard-class skill** has been updated (§1a pypdf, §5f
+textbook batch 2 pattern, §5g 6-point rigour checklist with grep
+commands and length-asymmetry script). It is the source of truth
+for any new class onboarding. Read it AND WORKLOG before starting.
