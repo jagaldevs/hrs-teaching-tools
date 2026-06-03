@@ -193,7 +193,9 @@ export const HRS_CLASSES: HrsClass[] = [
 
   // -- Year 10 -------------------------------------------------
   y10('y10-english',     'Year 10 English',     'english', 'english/year-10'),
-  y10('y10-maths',       'Year 10 Maths',       'maths',   'maths/year-10'),
+  { id: 'y10-maths', yearBand: 'y10', name: 'Year 10 Maths',
+    subject: 'maths', sourcePath: 'maths/year-10',
+    anchored: true, legacyStream: 'senior_school' },
   y10('y10-science',     'Year 10 Science',     'science', 'science/year-10'),
   y10('y10-humanities',  'Year 10 Humanities',  'history', 'humanities/year-10'),
   y10('y10-chinese',     'Year 10 Chinese',     'general', 'languages/chinese/year-10'),
