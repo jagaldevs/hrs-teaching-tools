@@ -619,18 +619,21 @@ see §6 recipe.
 
 ### 7.4 Next class to onboard
 
-Two classes are now HRS-anchored at the full 450-item distribution
-(both confirmed in commit `93734a5`):
+Three classes are now HRS-anchored at the full 450-item distribution:
 - VCE Software Development 3-4 (200 MCQ batch 1 + 100 MCQ textbook
-  batch 2 + 75 OOO + 75 TL = 450)
+  batch 2 + 75 OOO + 75 TL = 450, commit `93734a5`)
 - VCE Sociology 3-4 (200 + 100 textbook + 75 OOO + 75 TL = 450)
+- **Year 10 Maths** (302 MCQ + 75 OOO + 75 TL = 452, commit `17ae225`,
+  the first non-VCE anchored class — uses `y10-math-N` ID prefix, no
+  `unit` tag per SKILL §6, ASCII-Unicode-mixed notation matching
+  existing `ms-m-*` / `lp-m-*` items)
 
-The other 112 entries in `HRS_CLASSES` still rely on generic AC V9
+The other 111 entries in `HRS_CLASSES` still rely on generic AC V9
 backfill. **No specific class is queued next** — confirm the target
 with Jack at the start of any new onboarding session. Likely
 candidates based on what teaching staff have asked for so far: other
-VCE 3-4 classes (Methods, Biology, English), or the Y9 electives
-that have study material in `source-material/`.
+VCE 3-4 classes (Methods, Biology, English), Y9 electives, or
+remaining Y10 subjects.
 
 ### 7.6 Out-of-scope follow-ups identified Jun 3 2026
 
@@ -672,12 +675,51 @@ The new way to track anchoring is the `anchored: true` flag in
 
 ---
 
-_Last updated: 2026-06-03 by Claude (Opus 4.7) after the SD3-4
-textbook-batch-2 authoring session. Append, don't overwrite — and
+_Last updated: 2026-06-03 by Claude (Opus 4.7) after the Y10 Maths
+onboarding + SetupScreen UI session. Append, don't overwrite — and
 date new entries so future readers know what's fresh._
 
-**Session handoff (2026-06-03, SD3-4 textbook batch 2):** Closed out
-queued follow-up #1 from the previous handoff. One commit landed:
+**Session handoff (2026-06-03, Y10 Maths + SetupScreen UI):** Major
+session with both UI and content work. Commits landed:
+
+- `cdde49f` SetupScreen: replace class chip grid with a dropdown.
+  Native `<select>` with two `<optgroup>`s — anchored classes pinned
+  to top, others in source order. Subject-colour dot tracks the
+  current selection. Ships across all 17 games via shared GameShell.
+- `733766d` SetupScreen: hide class picker on non-rapid games.
+  Only the Quick & Energetic group (`group: 'rapid'`) has class-
+  anchored banks. The class picker is now hidden for the other 13
+  games (Word & Language, Number & Logic, HASS, Whole-Class) —
+  those select on year band alone. SetupSelections still derives a
+  valid `classId` internally so downstream callers stay well-formed.
+- `642cce1` Year 10 Maths: flip class to `anchored: true`. Phase-0
+  setup commit — switched from `y10()` helper to a literal HrsClass
+  object (helpers don't take an `anchored` param yet per SKILL §4).
+  Extracted all 31 .docx + 13 .pdf source files in
+  `source-material/maths/year-10/` to plain text via python-docx +
+  pypdf for grep-able access during authoring.
+- `17ae225` Year 10 Maths: 452 anchored items (302 MCQ + 75 OOO +
+  75 TL). First non-VCE class to be anchored. Authored from Jack's
+  905-line `_overview(2).md` covering 9 topics, VC2M10 codes, 73
+  listed misconceptions, and per-topic source-file inventory. ID
+  prefix `y10-math-N` for MCQ/OOO, `y10-tl-math-N` for TL. No
+  `unit` tag (per SKILL §6 Year 7-10). Notation: Unicode for
+  symbols (², √, ÷, ×, π, −), ASCII slash for fractions — matches
+  existing `ms-m-*` / `lp-m-*` items. Rigour audit ran all three
+  SKILL §5g tiers: 2 Only/Just hits + 1 em-dash hit + 5 length-
+  asymmetry hits all rewritten; 1 remaining 3.0× ratio on
+  `y10-math-210` is a legitimate numerical median answer
+  (8.5 vs 7/8/9). Verified live: Quick Quiz with Y10 Maths
+  selected serves `y10-math-59` ("Simplify: x/4 + x/6") as Q1.
+
+**Two follow-ups remain from §7.6:** audit of the ~1500 non-anchored
+generic AC V9 MCQs (likely same anti-patterns at similar density),
+and formal OOO + Two Truths audit. Both independent.
+
+---
+
+**Earlier session handoff (2026-06-03, SD3-4 textbook batch 2):**
+Closed out queued follow-up #1 from the previous handoff. One commit:
 
 - `93734a5` VCE Software Development 3-4: textbook-anchored MCQ
   batch 3 (+100). Items `ss-comp-201..300`, 25 per AOS, anchored to
