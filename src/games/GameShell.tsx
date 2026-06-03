@@ -9,7 +9,6 @@ import {
   findClass,
   HRS_CLASSES,
   type YearBand,
-  type HrsClass,
 } from '../data/classes';
 import { usePersistedState } from '../hooks/usePersistedState';
 import { useEffect, useMemo } from 'react';
@@ -213,6 +212,9 @@ export function SetupScreen({
 
   const yearBandObjs = YEAR_BANDS.filter((b) => supportedBands.includes(b.id));
   const classesInBand = classesForBand(currentBand);
+  // Anchored classes pinned to the top of the dropdown.
+  const anchoredClasses = classesInBand.filter((c) => c.anchored);
+  const otherClasses = classesInBand.filter((c) => !c.anchored);
 
   return (
     <div className={styles.setup}>
@@ -241,10 +243,41 @@ export function SetupScreen({
             <span className={styles.eyebrowBadge}> · HRS-anchored ✓</span>
           )}
         </p>
-        <div className={styles.choices}>
-          {classesInBand.map((c) => (
-            <ClassChoice key={c.id} klass={c} active={classId === c.id} onPick={pickClass} />
-          ))}
+        <div className={styles.classSelectRow}>
+          <span
+            className={styles.classSelectDot}
+            style={{
+              background: currentClass
+                ? SUBJECT_COLOURS[currentClass.subject]
+                : 'transparent',
+            }}
+            aria-hidden="true"
+          />
+          <select
+            className={styles.classSelect}
+            value={classId}
+            onChange={(e) => pickClass(e.target.value)}
+            aria-label="Select class"
+          >
+            {anchoredClasses.length > 0 && (
+              <optgroup label="HRS-anchored ✓">
+                {anchoredClasses.map((c) => (
+                  <option key={c.id} value={c.id}>
+                    {c.name}
+                  </option>
+                ))}
+              </optgroup>
+            )}
+            {otherClasses.length > 0 && (
+              <optgroup label={anchoredClasses.length > 0 ? 'Other classes' : 'Classes'}>
+                {otherClasses.map((c) => (
+                  <option key={c.id} value={c.id}>
+                    {c.name}
+                  </option>
+                ))}
+              </optgroup>
+            )}
+          </select>
         </div>
       </section>
 
@@ -346,27 +379,3 @@ function readLs(key: string): string | null {
   }
 }
 
-function ClassChoice({
-  klass,
-  active,
-  onPick,
-}: {
-  klass: HrsClass;
-  active: boolean;
-  onPick: (id: string) => void;
-}) {
-  const colour = SUBJECT_COLOURS[klass.subject];
-  return (
-    <button
-      type="button"
-      className={styles.choice}
-      data-active={active}
-      onClick={() => onPick(klass.id)}
-      style={{ ['--accent-tint' as string]: colour }}
-    >
-      <span className={styles.choiceDot} style={{ background: colour }} />
-      <span className={styles.choiceLabel}>{klass.name}</span>
-      {klass.anchored && <span className={styles.choiceSub}>HRS-anchored ✓</span>}
-    </button>
-  );
-}
