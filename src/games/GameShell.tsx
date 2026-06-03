@@ -118,6 +118,11 @@ export function SetupScreen({
   extra,
 }: SetupScreenProps) {
   const game = gameId ? findGame(gameId) : undefined;
+  // Only Quick & Energetic games have class-anchored banks (Sociology,
+  // Software Dev, etc.). For every other group, the user chooses a
+  // year band only — a default classId is still derived internally so
+  // SetupSelections stays valid for downstream callers.
+  const showClassPicker = !game || game.group === 'rapid';
 
   // Year bands the game supports → derived from game.streams.
   const supportedBands = useMemo<YearBand[]>(() => {
@@ -236,50 +241,52 @@ export function SetupScreen({
         </div>
       </section>
 
-      <section className={styles.setupSection}>
-        <p className="eyebrow">
-          Class · {classesInBand.length}
-          {currentClass?.anchored && (
-            <span className={styles.eyebrowBadge}> · HRS-anchored ✓</span>
-          )}
-        </p>
-        <div className={styles.classSelectRow}>
-          <span
-            className={styles.classSelectDot}
-            style={{
-              background: currentClass
-                ? SUBJECT_COLOURS[currentClass.subject]
-                : 'transparent',
-            }}
-            aria-hidden="true"
-          />
-          <select
-            className={styles.classSelect}
-            value={classId}
-            onChange={(e) => pickClass(e.target.value)}
-            aria-label="Select class"
-          >
-            {anchoredClasses.length > 0 && (
-              <optgroup label="HRS-anchored ✓">
-                {anchoredClasses.map((c) => (
-                  <option key={c.id} value={c.id}>
-                    {c.name}
-                  </option>
-                ))}
-              </optgroup>
+      {showClassPicker && (
+        <section className={styles.setupSection}>
+          <p className="eyebrow">
+            Class · {classesInBand.length}
+            {currentClass?.anchored && (
+              <span className={styles.eyebrowBadge}> · HRS-anchored ✓</span>
             )}
-            {otherClasses.length > 0 && (
-              <optgroup label={anchoredClasses.length > 0 ? 'Other classes' : 'Classes'}>
-                {otherClasses.map((c) => (
-                  <option key={c.id} value={c.id}>
-                    {c.name}
-                  </option>
-                ))}
-              </optgroup>
-            )}
-          </select>
-        </div>
-      </section>
+          </p>
+          <div className={styles.classSelectRow}>
+            <span
+              className={styles.classSelectDot}
+              style={{
+                background: currentClass
+                  ? SUBJECT_COLOURS[currentClass.subject]
+                  : 'transparent',
+              }}
+              aria-hidden="true"
+            />
+            <select
+              className={styles.classSelect}
+              value={classId}
+              onChange={(e) => pickClass(e.target.value)}
+              aria-label="Select class"
+            >
+              {anchoredClasses.length > 0 && (
+                <optgroup label="HRS-anchored ✓">
+                  {anchoredClasses.map((c) => (
+                    <option key={c.id} value={c.id}>
+                      {c.name}
+                    </option>
+                  ))}
+                </optgroup>
+              )}
+              {otherClasses.length > 0 && (
+                <optgroup label={anchoredClasses.length > 0 ? 'Other classes' : 'Classes'}>
+                  {otherClasses.map((c) => (
+                    <option key={c.id} value={c.id}>
+                      {c.name}
+                    </option>
+                  ))}
+                </optgroup>
+              )}
+            </select>
+          </div>
+        </section>
+      )}
 
       <section className={styles.setupSection}>
         <p className="eyebrow">How many questions</p>
