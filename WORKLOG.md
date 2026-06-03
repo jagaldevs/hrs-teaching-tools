@@ -619,8 +619,10 @@ see §6 recipe.
 
 ### 7.4 Next class to onboard
 
-Two classes are now HRS-anchored at the full 450-item distribution:
-- VCE Software Development 3-4 (350 items + 100 exam-style batch 2 = 450)
+Two classes are now HRS-anchored at the full 450-item distribution
+(both confirmed in commit `93734a5`):
+- VCE Software Development 3-4 (200 MCQ batch 1 + 100 MCQ textbook
+  batch 2 + 75 OOO + 75 TL = 450)
 - VCE Sociology 3-4 (200 + 100 textbook + 75 OOO + 75 TL = 450)
 
 The other 112 entries in `HRS_CLASSES` still rely on generic AC V9
@@ -635,14 +637,15 @@ that have study material in `source-material/`.
 The rigour audit (§5.12) and textbook OCR (§5.11) opened up three
 adjacent work streams that did NOT get done this session:
 
-1. **SD3-4 textbook-anchored batch 2.** The 371MB scanned textbook
-   was OCRed (commit `aa527c7`) and now sits as
-   `source-material/technology/software-development-3-4/textbook-extracted.txt`
-   — 24,368 lines of greppable text. **No MCQs have yet been mined
-   from it.** SD3-4 still has only the original 200 MCQs (vs
-   Sociology's 300 with batch 2 from the textbook). Authoring
-   `ss-comp-201..300` from textbook case studies would bring SD3-4
-   to the same 450-item-and-rigorous standard. Follow SKILL §5f.
+1. ~~**SD3-4 textbook-anchored batch 2.**~~ ✅ DONE 2026-06-03
+   (commit `93734a5`). Authored `ss-comp-201..300` from the OCR'd
+   textbook (`source-material/technology/software-development-3-4/textbook-extracted.txt`),
+   25 items per AOS, anchored to specific named case studies
+   (WannaCry, Apache Subversion, Adem's gym brief, Jane persona,
+   GitHub Copilot/Codex, Essential Eight) and page-referenced
+   textbook facts. Three-tier rigour audit (§5g) clean: 0 hits on
+   Only/Just, 1 em-dash hit found + fixed, 0 length-asymmetry
+   violations >2.5x. SD3-4 now matches Sociology at 450 items.
 
 2. **Non-anchored bank rigour audit.** The 5-commit audit only
    covered the ~500 anchored MCQs (Sociology + SD3-4). The other
@@ -669,12 +672,39 @@ The new way to track anchoring is the `anchored: true` flag in
 
 ---
 
-_Last updated: 2026-06-03 by Claude (Opus 4.7) at the end of the
-rigour-audit session. Append, don't overwrite — and date new entries
-so future readers know what's fresh._
+_Last updated: 2026-06-03 by Claude (Opus 4.7) after the SD3-4
+textbook-batch-2 authoring session. Append, don't overwrite — and
+date new entries so future readers know what's fresh._
 
-**Session handoff (2026-06-03, end of context):** Big quality and
-infrastructure session. Six commits landed:
+**Session handoff (2026-06-03, SD3-4 textbook batch 2):** Closed out
+queued follow-up #1 from the previous handoff. One commit landed:
+
+- `93734a5` VCE Software Development 3-4: textbook-anchored MCQ
+  batch 3 (+100). Items `ss-comp-201..300`, 25 per AOS, anchored to
+  the OCR'd Cengage textbook. Specific case studies mined: WannaCry
+  2017 (cryptoworm, NSA stockpile, March-patch vs May-attack,
+  ~230k computers / 150 countries, 98% Win7/8), Apache Subversion
+  (CollabNet 2000, top-level Apache, branches+tags, FreeBSD/GCC/
+  SourceForge users), Adem's gym design brief (primary user = owner,
+  three feasibility aspects), Jane the motivational-speaker persona,
+  GitHub Copilot powered by OpenAI Codex, Essential Eight + ACSC/ASD
+  publisher + maturity levels 0-3, six memory-safe languages
+  (C#, Go, Java, Ruby, Rust, Swift). Rigour audit clean on all three
+  tiers after one em-dash fix on `ss-comp-272`. Verified live in
+  the QuickQuiz with VCE Software Development 3-4 selected — first
+  round served `ss-comp-14` style anchored COMPUTING content
+  correctly. SD3-4 now genuinely at the 450-item-and-rigorous
+  standard, matching Sociology.
+
+**Two follow-ups remain from §7.6:** audit of the ~1500 non-anchored
+generic AC V9 MCQs (same anti-patterns at similar density likely),
+and formal OOO + Two Truths audit. Both are independent — pick
+either at the next session's start.
+
+---
+
+**Earlier session handoff (2026-06-03, rigour-audit session):**
+Six commits landed:
 
 - `ba3326f` Sociology textbook batch 2 (+100 items)
 - `da761d2` WORKLOG + SKILL refresh after previous handoff
