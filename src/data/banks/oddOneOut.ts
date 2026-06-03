@@ -542,6 +542,115 @@ const SENIOR_SOCIOLOGY: OddItem[] = [
   { id: 'ss-soc-75', items: ['Charisma', 'Referent power', 'Movement leader', 'Coercive force'], outlier: 3, explanation: 'Coercive force is the opposite of referent power, which is charisma-based.' },
 ];
 
+// ============================================================
+//  YEAR 10 — MATHEMATICS (HRS)
+//  75 OOO items aligned with the topic breakdown in mcq.ts.
+//  Distribution mirrors Jack's overview:
+//    1. Surds & Measurement (1–10)
+//    2. Algebra & Linear (11–20)
+//    3. Quadratics (21–30)
+//    4. Probability (31–37)
+//    5. Parabolas & Rates (38–45)
+//    6. Statistics (46–53)
+//    7. Indices/Exp/Log (54–61)
+//    8. Polynomials & Functions (62–68)
+//    9. Trigonometry (69–75)
+// ============================================================
+const Y10_MATHS: OddItem[] = [
+  // -- Topic 1: Surds and Measurement --
+  { id: 'y10-math-1', items: ['√2', '√3', '√5', '√9'], outlier: 3, explanation: '√9 = 3 is rational; the others are irrational surds.' },
+  { id: 'y10-math-2', items: ['√50', '√72', '√48', '√23'], outlier: 3, explanation: '√23 cannot be simplified (23 is prime); the others have perfect-square factors.' },
+  { id: 'y10-math-3', items: ['Pythagoras', 'sine ratio', 'square root', 'circle area'], outlier: 1, explanation: 'Sine is a trig ratio; the others connect to right-triangle geometry or surds.' },
+  { id: 'y10-math-4', items: ['cm', 'm', 'cm²', 'km'], outlier: 2, explanation: 'cm² is a unit of area; the others are units of length.' },
+  { id: 'y10-math-5', items: ['radius', 'diameter', 'circumference', 'area'], outlier: 3, explanation: 'Area is 2D; the others are 1D length measurements of a circle.' },
+  { id: 'y10-math-6', items: ['prism', 'cylinder', 'cone', 'circle'], outlier: 3, explanation: 'A circle is a 2D shape; the others are 3D solids.' },
+  { id: 'y10-math-7', items: ['volume of sphere', 'volume of prism', 'volume of cylinder', 'surface area of cube'], outlier: 3, explanation: 'Surface area of cube is the odd measurement type; the others are volumes.' },
+  { id: 'y10-math-8', items: ['πr²', 'l × w', '½ × b × h', '4πr²'], outlier: 3, explanation: '4πr² is the surface area of a sphere; the others are 2D area formulas.' },
+  { id: 'y10-math-9', items: ['vertical height', 'slant height', 'base radius', 'apex angle'], outlier: 3, explanation: 'Apex angle is an angle; the others are lengths used in cone/pyramid calculations.' },
+  { id: 'y10-math-10', items: ['√4', '√16', '√25', '√10'], outlier: 3, explanation: '√10 is irrational; the others are square roots of perfect squares.' },
+
+  // -- Topic 2: Algebra and Linear Relationships --
+  { id: 'y10-math-11', items: ['x', 'y', 'z', '5'], outlier: 3, explanation: '5 is a constant; the others are variables.' },
+  { id: 'y10-math-12', items: ['+', '−', '×', 'x'], outlier: 3, explanation: 'x is a variable; the others are arithmetic operators.' },
+  { id: 'y10-math-13', items: ['equation', 'expression', 'formula', 'angle'], outlier: 3, explanation: 'An angle is a geometric measure; the others are algebraic objects.' },
+  { id: 'y10-math-14', items: ['substitution', 'elimination', 'graphing', 'differentiation'], outlier: 3, explanation: 'Differentiation is calculus; the others are simultaneous-equation methods.' },
+  { id: 'y10-math-15', items: ['<', '>', '≤', '='], outlier: 3, explanation: '= is equality; the others are inequality symbols.' },
+  { id: 'y10-math-16', items: ['y-intercept', 'gradient', 'midpoint', 'parabola'], outlier: 3, explanation: 'Parabola is a quadratic curve; the others are features of linear graphs.' },
+  { id: 'y10-math-17', items: ['y = 3x', 'y = 3', 'y = x + 3', 'x = 3'], outlier: 3, explanation: 'x = 3 is a vertical line; the others are non-vertical lines.' },
+  { id: 'y10-math-18', items: ['parallel', 'perpendicular', 'collinear', 'congruent'], outlier: 3, explanation: 'Congruent describes equal shapes; the others describe line relationships.' },
+  { id: 'y10-math-19', items: ['(2, 3)', '(−1, 5)', '(4, −2)', '3x + y'], outlier: 3, explanation: '3x + y is an expression; the others are coordinate pairs.' },
+  { id: 'y10-math-20', items: ['gradient = rise/run', 'm = Δy/Δx', 'slope = rise/run', 'gradient = run/rise'], outlier: 3, explanation: '"run/rise" inverts the formula; the others state gradient correctly.' },
+
+  // -- Topic 3: Quadratics --
+  { id: 'y10-math-21', items: ['x²', 'x² + 1', '2x²', 'x'], outlier: 3, explanation: 'x is linear (degree 1); the others are quadratic (degree 2).' },
+  { id: 'y10-math-22', items: ['(x − 1)(x − 2)', '(x + 3)(x − 4)', 'x²', '3x + 5'], outlier: 3, explanation: '3x + 5 is linear; the others are quadratic in factored or pure form.' },
+  { id: 'y10-math-23', items: ['discriminant', 'quadratic formula', 'completing the square', 'midpoint formula'], outlier: 3, explanation: 'Midpoint formula belongs to coordinate geometry; the others are quadratic-equation tools.' },
+  { id: 'y10-math-24', items: ['(x + 1)²', '(x − 5)²', '(x + 3)²', '(x − 1)(x + 1)'], outlier: 3, explanation: 'The last is a difference of two squares; the others are perfect-square binomials.' },
+  { id: 'y10-math-25', items: ['x² − 9', '4x² − 25', 'x² + 16', 'x² − 1'], outlier: 2, explanation: 'x² + 16 is a SUM of squares (not factorable over reals); the others are difference of two squares.' },
+  { id: 'y10-math-26', items: ['perfect square', 'difference of two squares', 'common factor', 'sum of cubes'], outlier: 3, explanation: 'Sum of cubes is degree 3; the others are quadratic-factorisation patterns covered in Y10.' },
+  { id: 'y10-math-27', items: ['Null Factor Law', 'quadratic formula', 'completing the square', 'limits and derivatives'], outlier: 3, explanation: 'Limits and derivatives are calculus; the others are quadratic-equation methods.' },
+  { id: 'y10-math-28', items: ['monic', 'non-monic', 'binomial', 'isosceles'], outlier: 3, explanation: 'Isosceles describes triangles; the others describe quadratic expressions.' },
+  { id: 'y10-math-29', items: ['x² − 6x + 9', 'x² + 4x + 4', '(x + 2)²', 'x² + 2x − 3'], outlier: 3, explanation: 'x² + 2x − 3 = (x + 3)(x − 1) is not a perfect square; the others are.' },
+  { id: 'y10-math-30', items: ['Δ > 0', 'Δ = 0', 'Δ < 0', 'Δ = b²'], outlier: 3, explanation: 'Δ = b² is incorrect (Δ = b² − 4ac); the others are valid discriminant cases.' },
+
+  // -- Topic 4: Probability --
+  { id: 'y10-math-31', items: ['heads', 'tails', 'edge landing', 'sample space'], outlier: 3, explanation: 'Sample space is a concept; the others are individual coin-toss outcomes.' },
+  { id: 'y10-math-32', items: ['Venn diagram', 'two-way table', 'tree diagram', 'box plot'], outlier: 3, explanation: 'Box plot is a statistics tool; the others represent probability events.' },
+  { id: 'y10-math-33', items: ['mutually exclusive', 'independent', 'conditional', 'congruent'], outlier: 3, explanation: 'Congruent is a geometry term; the others describe probability event relationships.' },
+  { id: 'y10-math-34', items: ['P(A ∩ B)', 'P(A ∪ B)', 'P(A | B)', 'P(A → B)'], outlier: 3, explanation: 'P(A → B) is implication notation, not probability; the others are standard probability expressions.' },
+  { id: 'y10-math-35', items: ['1/2', '1/6', '0.25', '1.5'], outlier: 3, explanation: '1.5 > 1, which is invalid for a probability; the others are valid.' },
+  { id: 'y10-math-36', items: ['independent', 'dependent', 'with replacement', 'arithmetic mean'], outlier: 3, explanation: 'Arithmetic mean is a statistics term; the others describe probability event relationships.' },
+  { id: 'y10-math-37', items: ['without replacement', 'with replacement', 'tree diagram', 'lowest common multiple'], outlier: 3, explanation: 'LCM is a number topic; the others are probability terms.' },
+
+  // -- Topic 5: Parabolas and Rates of Change --
+  { id: 'y10-math-38', items: ['vertex', 'axis of symmetry', 'x-intercept', 'diagonal'], outlier: 3, explanation: 'Diagonal is from polygons; the others are parabola features.' },
+  { id: 'y10-math-39', items: ['translation', 'reflection', 'dilation', 'iteration'], outlier: 3, explanation: 'Iteration is programming/algebra; the others are graph transformations.' },
+  { id: 'y10-math-40', items: ['y = x²', 'y = (x − 1)²', 'y = x² + 5', 'y = mx + c'], outlier: 3, explanation: 'y = mx + c is a line; the others are parabolas.' },
+  { id: 'y10-math-41', items: ['parabola', 'hyperbola', 'circle', 'rectangle'], outlier: 3, explanation: 'Rectangle is a polygon; the others are conic sections.' },
+  { id: 'y10-math-42', items: ['Δ > 0 (2 x-int)', 'Δ = 0 (1 x-int)', 'Δ < 0 (no x-int)', 'Δ ≥ 0 (always 2 x-int)'], outlier: 3, explanation: 'The fourth conflates two cases incorrectly — Δ = 0 gives 1 root, not 2.' },
+  { id: 'y10-math-43', items: ['rate of change', 'gradient', 'slope', 'volume of a prism'], outlier: 3, explanation: 'Volume is a 3D measurement; the others all describe slope.' },
+  { id: 'y10-math-44', items: ['distance-time graph', 'velocity-time graph', 'parabolic trajectory', 'cumulative-frequency graph'], outlier: 3, explanation: 'Cumulative frequency is statistics; the others involve motion or rate of change.' },
+  { id: 'y10-math-45', items: ['turning point', 'vertex', 'apex of parabola', 'asymptote'], outlier: 3, explanation: 'Asymptotes belong to hyperbolas / exponentials; the others describe parabola peaks.' },
+
+  // -- Topic 6: Statistics --
+  { id: 'y10-math-46', items: ['mean', 'median', 'mode', 'range'], outlier: 3, explanation: 'Range measures spread; the others measure central tendency.' },
+  { id: 'y10-math-47', items: ['Q1', 'Q3', 'median', 'standard deviation'], outlier: 3, explanation: 'Standard deviation describes variability; the others are quartile values.' },
+  { id: 'y10-math-48', items: ['box plot', 'histogram', 'scatter plot', 'tree diagram'], outlier: 3, explanation: 'Tree diagram is for probability; the others display data distributions.' },
+  { id: 'y10-math-49', items: ['range', 'IQR', 'standard deviation', 'mean'], outlier: 3, explanation: 'Mean is central tendency; the others measure spread.' },
+  { id: 'y10-math-50', items: ['interpolation', 'extrapolation', 'correlation', 'differentiation'], outlier: 3, explanation: 'Differentiation is calculus; the others are statistical / bivariate terms.' },
+  { id: 'y10-math-51', items: ['positive correlation', 'negative correlation', 'no correlation', 'irrational correlation'], outlier: 3, explanation: '"Irrational correlation" is not a real category; the others are standard descriptions.' },
+  { id: 'y10-math-52', items: ['categorical data', 'numerical data', 'continuous data', 'parallel data'], outlier: 3, explanation: '"Parallel" refers to lines, not data types.' },
+  { id: 'y10-math-53', items: ['outlier', 'maximum value', 'minimum value', 'asymptote'], outlier: 3, explanation: 'Asymptote is a graph feature; the others describe specific data points.' },
+
+  // -- Topic 7: Indices, Exponentials and Logarithms --
+  { id: 'y10-math-54', items: ['2³', '5²', '7⁴', 'x/3'], outlier: 3, explanation: 'x/3 is a fraction; the others are powers.' },
+  { id: 'y10-math-55', items: ['aᵐ × aⁿ = aᵐ⁺ⁿ', 'aᵐ ÷ aⁿ = aᵐ⁻ⁿ', '(aᵐ)ⁿ = aᵐⁿ', 'aᵐ + aⁿ = aᵐ⁺ⁿ'], outlier: 3, explanation: 'Addition is NOT an index law; the others are valid laws.' },
+  { id: 'y10-math-56', items: ['exponential growth', 'exponential decay', 'compound interest', 'simple interest'], outlier: 3, explanation: 'Simple interest is linear; the others are exponential.' },
+  { id: 'y10-math-57', items: ['log_a x', 'aˣ', 'ln x', '√x'], outlier: 3, explanation: '√x is a radical; the others are log/exponential functions.' },
+  { id: 'y10-math-58', items: ['log_a(xy) = log_a x + log_a y', 'log_a(x/y) = log_a x − log_a y', 'log_a(xⁿ) = n log_a x', 'log_a x ÷ log_a y = log_a(x/y)'], outlier: 3, explanation: 'The quotient rule does NOT work that way; the others are valid log laws.' },
+  { id: 'y10-math-59', items: ['base 10', 'base 2', 'base e', 'base 0'], outlier: 3, explanation: 'Log base 0 is undefined; the others are common log bases.' },
+  { id: 'y10-math-60', items: ['Richter scale', 'pH scale', 'decibel scale', 'kilogram'], outlier: 3, explanation: 'Kilogram is a linear mass unit; the others are logarithmic scales.' },
+  { id: 'y10-math-61', items: ['2⁰ = 1', '5⁰ = 1', 'π⁰ = 1', '0⁰ = 1'], outlier: 3, explanation: '0⁰ is indeterminate (typically undefined); the others are valid.' },
+
+  // -- Topic 8: Polynomials, Functions and Graphs --
+  { id: 'y10-math-62', items: ['linear', 'quadratic', 'cubic', 'logarithmic'], outlier: 3, explanation: 'Logarithmic is NOT a polynomial; the others are polynomial degrees.' },
+  { id: 'y10-math-63', items: ['x', 'x²', 'x³', 'sin x'], outlier: 3, explanation: 'sin x is trigonometric, not polynomial.' },
+  { id: 'y10-math-64', items: ['degree', 'leading coefficient', 'constant term', 'asymptote'], outlier: 3, explanation: 'Asymptotes belong to hyperbolas / exponentials; the others are polynomial features.' },
+  { id: 'y10-math-65', items: ['f(x)', 'g(x)', 'h(x)', '3 + x'], outlier: 3, explanation: '3 + x is an expression; the others are function-notation forms.' },
+  { id: 'y10-math-66', items: ['root', 'zero', 'x-intercept', 'tangent line'], outlier: 3, explanation: 'Tangent line touches a curve; the others are equivalent terms for solutions of p(x) = 0.' },
+  { id: 'y10-math-67', items: ['y = x³', 'y = x² + 1', 'y = 1/x', 'y = 2ˣ'], outlier: 3, explanation: 'y = 2ˣ is exponential; the others are polynomial or rational.' },
+  { id: 'y10-math-68', items: ['remainder theorem', 'factor theorem', 'binomial theorem', 'Pythagorean theorem'], outlier: 3, explanation: 'Pythagorean theorem is about triangles; the others apply to polynomials.' },
+
+  // -- Topic 9: Trigonometry --
+  { id: 'y10-math-69', items: ['sin', 'cos', 'tan', 'log'], outlier: 3, explanation: 'log is a logarithm; the others are trig ratios.' },
+  { id: 'y10-math-70', items: ['hypotenuse', 'opposite', 'adjacent', 'mean'], outlier: 3, explanation: 'Mean is statistical; the others are sides of a right triangle.' },
+  { id: 'y10-math-71', items: ['SOH', 'CAH', 'TOA', 'PEMDAS'], outlier: 3, explanation: 'PEMDAS is order of operations; the others are trig-ratio mnemonics.' },
+  { id: 'y10-math-72', items: ['sin 30° = 0.5', 'cos 60° = 0.5', 'tan 45° = 1', 'sin 0° = 1'], outlier: 3, explanation: 'sin 0° = 0, not 1; the others are correct exact values.' },
+  { id: 'y10-math-73', items: ['bearing N30°E', 'bearing 030°', 'angle 30° from north', 'angle of elevation 30°'], outlier: 3, explanation: 'Angle of elevation is from horizontal; the others all describe a bearing 30° from North.' },
+  { id: 'y10-math-74', items: ['Pythagoras', 'sine ratio', 'cosine ratio', 'distance formula'], outlier: 3, explanation: 'Distance formula belongs to coordinate geometry; the others are right-triangle tools.' },
+  { id: 'y10-math-75', items: ['angle of elevation', 'angle of depression', 'bearing', 'gradient'], outlier: 3, explanation: 'Gradient = slope of a line; the others are directional angles in trigonometry.' },
+];
+
 export const ODD_BANK: Bank<OddItem> = {
   byStreamSubject: {
     lower_primary: {
@@ -578,5 +687,6 @@ export const ODD_BANK: Bank<OddItem> = {
   byClass: {
     'vce-software-development-3-4': SENIOR_COMPUTING,
     'vce-sociology-3-4': SENIOR_SOCIOLOGY,
+    'y10-maths': Y10_MATHS,
   },
 };
