@@ -650,19 +650,29 @@ adjacent work streams that did NOT get done this session:
    Only/Just, 1 em-dash hit found + fixed, 0 length-asymmetry
    violations >2.5x. SD3-4 now matches Sociology at 450 items.
 
-2. **Non-anchored bank rigour audit.** The 5-commit audit only
-   covered the ~500 anchored MCQs (Sociology + SD3-4). The other
-   ~1500 items across primary/middle/senior generic AC V9 banks
-   were NOT audited and likely have the same anti-patterns at
-   similar density. They'd benefit from the same treatment. Use
-   the SKILL §5g grep commands + the Python script in WORKLOG
-   §5.12 — both work across the whole `mcq.ts` file unchanged.
+2. ~~**Non-anchored bank rigour audit.**~~ ✅ DONE 2026-06-03.
+   Ran SKILL §5g three-tier audit against all non-anchored MCQs
+   (filtering out ss-comp-, ss-soc-, y10-math- prefixes). Found
+   15 Tier 1 hits (Only/Just distractors, especially the triple-
+   "Only" anti-pattern where 3 distractors all start with "Only"
+   and the correct answer is the comprehensive option), 0 Tier 2
+   hits (em-dash), and 23 Tier 3 hits (length asymmetry >2.5×).
+   With overlap: **35 unique items rewritten**. After the pass:
+   0 hits on all three tiers across the entire non-anchored pool.
+   The triple-"Only" pattern was the most common across primary
+   science and senior geography items.
 
-3. **Formal OOO + Two Truths audit.** Spot checks looked clean
-   (different format, less prone to the MCQ anti-patterns) but
-   no systematic pass was run. If a teacher reports an obvious
-   answer in either game, run the equivalent grep sweep against
-   `oddOneOut.ts` and `misc.ts`.
+3. ~~**Formal OOO + Two Truths audit.**~~ ✅ DONE 2026-06-03.
+   - **OOO**: ran length-asymmetry script against `oddOneOut.ts`.
+     22 items flagged, but all are **false positives** — the
+     length differences reflect the natural vocabulary of each
+     category (e.g. "photo" vs "great-grandparent" in a family
+     OOO; "Prime Minister" vs ancient titles "Pope/Pharaoh").
+     Students answer based on meaning, not length. No rewrites.
+   - **TL**: ran two checks against `misc.ts` — (a) absolute-
+     language tells (always/never/only/all/every/none in lie
+     but not truths), (b) length asymmetry >2.5×. **0 hits on
+     both checks** across the entire TL bank. The bank is clean.
 
 ### 7.5 Source material progress log
 
