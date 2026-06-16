@@ -22,8 +22,6 @@ const BAND_TO_STREAM: Record<YearBand, Stream> = {
   y8: 'middle_school',
   y9: 'middle_school',
   y10: 'senior_school',
-  'vce-1-2': 'senior_school',
-  'vce-3-4': 'senior_school',
 };
 
 export function BrainBreaks() {

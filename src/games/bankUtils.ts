@@ -1,6 +1,6 @@
 import type { Stream } from '../data/games';
 import { findClass } from '../data/classes';
-import type { Bank, MCQ, Subject } from './types';
+import type { Bank, Subject } from './types';
 import { shuffle } from '../tools/rng/util';
 
 /**
@@ -96,10 +96,7 @@ export function pickFromClass<Q>(
   // Need more — top up from legacy.
   const need = count - anchored.length;
   if (klass.legacyStream) {
-    const unitFilter = klass.legacyUnits
-      ? (q: Q) => klass.legacyUnits!.includes((q as unknown as MCQ).unit as 1 | 2 | 3 | 4)
-      : undefined;
-    const legacy = pickFromBank(bank, klass.legacyStream, klass.subject, need, unitFilter);
+    const legacy = pickFromBank(bank, klass.legacyStream, klass.subject, need);
     const combined = shuffle([
       ...anchored.map((item) => ({ item, subject: klass.subject as Subject })),
       ...legacy.items.map((item, i) => ({ item, subject: legacy.subjects[i]! })),

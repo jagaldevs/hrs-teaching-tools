@@ -23,8 +23,7 @@ import type { Subject } from '../games/types';
 // ============================================================
 
 export type YearBand =
-  | 'f-2' | '3-6' | 'y7' | 'y8' | 'y9' | 'y10'
-  | 'vce-1-2' | 'vce-3-4';
+  | 'f-2' | '3-6' | 'y7' | 'y8' | 'y9' | 'y10';
 
 export interface YearBandDef {
   id: YearBand;
@@ -41,8 +40,6 @@ export const YEAR_BANDS: YearBandDef[] = [
   { id: 'y8',      label: 'Year 8',              shortLabel: 'Y8',   ordering: 4 },
   { id: 'y9',      label: 'Year 9',              shortLabel: 'Y9',   ordering: 5 },
   { id: 'y10',     label: 'Year 10',             shortLabel: 'Y10',  ordering: 6 },
-  { id: 'vce-1-2', label: 'VCE Units 1–2 (Year 11)', shortLabel: 'VCE 1–2', ordering: 7 },
-  { id: 'vce-3-4', label: 'VCE Units 3–4 (Year 12)', shortLabel: 'VCE 3–4', ordering: 8 },
 ];
 
 // ============================================================
@@ -72,8 +69,6 @@ export interface HrsClass {
   anchored?: boolean;
   /** Used by pickFromClass() to backfill from generic AC V9 pool. */
   legacyStream?: Stream;
-  /** For VCE classes: narrow legacy MCQ pool to these unit tags. */
-  legacyUnits?: (1 | 2 | 3 | 4)[];
 }
 
 // Helpers for building entries with sensible defaults --------------------
@@ -95,12 +90,6 @@ function y9(id: string, name: string, subject: Subject, sourcePath: string): Hrs
 }
 function y10(id: string, name: string, subject: Subject, sourcePath: string): HrsClass {
   return { id, yearBand: 'y10', name, subject, sourcePath, legacyStream: 'senior_school' };
-}
-function vce12(id: string, name: string, subject: Subject, sourcePath: string): HrsClass {
-  return { id, yearBand: 'vce-1-2', name, subject, sourcePath, legacyStream: 'senior_school', legacyUnits: [1, 2] };
-}
-function vce34(id: string, name: string, subject: Subject, sourcePath: string, anchored = false): HrsClass {
-  return { id, yearBand: 'vce-3-4', name, subject, sourcePath, anchored, legacyStream: 'senior_school', legacyUnits: [3, 4] };
 }
 
 // ============================================================
@@ -201,80 +190,6 @@ export const HRS_CLASSES: HrsClass[] = [
   y10('y10-chinese',     'Year 10 Chinese',     'general', 'languages/chinese/year-10'),
   y10('y10-french',      'Year 10 French',      'general', 'languages/french/year-10'),
   y10('y10-health-pe',   'Year 10 Health & PE', 'general', 'health-and-pe/year-10'),
-
-  // -- VCE Units 1–2 (Year 11) ---------------------------------
-  // English
-  vce12('vce-english-1-2',              'VCE English 1-2',                       'english', 'english/units-1-2'),
-  vce12('vce-literature-1-2',           'VCE Literature 1-2',                    'english', 'english/literature-1-2'),
-  // Maths
-  vce12('vce-methods-1-2',              'VCE Mathematical Methods 1-2',          'maths',   'maths/methods-1-2'),
-  vce12('vce-general-maths-1-2',        'VCE General Mathematics 1-2',           'maths',   'maths/general-1-2'),
-  vce12('vce-specialist-1-2',           'VCE Specialist Mathematics 1-2',        'maths',   'maths/specialist-1-2'),
-  vce12('vce-foundation-1-2',           'VCE Foundation Mathematics 1-2',        'maths',   'maths/foundation-1-2'),
-  // Science
-  vce12('vce-biology-1-2',              'VCE Biology 1-2',                       'science', 'science/biology-1-2'),
-  vce12('vce-chemistry-1-2',            'VCE Chemistry 1-2',                     'science', 'science/chemistry-1-2'),
-  vce12('vce-physics-1-2',              'VCE Physics 1-2',                       'science', 'science/physics-1-2'),
-  vce12('vce-psychology-1-2',           'VCE Psychology 1-2',                    'science', 'science/psychology-1-2'),
-  // Humanities
-  vce12('vce-history-1-2',              'VCE History 1-2',                       'history',   'humanities/history-1-2'),
-  vce12('vce-geography-1-2',            'VCE Geography 1-2',                     'geography', 'humanities/geography-1-2'),
-  vce12('vce-economics-1-2',            'VCE Economics 1-2',                     'history',   'humanities/economics-1-2'),
-  vce12('vce-legal-studies-1-2',        'VCE Legal Studies 1-2',                 'history',   'humanities/legal-studies-1-2'),
-  vce12('vce-politics-1-2',             'VCE Politics 1-2',                      'history',   'humanities/politics-1-2'),
-  vce12('vce-sociology-1-2',            'VCE Sociology 1-2',                     'history',   'humanities/sociology-1-2'),
-  vce12('vce-accounting-1-2',           'VCE Accounting 1-2',                    'history',   'humanities/accounting-1-2'),
-  vce12('vce-business-management-1-2',  'VCE Business Management 1-2',           'history',   'humanities/business-management-1-2'),
-  // Arts
-  vce12('vce-art-making-1-2',           'VCE Art Making and Exhibiting 1-2',     'general', 'arts/art-making-1-2'),
-  vce12('vce-visual-comm-design-1-2',   'VCE Visual Communication Design 1-2',   'general', 'arts/visual-communication-design-1-2'),
-  vce12('vce-music-1-2',                'VCE Music 1-2',                         'general', 'arts/music-1-2'),
-  vce12('vce-media-1-2',                'VCE Media 1-2',                         'general', 'arts/media-1-2'),
-  vce12('vce-theatre-studies-1-2',      'VCE Theatre Studies 1-2',               'general', 'arts/theatre-studies-1-2'),
-  // Technology
-  vce12('vce-applied-computing-1-2',    'VCE Applied Computing 1-2',             'computing','technology/applied-computing-1-2'),
-  // Languages
-  vce12('vce-chinese-1-2',              'VCE Chinese 1-2',                       'general', 'languages/chinese'),
-  vce12('vce-chinese-first-lang-1-2',   'VCE Chinese as a First Language 1-2',   'general', 'languages/chinese/chinese-first-language-1-2'),
-  // Health & PE
-  vce12('vce-hhd-1-2',                  'VCE Health and Human Development 1-2',  'general', 'health-and-pe/health-and-human-development-1-2'),
-  vce12('vce-oes-1-2',                  'VCE Outdoor and Environmental Studies 1-2', 'general', 'health-and-pe/outdoor-and-environmental-studies-1-2'),
-  vce12('vce-pe-1-2',                   'VCE Physical Education 1-2',            'general', 'health-and-pe/physical-education-1-2'),
-
-  // -- VCE Units 3–4 (Year 12) ---------------------------------
-  // English
-  vce34('vce-english-3-4',              'VCE English 3-4',                       'english', 'english/units-3-4'),
-  // Maths
-  vce34('vce-methods-3-4',              'VCE Mathematical Methods 3-4',          'maths',   'maths/methods-3-4'),
-  vce34('vce-general-maths-3-4',        'VCE General Mathematics 3-4',           'maths',   'maths/general-3-4'),
-  vce34('vce-specialist-3-4',           'VCE Specialist Mathematics 3-4',        'maths',   'maths/specialist-3-4'),
-  vce34('vce-foundation-3-4',           'VCE Foundation Mathematics 3-4',        'maths',   'maths/foundation-3-4'),
-  // Science
-  vce34('vce-biology-3-4',              'VCE Biology 3-4',                       'science', 'science/biology-3-4'),
-  vce34('vce-chemistry-3-4',            'VCE Chemistry 3-4',                     'science', 'science/chemistry-3-4'),
-  vce34('vce-physics-3-4',              'VCE Physics 3-4',                       'science', 'science/physics-3-4'),
-  vce34('vce-psychology-3-4',           'VCE Psychology 3-4',                    'science', 'science/psychology-3-4'),
-  // Humanities
-  vce34('vce-history-3-4',              'VCE History 3-4',                       'history',   'humanities/history-3-4'),
-  vce34('vce-geography-3-4',            'VCE Geography 3-4',                     'geography', 'humanities/geography-3-4'),
-  vce34('vce-economics-3-4',            'VCE Economics 3-4',                     'history',   'humanities/economics-3-4'),
-  vce34('vce-legal-studies-3-4',        'VCE Legal Studies 3-4',                 'history',   'humanities/legal-studies-3-4'),
-  vce34('vce-sociology-3-4',            'VCE Sociology 3-4',                     'history',   'humanities/sociology-3-4', /* anchored */ true),
-  vce34('vce-accounting-3-4',           'VCE Accounting 3-4',                    'history',   'humanities/accounting-3-4'),
-  vce34('vce-business-management-3-4',  'VCE Business Management 3-4',           'history',   'humanities/business-management-3-4'),
-  // Arts
-  vce34('vce-art-making-3-4',           'VCE Art Making and Exhibiting 3-4',     'general', 'arts/art-making-3-4'),
-  vce34('vce-visual-comm-design-3-4',   'VCE Visual Communication Design 3-4',   'general', 'arts/visual-communication-design-3-4'),
-  vce34('vce-music-3-4',                'VCE Music 3-4',                         'general', 'arts/music-3-4'),
-  // Technology — the ONE anchored class so far (250 items)
-  vce34('vce-software-development-3-4', 'VCE Software Development 3-4',          'computing','technology/software-development-3-4', /* anchored */ true),
-  // Languages
-  vce34('vce-chinese-3-4',              'VCE Chinese 3-4',                       'general', 'languages/chinese'),
-  vce34('vce-chinese-first-lang-3-4',   'VCE Chinese as a First Language 3-4',   'general', 'languages/chinese/chinese-first-language-3-4'),
-  // Health & PE
-  vce34('vce-hhd-3-4',                  'VCE Health and Human Development 3-4',  'general', 'health-and-pe/health-and-human-development-3-4'),
-  vce34('vce-oes-3-4',                  'VCE Outdoor and Environmental Studies 3-4', 'general', 'health-and-pe/outdoor-and-environmental-studies-3-4'),
-  vce34('vce-pe-3-4',                   'VCE Physical Education 3-4',            'general', 'health-and-pe/physical-education-3-4'),
 ];
 
 // ============================================================

@@ -91,8 +91,6 @@ const BAND_TO_STREAM: Record<YearBand, Stream> = {
   y8: 'middle_school',
   y9: 'middle_school',
   y10: 'senior_school',
-  'vce-1-2': 'senior_school',
-  'vce-3-4': 'senior_school',
 };
 
 interface SetupScreenProps {
@@ -345,7 +343,6 @@ function migrateLegacySelection(
 
   const oldStream = readLs(`${storageKey}.stream`) as Stream | null;
   const oldSubject = readLs(`${storageKey}.subject`);
-  const oldUnitGroup = readLs(`${storageKey}.unitGroup`);
   if (!oldStream) return undefined;
 
   // Pick the year band that best matches old stream + unit group.
@@ -353,11 +350,7 @@ function migrateLegacySelection(
   if (oldStream === 'lower_primary') targetBand = 'f-2';
   else if (oldStream === 'upper_primary') targetBand = '3-6';
   else if (oldStream === 'middle_school') targetBand = 'y8'; // middle: default to Y8
-  else if (oldStream === 'senior_school') {
-    if (oldUnitGroup === 'units_1_2') targetBand = 'vce-1-2';
-    else if (oldUnitGroup === 'units_3_4') targetBand = 'vce-3-4';
-    else targetBand = 'y10';
-  }
+  else if (oldStream === 'senior_school') targetBand = 'y10';
   if (!targetBand || !supportedBands.includes(targetBand)) return undefined;
 
   const classes = classesForBand(targetBand);
