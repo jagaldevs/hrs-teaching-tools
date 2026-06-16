@@ -619,21 +619,26 @@ see §6 recipe.
 
 ### 7.4 Next class to onboard
 
-Three classes are now HRS-anchored at the full 450-item distribution:
-- VCE Software Development 3-4 (200 MCQ batch 1 + 100 MCQ textbook
-  batch 2 + 75 OOO + 75 TL = 450, commit `93734a5`)
-- VCE Sociology 3-4 (200 + 100 textbook + 75 OOO + 75 TL = 450)
-- **Year 10 Maths** (302 MCQ + 75 OOO + 75 TL = 452, commit `17ae225`,
-  the first non-VCE anchored class — uses `y10-math-N` ID prefix, no
-  `unit` tag per SKILL §6, ASCII-Unicode-mixed notation matching
-  existing `ms-m-*` / `lp-m-*` items)
+**Scope reduction 2026-06-03 (commit `3cd12b7`)**: VCE Units 1-2 and
+3-4 were removed entirely. Project scope is now Foundation – Year 10.
+SD3-4 and Sociology 3-4 content (~700 items) were deleted along with
+the VCE classes, year bands, and `vce12()`/`vce34()` helpers. Their
+historical authoring is preserved in the §5/§5.x entries above as
+project record but no longer ships.
 
-The other 111 entries in `HRS_CLASSES` still rely on generic AC V9
-backfill. **No specific class is queued next** — confirm the target
-with Jack at the start of any new onboarding session. Likely
-candidates based on what teaching staff have asked for so far: other
-VCE 3-4 classes (Methods, Biology, English), Y9 electives, or
-remaining Y10 subjects.
+**One class is HRS-anchored** at the full 450-item distribution:
+- **Year 10 Maths** (302 MCQ + 75 OOO + 75 TL = 452, commit `17ae225`)
+  — uses `y10-math-N` ID prefix, no `unit` tag per SKILL §6,
+  Unicode-for-symbols-ASCII-for-fractions notation matching existing
+  `ms-m-*` / `lp-m-*` items.
+
+The remaining ~75 entries in `HRS_CLASSES` (down from 114 after the
+scope reduction) rely on generic AC V9 backfill. **No specific class
+is queued next** — confirm the target with Jack at the start of any
+new onboarding session. Likely candidates based on teaching-staff
+interest: other Y10 subjects (English, Science, Humanities), Y9
+electives (CodeCraft has a `subject: 'computing'` tag that needs
+content authoring), or Y7-9 cores.
 
 ### 7.6 Out-of-scope follow-ups identified Jun 3 2026
 
@@ -685,11 +690,40 @@ The new way to track anchoring is the `anchored: true` flag in
 
 ---
 
-_Last updated: 2026-06-03 by Claude (Opus 4.7) after the Y10 Maths
-onboarding + SetupScreen UI session. Append, don't overwrite — and
+_Last updated: 2026-06-03 by Claude (Opus 4.7) after the scope-
+reduction + migration-prep session. Append, don't overwrite — and
 date new entries so future readers know what's fresh._
 
-**Session handoff (2026-06-03, Y10 Maths + SetupScreen UI):** Major
+**Session handoff (2026-06-03, scope reduction + migration prep):**
+Three commits landed:
+
+- `8b40dcc` Add JACK-NOTES.md — personal quick-reference for the
+  project owner (project summary, file-location map, prep checklist,
+  bootstrap message, conventions, pitfalls, audit commands). Lives in
+  repo root so it travels across machines.
+- `2e7ce40` Docs: add Development setup section to README. Covers
+  toolchain (Node, Git, Python, python-docx, pypdf, optional Tesseract)
+  for cloning onto a fresh machine and bootstrapping Claude Code.
+- `3cd12b7` **Scope reduction**: removed VCE Units 1-2 and 3-4 entirely.
+  Project scope is now Foundation – Year 10. Dropped 40 VCE classes
+  from HRS_CLASSES, both VCE year bands, the `vce12()` / `vce34()`
+  helpers, the `legacyUnits` field, ~330 lines of SENIOR_COMPUTING
+  MCQs, ~315 lines of SENIOR_SOCIOLOGY MCQs, 150 SENIOR_*VCE OOO items,
+  110 ss-tl-comp/ss-tl-soc TL items. Y10 Maths preserved (only
+  anchored class now). `'computing'` Subject stays (used by y8-game-
+  development and y9-codecraft electives). Type-check clean; verified
+  live — Y10 Maths still serves correctly.
+
+**Migration context.** The user is moving the project to a different
+computer. The bootstrap and dev-setup docs are now in place so the
+new device will be productive in 10–15 minutes after clone + npm
+install + source-material transfer (gitignored, ~62 MB for Y10 Maths
+alone). The `source-material/` content only needs to come over if
+revisiting existing anchored work; new class onboardings just drop
+fresh materials.
+
+**Earlier session handoff (2026-06-03, Y10 Maths + SetupScreen UI):**
+Major
 session with both UI and content work. Commits landed:
 
 - `cdde49f` SetupScreen: replace class chip grid with a dropdown.

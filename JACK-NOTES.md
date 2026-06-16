@@ -5,7 +5,8 @@ Not the engineering log (see `WORKLOG.md`) and not the onboarding
 playbook (see `.claude/skills/onboard-class/SKILL.md`) — this is the
 quick-glance "what is this and how do I drive it" doc for you.
 
-_Last updated: 2026-06-03_
+_Last updated: 2026-06-03 (scope-reduced to Foundation–Year 10; VCE
+1-2 and 3-4 content removed entirely)_
 
 ---
 
@@ -26,11 +27,13 @@ Two products in one app:
 Anchored class = one whose `_overview.md` is filled in AND has a
 populated content bank keyed to that class. Currently anchored:
 
-- **VCE Software Development 3-4** (450 items)
-- **VCE Sociology 3-4** (450 items)
-- **Year 10 Maths** (452 items — first non-VCE class)
+- **Year 10 Maths** (452 items)
 
 Everything else uses generic AC V9 fallback content.
+
+**Scope**: Foundation – Year 10 only. VCE Units 1-2 and 3-4 were
+removed in scope reduction 2026-06-03 — no VCE classes, no VCE year
+bands, no SD3-4 / Sociology 3-4 content.
 
 ---
 
@@ -120,10 +123,9 @@ topic for review" if you want a checkpoint before the full sweep.
 
 | Convention | Detail |
 |---|---|
-| **ID prefix for VCE 3-4 classes** | `ss-<subject>-N` (e.g. `ss-comp-`, `ss-soc-`) |
-| **ID prefix for Year 7-10 classes** | `y<year>-<subject>-N` (e.g. `y10-math-`, `y8-sci-`) |
+| **ID prefix** | `y<year>-<subject>-N` (e.g. `y10-math-`, `y8-sci-`) for Y7–Y10; `lp-` / `up-` / `ms-` prefixes for primary/middle generic items |
 | **TL items** | Same prefix + `-tl-` infix (e.g. `y10-tl-math-N`) |
-| **`unit` tag** | Required on VCE items (1, 2, 3, or 4). Omitted for Y7–Y10. |
+| **`unit` tag** | No longer used post-scope-reduction. Field still exists on the MCQ type for back-compatibility. |
 | **Math notation** | Unicode for symbols (`²`, `√`, `÷`, `×`, `−`, `π`), ASCII slash for fractions (`1/2`) |
 | **TL `classId` tag** | Required when item belongs to a specific HRS class |
 | **Anchored class default** | 302 MCQ + 75 OOO + 75 TL = 452 items |
@@ -151,6 +153,12 @@ Full list in `WORKLOG.md §5`.
   helpers don't take an `anchored` parameter. To set
   `anchored: true` on a Y7–Y10 class, switch to a literal HrsClass
   object (already done for y10-maths; reference if needed).
+- **Computing subject without fallback** — Y8 Game Development and
+  Y9 CodeCraft electives carry `subject: 'computing'` but neither
+  is anchored AND there's no generic computing content. They'll
+  fail to start until they get anchored. Fix when onboarding the
+  first of those classes (just author a small computing bank
+  during onboarding).
 
 ---
 
