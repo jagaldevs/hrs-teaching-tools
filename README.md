@@ -52,6 +52,45 @@ npm run dev
 
 Opens at http://localhost:5173.
 
+## Development setup (full)
+
+If you're cloning this onto a fresh machine (e.g. moving devices), here's
+the full toolchain needed for end-to-end work including class onboarding:
+
+```powershell
+# Required for the app
+winget install OpenJS.NodeJS.LTS
+winget install Git.Git
+
+# Required for source-material extraction (used during class onboarding)
+winget install Python.Python.3.12
+py -m pip install python-docx pypdf
+
+# Optional: only if onboarding a class whose textbook is a scanned PDF
+winget install -e --id UB-Mannheim.TesseractOCR --silent
+py -m pip install pytesseract PyMuPDF
+```
+
+After cloning the repo and running `npm install`, the app is fully
+functional. Source material under `source-material/` is gitignored —
+if you need the existing anchored class's source documents on a new
+machine, transfer that folder separately (USB / OneDrive / direct file
+copy). For new class onboardings you only need to drop fresh materials
+into the relevant `source-material/<subject>/<class>/` folder.
+
+### Bootstrap a Claude Code session
+
+The onboarding playbook and engineering log are in the repo:
+
+- `WORKLOG.md` — every project decision, convention and pitfall
+- `.claude/skills/onboard-class/SKILL.md` — the class-onboarding workflow
+- `JACK-NOTES.md` — quick-reference for the project owner
+
+To start a new Claude Code session with full context, paste the
+bootstrap message from `JACK-NOTES.md` ("Read @WORKLOG.md and
+@.claude/skills/onboard-class/SKILL.md..."). Same paste-text works
+on any device with the repo cloned.
+
 ## Build for hosting
 
 ```powershell
