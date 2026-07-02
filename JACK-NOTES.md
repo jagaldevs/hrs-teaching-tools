@@ -5,8 +5,10 @@ Not the engineering log (see `WORKLOG.md`) and not the onboarding
 playbook (see `.claude/skills/onboard-class/SKILL.md`) — this is the
 quick-glance "what is this and how do I drive it" doc for you.
 
-_Last updated: 2026-06-03 (scope-reduced to Foundation–Year 10; VCE
-1-2 and 3-4 content removed entirely)_
+_Last updated: 2026-07-02 (migrated to the Mac —
+`~/Desktop/hrs-teaching-tools-main`; toolchain reinstalled, docs
+de-Windowsed. Scope remains Foundation–Year 10; VCE content was
+removed 2026-06-03.)_
 
 ---
 
@@ -92,7 +94,7 @@ lower-quality output, not failure.
 
 ## The bootstrap message (copy-paste this)
 
-Open Claude Code in `C:\Users\jack.galbraith\Code\hrs_teaching_tools`,
+Open Claude Code in `~/Desktop/hrs-teaching-tools-main` (this Mac),
 then paste:
 
 ```
@@ -143,8 +145,11 @@ Full list in `WORKLOG.md §5`.
   cached old bundle. Hard-refresh (Ctrl+Shift+R) or DevTools →
   Application → Service Workers → Unregister.
 - **Working directory** — first thing every session: confirm I'm in
-  `C:\Users\jack.galbraith\Code\hrs_teaching_tools`. The OneDrive
-  Desktop folder is empty save for `.claude/`.
+  `~/Desktop/hrs-teaching-tools-main` (this Mac since 2026-07-02).
+  The `C:\...` paths in historical WORKLOG entries no longer exist.
+- **This machine is macOS** — use `python3`, not the Windows `py`
+  launcher, and read winget/PowerShell snippets in older docs as
+  historical. README has the macOS equivalents.
 - **Math equations in .docx** — python-docx loses them on extract.
   PDF preserves them via pypdf.
 - **Two Truths items** — every item must have exactly ONE
@@ -168,12 +173,12 @@ If you ever want to spot-check the banks without my help, the
 SKILL §5g three-tier audit is reproducible with:
 
 **Tier 1 — Only/Just distractors:**
-```powershell
+```bash
 grep -nE "'(Only |Just )[A-Za-z]" src/data/banks/mcq.ts
 ```
 
 **Tier 2 — em-dash on correct option:**
-```powershell
+```bash
 grep -nE "', '[^']* — " src/data/banks/mcq.ts
 ```
 
@@ -227,7 +232,10 @@ Target: zero hits on all three tiers per anchored class.
 
 ## Side note on GitHub privacy
 
-The repo is public. It contains your full name in `About.tsx`
+The repo is **private** (`jagaldevs/hrs-teaching-tools`, confirmed
+2026-07-02 — it was public when this note was first written; keep
+this in mind if you ever flip it back). It contains your full name
+in `About.tsx`
 (intentional) and references your local Windows username and
 OneDrive path in `WORKLOG.md` and the SKILL doc (incidental, in
 historical context). No credentials, no secrets, `.env` is

@@ -11,6 +11,17 @@ This skill captures the exact process used to onboard
 Follow it for every subsequent class so authoring quality stays
 consistent and we don't re-derive decisions.
 
+> **⚠️ Staleness note (2026-07-02):** parts of this playbook still
+> describe the VCE era — `vce34()` helper, `unit: 3/4` tagging,
+> 200-MCQ batch-1 counts, VCE worked examples. VCE was removed
+> entirely on 2026-06-03; project scope is now **Foundation – Year
+> 10**, and `HRS_CLASSES` has 60 entries built with the `f2` / `p36`
+> / `y7`–`y10` helpers (none of which take an `anchored` param — use
+> a literal `HrsClass` object, as `y10-maths` does). Where this doc
+> conflicts with WORKLOG §7.4 or the Year 10 Maths run (452 items =
+> 302 MCQ + 75 OOO + 75 TL, `y10-math-` prefixes, no `unit` tag),
+> **follow the Y10 Maths precedent**. Full rewrite pending.
+
 **Read `WORKLOG.md` first** if you're cold-starting this session —
 especially §3 (conventions), §5 (mistakes-not-to-repeat) and §6
 (the recipe overview).
@@ -38,7 +49,7 @@ Development 3-4). Before touching anything:
 ## Step 1 — Pre-flight on the source-material folder
 
 ```bash
-ls -la "/c/Users/jack.galbraith/Code/hrs_teaching_tools/source-material/<area>/<class>/"
+ls -la "source-material/<area>/<class>/"   # from the repo root
 ```
 
 Identify what's there. Typical files:
@@ -56,14 +67,18 @@ Identify what's there. Typical files:
 
 ### 1a — Textbooks the Read tool can't handle (the pypdf workaround)
 
-The Read tool can't open PDFs > ~10MB on this Windows box (the
-`pdftoppm` binary is missing). For any textbook in that situation,
-extract it to plain text once, then Grep/Read the extraction.
+Large textbook PDFs can't be Read page-by-page without burning
+context, and the Read tool refuses very large files outright. For
+any textbook in that situation, extract it to plain text once, then
+Grep/Read the extraction.
 
-```powershell
-py -m pip install pypdf --quiet
-py -c "import pypdf; r = pypdf.PdfReader(r'<absolute-path-to-textbook>.pdf'); open(r'<same-folder>\textbook-extracted.txt','w',encoding='utf-8').write('\n'.join(f'=== PAGE {i+1} ===\n' + p.extract_text() for i,p in enumerate(r.pages)))"
+```bash
+python3 -m pip install pypdf --quiet
+python3 -c "import pypdf; r = pypdf.PdfReader('<absolute-path-to-textbook>.pdf'); open('<same-folder>/textbook-extracted.txt','w',encoding='utf-8').write('\n'.join(f'=== PAGE {i+1} ===\n' + p.extract_text() for i,p in enumerate(r.pages)))"
 ```
+
+(Commands shown for macOS — on Windows use `py` in place of
+`python3`.)
 
 The extraction lives next to the PDF, is gitignored (whole
 `source-material/` is), and gives you:
@@ -499,10 +514,10 @@ Keep the log honest. Future you will read it cold.
    sequentially. See Step 1 above. WORKLOG §5.3.
 
 6. **Working directory.** First action of any fresh session:
-   `pwd` + `ls`. If the folder is suspiciously empty, the real
-   project is at `C:\Users\jack.galbraith\Code\hrs_teaching_tools`.
-   The `Desktop\hrs_teaching_tools` folder is empty save for
-   `.claude/`. WORKLOG §5.7.
+   `pwd` + `ls`. The project lives at
+   `~/Desktop/hrs-teaching-tools-main` on Jack's Mac (since
+   2026-07-02). The `C:\...` paths in historical entries are from
+   the old Windows machine and no longer exist. WORKLOG §5.7.
 
 7. **`gameId` on SetupScreen.** Every game's `<SetupScreen>`
    call passes `gameId="<game-id>"` so the picker restricts to

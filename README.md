@@ -40,7 +40,13 @@ existing bookmarks survive the pivot.
 Node.js 18+ and npm. If Node isn't installed:
 
 ```powershell
+# Windows
 winget install OpenJS.NodeJS.LTS
+```
+
+```bash
+# macOS
+brew install node        # or the installer from nodejs.org
 ```
 
 ## Run it
@@ -58,6 +64,7 @@ If you're cloning this onto a fresh machine (e.g. moving devices), here's
 the full toolchain needed for end-to-end work including class onboarding:
 
 ```powershell
+# Windows
 # Required for the app
 winget install OpenJS.NodeJS.LTS
 winget install Git.Git
@@ -70,6 +77,18 @@ py -m pip install python-docx pypdf
 winget install -e --id UB-Mannheim.TesseractOCR --silent
 py -m pip install pytesseract PyMuPDF
 ```
+
+```bash
+# macOS equivalents
+brew install node git    # or installers from nodejs.org / git-scm.com
+python3 -m pip install python-docx pypdf
+
+# Optional OCR toolchain (scanned-PDF textbooks)
+brew install tesseract
+python3 -m pip install pytesseract PyMuPDF
+```
+
+On macOS, use `python3` wherever these docs say `py`.
 
 After cloning the repo and running `npm install`, the app is fully
 functional. Source material under `source-material/` is gitignored —

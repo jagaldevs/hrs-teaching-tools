@@ -153,7 +153,9 @@ Removed props (don't pass these — they're gone):
 
 - Subject line ≤72 chars, imperative ("Add X", "Fix Y", not "Adding X").
 - Body explains **why**, not just what — especially for behavioural changes.
-- Always include `Co-Authored-By: Claude Opus 4.7 <noreply@anthropic.com>` when Claude wrote the code.
+- Always include a `Co-Authored-By: Claude <model> <noreply@anthropic.com>`
+  trailer naming whichever Claude model wrote the code (Opus 4.7
+  historically; Fable 5 as of Jul 2026).
 
 ### 3.8 Markdown template strings
 
@@ -530,6 +532,10 @@ of `C:\Users\jack.galbraith\Code\hrs_teaching_tools` (the actual repo).
 folder is suspiciously empty, the real project is at
 `C:\Users\jack.galbraith\Code\hrs_teaching_tools`.
 
+**Update 2026-07-02:** the project moved to Jack's Mac. The real
+project is now `~/Desktop/hrs-teaching-tools-main`; the `C:\...`
+paths above are historical.
+
 ## 6. Recipe: adding a new HRS-class subject end-to-end
 
 > **There is a project skill for this.** Read
@@ -561,7 +567,7 @@ folder is suspiciously empty, the real project is at
 ### Step 3: Drop source material
 
 1. Put PDFs in `source-material/<area>/<class>/`.
-2. Run `py scaffold_overviews.py` if the folder doesn't have an `_overview.md` yet.
+2. Run `python3 scaffold_overviews.py` (`py` on Windows) if the folder doesn't have an `_overview.md` yet.
 3. Open the `_overview.md` and fill it in from the source PDFs. The
    overview drives all subsequent content authoring — invest here.
 
@@ -577,7 +583,7 @@ Tag every item with the appropriate `unit: 1|2|3|4` if it's a senior VCE item.
 
 ### Step 5: Verify
 
-```powershell
+```bash
 npx tsc --noEmit
 grep -c "id: '<your-id-prefix>" src/data/banks/mcq.ts src/data/banks/oddOneOut.ts
 ```
@@ -690,11 +696,53 @@ The new way to track anchoring is the `anchored: true` flag in
 
 ---
 
-_Last updated: 2026-06-03 by Claude (Opus 4.7) after the scope-
-reduction + migration-prep session. Append, don't overwrite — and
-date new entries so future readers know what's fresh._
+_Last updated: 2026-07-02 by Claude (Fable 5) after the Mac
+environment-setup session. Append, don't overwrite — and date new
+entries so future readers know what's fresh._
 
-**Session handoff (2026-06-03, scope reduction + migration prep):**
+**Session handoff (2026-07-02, Mac migration — environment setup):**
+One commit — this one. (The session started with no git at all; see
+the update at the end of this entry.) Work completed:
+
+- Confirmed the Windows→Mac migration state: this copy
+  (`~/Desktop/hrs-teaching-tools-main`) is a GitHub ZIP download,
+  not a clone. No `.git`, no history, no remote.
+- Installed the toolchain: `npm install` (Node 26 / npm 11 already
+  present) and `python3 -m pip install python-docx pypdf`
+  (Python 3.14 already present). macOS note: the docs' commands are
+  Windows-flavoured — use `python3` instead of `py`, ignore the
+  winget lines.
+- Added `.claude/launch.json` so Claude Code can drive the dev
+  server for verification.
+- Verified end-to-end: `npm run build` clean (tsc + Vite + PWA
+  precache). Live-tested splash → landing → Quick Quiz: SetupScreen
+  defaults to Year 10 Maths (HRS-ANCHORED ✓) and serves y10-math
+  anchored content correctly.
+- **Decision (Jack):** the old machine's `source-material/` contents
+  are NOT being transferred — the completed subjects don't need
+  them. The folder stays as empty scaffolding; future onboardings
+  drop fresh materials and regenerate `_overview.md` templates via
+  `python3 scaffold_overviews.py`.
+
+**Update, later same session — git and the remote are fully
+restored.** The repo is `jagaldevs/hrs-teaching-tools`, **private**
+(which is why anonymous GitHub search couldn't find it; JACK-NOTES'
+"repo is public" note was out of date and is now fixed). Recovery
+path used: `gh auth login` (HTTPS) on the Mac, `git remote add
+origin`, fetch, verify the ZIP tree matched `origin/main`
+(`03d8056`) exactly, then re-commit this session's work as one
+commit on top of the real history. All commit hashes cited in this
+log resolve again.
+
+Also this session: Windows-path staleness in JACK-NOTES / §5.7 /
+§6 / README fixed. Discovered in passing: the onboard-class SKILL
+still teaches the VCE-era workflow (`vce34()` helper, `unit: 3/4`
+tagging, 200-MCQ batch-1 counts, "both anchored classes" = SD3-4 +
+Sociology) — a staleness banner at the top of the SKILL now
+redirects to the Y10 Maths precedent; a full rewrite is running as
+its own task.
+
+**Earlier session handoff (2026-06-03, scope reduction + migration prep):**
 Three commits landed:
 
 - `8b40dcc` Add JACK-NOTES.md — personal quick-reference for the
