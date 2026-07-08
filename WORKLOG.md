@@ -696,11 +696,47 @@ The new way to track anchoring is the `anchored: true` flag in
 
 ---
 
-_Last updated: 2026-07-02 by Claude (Fable 5) after the Mac
-environment-setup session. Append, don't overwrite — and date new
+_Last updated: 2026-07-08 by Claude (Fable 5) after the Y7–10
+scope-narrowing session. Append, don't overwrite — and date new
 entries so future readers know what's fresh._
 
-**Session handoff (2026-07-02, Mac migration — environment setup):**
+**Session handoff (2026-07-08, scope narrowed to Year 7–10):**
+Decisions (Jack):
+
+- **Brain-break scope is now Year 7–10 only** (was Foundation–Y10).
+  20 classes in scope: Y7–10 English / Maths / Science / Humanities /
+  Health & PE. Y10 Maths remains the only anchored one (1/20).
+- **Arts, electives and languages are out of scope.** Their
+  source-material folders were removed (tracked .gitkeeps deleted,
+  .gitignore negations dropped). `technology/` kept — currently
+  unused.
+- Jack is about to upload teaching materials **in bulk** to the
+  in-scope source-material folders for onboarding sessions.
+
+Docs updated: README (scope bullets + stale VCE-era "AC V9
+alignment" section rewritten as "Scope & class targeting" + known
+gaps), source-material/README (six-folder catalog, Y7–10 drop
+examples), **PROGRESS-LOG.md rebuilt as the per-class Y7–10
+tracker** (materials → overview → anchored → audited, per class,
+with commit refs), JACK-NOTES scope note.
+
+**Record-keeping model** (clarified for Jack this session):
+- `WORKLOG.md` — engineering log + dated session handoffs (this).
+- `source-material/PROGRESS-LOG.md` — per-class content tracker.
+- `anchored` flags in `classes.ts` — machine-readable truth.
+- Git history — the diff-level record; hashes cited throughout.
+
+**Pending decision (do NOT act without Jack):** code-level scope
+reduction to match — F–2 / 3–6 year bands + classes + lp-/up-
+generic bank items, and the elective / Chinese / French class
+entries whose source folders no longer exist. Same shape as the VCE
+reduction (`3cd12b7`); needs Jack's call on delete vs hide.
+
+**Heads-up:** the onboard-class SKILL rewrite (running as a separate
+task) was briefed with the older Foundation–Y10 scope — tighten to
+Y7–10 when it lands.
+
+**Earlier session handoff (2026-07-02, Mac migration — environment setup):**
 One commit — this one. (The session started with no git at all; see
 the update at the end of this entry.) Work completed:
 

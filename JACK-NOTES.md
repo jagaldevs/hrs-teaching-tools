@@ -33,9 +33,13 @@ populated content bank keyed to that class. Currently anchored:
 
 Everything else uses generic AC V9 fallback content.
 
-**Scope**: Foundation – Year 10 only. VCE Units 1-2 and 3-4 were
-removed in scope reduction 2026-06-03 — no VCE classes, no VCE year
-bands, no SD3-4 / Sociology 3-4 content.
+**Scope**: **Year 7 – 10 only** for brain-break targeting (narrowed
+2026-07-08; was F–Y10). 20 in-scope classes: Y7–10 English, Maths,
+Science, Humanities, Health & PE. Arts / electives / languages
+source folders removed. VCE was removed earlier (2026-06-03).
+Note: F–2 and 3–6 year bands, elective/language class entries and
+the lp-/up- generic bank items are still in the code — a code-level
+reduction is pending your call on delete vs hide.
 
 ---
 

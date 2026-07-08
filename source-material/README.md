@@ -6,7 +6,7 @@ when generating curriculum-anchored brain-break content.
 
 The folder's **contents are gitignored**. Only this README,
 `PROGRESS-LOG.md`, the `.gitkeep` files at the top level and inside each
-subject folder, and the seven HRS subject folders themselves are tracked
+subject folder, and the six HRS subject folders themselves are tracked
 in git. Anything you drop inside any of those folders stays on your
 machine.
 
@@ -15,25 +15,20 @@ machine.
 
 ## HRS subjects represented
 
-Aligned to HRS Middle School + Senior offerings (see
-[`PROGRESS-LOG.md`](./PROGRESS-LOG.md) for the full catalog):
+**Scope: Year 7–10 classes only** (decision 2026-07-08). The `arts/`,
+`electives/` and `languages/` folders were removed with that scope
+change; VCE folders were removed earlier (2026-06-03).
 
 | Folder | What it covers |
 |---|---|
-| `english/` | English (Y7–10), VCE English 1–4, Literature 1–2 |
-| `maths/` | Mathematics (Y7–10), VCE Methods / General / Specialist / Foundation (all 1–4) |
-| `science/` | Science (Y7–10), VCE Biology / Chemistry / Physics / Psychology (all 1–4) |
-| `humanities/` | Humanities (Y7–10), VCE History / Geography / Economics / Legal Studies / Sociology / Accounting / Business Management (1–4); Politics (1–2 only) |
-| `arts/` | VCE Art Making / Visual Communication Design / Music (all 1–4); Media (1–2 only); Theatre Studies (1–2 only) |
-| `technology/` | VCE Applied Computing 1–2; Software Development 3–4 |
-| `languages/` | Chinese & French Y7–9 electives; VCE Chinese as a First Language 1–4 |
-| `health-and-pe/` | HPE Y7–10; VCE Health and Human Development, Physical Education, Outdoor and Environmental Studies (all 1–4) |
-| `electives/` | Year-specific electives by year (Y8 and Y9 populated; Y7 pending) |
+| `english/` | English Y7–10 |
+| `maths/` | Mathematics Y7–10 |
+| `science/` | Science Y7–10 |
+| `humanities/` | Humanities Y7–10 |
+| `health-and-pe/` | Health & PE Y7–10 |
+| `technology/` | Currently unused — kept for future computing content |
 
-Some HRS subjects (Arts, Technology, Languages, HPE, most electives)
-don't yet have a matching subject in the brain-break app — folders exist
-to collect material now so content is ready when the app is extended.
-See `PROGRESS-LOG.md` for the full HRS subject → bank mapping.
+See [`PROGRESS-LOG.md`](./PROGRESS-LOG.md) for the per-class tracker.
 
 ## Where to drop a file
 
@@ -42,10 +37,9 @@ Naming convention: **lowercase, hyphens not spaces, topical name**.
 | You have… | Drop it in… |
 |---|---|
 | A Year 8 English SAC | `english/year-8/year-8-english-sac1-<topic>.md` |
-| A Y11 Methods unit overview | `maths/methods-1-2/unit-overview-functions-and-graphs.md` |
 | A Y10 Humanities scope & sequence | `humanities/year-10/y10-scope-and-sequence.md` |
-| A Year 9 Chinese vocabulary list | `languages/chinese/year-9/y9-chinese-vocab-unit-3.md` |
-| A Y8 Forensic Science SAC | `electives/year-8/forensic-science/sac-fingerprints.pdf` |
+| A Year 9 Science topic test | `science/year-9/y9-science-test-<topic>.pdf` |
+| A Y7 HPE unit overview | `health-and-pe/year-7/y7-hpe-unit-overview.md` |
 
 One file per logical unit — one SAC = one file. Don't jam multiple SACs
 or topics into a single mega-file.

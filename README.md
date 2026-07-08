@@ -10,8 +10,8 @@ device.
 
 ### Brain Breaks (the headline)
 - **17 brain-break games** across 5 groups (Quick & Energetic, Word & Language, Number & Logic, History & Geography, Whole-Class Energiser)
-- Each game tagged to one or more AC V9 streams (Foundation–Y2, Y3–Y6, Y7–Y9, Y10–Y12) and subjects (English, Maths, History, Geography, Science, General)
-- Senior cohort filter (Y11 Units 1–2 / Y12 Units 3–4) on MCQ-driven games
+- **Scope: Year 7–10.** Content development targets HRS Year 7–10 classes (20 classes across English, Maths, Science, Humanities and Health & PE)
+- Classes marked **HRS-anchored** serve content authored from that class's real teaching materials; all other classes fall back to generic AC V9-aligned items
 - ~2,100 curriculum-aligned content items across the banks, most with AC V9 codes and explanations
 - Every game runs from the teacher's projected screen — no per-student devices
 
@@ -138,9 +138,10 @@ src/
 └── tools/             Tool implementations grouped by category + ToolShell
 
 source-material/       (gitignored except README + PROGRESS-LOG)
-                       HRS SACs, scope & sequence documents, unit overviews
-                       organised by subject + year level. Used to anchor
-                       brain-break content generation.
+                       HRS teaching documents organised by subject + year
+                       (english, maths, science, humanities, health-and-pe,
+                       technology). Used to anchor brain-break content
+                       generation for Year 7–10 classes.
 ```
 
 ## Brand
@@ -149,25 +150,27 @@ source-material/       (gitignored except README + PROGRESS-LOG)
 - Display serif: Source Serif 4. Body sans: Inter
 - Real HRS crest is in place on the splash screen and dashboard header
 
-## AC V9 alignment
+## Scope & class targeting
 
-Brain breaks and streamed tools use four fixed streams to mirror AC V9 bands:
+Brain-break content development targets **HRS Year 7–10 classes**
+(scope decision 2026-07-08). The class registry lives in
+`src/data/classes.ts`; each Quick & Energetic game's setup screen
+offers a year-band picker and a class dropdown with HRS-anchored
+classes pinned to the top.
 
-| Stream | Years |
-|---|---|
-| Lower Primary | Foundation – Year 2 |
-| Upper Primary | Year 3 – Year 6 |
-| Middle School | Year 7 – Year 9 |
-| Senior School | Year 10 – Year 12 |
+- **Anchored classes** (currently: Year 10 Maths, 452 items) serve
+  content authored from the class's real HRS teaching materials via
+  the `source-material/` workflow.
+- **All other classes** fall back to generic AC V9-aligned items.
+  Internally, legacy AC V9 "stream" tags still index that generic
+  pool, but streams are no longer a user-facing concept.
 
-Senior MCQ items also carry an optional `unit: 1 | 2 | 3 | 4` tag so the
-Y11 (Units 1–2) and Y12 (Units 3–4) cohort filter on Quick Quiz, Buzzer
-Round and Question Generator can narrow rounds to a specific year.
-
-Question banks are filterable by stream and subject. The Brain Breaks
-page exposes both as chip filters plus a "Surprise me" picker.
+`source-material/PROGRESS-LOG.md` tracks each in-scope class through
+the content pipeline: materials received → overview written →
+anchored → audited.
 
 ## Known gaps
 
 - **PWA icons** — `public/pwa-192.png`, `pwa-512.png` and `pwa-512-maskable.png` are still placeholders. Drop in final exports of the HRS crest to brand the home-screen tile.
-- **HRS-anchored content** — every bank is currently authored from AC V9 training-knowledge. The `source-material/` workflow (gitignored, drop SACs in per subject × year folder, Claude rewrites the matching bank items) is set up but no subjects have been processed yet. See `source-material/PROGRESS-LOG.md` for the matrix of what's been done.
+- **HRS-anchored content** — 1 of the 20 in-scope classes is anchored so far (Year 10 Maths, 452 items). The remaining Year 7–10 classes serve generic AC V9 content until their materials are processed — see `source-material/PROGRESS-LOG.md` for the per-class tracker.
+- **Legacy Foundation–Y6 content** — the app still carries primary-years year bands, classes and generic bank items from the earlier, broader scope. Removing (or hiding) them is a pending code-level scope reduction.
