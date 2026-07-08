@@ -976,9 +976,6 @@ export const MCQ_BANK: Bank<MCQ> = {
       history: SENIOR_HISTORY,
       geography: SENIOR_GEOGRAPHY,
       science: SENIOR_SCIENCE,
-      // Note: 'computing' has no generic AC V9 fallback. Y8 Game
-      // Development and Y9 CodeCraft electives carry the
-      // `subject: 'computing'` tag but aren't yet anchored.
     },
   },
   byClass: {

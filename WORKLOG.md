@@ -612,9 +612,16 @@ truth with 114 HRS classes. See §3.2 for the current model.
 Break game) still renders Stream + Subject + Unit-group pickers and
 calls `pickFromBank` directly. It works because the legacy
 `byStreamSubject` index is still populated for generic content,
-but it doesn't know about the new `byClass` index — so the 250
-SD3-4 items are invisible to it. Migrate to `pickFromClass` and
-a year-band + class UI when it next needs a touch.
+but it doesn't know about the new `byClass` index — so anchored
+items (Y10 Maths) are invisible to it. Migrate to `pickFromClass`
+and a year-band + class UI when it next needs a touch.
+
+**Update 2026-07-08:** its "Senior cohort" Y11/Y12 picker is
+**actively broken** post-VCE-removal — it filters on the MCQ `unit`
+tag, which no longer exists on any item, so selecting Y11 or Y12
+yields 0 questions. Jack chose to leave Teacher Tools entirely
+alone in the Y7–10 scope cleanup, so this is a KNOWN ISSUE, not an
+oversight. Fold the fix into the eventual pickFromClass migration.
 
 ### 7.3 Many class folders still have empty `_overview.md`s
 
@@ -735,6 +742,33 @@ reduction (`3cd12b7`); needs Jack's call on delete vs hide.
 **Heads-up:** the onboard-class SKILL rewrite (running as a separate
 task) was briefed with the older Foundation–Y10 scope — tighten to
 Y7–10 when it lands.
+
+**Update, later same session — UI scope audit + reduction shipped.**
+Jack reported the class dropdown still offering out-of-scope classes
+(screenshot: Y9 showing 11 electives + Chinese + French). Full audit
+of user-facing surfaces ran; Jack's decisions on the four axes:
+
+1. **F–2 / 3–6 bands + primary classes + all generic (lp-/up-)
+   content STAY** — "the generic f-6 bands can stay", the Y7–10
+   scope is about where content-development work happens, not about
+   stripping the app's reach. Do NOT propose deleting these again.
+2. **Elective + language class entries REMOVED** — 24 electives +
+   8 Chinese/French cut from `HRS_CLASSES` (60 → 28 entries).
+3. **`computing` subject REMOVED** — from the Subject union,
+   SUBJECTS, SUBJECT_COLOURS, the Game interface union and 4 games'
+   subject arrays; "VCE Computing" stale copy fixed in Quick Quiz +
+   Buzzer Round descriptions. Bank prose mentioning "computing" as a
+   word (3 items) untouched.
+4. **Teacher Tools LEFT ALONE entirely** (Jack's call) — including
+   the Question Generator's broken Y11/Y12 senior picker (see §7.2).
+
+Verified live: Y9 class dropdown now shows 5 classes (English,
+Maths, Science, Humanities, Health & PE); no "VCE Computing" text
+anywhere; all six year bands still offered; type-check + build
+clean. Regression-tested the persisted-selection path: a saved
+removed classId (`y9-recreational-studies`) self-heals via the
+SetupScreen defensive snap to the anchored default (Y10 Maths) —
+no crash, storage rewritten.
 
 **Earlier session handoff (2026-07-02, Mac migration — environment setup):**
 One commit — this one. (The session started with no git at all; see

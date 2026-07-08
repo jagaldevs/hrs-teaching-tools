@@ -14,9 +14,9 @@ consistent and we don't re-derive decisions.
 > **⚠️ Staleness note (2026-07-02):** parts of this playbook still
 > describe the VCE era — `vce34()` helper, `unit: 3/4` tagging,
 > 200-MCQ batch-1 counts, VCE worked examples. VCE was removed
-> entirely on 2026-06-03; project scope is now **Foundation – Year
-> 10**, and `HRS_CLASSES` has 60 entries built with the `f2` / `p36`
-> / `y7`–`y10` helpers (none of which take an `anchored` param — use
+> entirely on 2026-06-03; content development targets **Year 7–10**
+> (2026-07-08), and `HRS_CLASSES` has 28 entries built with the `f2`
+> / `p36` / `y7`–`y10` helpers (none of which take an `anchored` param — use
 > a literal `HrsClass` object, as `y10-maths` does). Where this doc
 > conflicts with WORKLOG §7.4 or the Year 10 Maths run (452 items =
 > 302 MCQ + 75 OOO + 75 TL, `y10-math-` prefixes, no `unit` tag),

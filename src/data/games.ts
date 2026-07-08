@@ -45,7 +45,7 @@ export interface Game {
   description: string;
   icon: LucideIcon;
   streams: Stream[];
-  subjects: ('english' | 'maths' | 'history' | 'geography' | 'science' | 'computing' | 'general')[];
+  subjects: ('english' | 'maths' | 'history' | 'geography' | 'science' | 'general')[];
   durationMin: number;
 }
 
@@ -57,10 +57,10 @@ export const GAMES: Game[] = [
     id: 'quick-quiz',
     name: 'Quick Quiz',
     group: 'rapid',
-    description: 'Multiple-choice questions across English, Maths, History, Geography, Science and VCE Computing. AC V9-aligned.',
+    description: 'Multiple-choice questions across English, Maths, History, Geography and Science. AC V9-aligned.',
     icon: Zap,
     streams: ALL_STREAMS,
-    subjects: ['english', 'maths', 'history', 'geography', 'science', 'computing'],
+    subjects: ['english', 'maths', 'history', 'geography', 'science'],
     durationMin: 3,
   },
   {
@@ -70,7 +70,7 @@ export const GAMES: Game[] = [
     description: 'Four items, one outlier. Tag the misfit and justify why.',
     icon: CircleSlash2,
     streams: ALL_STREAMS,
-    subjects: ['english', 'maths', 'history', 'geography', 'science', 'computing'],
+    subjects: ['english', 'maths', 'history', 'geography', 'science'],
     durationMin: 2,
   },
   {
@@ -80,17 +80,17 @@ export const GAMES: Game[] = [
     description: 'Three statements appear. Class debates which is the falsehood.',
     icon: HelpCircle,
     streams: ['upper_primary', 'middle_school', 'senior_school'],
-    subjects: ['history', 'science', 'geography', 'computing'],
+    subjects: ['history', 'science', 'geography'],
     durationMin: 3,
   },
   {
     id: 'buzzer-round',
     name: 'Buzzer Round',
     group: 'rapid',
-    description: 'Teams race to buzz on AC V9 questions across all subjects, including VCE Computing. Teacher controls the round.',
+    description: 'Teams race to buzz on AC V9 questions across all subjects. Teacher controls the round.',
     icon: Bell,
     streams: ALL_STREAMS,
-    subjects: ['english', 'maths', 'history', 'geography', 'science', 'computing'],
+    subjects: ['english', 'maths', 'history', 'geography', 'science'],
     durationMin: 5,
   },
 

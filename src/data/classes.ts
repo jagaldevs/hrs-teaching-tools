@@ -6,8 +6,7 @@ import type { Subject } from '../games/types';
  *
  * Replaces the AC V9 stream + subject filter model with per-class targeting.
  * Each class corresponds (loosely) to a leaf folder under `source-material/`
- * — e.g. `technology/software-development-3-4/` ↔ class id
- * `vce-software-development-3-4`.
+ * — e.g. `maths/year-10/` ↔ class id `y10-maths`.
  *
  * Anchored classes have ≥ 1 question bank populated with class-specific
  * items via `Bank<Q>.byClass[id]`. Unanchored classes still appear in the
@@ -97,10 +96,11 @@ function y10(id: string, name: string, subject: Subject, sourcePath: string): Hr
 // ============================================================
 //
 // Note on the 'general' subject:
-//   Languages, electives, the arts and Health & PE don't map cleanly to
-//   the six current Subject options. They're tagged `general` for chip-
-//   colour purposes; once those classes get anchored we may introduce
-//   new Subject entries (`languages`, `arts`, `health-pe`).
+//   Health & PE doesn't map cleanly to the current Subject options.
+//   Those classes are tagged `general` for chip-colour purposes; once
+//   they get anchored we may introduce a `health-pe` Subject entry.
+//   (Languages and electives were removed 2026-07-08 with the Y7-10
+//   scope decision — restore from git history if they ever return.)
 //
 // Note on primary humanities:
 //   F-2 and 3-6 HASS is integrated (history + geography + economics).
@@ -132,53 +132,21 @@ export const HRS_CLASSES: HrsClass[] = [
   y7('y7-maths',        'Year 7 Maths',        'maths',   'maths/year-7'),
   y7('y7-science',      'Year 7 Science',      'science', 'science/year-7'),
   y7('y7-humanities',   'Year 7 Humanities',   'history', 'humanities/year-7'),
-  y7('y7-chinese',      'Year 7 Chinese',      'general', 'languages/chinese/year-7'),
-  y7('y7-french',       'Year 7 French',       'general', 'languages/french/year-7'),
   y7('y7-health-pe',    'Year 7 Health & PE',  'general', 'health-and-pe/year-7'),
 
-  // -- Year 8 core ---------------------------------------------
+  // -- Year 8 --------------------------------------------------
   y8('y8-english',      'Year 8 English',      'english', 'english/year-8'),
   y8('y8-maths',        'Year 8 Maths',        'maths',   'maths/year-8'),
   y8('y8-science',      'Year 8 Science',      'science', 'science/year-8'),
   y8('y8-humanities',   'Year 8 Humanities',   'history', 'humanities/year-8'),
-  y8('y8-chinese',      'Year 8 Chinese',      'general', 'languages/chinese/year-8'),
-  y8('y8-french',       'Year 8 French',       'general', 'languages/french/year-8'),
   y8('y8-health-pe',    'Year 8 Health & PE',  'general', 'health-and-pe/year-8'),
-  // -- Year 8 electives ----------------------------------------
-  y8('y8-drama',                       'Year 8 Drama (elective)',                            'general', 'electives/year-8/drama'),
-  y8('y8-food-technology',             'Year 8 Food Technology (elective)',                  'general', 'electives/year-8/food-technology'),
-  y8('y8-forensic-science',            'Year 8 Forensic Science (elective)',                 'science', 'electives/year-8/forensic-science'),
-  y8('y8-game-development',            'Year 8 Game Development (elective)',                 'computing','electives/year-8/game-development'),
-  y8('y8-mechatronics',                'Year 8 Mechatronics (elective)',                     'general', 'electives/year-8/mechatronics'),
-  y8('y8-media',                       'Year 8 Media (elective)',                            'general', 'electives/year-8/media'),
-  y8('y8-music',                       'Year 8 Music (elective)',                            'general', 'electives/year-8/music'),
-  y8('y8-sports-performance',          'Year 8 Sports Performance (elective)',               'general', 'electives/year-8/sports-performance'),
-  y8('y8-the-power-of-words',          'Year 8 The Power of Words (elective)',               'english', 'electives/year-8/the-power-of-words'),
-  y8('y8-visual-art',                  'Year 8 Visual Art (elective)',                       'general', 'electives/year-8/visual-art'),
-  y8('y8-visual-comm-design',          'Year 8 Visual Communication and Design (elective)',  'general', 'electives/year-8/visual-communication-and-design'),
-  y8('y8-woodwork',                    'Year 8 Woodwork (elective)',                         'general', 'electives/year-8/woodwork'),
 
-  // -- Year 9 core ---------------------------------------------
+  // -- Year 9 --------------------------------------------------
   y9('y9-english',      'Year 9 English',      'english', 'english/year-9'),
   y9('y9-maths',        'Year 9 Maths',        'maths',   'maths/year-9'),
   y9('y9-science',      'Year 9 Science',      'science', 'science/year-9'),
   y9('y9-humanities',   'Year 9 Humanities',   'history', 'humanities/year-9'),
-  y9('y9-chinese',      'Year 9 Chinese',      'general', 'languages/chinese/year-9'),
-  y9('y9-french',       'Year 9 French',       'general', 'languages/french/year-9'),
   y9('y9-health-pe',    'Year 9 Health & PE',  'general', 'health-and-pe/year-9'),
-  // -- Year 9 electives ----------------------------------------
-  y9('y9-codecraft',                   'Year 9 CodeCraft (elective)',                        'computing','electives/year-9/codecraft'),
-  y9('y9-drama',                       'Year 9 Drama (elective)',                            'general', 'electives/year-9/drama'),
-  y9('y9-entrepreneurship-commerce',   'Year 9 Entrepreneurship and Commerce (elective)',    'general', 'electives/year-9/entrepreneurship-and-commerce'),
-  y9('y9-food-technology',             'Year 9 Food Technology (elective)',                  'general', 'electives/year-9/food-technology'),
-  y9('y9-literature',                  'Year 9 Literature (elective)',                       'english', 'electives/year-9/literature'),
-  y9('y9-media',                       'Year 9 Media (elective)',                            'general', 'electives/year-9/media'),
-  y9('y9-music',                       'Year 9 Music (elective)',                            'general', 'electives/year-9/music'),
-  y9('y9-politics',                    'Year 9 Politics (elective)',                         'history', 'electives/year-9/politics'),
-  y9('y9-recreational-studies',        'Year 9 Recreational Studies (elective)',             'general', 'electives/year-9/recreational-studies'),
-  y9('y9-visual-art',                  'Year 9 Visual Art (elective)',                       'general', 'electives/year-9/visual-art'),
-  y9('y9-visual-comm-design',          'Year 9 Visual Communication and Design (elective)',  'general', 'electives/year-9/visual-communication-and-design'),
-  y9('y9-woodwork',                    'Year 9 Woodwork (elective)',                         'general', 'electives/year-9/woodwork'),
 
   // -- Year 10 -------------------------------------------------
   y10('y10-english',     'Year 10 English',     'english', 'english/year-10'),
@@ -187,8 +155,6 @@ export const HRS_CLASSES: HrsClass[] = [
     anchored: true, legacyStream: 'senior_school' },
   y10('y10-science',     'Year 10 Science',     'science', 'science/year-10'),
   y10('y10-humanities',  'Year 10 Humanities',  'history', 'humanities/year-10'),
-  y10('y10-chinese',     'Year 10 Chinese',     'general', 'languages/chinese/year-10'),
-  y10('y10-french',      'Year 10 French',      'general', 'languages/french/year-10'),
   y10('y10-health-pe',   'Year 10 Health & PE', 'general', 'health-and-pe/year-10'),
 ];
 

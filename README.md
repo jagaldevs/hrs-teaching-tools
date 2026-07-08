@@ -164,6 +164,10 @@ classes pinned to the top.
 - **All other classes** fall back to generic AC V9-aligned items.
   Internally, legacy AC V9 "stream" tags still index that generic
   pool, but streams are no longer a user-facing concept.
+- **Foundation–Year 6 stays available generically** — the F–2 and
+  3–6 year bands and their generic content remain in the app for
+  teachers of younger cohorts; they're just not a content-development
+  target.
 
 `source-material/PROGRESS-LOG.md` tracks each in-scope class through
 the content pipeline: materials received → overview written →
@@ -173,4 +177,3 @@ anchored → audited.
 
 - **PWA icons** — `public/pwa-192.png`, `pwa-512.png` and `pwa-512-maskable.png` are still placeholders. Drop in final exports of the HRS crest to brand the home-screen tile.
 - **HRS-anchored content** — 1 of the 20 in-scope classes is anchored so far (Year 10 Maths, 452 items). The remaining Year 7–10 classes serve generic AC V9 content until their materials are processed — see `source-material/PROGRESS-LOG.md` for the per-class tracker.
-- **Legacy Foundation–Y6 content** — the app still carries primary-years year bands, classes and generic bank items from the earlier, broader scope. Removing (or hiding) them is a pending code-level scope reduction.

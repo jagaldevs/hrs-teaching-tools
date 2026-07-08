@@ -91,8 +91,8 @@ Onboarding runs as a session per class — see
 | What | Since | Notes |
 |---|---|---|
 | VCE Units 1–2 and 3–4 | 2026-06-03 | Classes, year bands and ~700 content items removed (commit `3cd12b7`) |
-| Foundation–Year 6 | 2026-07-08 | Scope narrowed to Y7–10. F–2 / 3–6 bands, classes and lp-/up- generic items still in code — removal pending |
-| Arts / Electives / Languages | 2026-07-08 | Source folders removed; class entries still in classes.ts — removal pending |
+| Foundation–Year 6 | 2026-07-08 | No content development — but the F–2 / 3–6 bands, primary classes and generic items **stay in the app by design** (Jack's call): teachers of younger cohorts keep the generic experience |
+| Arts / Electives / Languages | 2026-07-08 | Source folders removed; the 32 class entries (24 electives + 8 Chinese/French) and the `computing` subject removed from the app same day |
 
 ---
 

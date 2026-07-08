@@ -33,13 +33,14 @@ populated content bank keyed to that class. Currently anchored:
 
 Everything else uses generic AC V9 fallback content.
 
-**Scope**: **Year 7 – 10 only** for brain-break targeting (narrowed
-2026-07-08; was F–Y10). 20 in-scope classes: Y7–10 English, Maths,
-Science, Humanities, Health & PE. Arts / electives / languages
-source folders removed. VCE was removed earlier (2026-06-03).
-Note: F–2 and 3–6 year bands, elective/language class entries and
-the lp-/up- generic bank items are still in the code — a code-level
-reduction is pending your call on delete vs hide.
+**Scope**: **Year 7 – 10** is where all content-development work
+happens (decision 2026-07-08). 20 in-scope classes: Y7–10 English,
+Maths, Science, Humanities, Health & PE. Elective and Chinese/French
+class entries and the `computing` subject were removed from the app;
+arts / electives / languages source folders removed. VCE was removed
+earlier (2026-06-03). The **F–2 and 3–6 bands + generic content stay
+by design** — teachers of younger cohorts keep the generic
+experience; there's just no anchoring work planned for them.
 
 ---
 
@@ -48,7 +49,7 @@ reduction is pending your call on delete vs hide.
 | Path | What |
 |---|---|
 | `src/data/games.ts` | Game registry — id, group, streams, subjects, duration |
-| `src/data/classes.ts` | HRS class registry — 114 classes, `anchored` flag |
+| `src/data/classes.ts` | HRS class registry — 28 classes (8 primary + 20 Y7–10), `anchored` flag |
 | `src/data/banks/mcq.ts` | All MCQ items (Quick Quiz + Buzzer Round) |
 | `src/data/banks/oddOneOut.ts` | All Odd One Out items |
 | `src/data/banks/misc.ts` | Two Truths + Estimate + Synonym + Would You Rather |
@@ -162,12 +163,11 @@ Full list in `WORKLOG.md §5`.
   helpers don't take an `anchored` parameter. To set
   `anchored: true` on a Y7–Y10 class, switch to a literal HrsClass
   object (already done for y10-maths; reference if needed).
-- **Computing subject without fallback** — Y8 Game Development and
-  Y9 CodeCraft electives carry `subject: 'computing'` but neither
-  is anchored AND there's no generic computing content. They'll
-  fail to start until they get anchored. Fix when onboarding the
-  first of those classes (just author a small computing bank
-  during onboarding).
+- **Question Generator (Teacher Tools) has a broken Y11/Y12
+  picker** — it filters on the removed `unit` tag, so those two
+  buttons yield 0 questions. You chose to leave Teacher Tools
+  alone (2026-07-08); it's a known issue logged in WORKLOG §7.2,
+  not a bug to re-report.
 
 ---
 
