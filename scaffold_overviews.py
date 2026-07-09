@@ -146,10 +146,9 @@ TEMPLATE_BODY = '''
 > detail, the more curriculum-anchored my brain-break questions become.
 > Delete this note when you're done.
 >
-> Sources that work well here (use whatever you have):
->   - Y7–10: unit overviews, term planners, assignment briefs, rubrics
->   - Y11 (Units 1–2): unit overviews, outcome assessment tasks
->   - Y12 (Units 3–4): SACs, unit outlines, practice exams
+> Sources that work well here (use whatever you have): unit overviews,
+> term planners, topic tests (with solutions!), assignment briefs,
+> rubrics, textbook chapters, revision sheets.
 
 ## Scope this year/unit
 
