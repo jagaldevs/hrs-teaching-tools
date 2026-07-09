@@ -6,7 +6,7 @@ when generating curriculum-anchored brain-break content.
 
 The folder's **contents are gitignored**. Only this README,
 `PROGRESS-LOG.md`, the `.gitkeep` files at the top level and inside each
-subject folder, and the six HRS subject folders themselves are tracked
+subject folder, and the five HRS subject folders themselves are tracked
 in git. Anything you drop inside any of those folders stays on your
 machine.
 
@@ -26,7 +26,6 @@ change; VCE folders were removed earlier (2026-06-03).
 | `science/` | Science Y7–10 |
 | `humanities/` | Humanities Y7–10 |
 | `health-and-pe/` | Health & PE Y7–10 |
-| `technology/` | Currently unused — kept for future computing content |
 
 See [`PROGRESS-LOG.md`](./PROGRESS-LOG.md) for the per-class tracker.
 

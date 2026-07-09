@@ -139,9 +139,9 @@ src/
 
 source-material/       (gitignored except README + PROGRESS-LOG)
                        HRS teaching documents organised by subject + year
-                       (english, maths, science, humanities, health-and-pe,
-                       technology). Used to anchor brain-break content
-                       generation for Year 7–10 classes.
+                       (english, maths, science, humanities, health-and-pe).
+                       Used to anchor brain-break content generation for
+                       Year 7–10 classes.
 ```
 
 ## Brand

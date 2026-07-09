@@ -50,7 +50,6 @@ source-material/*
 !source-material/maths/
 !source-material/science/
 !source-material/humanities/
-!source-material/technology/
 !source-material/health-and-pe/
 source-material/*/*
 !source-material/*/.gitkeep

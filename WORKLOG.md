@@ -716,7 +716,10 @@ Decisions (Jack):
 - **Arts, electives and languages are out of scope.** Their
   source-material folders were removed (tracked .gitkeeps deleted,
   .gitignore negations dropped). `technology/` kept — currently
-  unused.
+  unused. _(Update 2026-07-09: Jack deleted `technology/` from disk
+  too; removal finalised in git. Five subject folders remain, and
+  the 20 Y7–10 class folders were scaffolded locally with
+  `_overview.md` templates ahead of the bulk upload.)_
 - Jack is about to upload teaching materials **in bulk** to the
   in-scope source-material folders for onboarding sessions.
 
