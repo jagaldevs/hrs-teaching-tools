@@ -757,10 +757,37 @@ each, rather than one giant insert. New audit step for every batch:
 check correct-answer / outlier / lie positions are spread across all
 slots, not clustered at one index — grep+python, same as length.
 
-**NEXT (needs Jack):** review the misconceptions list + confirm the
-acronym expansions, then give the go-ahead to author the remaining 8
-units (258 MCQ + 63 OOO + 63 TL) to hit the 452-item target. If the
-Deep Time style needs changing, now is the cheap moment to say so.
+**UPDATE (later same day): Year 7 Humanities fully authored — 452
+items shipped.** Jack said "Yes go" to the full sweep. Authored the
+remaining 8 units on top of the Deep Time checkpoint:
+- **302 MCQ** (`y7-hum-1..302`) across all 9 units — Deep Time 44,
+  History Skills 22, Egypt 44, Greece 38, Rome 38, China 38,
+  Geography Skills 22, Water 28, Liveability 28.
+- **75 OOO** (`y7-hum-1..75`) and **75 TL** (`y7-tl-hum-1..75`,
+  classId `y7-humanities`, subject history/geography per unit).
+- Authored in unit-sized chunks against the `// Y7_HUM_MCQ_END`
+  sentinel with a tsc after each (the anti-corruption pattern) — no
+  repeat of the earlier mid-insert corruption.
+- Full audit clean: MCQ 0 Tier-1 / 0 em-dash / 0 length>2.5x /
+  0 duplicate stems, answer positions 76/76/75/75; OOO outliers
+  19/19/19/18; TL one-false-statement verified, lie positions
+  25/25/25, 0 absolute-language tells (fixed 19 "Only" MCQ
+  distractors + 15 absolute-lie TL items during the audit).
+- Verified live: full instrumented Quick Quiz playthrough at 15
+  questions threw 0 errors; content spans all units (saw China,
+  Geography Skills, Egypt items); tsc + build clean.
+
+**Cross-era distractor style** worked well for a multi-topic class:
+e.g. "Social order in ancient China was reinforced by: Confucius /
+Julius Caesar / Herodotus / Ramses II" — plausible wrong answers
+drawn from the other Ancient Worlds cultures. Reuse for other
+survey-style classes.
+
+**Still worth Jack's eye (non-blocking):** the misconceptions list
+and the COMA/TEEAL/SPICESS/BOLTSS `[CONFIRM]` expansions in the
+overview — a handful of items depend on them and are quick to fix if
+any expansion is wrong. **Next class:** confirm the target with Jack
+(likely another Y7–10 core once its materials are uploaded).
 
 **Session handoff (2026-07-09, game removals + upload prep):**
 
