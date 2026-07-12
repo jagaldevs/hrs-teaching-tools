@@ -19,10 +19,11 @@ deployed at the repo root.
 
 Two products in one app:
 
-- **Brain Breaks** (`/`) — 15 projector-ready games for the
+- **Brain Breaks** (`/`) — 14 projector-ready games for the
   classroom. The Quick & Energetic 3 (Quick Quiz, Odd One Out,
   Two Truths and a Lie) are the ones with class-anchored content.
-  (Buzzer Round + Memory Sequence removed 2026-07-09.)
+  (Buzzer Round + Memory Sequence removed 2026-07-09; Flag Flash
+  removed 2026-07-12. Who Am I? now lives in Whole-Class Energiser.)
 - **Teacher Tools** (`/tools`) — ~25 classroom utilities (RNG,
   manipulatives, classroom management).
 
@@ -115,7 +116,7 @@ with the most recent session handoff at the top of WORKLOG.md. For
 class onboarding, also read @.claude/skills/onboard-class/SKILL.md.
 
 Quick orientation so you know where things stand:
-- HRS Brain Breaks: React 18 + Vite + TS PWA, 15 brain-break games +
+- HRS Brain Breaks: React 18 + Vite + TS PWA, 14 brain-break games +
   Teacher Tools. The active work is the class-onboarding pipeline —
   anchoring HRS classes with their own question banks.
 - Scope: Year 7–10 only (English, Maths, Science, Humanities,

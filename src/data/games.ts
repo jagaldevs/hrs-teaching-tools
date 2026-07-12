@@ -11,7 +11,6 @@ import {
   Scale,
   KeyRound,
   GitBranch,
-  Flag,
   UserSquare2,
   Scale3d,
   type LucideIcon,
@@ -175,27 +174,17 @@ export const GAMES: Game[] = [
     subjects: ['history'],
     durationMin: 3,
   },
-  {
-    id: 'flag-flash',
-    name: 'Flag Flash',
-    group: 'hass',
-    description: 'Identify the flag. Lower Primary starts with Australian states; Senior reaches ASEAN and G20.',
-    icon: Flag,
-    streams: ALL_STREAMS,
-    subjects: ['geography'],
-    durationMin: 2,
-  },
+  // -------- Whole-class energiser --------
   {
     id: 'who-am-i',
     name: 'Who Am I?',
-    group: 'hass',
+    group: 'whole-class',
     description: 'Clues reveal one at a time — guess the historical figure for fewer points the longer it takes.',
     icon: UserSquare2,
     streams: ['upper_primary', 'middle_school', 'senior_school'],
     subjects: ['history'],
     durationMin: 4,
   },
-  // -------- Whole-class energiser --------
   {
     id: 'would-you-rather',
     name: 'Would You Rather',

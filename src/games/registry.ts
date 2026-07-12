@@ -27,9 +27,8 @@ export const GAME_COMPONENTS: Record<string, LazyExoticComponent<ComponentType>>
 
   // History & Geography
   'timeline-order': lazy(() => import('./TimelineOrder').then((m) => ({ default: m.TimelineOrder }))),
-  'flag-flash': lazy(() => import('./FlagFlash').then((m) => ({ default: m.FlagFlash }))),
-  'who-am-i': lazy(() => import('./WhoAmI').then((m) => ({ default: m.WhoAmI }))),
 
   // Whole-class energiser
+  'who-am-i': lazy(() => import('./WhoAmI').then((m) => ({ default: m.WhoAmI }))),
   'would-you-rather': lazy(() => import('./WouldYouRather').then((m) => ({ default: m.WouldYouRather }))),
 };

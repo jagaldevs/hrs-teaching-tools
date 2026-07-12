@@ -64,7 +64,7 @@ export function BrainBreaks() {
               title={group.label}
               description={group.description}
               count={games.length}
-              unit="games"
+              unit={games.length === 1 ? 'game' : 'games'}
             >
               {games.map((game) => (
                 <ToolCard

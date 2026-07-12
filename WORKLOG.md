@@ -11,7 +11,7 @@ decision worth remembering.
 
 - React 18 + Vite + TypeScript PWA, dark-first, offline-capable.
 - Two products in one app:
-  - **Brain Breaks** (headline, at `/`) — 15 projector-ready games.
+  - **Brain Breaks** (headline, at `/`) — 14 projector-ready games.
   - **Teacher Tools** (secondary, at `/tools`) — 25 classroom utilities.
 - Content is **all in `src/data/banks/`**, never fetched. Each game
   pulls from one or more banks.
@@ -227,6 +227,15 @@ it shared MCQ_BANK with Quick Quiz. Memory Sequence was fully
 self-contained (inline TILES). The Quick & Energetic group is now
 three games (Quick Quiz, Odd One Out, Two Truths and a Lie). Same
 rule applies: do not re-add without Jack.
+
+**Update 2026-07-12: Flag Flash also removed** at Jack's direction
+(15 → 14 games). Its `FLAGS` bank + `FlagItem` type in `hass.ts` fed
+only this game and were deleted with it (recoverable from git
+history). In the same change, **Who Am I? moved from History &
+Geography to Whole-Class Energiser** (`group: 'whole-class'`), so
+the HASS group is Timeline Order alone — the landing section counter
+now pluralises ("1 game"). Same rule applies: do not re-add
+without Jack.
 
 ## 5. Mistakes we made — don't repeat
 
@@ -766,6 +775,29 @@ docs commit on top. What landed:
   autoplay scored 1/15 — position balance visibly working); OOO and
   Two Truths both serve y8 content; landing footer roll-call lists
   all three anchored classes; tsc + production build clean.
+
+**UPDATE (later same day): landing rework from Jack's screenshot.**
+Three changes: (1) **Who Am I? → Whole-Class Energiser** (games.ts
+group + registry reorder; component untouched). (2) **Flag Flash
+removed** (15 → 14 games; component, CSS, registry + games.ts
+entries, and its FLAGS bank in hass.ts — FLAGS fed only this game).
+See §4.6. (3) **Timeline Order answer leak fixed** — every TIMELINE
+`event` string embedded its year ("Australian Federation (1901)"),
+handing students the sort order; the component already reveals the
+`year` field after "Lock in order", so the suffixes were pure leak
+plus reveal-screen duplication. Stripped 100 year/age parentheticals
+via regex in `hass.ts` and hand-fixed four where the year was part of
+the name (both "1967 Referendum" items reworded, "Foundation of Rome
+(753 BCE, traditional)" → "(traditional date)", Vesuvius "(79 AD)" —
+that one slipped the first regex because "AD" wasn't in the
+alternation; the exhaustive list-all-parentheticals sweep caught it.
+LESSON: when regex-cleaning data, finish with a dump of everything
+REMAINING that resembles the pattern, not just what changed).
+Verified live: landing shows 14 games, HASS group "1 game"
+(pluralisation fixed in BrainBreaks.tsx), Whole-Class shows
+Who Am I? + Would You Rather, /brain-breaks/flag-flash falls back to
+the not-found placeholder, and three Timeline rounds showed zero
+years pre-reveal with years appearing on reveal. tsc + build clean.
 
 **Next class:** confirm the target with Jack once its materials are
 dropped. Y9/Y10 Humanities would reuse this session's geography
