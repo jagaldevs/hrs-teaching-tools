@@ -68,8 +68,8 @@ Onboarding runs as a session per class — see
 
 | Class | Folder | Materials | Overview | Anchored | Audited | Commit |
 |---|---|---|---|---|---|---|
-| Year 7 Humanities | `humanities/year-7/` | ✅ 2026-07-12 (9 unit PDFs) | ✅ 2026-07-12 | ✅ 452 items (302 MCQ + 75 OOO + 75 TL) | ✅ all tiers clean | pending |
-| Year 8 Humanities | `humanities/year-8/` | — | — | — | — | — |
+| Year 7 Humanities | `humanities/year-7/` | ✅ 2026-07-12 (9 unit PDFs) | ✅ 2026-07-12 | ✅ 452 items (302 MCQ + 75 OOO + 75 TL) | ✅ all tiers clean | `2961f8e` |
+| Year 8 Humanities | `humanities/year-8/` | ✅ 2026-07-12 (26 files: 3 Canvas spines, 13 decks, key terms, activities) | ✅ 2026-07-12 | ✅ 452 items (302 MCQ + 75 OOO + 75 TL) | ✅ all tiers + position balance clean | `1674155` |
 | Year 9 Humanities | `humanities/year-9/` | — | — | — | — | — |
 | Year 10 Humanities | `humanities/year-10/` | — | — | — | — | — |
 
@@ -82,7 +82,7 @@ Onboarding runs as a session per class — see
 | Year 9 Health & PE | `health-and-pe/year-9/` | — | — | — | — | — |
 | Year 10 Health & PE | `health-and-pe/year-10/` | — | — | — | — | — |
 
-**Progress: 2 / 20 classes anchored (Y10 Maths, Y7 Humanities — both at the full 452-item distribution).**
+**Progress: 3 / 20 classes anchored (Y10 Maths, Y7 Humanities, Y8 Humanities — all at the full 452-item distribution).**
 
 ---
 
@@ -103,3 +103,6 @@ Onboarding runs as a session per class — see
   in git history of this file.
 - **2026-07-08** — rebuilt as the Y7–10 per-class tracker following the
   scope-narrowing decision. Arts/electives/languages folders removed.
+- **2026-07-12** — Year 7 Humanities anchored (checkpoint then full
+  sweep, `2961f8e`). Year 8 Humanities materials received and anchored
+  same day (mega-batch, `1674155`) — 3/20 done.

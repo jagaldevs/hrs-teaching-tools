@@ -715,11 +715,64 @@ The new way to track anchoring is the `anchored: true` flag in
 
 ---
 
-_Last updated: 2026-07-12 by Claude (Fable 5) after the Year 7
-Humanities onboarding-checkpoint session. Append, don't overwrite —
+_Last updated: 2026-07-12 by Claude (Fable 5) after the Year 8
+Humanities mega-batch session. Append, don't overwrite —
 and date new entries so future readers know what's fresh._
 
-**Session handoff (2026-07-12, Year 7 Humanities — Deep Time checkpoint):**
+**Session handoff (2026-07-12, Year 8 Humanities — first mega-batch, 3/20 anchored):**
+Second Y7–10 class onboarded, same day as Y7 Humanities completed.
+First class run **mega-batch** (no first-unit checkpoint — Jack's
+"go" approved the recommendation since Y7 had calibrated the
+humanities style). Commits: `1674155` (452 items + anchored flip),
+docs commit on top. What landed:
+
+- **Extraction:** 26 unique files — 3 Canvas unit spines (Medieval
+  Europe, Japan under the Shoguns, Coasts), 13 lesson PPTXs, 2
+  key-terms DOCXs, activities. **python-pptx added to the extraction
+  toolchain** (slide text + tables + notes) — most of the geography
+  drop is PowerPoint. Two image-only PDFs OCR'd (both low-value).
+  GOTCHA: a "skip ` (1).` duplicates" filter silently skipped
+  `The Genpei War (1).pptx`, which has NO non-(1) twin — check a twin
+  exists before skipping suffixed files.
+- **Overview:** `humanities/year-8/_overview.md` — 4 units + skills
+  strands, 106 numbered misconceptions, 8 [CONFIRM] flags. Open
+  non-blocking flags (same handling as Y7): COMA/TEEAL/BOLTSS
+  expansions; the Oxford desert-rainfall figure (extraction reads
+  "25 mm/yr", standard is 250 — items avoid the number); Perry never
+  named in materials (items say "an American fleet"); Tokugawa
+  four-class order assumed taught; geisha left out of items.
+- **452 items authored:** 302 MCQ (`y8-hum-1..302`; Medieval 66,
+  Japan 78, history skills 14, landscapes 30, coasts 62, cities 34,
+  geo skills 18 — first class with a geography-heavy split, 158/144),
+  75 OOO (`y8-hum-1..75`), 75 TL (`y8-tl-hum-1..75`, classId
+  `y8-humanities`, subject history/geography per unit). Unit-sized
+  chunks against the `// Y8_HUM_MCQ_END` sentinel, tsc after each —
+  no corruption. Cross-era distractor style continued both ways
+  (bushido as a chivalry distractor, sankin-kotai in coasts OOO).
+  The two key-terms DOCXs served as verbatim definition anchors.
+- **Mid-session credit exhaustion** hit exactly between the OOO tsc
+  and TL authoring. Resume was trivial: audit `grep -c` counts +
+  registrations + git status against the plan, then continue — the
+  chunk-and-sentinel pattern leaves clean seams. Do the same audit
+  first after any interrupted authoring run.
+- **Audit fully clean:** 0 Only/Just, 0 em-dash-in-choices, 0 length
+  asymmetry >2.5x, 0 duplicate stems; MCQ answers 76/76/75/75, OOO
+  outliers 19/18/19/19, TL lies 25/25/25; TL absolute-language tells
+  0 after rewriting 11 flagged lies (the audit regex now also runs
+  against TL as standard).
+- **Verified live:** Y8 Humanities pinned in the "HRS-anchored ✓"
+  optgroup and auto-selected for the Y8 band; instrumented 15-question
+  Quick Quiz playthrough served all units with 0 errors (all-A
+  autoplay scored 1/15 — position balance visibly working); OOO and
+  Two Truths both serve y8 content; landing footer roll-call lists
+  all three anchored classes; tsc + production build clean.
+
+**Next class:** confirm the target with Jack once its materials are
+dropped. Y9/Y10 Humanities would reuse this session's geography
+patterns heavily; any subject's first class should still get the
+misconceptions-review gate.
+
+**Earlier session handoff (2026-07-12, Year 7 Humanities — Deep Time checkpoint):**
 First class onboarding kicked off (the calibration-checkpoint model
 agreed for the first class). What landed:
 
