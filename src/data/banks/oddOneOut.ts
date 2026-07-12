@@ -553,6 +553,93 @@ const Y7_HUMANITIES: OddItem[] = [
   { id: 'y7-hum-75', items: ['Buddhism', 'Confucianism', 'the Via Romana', 'Daoism'], outlier: 2, explanation: 'The Via Romana is Roman; the others are belief systems of ancient China.' },
 ];
 
+// Year 8 Humanities (HRS-anchored) — Medieval Europe, Japan under the
+// Shoguns, history skills, landscapes/coasts, cities, geo skills.
+const Y8_HUMANITIES: OddItem[] = [
+  // -- Medieval Europe (1–16) --
+  { id: 'y8-hum-1', items: ['shoen', 'fief', 'vassal', 'manor'], outlier: 0, explanation: 'Shoen were Japanese noble estates; the others are European feudal terms.' },
+  { id: 'y8-hum-2', items: ['monarch', 'shogun', 'noble', 'knight'], outlier: 1, explanation: 'The shogun ruled Japan; the others are ranks in Europe’s feudal hierarchy.' },
+  { id: 'y8-hum-3', items: ['tithe', 'stocks', 'pillory', 'flogging'], outlier: 0, explanation: 'The tithe was a church payment; the others are medieval punishments.' },
+  { id: 'y8-hum-4', items: ['treason', 'heresy', 'chivalry', 'witchcraft'], outlier: 2, explanation: 'Chivalry is the knights’ code of conduct; the others are medieval crimes.' },
+  { id: 'y8-hum-5', items: ['page', 'squire', 'knight', 'serf'], outlier: 3, explanation: 'A serf worked the land; the others are stages on the path to knighthood.' },
+  { id: 'y8-hum-6', items: ['excommunication', 'moat', 'drawbridge', 'battlements'], outlier: 0, explanation: 'Excommunication is a Church punishment; the others are castle defences.' },
+  { id: 'y8-hum-7', items: ['Tokugawa Ieyasu', 'Pope Urban II', 'Minamoto no Yoritomo', 'Emperor Go-Toba'], outlier: 1, explanation: 'Pope Urban II belongs to medieval Europe; the others shaped shogunate Japan.' },
+  { id: 'y8-hum-8', items: ['trial by ordeal', 'banishment', 'sanctuary', 'the stocks'], outlier: 2, explanation: 'Sanctuary protected people inside a church; the others punished or tested the accused.' },
+  { id: 'y8-hum-9', items: ['bubonic plague', 'pneumonic plague', 'septicemic plague', 'malaria'], outlier: 3, explanation: 'Malaria is unrelated; the others are the three forms of the Black Death.' },
+  { id: 'y8-hum-10', items: ['doctors', 'herbalists', 'flagellants', 'apothecaries'], outlier: 2, explanation: 'Flagellants whipped themselves for God’s forgiveness; the others treated the sick.' },
+  { id: 'y8-hum-11', items: ['Yersinia pestis', 'bad air', 'God’s punishment', 'a curse'], outlier: 0, explanation: 'Yersinia pestis is the plague’s real cause; the others are medieval explanations.' },
+  { id: 'y8-hum-12', items: ['Nara', 'Jerusalem', 'Kyoto', 'Edo'], outlier: 1, explanation: 'Jerusalem is the Holy Land city of the Crusades; the others are Japanese cities.' },
+  { id: 'y8-hum-13', items: ['lord', 'vassal', 'fief', 'pharaoh'], outlier: 3, explanation: 'Pharaoh is an ancient Egyptian ruler; the others are feudal terms.' },
+  { id: 'y8-hum-14', items: ['monastery', 'castle', 'manor house', 'peasant hut'], outlier: 0, explanation: 'A monastery housed a religious community; the others are homes of feudal ranks.' },
+  { id: 'y8-hum-15', items: ['Genpei War', 'Battle of Sekigahara', 'First Crusade', 'Battle of Dan-no-ura'], outlier: 2, explanation: 'The First Crusade was fought in the Holy Land; the others are Japanese conflicts.' },
+  { id: 'y8-hum-16', items: ['king’s law', 'canon law', 'guild rules', 'village custom'], outlier: 1, explanation: 'Canon law came from the Church via papal pronouncements; the others are secular rules.' },
+  // -- Japan under the Shoguns (17–34) --
+  { id: 'y8-hum-17', items: ['Honshu', 'Shikoku', 'Okinawa', 'Kyushu'], outlier: 2, explanation: 'Okinawa is not one of Japan’s four main islands; Hokkaido completes that set.' },
+  { id: 'y8-hum-18', items: ['Amaterasu', 'Izanagi', 'Izanami', 'Murasaki Shikibu'], outlier: 3, explanation: 'Murasaki Shikibu wrote The Tale of Genji; the others are Shinto deities.' },
+  { id: 'y8-hum-19', items: ['Nara', 'Heian-kyo', 'Edo', 'Beijing'], outlier: 3, explanation: 'Beijing is China’s capital; the others were centres of power in Japan.' },
+  { id: 'y8-hum-20', items: ['samurai', 'serf', 'daimyo', 'shogun'], outlier: 1, explanation: 'A serf is a European peasant; the others are ranks in Japan’s feudal order.' },
+  { id: 'y8-hum-21', items: ['bushido', 'seppuku', 'chivalry', 'ronin'], outlier: 2, explanation: 'Chivalry is the European knights’ code; the others belong to the samurai world.' },
+  { id: 'y8-hum-22', items: ['Taira', 'Minamoto', 'Fujiwara', 'Tudor'], outlier: 3, explanation: 'The Tudors are an English dynasty; the others are powerful Japanese clans.' },
+  { id: 'y8-hum-23', items: ['fresco', 'kabuki', 'ukiyo-e', 'haiku'], outlier: 0, explanation: 'Fresco is a European art form; the others flourished in Edo-period Japan.' },
+  { id: 'y8-hum-24', items: ['sakoku', 'tithe', 'sankin-kotai', 'edicts'], outlier: 1, explanation: 'The tithe was a European church payment; the others are Tokugawa controls.' },
+  { id: 'y8-hum-25', items: ['Domesday Book', 'Kojiki', 'Nihon Shoki', 'Tale of Genji'], outlier: 0, explanation: 'The Domesday Book is an English record; the others are early Japanese texts.' },
+  { id: 'y8-hum-26', items: ['Battle of Sekigahara', 'Genpei War', 'Battle of Hastings', 'Battle of Dan-no-ura'], outlier: 2, explanation: 'Hastings was fought in England in 1066; the others are Japanese conflicts.' },
+  { id: 'y8-hum-27', items: ['Shinto', 'kami', 'Amaterasu', 'Daibutsu'], outlier: 3, explanation: 'The Daibutsu is the great Buddha statue at Todai-ji; the others are Shinto concepts.' },
+  { id: 'y8-hum-28', items: ['emperor', 'shogun', 'daimyo', 'samurai'], outlier: 0, explanation: 'Under the shogunate the emperor held only symbolic power; the others held real military power.' },
+  { id: 'y8-hum-29', items: ['earthquakes', 'monsoons', 'tsunamis', 'volcanic eruptions'], outlier: 1, explanation: 'Monsoons are seasonal winds; the others are Ring of Fire hazards Japan faces.' },
+  { id: 'y8-hum-30', items: ['Tokugawa Ieyasu', 'Minamoto no Yoritomo', 'William the Conqueror', 'Emperor Shomu'], outlier: 2, explanation: 'William the Conqueror ruled England; the others shaped Japanese history.' },
+  { id: 'y8-hum-31', items: ['Sekigahara', 'Edo', 'Heian-kyo', 'Nara'], outlier: 0, explanation: 'Sekigahara was a battlefield; the others served as Japanese capitals or seats of power.' },
+  { id: 'y8-hum-32', items: ['kabuki', 'wet-rice farming', 'iron tools', 'Buddhism'], outlier: 0, explanation: 'Kabuki developed in Edo-period Japan; the others arrived from China and Korea.' },
+  { id: 'y8-hum-33', items: ['managing the household', 'working the fields', 'overseeing servants', 'ruling as shogun'], outlier: 3, explanation: 'Women’s roles varied by class, but no woman ruled as shogun.' },
+  { id: 'y8-hum-34', items: ['Genpei War', 'French Revolution', 'Meiji Restoration', 'Battle of Sekigahara'], outlier: 1, explanation: 'The French Revolution is European; the others are turning points in Japanese history.' },
+  // -- History skills (35–38) --
+  { id: 'y8-hum-35', items: ['cause and effect', 'continuity and change', 'significance', 'longshore drift'], outlier: 3, explanation: 'Longshore drift is a coastal process; the others are historical concepts.' },
+  { id: 'y8-hum-36', items: ['seppuku', 'COMA', 'TEEAL', 'PQE'], outlier: 0, explanation: 'Seppuku is a samurai ritual; the others are analysis and writing scaffolds.' },
+  { id: 'y8-hum-37', items: ['a medieval chronicle', 'a modern documentary', 'a Muromachi screen', 'a plague doctor’s letter'], outlier: 1, explanation: 'A modern documentary is a secondary source; the others are primary sources.' },
+  { id: 'y8-hum-38', items: ['empathy', 'perspectives', 'gentrification', 'contestability'], outlier: 2, explanation: 'Gentrification is an urban geography term; the others are historical concepts.' },
+  // -- Landscapes and processes (39–46) --
+  { id: 'y8-hum-39', items: ['mountain', 'urban sprawl', 'coastal', 'karst'], outlier: 1, explanation: 'Urban sprawl is a city-growth term; the others are landscape types.' },
+  { id: 'y8-hum-40', items: ['weathering', 'erosion', 'deposition', 'gentrification'], outlier: 3, explanation: 'Gentrification changes suburbs; the others are processes that shape landscapes.' },
+  { id: 'y8-hum-41', items: ['acid rain on limestone', 'freeze-thaw in cracks', 'heating and cooling', 'rocks rubbing together'], outlier: 0, explanation: 'Acidic water dissolving rock is chemical weathering; the others are physical.' },
+  { id: 'y8-hum-42', items: ['tree roots', 'burrowing animals', 'moss', 'rainwater on limestone'], outlier: 3, explanation: 'Slightly acidic rainwater is chemical weathering; the others are biological.' },
+  { id: 'y8-hum-43', items: ['caves', 'stalactites', 'sand dunes', 'sinkholes'], outlier: 2, explanation: 'Sand dunes are coastal depositional landforms; the others belong to karst landscapes.' },
+  { id: 'y8-hum-44', items: ['desert', 'breakwater', 'tropical rainforest', 'riverine'], outlier: 1, explanation: 'A breakwater is a coastal management structure; the others are landscape types.' },
+  { id: 'y8-hum-45', items: ['the Himalayas', 'the Sahara', 'the Genpei War', 'the Amazon'], outlier: 2, explanation: 'The Genpei War is a Japanese conflict; the others are famous example landscapes.' },
+  { id: 'y8-hum-46', items: ['quantification', 'erosion', 'transportation', 'deposition'], outlier: 0, explanation: 'Quantification is part of PQE data analysis; the others describe sediment movement.' },
+  // -- Coasts (47–60) --
+  { id: 'y8-hum-47', items: ['swash', 'backwash', 'longshore drift', 'sankin-kotai'], outlier: 3, explanation: 'Sankin-kotai was a Tokugawa control policy; the others are coastal water movements.' },
+  { id: 'y8-hum-48', items: ['cliff', 'spit', 'headland', 'cave'], outlier: 1, explanation: 'A spit is built by deposition; the others are carved by erosion.' },
+  { id: 'y8-hum-49', items: ['beach', 'dune', 'stack', 'tombolo'], outlier: 2, explanation: 'A stack is an erosional landform; the others are built by deposition.' },
+  { id: 'y8-hum-50', items: ['beach nourishment', 'groyne', 'sea wall', 'rip rap'], outlier: 0, explanation: 'Beach nourishment is soft engineering; the others are hard structures.' },
+  { id: 'y8-hum-51', items: ['beach nourishment', 'dune revegetation', 'training wall', 'managed retreat'], outlier: 2, explanation: 'A training wall is hard engineering; the others work with natural processes.' },
+  { id: 'y8-hum-52', items: ['constructive waves', 'storm conditions', 'calm weather', 'strong swash'], outlier: 1, explanation: 'Storm conditions produce destructive waves; the others describe constructive ones.' },
+  { id: 'y8-hum-53', items: ['Gold Coast sea walls', 'Byron Bay rip rap', 'Kingscliff groynes', 'Middle Park nourishment'], outlier: 3, explanation: 'Middle Park used soft engineering; the other case studies are hard structures.' },
+  { id: 'y8-hum-54', items: ['erosional', 'aesthetic', 'spiritual', 'economic'], outlier: 0, explanation: 'Erosional describes landform processes; the others are ways of valuing landscapes.' },
+  { id: 'y8-hum-55', items: ['Larrakia people', 'Dreaming stories', 'connection to Country', 'Multiple Nuclei Model'], outlier: 3, explanation: 'The Multiple Nuclei Model explains city shapes; the others relate to First Nations connection to Darwin Harbour.' },
+  { id: 'y8-hum-56', items: ['arch', 'lagoon', 'stack', 'stump'], outlier: 1, explanation: 'A lagoon forms behind depositional bars and spits; the others are the headland erosion sequence.' },
+  { id: 'y8-hum-57', items: ['wave refraction', 'hydraulic pressure', 'kana script', 'wave scouring'], outlier: 2, explanation: 'Kana is a Japanese writing system; the others are wave processes at the coast.' },
+  { id: 'y8-hum-58', items: ['concrete sea wall', 'Spinifex grass', 'dune fencing', 'planting vegetation'], outlier: 0, explanation: 'A sea wall is hard engineering; the others stabilise dunes naturally.' },
+  { id: 'y8-hum-59', items: ['shopping strips', 'mangroves', 'seagrass meadows', 'mudflats'], outlier: 0, explanation: 'Shopping strips are urban; the others are Darwin Harbour ecosystems.' },
+  { id: 'y8-hum-60', items: ['wind', 'waves', 'excommunication', 'gravity'], outlier: 2, explanation: 'Excommunication is a Church punishment; the others are forces that shape coasts.' },
+  // -- Cities and urbanisation (61–69) --
+  { id: 'y8-hum-61', items: ['wave-cut platform', 'CBD', 'residential zone', 'industrial zone'], outlier: 0, explanation: 'A wave-cut platform is a coastal landform; the others are city zones.' },
+  { id: 'y8-hum-62', items: ['urban sprawl', 'gentrification', 'urban decay', 'longshore drift'], outlier: 3, explanation: 'Longshore drift moves beach sand; the others are urban dynamics.' },
+  { id: 'y8-hum-63', items: ['push factor', 'tombolo', 'pull factor', 'migration'], outlier: 1, explanation: 'A tombolo is a coastal landform; the others describe why and how people move.' },
+  { id: 'y8-hum-64', items: ['war', 'persecution', 'better education', 'lack of jobs'], outlier: 2, explanation: 'Access to education pulls people toward cities; the others push them from home.' },
+  { id: 'y8-hum-65', items: ['Tokyo', 'New York', 'Detroit', 'Uluru'], outlier: 3, explanation: 'Uluru is a natural landform; the others are cities from the unit’s examples.' },
+  { id: 'y8-hum-66', items: ['emigrate', 'immigrate', 'international migration', 'sakoku'], outlier: 3, explanation: 'Sakoku was Japan’s isolation policy; the others describe people moving between countries.' },
+  { id: 'y8-hum-67', items: ['slums', 'flagellant', 'suburb', 'urban renewal'], outlier: 1, explanation: 'Flagellants belong to the Black Death; the others are urban geography terms.' },
+  { id: 'y8-hum-68', items: ['Harris and Ullman', 'Multiple Nuclei Model', 'Yersinia pestis', 'urban models'], outlier: 2, explanation: 'Yersinia pestis is the plague bacterium; the others relate to explaining city shapes.' },
+  { id: 'y8-hum-69', items: ['megacity', 'chivalry', 'urbanisation', 'urban explosion'], outlier: 1, explanation: 'Chivalry is the medieval knights’ code; the others describe growing cities.' },
+  // -- Geography skills (70–75) --
+  { id: 'y8-hum-70', items: ['Pattern', 'Quantification', 'Legend', 'Exception'], outlier: 2, explanation: 'A legend belongs on maps and graphs; the others are the PQE steps.' },
+  { id: 'y8-hum-71', items: ['Empathy', 'Scale', 'Axis', 'Legend'], outlier: 0, explanation: 'Empathy is a historical concept; the others are parts of SALTS for graphs.' },
+  { id: 'y8-hum-72', items: ['ground photo', 'oblique aerial photo', 'vertical aerial photo', 'field sketch'], outlier: 3, explanation: 'A field sketch is drawn by hand; the others are photographs.' },
+  { id: 'y8-hum-73', items: ['column graph', 'choropleth map', 'pie chart', 'climate graph'], outlier: 1, explanation: 'A choropleth is a map; the others are types of graphs.' },
+  { id: 'y8-hum-74', items: ['Equator', 'Tropic of Cancer', 'Prime Meridian', 'Tropic of Capricorn'], outlier: 2, explanation: 'The Prime Meridian is a line of longitude; the others are lines of latitude.' },
+  { id: 'y8-hum-75', items: ['Pacific', 'Atlantic', 'Indian', 'Mediterranean'], outlier: 3, explanation: 'The Mediterranean is a sea; the others are among Earth’s five oceans.' },
+];
+
 export const ODD_BANK: Bank<OddItem> = {
   byStreamSubject: {
     lower_primary: {
@@ -587,5 +674,6 @@ export const ODD_BANK: Bank<OddItem> = {
   byClass: {
     'y10-maths': Y10_MATHS,
     'y7-humanities': Y7_HUMANITIES,
+    'y8-humanities': Y8_HUMANITIES,
   },
 };
