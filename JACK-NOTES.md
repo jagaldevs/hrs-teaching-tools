@@ -27,9 +27,11 @@ Two products in one app:
   manipulatives, classroom management).
 
 Anchored class = one whose `_overview.md` is filled in AND has a
-populated content bank keyed to that class. Currently anchored:
+populated content bank keyed to that class. Currently anchored
+(see `source-material/PROGRESS-LOG.md` for the live count):
 
 - **Year 10 Maths** (452 items)
+- **Year 7 Humanities** (452 items — integrated history + geography)
 
 Everything else uses generic AC V9 fallback content.
 
@@ -99,30 +101,63 @@ lower-quality output, not failure.
 
 ## The bootstrap message (copy-paste this)
 
-Open Claude Code in `~/Desktop/hrs-teaching-tools-main` (this Mac),
-then paste:
+Open Claude Code in `~/Desktop/hrs-teaching-tools-main` (this Mac).
+Two versions — use the first to resume/reset context, the second when
+you're onboarding a specific class.
+
+### A. General context reset (paste this to resume the project)
 
 ```
-Read @WORKLOG.md and @.claude/skills/onboard-class/SKILL.md to load
-the project context.
+Working directory: ~/Desktop/hrs-teaching-tools-main (my Mac).
 
-We're onboarding [CLASS NAME] today. Materials are dropped in
-source-material/[path], and _overview.md is filled in.
+Read @WORKLOG.md and @JACK-NOTES.md to load project context — start
+with the most recent session handoff at the top of WORKLOG.md. For
+class onboarding, also read @.claude/skills/onboard-class/SKILL.md.
 
-Run the full onboard-class workflow:
-1. Phase 0 setup (extract docx/pdf, flip anchored:true in classes.ts)
-2. Phase 1 author 302 MCQ + 75 OOO + 75 TL = 452 items per the overview
-3. Phase 2 SKILL §5g three-tier rigour audit
-4. Phase 3 verify in the app, update WORKLOG §7.4 + handoff, commit and push
+Quick orientation so you know where things stand:
+- HRS Brain Breaks: React 18 + Vite + TS PWA, 15 brain-break games +
+  Teacher Tools. The active work is the class-onboarding pipeline —
+  anchoring HRS classes with their own question banks.
+- Scope: Year 7–10 only (English, Maths, Science, Humanities,
+  Health & PE = 20 classes). F–2/3–6 bands stay in the app as generic
+  content by design; don't propose removing them.
+- Anchored so far: Year 10 Maths and Year 7 Humanities, both at the
+  full 452 items (302 MCQ + 75 OOO + 75 TL). Check PROGRESS-LOG.md
+  for the live count.
+- git is live (remote: jagaldevs/hrs-teaching-tools, private); commit
+  and push are fine. This is macOS — use python3, not the Windows `py`
+  in older doc examples.
+- source-material/ is gitignored; I drop unit PDFs into
+  source-material/<subject>/year-<n>/ and tell you what's there.
 
-Mega-batch pacing — no checkpoints, push everything at the end.
+Confirm you've loaded the context and tell me the current
+anchored-class count and what's queued next, then wait for me.
+```
+
+### B. Onboard a class (add this once context is loaded)
+
+```
+Today we're onboarding [CLASS NAME]. Materials are dropped in
+source-material/[path].
+
+Run the onboard-class workflow:
+1. Extract the PDFs and draft the _overview.md from them.
+2. Let me review the misconceptions list before you author.
+3. Author 302 MCQ + 75 OOO + 75 TL = 452 items per the overview.
+4. Run the SKILL §5g three-tier rigour audit PLUS the position-balance
+   check (spread correct answers / outliers / lies across all slots).
+5. Verify live in the app, update PROGRESS-LOG.md + the WORKLOG
+   handoff, commit and push.
+
+Pacing: [mega-batch — push at the end] OR [checkpoint on the first
+unit for my review before the full sweep].
 ```
 
 Replace `[CLASS NAME]` and `[path]` with the real values.
 
-**Pacing options**: keep "mega-batch pacing" for a single-shot run
-(what we did for Y10 Maths). Replace with "stop after the first
-topic for review" if you want a checkpoint before the full sweep.
+**Pacing**: use "mega-batch" for a single-shot run (Y10 Maths). Use
+the checkpoint option for a class in a subject you want to calibrate
+first — that's what we did for Y7 Humanities' first unit.
 
 ---
 
