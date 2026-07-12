@@ -3,7 +3,8 @@ import type { Bank, MCQ } from '../../games/types';
 /**
  * Multiple-choice question bank — Australian Curriculum V9 aligned.
  *
- * Powers: Quick Quiz, Buzzer Round, Question Generator.
+ * Powers: Quick Quiz, Question Generator. (Buzzer Round also drew from
+ * this bank until its removal on 2026-07-09.)
  *
  * Coverage target: 4 streams × 5 subjects × ~25 items = ~500 MCQs.
  * Every item carries an `explanation`. Most carry an `acCode` keyed to AC V9

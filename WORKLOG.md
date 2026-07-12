@@ -11,7 +11,7 @@ decision worth remembering.
 
 - React 18 + Vite + TypeScript PWA, dark-first, offline-capable.
 - Two products in one app:
-  - **Brain Breaks** (headline, at `/`) — 17 projector-ready games.
+  - **Brain Breaks** (headline, at `/`) — 15 projector-ready games.
   - **Teacher Tools** (secondary, at `/tools`) — 25 classroom utilities.
 - Content is **all in `src/data/banks/`**, never fetched. Each game
   pulls from one or more banks.
@@ -28,7 +28,7 @@ decision worth remembering.
 | Path | What |
 |---|---|
 | `src/data/games.ts` | Game catalogue (id, name, group, streams, subjects, durationMin). Single source of truth for what each game declares. |
-| `src/data/banks/mcq.ts` | MCQ items. Powers Quick Quiz **and** Buzzer Round. |
+| `src/data/banks/mcq.ts` | MCQ items. Powers Quick Quiz (and the Question Generator tool). |
 | `src/data/banks/oddOneOut.ts` | Odd-One-Out items. |
 | `src/data/banks/misc.ts` | Estimate It + Two Truths and a Lie + Synonym/Antonym + Would You Rather. Mixed bag because they're all smaller-format. |
 | `src/data/banks/words.ts`, `sentences.ts`, `stories.ts`, `hass.ts`, `sightWords.ts` | Other specialised banks. |
@@ -175,6 +175,11 @@ maintenance burden for the same items. If you ever need
 buzzer-specific items, add a `buzzerOnly?: boolean` tag rather than
 forking the bank.
 
+**Update 2026-07-09:** Buzzer Round was removed at Jack's direction
+(see §4.6). No content was lost — the bank now powers Quick Quiz and
+the Question Generator tool, and the shared-bank rationale stands
+for any future MCQ-driven game.
+
 ### 4.2 Why TruthsLieItem has `subject` as a property, but MCQ doesn't
 
 The TRUTHS export is `Record<Stream, TruthsLieItem[]>` — keyed only
@@ -215,6 +220,13 @@ were confusing (Higher or Lower converted out-of-context metrics);
 some needed engines we didn't have (Map Pin's SVG renderer); some
 relied on assets we couldn't source (Landmark Snap's photo bank).
 **Do not re-add these without checking with Jack first.**
+
+**Update 2026-07-09: Buzzer Round and Memory Sequence also removed**
+at Jack's direction (17 → 15 games). Buzzer Round cost no content —
+it shared MCQ_BANK with Quick Quiz. Memory Sequence was fully
+self-contained (inline TILES). The Quick & Energetic group is now
+three games (Quick Quiz, Odd One Out, Two Truths and a Lie). Same
+rule applies: do not re-add without Jack.
 
 ## 5. Mistakes we made — don't repeat
 
@@ -703,11 +715,34 @@ The new way to track anchoring is the `anchored: true` flag in
 
 ---
 
-_Last updated: 2026-07-08 by Claude (Fable 5) after the Y7–10
-scope-narrowing session. Append, don't overwrite — and date new
+_Last updated: 2026-07-09 by Claude (Fable 5) after the game-removal
++ upload-prep session. Append, don't overwrite — and date new
 entries so future readers know what's fresh._
 
-**Session handoff (2026-07-08, scope narrowed to Year 7–10):**
+**Session handoff (2026-07-09, game removals + upload prep):**
+
+- **Buzzer Round and Memory Sequence removed entirely** at Jack's
+  direction (17 → 15 games). Components, module CSS, registry
+  entries and games.ts entries deleted. No bank content lost:
+  Buzzer shared MCQ_BANK with Quick Quiz (see §4.1 update), Memory
+  Sequence's tiles were inline in the component. The Quick &
+  Energetic anchored-content group is now 3 games. Old
+  `/brain-breaks/buzzer-round` bookmarks fall back to the not-found
+  placeholder. Verified live: landing shows "15 projector-ready
+  games", Quick Quiz serves normally, type-check + build clean.
+- **Upload prep** (earlier same day, also see inline updates in the
+  2026-07-08 entry): OCR toolchain installed + full extraction
+  pipeline verified end-to-end (pypdf / tesseract+PyMuPDF /
+  python-docx); the 20 Y7–10 class folders scaffolded locally with
+  `_overview.md` templates; `technology/` removal finalised.
+- **Workflow agreed for the onboarding campaign**: Jack bulk-drops
+  materials (only conversion rule: equation-bearing .docx → PDF);
+  one class per session; Claude drafts the `_overview.md` from the
+  materials and Jack reviews the misconceptions list; the FIRST
+  class runs with a checkpoint after topic 1 to calibrate, then
+  mega-batch for the rest.
+
+**Earlier session handoff (2026-07-08, scope narrowed to Year 7–10):**
 Decisions (Jack):
 
 - **Brain-break scope is now Year 7–10 only** (was Foundation–Y10).

@@ -19,10 +19,10 @@ deployed at the repo root.
 
 Two products in one app:
 
-- **Brain Breaks** (`/`) — 17 projector-ready games for the
-  classroom. The Quick & Energetic 4 (Quick Quiz, Buzzer Round, Odd
-  One Out, Two Truths and a Lie) are the ones with class-anchored
-  content.
+- **Brain Breaks** (`/`) — 15 projector-ready games for the
+  classroom. The Quick & Energetic 3 (Quick Quiz, Odd One Out,
+  Two Truths and a Lie) are the ones with class-anchored content.
+  (Buzzer Round + Memory Sequence removed 2026-07-09.)
 - **Teacher Tools** (`/tools`) — ~25 classroom utilities (RNG,
   manipulatives, classroom management).
 

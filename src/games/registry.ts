@@ -12,7 +12,6 @@ export const GAME_COMPONENTS: Record<string, LazyExoticComponent<ComponentType>>
   'quick-quiz': lazy(() => import('./QuickQuiz').then((m) => ({ default: m.QuickQuiz }))),
   'odd-one-out': lazy(() => import('./OddOneOut').then((m) => ({ default: m.OddOneOut }))),
   'two-truths-one-lie': lazy(() => import('./TwoTruthsLie').then((m) => ({ default: m.TwoTruthsLie }))),
-  'buzzer-round': lazy(() => import('./BuzzerRound').then((m) => ({ default: m.BuzzerRound }))),
 
   // Word & language
   'anagram-race': lazy(() => import('./AnagramRace').then((m) => ({ default: m.AnagramRace }))),
@@ -33,5 +32,4 @@ export const GAME_COMPONENTS: Record<string, LazyExoticComponent<ComponentType>>
 
   // Whole-class energiser
   'would-you-rather': lazy(() => import('./WouldYouRather').then((m) => ({ default: m.WouldYouRather }))),
-  'memory-sequence': lazy(() => import('./MemorySequence').then((m) => ({ default: m.MemorySequence }))),
 };

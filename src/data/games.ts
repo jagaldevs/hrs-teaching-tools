@@ -2,7 +2,6 @@ import {
   Zap,
   CircleSlash2,
   HelpCircle,
-  Bell,
   Shuffle,
   Link2,
   ArrowLeftRight,
@@ -15,7 +14,6 @@ import {
   Flag,
   UserSquare2,
   Scale3d,
-  Brain,
   type LucideIcon,
 } from 'lucide-react';
 
@@ -83,17 +81,6 @@ export const GAMES: Game[] = [
     subjects: ['history', 'science', 'geography'],
     durationMin: 3,
   },
-  {
-    id: 'buzzer-round',
-    name: 'Buzzer Round',
-    group: 'rapid',
-    description: 'Teams race to buzz on AC V9 questions across all subjects. Teacher controls the round.',
-    icon: Bell,
-    streams: ALL_STREAMS,
-    subjects: ['english', 'maths', 'history', 'geography', 'science'],
-    durationMin: 5,
-  },
-
   // -------- Word & language --------
   {
     id: 'anagram-race',
@@ -218,16 +205,6 @@ export const GAMES: Game[] = [
     streams: ['upper_primary', 'middle_school', 'senior_school'],
     subjects: ['history', 'english', 'general'],
     durationMin: 5,
-  },
-  {
-    id: 'memory-sequence',
-    name: 'Memory Sequence',
-    group: 'whole-class',
-    description: 'Simon-style — tiles are curriculum items (elements, prepositions, prime numbers).',
-    icon: Brain,
-    streams: ALL_STREAMS,
-    subjects: ['general'],
-    durationMin: 3,
   },
 ];
 

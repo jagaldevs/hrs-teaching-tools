@@ -9,7 +9,7 @@ device.
 ## What's in here
 
 ### Brain Breaks (the headline)
-- **17 brain-break games** across 5 groups (Quick & Energetic, Word & Language, Number & Logic, History & Geography, Whole-Class Energiser)
+- **15 brain-break games** across 5 groups (Quick & Energetic, Word & Language, Number & Logic, History & Geography, Whole-Class Energiser)
 - **Scope: Year 7–10.** Content development targets HRS Year 7–10 classes (20 classes across English, Maths, Science, Humanities and Health & PE)
 - Classes marked **HRS-anchored** serve content authored from that class's real teaching materials; all other classes fall back to generic AC V9-aligned items
 - ~2,100 curriculum-aligned content items across the banks, most with AC V9 codes and explanations
