@@ -131,7 +131,9 @@ export const HRS_CLASSES: HrsClass[] = [
   y7('y7-english',      'Year 7 English',      'english', 'english/year-7'),
   y7('y7-maths',        'Year 7 Maths',        'maths',   'maths/year-7'),
   y7('y7-science',      'Year 7 Science',      'science', 'science/year-7'),
-  y7('y7-humanities',   'Year 7 Humanities',   'history', 'humanities/year-7'),
+  { id: 'y7-humanities', yearBand: 'y7', name: 'Year 7 Humanities',
+    subject: 'history', sourcePath: 'humanities/year-7',
+    anchored: true, legacyStream: 'middle_school' },
   y7('y7-health-pe',    'Year 7 Health & PE',  'general', 'health-and-pe/year-7'),
 
   // -- Year 8 --------------------------------------------------

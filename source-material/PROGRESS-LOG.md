@@ -68,7 +68,7 @@ Onboarding runs as a session per class — see
 
 | Class | Folder | Materials | Overview | Anchored | Audited | Commit |
 |---|---|---|---|---|---|---|
-| Year 7 Humanities | `humanities/year-7/` | — | — | — | — | — |
+| Year 7 Humanities | `humanities/year-7/` | ✅ 2026-07-12 (9 unit PDFs) | ✅ draft (misconceptions pending Jack) | ⏳ checkpoint: Deep Time only (44 MCQ + 12 OOO + 12 TL of 452) | ✅ Deep Time audit-clean | pending |
 | Year 8 Humanities | `humanities/year-8/` | — | — | — | — | — |
 | Year 9 Humanities | `humanities/year-9/` | — | — | — | — | — |
 | Year 10 Humanities | `humanities/year-10/` | — | — | — | — | — |
@@ -82,7 +82,7 @@ Onboarding runs as a session per class — see
 | Year 9 Health & PE | `health-and-pe/year-9/` | — | — | — | — | — |
 | Year 10 Health & PE | `health-and-pe/year-10/` | — | — | — | — | — |
 
-**Progress: 1 / 20 classes anchored.**
+**Progress: 1 / 20 classes anchored (Y10 Maths); 1 in progress (Y7 Humanities — Deep Time checkpoint authored, awaiting Jack's calibration review before the remaining 8 units).**
 
 ---
 

@@ -715,9 +715,52 @@ The new way to track anchoring is the `anchored: true` flag in
 
 ---
 
-_Last updated: 2026-07-09 by Claude (Fable 5) after the game-removal
-+ upload-prep session. Append, don't overwrite — and date new
-entries so future readers know what's fresh._
+_Last updated: 2026-07-12 by Claude (Fable 5) after the Year 7
+Humanities onboarding-checkpoint session. Append, don't overwrite —
+and date new entries so future readers know what's fresh._
+
+**Session handoff (2026-07-12, Year 7 Humanities — Deep Time checkpoint):**
+First class onboarding kicked off (the calibration-checkpoint model
+agreed for the first class). What landed:
+
+- Read all 9 HRS Canvas unit PDFs (history: Deep Time + Egypt/Greece/
+  Rome/China + skills; geography: Water in the World + Place &
+  Liveability + skills). Extracted each to `.extracted.txt`
+  (gitignored) via pypdf.
+- Drafted `source-material/humanities/year-7/_overview.md` — full
+  topic sequence, 60+ misconceptions, `[CONFIRM]` flags on
+  COMA/TEEAL/SPICESS/BOLTSS expansions. **Misconceptions list is
+  awaiting Jack's review — that's the checkpoint gate.**
+- Authored the **Deep Time History unit only** as the calibration
+  slice: 44 MCQ (`y7-hum-1..44`), 12 OOO (`y7-hum-1..12`), 12 TL
+  (`y7-tl-hum-1..12`, classId `y7-humanities`). Flipped
+  `y7-humanities` to a literal HrsClass with `anchored: true`.
+- Rigour: three-tier audit clean (fixed 2 "Only X" distractors + 2
+  length-asymmetry items). **Also caught and fixed an answer-position
+  bias** — my first MCQ draft had 39/44 correct answers at position A;
+  a rebalancing script spread them to 11/11/11/11. TL lie positions
+  balanced 4/4/4. Added this as a standing audit step (see below).
+- Verified live: Y7 Humanities pinned top with ✓ badge; Quick Quiz,
+  Odd One Out and Two Truths all serve real Deep Time content; a full
+  instrumented Quick Quiz playthrough threw 0 errors; tsc + build
+  clean.
+
+**GOTCHA logged — mid-file corruption during a large array insert.**
+A big single-Edit insert of the MCQ array failed partway, leaving
+`mcq.ts` with a truncated item (`y7-hum-8` cut mid-string) and the
+`export const MCQ_BANK` line gone — the file wouldn't compile and
+Vite HMR served a broken lazy chunk (the source of a pile of stale
+`at Lazy/at Suspense/at GameRouter` console errors that persisted in
+the preview buffer even after the fix). Lesson: author large banks in
+unit-sized chunks against a sentinel comment, type-checking after
+each, rather than one giant insert. New audit step for every batch:
+check correct-answer / outlier / lie positions are spread across all
+slots, not clustered at one index — grep+python, same as length.
+
+**NEXT (needs Jack):** review the misconceptions list + confirm the
+acronym expansions, then give the go-ahead to author the remaining 8
+units (258 MCQ + 63 OOO + 63 TL) to hit the 452-item target. If the
+Deep Time style needs changing, now is the cheap moment to say so.
 
 **Session handoff (2026-07-09, game removals + upload prep):**
 

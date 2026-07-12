@@ -473,6 +473,22 @@ const Y10_MATHS: OddItem[] = [
   { id: 'y10-math-75', items: ['angle of elevation', 'angle of depression', 'bearing', 'gradient'], outlier: 3, explanation: 'Gradient = slope of a line; the others are directional angles in trigonometry.' },
 ];
 
+// Year 7 Humanities (HRS-anchored) — Deep Time History checkpoint batch.
+const Y7_HUMANITIES: OddItem[] = [
+  { id: 'y7-hum-1', items: ['hieroglyphics', 'radiocarbon dating', 'stratigraphy', 'luminescence dating'], outlier: 0, explanation: 'Hieroglyphics is a writing system; the others are scientific dating methods.' },
+  { id: 'y7-hum-2', items: ['moiety', 'papyrus', 'totem', 'kinship'], outlier: 1, explanation: 'Papyrus is an Egyptian writing material; the others are First Nations social organisation terms.' },
+  { id: 'y7-hum-3', items: ['kilo annum', 'mega annum', 'afterlife', 'before present'], outlier: 2, explanation: 'Afterlife is a belief; the others are Deep Time units for measuring the past.' },
+  { id: 'y7-hum-4', items: ['Lake Mungo', 'Budj Bim', 'Willandra Lakes', 'Giza'], outlier: 3, explanation: 'Giza is in Egypt; the others are significant Deep Time sites in Australia.' },
+  { id: 'y7-hum-5', items: ['a 2024 textbook', 'rock art', 'a stone tool', 'an ancient bone'], outlier: 0, explanation: 'A modern textbook is a secondary source; the others are primary sources from the past.' },
+  { id: 'y7-hum-6', items: ['megafauna', 'Colosseum', 'Pleistocene', 'Holocene'], outlier: 1, explanation: 'The Colosseum is Roman; the others relate to Deep Time environments and eras.' },
+  { id: 'y7-hum-7', items: ['bipedalism', 'large brain', 'mummification', 'tool-making'], outlier: 2, explanation: 'Mummification is an Egyptian custom; the others are human evolution traits.' },
+  { id: 'y7-hum-8', items: ['the Dreaming', 'Country', 'Elders', 'pharaoh'], outlier: 3, explanation: 'Pharaoh is an Egyptian ruler; the others are First Nations cultural concepts.' },
+  { id: 'y7-hum-9', items: ['Antarctica', 'Sahul', 'Tasmania', 'New Guinea'], outlier: 0, explanation: 'Antarctica was never part of Sahul; the others joined together as that ancient landmass.' },
+  { id: 'y7-hum-10', items: ['oral history', 'a TV show', 'rock art', 'an artefact'], outlier: 1, explanation: 'A modern TV show is a secondary source; the others are primary evidence of the past.' },
+  { id: 'y7-hum-11', items: ['relative dating', 'absolute dating', 'kinship', 'stratigraphy'], outlier: 2, explanation: 'Kinship is a social system; the others are ways of dating the past.' },
+  { id: 'y7-hum-12', items: ['Pleistocene', 'Holocene', 'Deep Time', 'Federation'], outlier: 3, explanation: 'Federation (1901) is recent Australian history; the others describe the ancient past.' },
+];
+
 export const ODD_BANK: Bank<OddItem> = {
   byStreamSubject: {
     lower_primary: {
@@ -506,5 +522,6 @@ export const ODD_BANK: Bank<OddItem> = {
   },
   byClass: {
     'y10-maths': Y10_MATHS,
+    'y7-humanities': Y7_HUMANITIES,
   },
 };
