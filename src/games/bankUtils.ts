@@ -5,6 +5,17 @@ import { shuffle } from '../tools/rng/util';
 type Tagged<Q> = { item: Q; subject: Subject };
 
 /**
+ * Shuffle an item's options and return the correct option's new index.
+ * Games call this at round start so the on-screen position of the answer
+ * is random — the banks were authored with heavy position bias (Y10 Maths
+ * Odd One Out had 72/75 outliers in slot D), so "always pick D" won.
+ */
+export function shuffleOptions<T>(options: readonly T[], correct: number): { options: T[]; correct: number } {
+  const order = shuffle(options.map((_, i) => i));
+  return { options: order.map((i) => options[i]!), correct: order.indexOf(correct) };
+}
+
+/**
  * A class's generic backfill pool: `byStreamSubject[legacyStream]` for
  * each of `backfillSubjects ?? [subject]`. Never falls back to other
  * subjects — an empty pool stays empty (classes with no generic pool are

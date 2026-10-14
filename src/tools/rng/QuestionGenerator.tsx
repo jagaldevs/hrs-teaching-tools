@@ -3,7 +3,7 @@ import { Shuffle, Eye, EyeOff, Check } from 'lucide-react';
 import { ToolShell } from '../ToolShell';
 import { MCQ_BANK } from '../../data/banks/mcq';
 import { YEAR_BANDS, findClass } from '../../data/classes';
-import { classPool } from '../../games/bankUtils';
+import { classPool, shuffleOptions } from '../../games/bankUtils';
 import { ClassPicker, useClassSelection } from '../../games/ClassPicker';
 import { SUBJECTS, SUBJECT_COLOURS, type MCQ, type Subject } from '../../games/types';
 import { randomChoice } from './util';
@@ -38,7 +38,8 @@ export function QuestionGenerator() {
       setDrawn(null);
       return;
     }
-    setDrawn({ q: pick.item, subject: pick.subject });
+    const s = shuffleOptions(pick.item.choices, pick.item.answer);
+    setDrawn({ q: { ...pick.item, choices: s.options, answer: s.correct }, subject: pick.subject });
     setRevealed(false);
   }
 

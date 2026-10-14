@@ -4,6 +4,7 @@ import { GameShell, SetupScreen, type SetupSelections } from './GameShell';
 import { ResultScreen } from './ResultScreen';
 import { TRUTHS, type TruthsLieItem } from '../data/banks/misc';
 import { findClass } from '../data/classes';
+import { shuffleOptions } from './bankUtils';
 import { shuffle } from '../tools/rng/util';
 import common from '../tools/common.module.css';
 import styles from './TwoTruthsLie.module.css';
@@ -64,7 +65,10 @@ export function TwoTruthsLie() {
       setStartError('No Two Truths items found for that class. Try a different class.');
       return;
     }
-    const list = shuffle(narrowed).slice(0, sel.count);
+    const list = shuffle(narrowed).slice(0, sel.count).map((t): TruthsLieItem => {
+      const s = shuffleOptions(t.statements, t.lie);
+      return { ...t, statements: s.options as TruthsLieItem['statements'], lie: s.correct as TruthsLieItem['lie'] };
+    });
     // Generic items are untagged mixed general knowledge, so they can't be
     // narrowed to the class's subject. Say so on screen rather than letting
     // "Year 9 Maths" quietly serve Shakespeare trivia.

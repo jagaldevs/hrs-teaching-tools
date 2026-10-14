@@ -3,7 +3,7 @@ import { Check, X as XIcon, ChevronRight } from 'lucide-react';
 import { GameShell, SetupScreen, type SetupSelections } from './GameShell';
 import { ResultScreen } from './ResultScreen';
 import { ODD_BANK } from '../data/banks/oddOneOut';
-import { pickFromClass } from './bankUtils';
+import { pickFromClass, shuffleOptions } from './bankUtils';
 import { SUBJECT_COLOURS, SUBJECTS, type OddItem, type Subject } from './types';
 import common from '../tools/common.module.css';
 import styles from './OddOneOut.module.css';
@@ -33,8 +33,12 @@ export function OddOneOut() {
       );
       return;
     }
+    const items = pulled.items.map((o): OddItem => {
+      const s = shuffleOptions(o.items, o.outlier);
+      return { ...o, items: s.options as OddItem['items'], outlier: s.correct };
+    });
     setSetup(sel);
-    setRound({ items: pulled.items, subjects: pulled.subjects });
+    setRound({ items, subjects: pulled.subjects });
     setCurrent(0);
     setScore(0);
     setPicked(null);

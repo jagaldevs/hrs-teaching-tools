@@ -4,6 +4,7 @@ import { GameShell, SetupScreen, type SetupSelections } from './GameShell';
 import { ResultScreen } from './ResultScreen';
 import { SYN_ANT, type SynAntItem } from '../data/banks/misc';
 import { shuffle } from '../tools/rng/util';
+import { shuffleOptions } from './bankUtils';
 import { useTimer, formatClock } from '../tools/useTimer';
 import { chimeTick } from '../tools/chime';
 import common from '../tools/common.module.css';
@@ -34,7 +35,10 @@ export function SynonymSprint() {
   });
 
   function start(sel: SetupSelections) {
-    const items = shuffle(SYN_ANT[sel.stream] ?? []).slice(0, sel.count);
+    const items = shuffle(SYN_ANT[sel.stream] ?? []).slice(0, sel.count).map((it): SynAntItem => {
+      const s = shuffleOptions(it.choices, it.answer);
+      return { ...it, choices: s.options as SynAntItem['choices'], answer: s.correct };
+    });
     setSetup(sel);
     setRound({ items });
     setIdx(0);

@@ -3,7 +3,7 @@ import { Check, X as XIcon, ChevronRight } from 'lucide-react';
 import { GameShell, SetupScreen, type SetupSelections } from './GameShell';
 import { ResultScreen } from './ResultScreen';
 import { MCQ_BANK } from '../data/banks/mcq';
-import { pickFromClass } from './bankUtils';
+import { pickFromClass, shuffleOptions } from './bankUtils';
 import { SUBJECT_COLOURS, SUBJECTS, type MCQ, type Subject } from './types';
 import common from '../tools/common.module.css';
 import styles from './QuickQuiz.module.css';
@@ -35,8 +35,12 @@ export function QuickQuiz() {
       );
       return;
     }
+    const questions = pulled.items.map((q): MCQ => {
+      const s = shuffleOptions(q.choices, q.answer);
+      return { ...q, choices: s.options, answer: s.correct };
+    });
     setSetup(sel);
-    setRound({ questions: pulled.items, subjects: pulled.subjects });
+    setRound({ questions, subjects: pulled.subjects });
     setCurrent(0);
     setScore(0);
     setPicked(null);
