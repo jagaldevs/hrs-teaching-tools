@@ -112,10 +112,9 @@ npm run audit:content -- --class y10-maths
 `npm test` must pass. The audit is heuristic: each finding needs a look,
 and some are legitimate (e.g. a long numeric answer). As of 2026-10-14:
 
-- **Year 10 Maths:** 17 Two Truths lies use "always/only/every" when the
-  truths don't, so they're guessable. Rewrite.
-- **Year 8 Humanities:** 7 "only …" distractors. Rewrite.
-- **Year 7 Humanities:** clean.
+all three anchored classes are clean. Year 10 Maths shows one length
+finding (y10-math-210, a decimal median "8.5" beside "7"/"8"/"9"), which
+is fine.
 
 Answer position no longer matters: the games shuffle options every round.
 
@@ -127,7 +126,8 @@ Answer position no longer matters: the games shuffle options every round.
   Hard-refresh (Ctrl+Shift+R), or DevTools → Application → Service
   Workers → Unregister.
 - **Git Bash on this PC:** `npm`/`npx` can fail silently there. Use
-  PowerShell.
+  PowerShell. If PowerShell says `npm.ps1 cannot be loaded` (execution
+  policy), type `npm.cmd` / `npx.cmd` instead.
 - **Don't re-add removed games** (Buzzer Round, Memory Sequence, Flag
   Flash, Higher or Lower, Spelling Bee, Categories, Equation Match, Map
   Pin, Landmark Snap, Heads Up, 20 Questions) without deciding to.

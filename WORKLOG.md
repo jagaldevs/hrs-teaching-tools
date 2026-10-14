@@ -174,9 +174,8 @@ this log, commit, push.
 
 ## 7. Open questions and known follow-ups
 
-1. **Rigour fixes from the 2026-10-14 re-audit:** Y10 Maths — 17 Two
-   Truths lies with absolute-language tells; Y8 Humanities — 7 "only …"
-   distractors. Content edits; run the audit afterwards.
+1. ~~**Rigour fixes from the 2026-10-14 re-audit.**~~ Done 2026-10-14
+   (see handoff). All three anchored classes audit clean.
 2. **Generic pools are thin:** 25 MCQ per stream × subject (senior maths
    11 and senior science 23 after the VCE clean-up), and Years 7, 8 and 9 share one pool.
    Repeats are likely for unanchored classes until they're anchored.
@@ -193,6 +192,30 @@ this log, commit, push.
 ---
 
 ## Session handoffs
+
+**Session handoff (2026-10-14, later — §7.1 rigour fixes):**
+Fixed the re-audit findings; Jack reviewed the before/after list first.
+
+- **Y10 Maths, 17 Two Truths lies:** each "always/only/every" lie is now
+  a specific worked counterexample of a common misconception (e.g.
+  `√2 × √8 is irrational`, `x² + 4 factorises as (x + 2)(x − 2)`,
+  `y = (2x)² is a vertical dilation by factor 2`). Explanations show the
+  working. `y10-tl-math-26`'s truth "It can be used…" named its subject
+  (a pronoun that relies on statement order breaks under shuffle);
+  `-64`'s "These theorems…" lie was replaced for the same reason.
+- **Y8 Humanities:** 10 "only …" distractors across 7 MCQs (the audit
+  reports only the first per item, and `-214`/`-234` had 2–3), plus
+  4 absolute distractors in `-145`/`-148` ("nothing truly changes",
+  "historians can never be trusted", …) at Jack's request, all replaced
+  with misconception-based options.
+- **Checks:** `npm test` 2,221 passed; tsc clean; audit Y8 Hum 0
+  findings, Y10 Maths 1 (`y10-math-210` length, a decimal median —
+  justified).
+- **Gotcha:** PowerShell's execution policy blocks `npm.ps1` on this
+  PC; call `npm.cmd` / `npx.cmd`. Plain `python` isn't on PATH, use `py`.
+
+**Next:** onboard the next class (confirm which with Jack) once
+`_reference/` is populated. Open: `source-material/` backup (§7.6).
 
 **Session handoff (2026-10-14, back on Windows — audit + cleanup):**
 Jack picked the project up on the Windows work PC after the July Mac

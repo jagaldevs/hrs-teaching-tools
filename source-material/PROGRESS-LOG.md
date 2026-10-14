@@ -48,7 +48,7 @@ Onboarding runs as a session per class — see
 | Year 7 Maths | `maths/year-7/` | — | — | — | — | — |
 | Year 8 Maths | `maths/year-8/` | — | — | — | — | — |
 | Year 9 Maths | `maths/year-9/` | — | — | — | — | — |
-| Year 10 Maths | `maths/year-10/` | ✅ 2026-06-03 | ✅ (905-line gold standard) | ✅ 452 items | ⚠ 17 TL absolute-language lies (re-audit 2026-10-14) | `17ae225` |
+| Year 10 Maths | `maths/year-10/` | ✅ 2026-06-03 | ✅ (905-line gold standard) | ✅ 452 items | ✅ clean 2026-10-14 (17 TL lies rewritten; 1 justified length finding: decimal median) | `17ae225` |
 
 > Y10 Maths' source files and 905-line overview are on the Windows PC
 > (`source-material/maths/year-10/`, plus the untracked
@@ -68,7 +68,7 @@ Onboarding runs as a session per class — see
 | Class | Folder | Materials | Overview | Anchored | Audited | Commit |
 |---|---|---|---|---|---|---|
 | Year 7 Humanities | `humanities/year-7/` | ✅ 2026-07-12 (9 unit PDFs) | ✅ 2026-07-12 | ✅ 452 items (302 MCQ + 75 OOO + 75 TL) | ✅ clean (re-audit 2026-10-14) | `2961f8e` |
-| Year 8 Humanities | `humanities/year-8/` | ✅ 2026-07-12 (26 files: 3 Canvas spines, 13 decks, key terms, activities) | ✅ 2026-07-12 | ✅ 452 items (302 MCQ + 75 OOO + 75 TL) | ⚠ 7 lowercase "only" distractors (re-audit 2026-10-14) | `1674155` |
+| Year 8 Humanities | `humanities/year-8/` | ✅ 2026-07-12 (26 files: 3 Canvas spines, 13 decks, key terms, activities) | ✅ 2026-07-12 | ✅ 452 items (302 MCQ + 75 OOO + 75 TL) | ✅ clean 2026-10-14 (10 "only" + 4 absolute distractors rewritten) | `1674155` |
 
 > Y7 and Y8 Humanities materials and overviews live on the Mac only
 > (Jack chose not to bring them across, 2026-10-14).
@@ -118,4 +118,7 @@ every finding has been justified.
   VCE study designs as reference only, HRS scope & sequences). Re-ran
   the audit as `npm run audit:content`: Y10 Maths and Y8 Humanities have
   findings to fix (see Audited column). Health & PE hidden until
-  anchored.
+  anchored. Later the same day: those findings fixed (17 Y10 Maths TL
+  lies rewritten as worked counterexamples; Y8 Humanities "only" and
+  absolute distractors rewritten). All three anchored classes audit
+  clean.
