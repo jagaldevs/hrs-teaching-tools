@@ -275,9 +275,9 @@ export const TRUTHS: Record<Stream, TruthsLieItem[]> = {
     },
     {
       id: 'ms-tl-5',
-      statements: ['π is approximately 3.14.', 'Antarctica is the driest continent.', 'Cleopatra lived closer in time to the Moon landing than to the Great Pyramid.'],
+      statements: ['Cleopatra lived closer in time to the Moon landing than to the building of the Great Pyramid.', 'Antarctica is the driest continent.', 'The Great Wall of China is visible from the Moon with the naked eye.'],
       lie: 2,
-      explanation: 'Trick: that statement is true. Cleopatra (c. 30 BCE) is closer to 1969 than to the Great Pyramid (~2560 BCE). The lie is actually statement 2 only if you read carefully — but all three are true. (Replace with a clear lie when authoring further.)',
+      explanation: 'A popular myth — the Wall is far too narrow to see from the Moon. The Cleopatra fact is true: she lived c. 30 BCE, about 2,500 years after the Great Pyramid (~2560 BCE) and 2,000 years before 1969.',
     },
     {
       id: 'ms-tl-6',
@@ -628,7 +628,7 @@ export const TRUTHS: Record<Stream, TruthsLieItem[]> = {
     { id: 'y10-tl-math-33', subject: 'maths', classId: 'y10-maths', statements: ['The addition rule subtracts the overlap: P(A ∪ B) = P(A) + P(B) − P(A ∩ B).', 'Independent events satisfy P(A ∩ B) = P(A) × P(B).', 'Conditional probability P(A | B) uses the original sample space.'], lie: 2, explanation: 'P(A | B) restricts the sample space to B; that changes the denominator.' },
     { id: 'y10-tl-math-34', subject: 'maths', classId: 'y10-maths', statements: ['Drawing two cards WITHOUT replacement creates dependent events.', 'Drawing two cards WITH replacement creates independent events.', 'A tree diagram is best for displaying single-event probabilities.'], lie: 2, explanation: 'Tree diagrams are best for sequential / multi-step experiments, not single events.' },
     { id: 'y10-tl-math-35', subject: 'maths', classId: 'y10-maths', statements: ['Two-step experiments can be displayed using a tree diagram or an array.', 'The complement of A has P(A′) = 1 − P(A).', 'In probability, AND and OR mean exactly the same thing.'], lie: 2, explanation: 'AND = intersection (multiply for independent); OR = union (add with overlap correction).' },
-    { id: 'y10-tl-math-36', subject: 'maths', classId: 'y10-maths', statements: ['A Venn diagram shows intersection and union of sets.', 'A two-way table cross-tabulates two categorical variables.', 'P(at least one) = 1 − P(none).'], lie: 1, explanation: 'All three of these are TRUE. (Trick: the question requires exactly one false — this set is all true. Replacing one statement is essential.) Treat statement 1 as the lie.' },
+    { id: 'y10-tl-math-36', subject: 'maths', classId: 'y10-maths', statements: ['A Venn diagram shows intersection and union of sets.', 'When finding P(A ∪ B) from a Venn diagram, the overlap is counted twice.', 'P(at least one) = 1 − P(none).'], lie: 1, explanation: 'The overlap is counted ONCE — that is why the addition rule subtracts P(A ∩ B).' },
     { id: 'y10-tl-math-37', subject: 'maths', classId: 'y10-maths', statements: ['The multiplication principle: m × n outcomes for two independent choices.', '5! equals 120.', 'In a normal probability calculation, double-counting overlaps gives a total below zero.'], lie: 2, explanation: 'Double-counting overlaps inflates the total ABOVE 1, not below zero.' },
     { id: 'y10-tl-math-38', subject: 'maths', classId: 'y10-maths', statements: ['A parabola in turning-point form y = a(x − h)² + k has vertex (h, k).', 'A negative a opens the parabola downward.', 'Increasing |a| makes the parabola wider.'], lie: 2, explanation: 'Increasing |a| makes the parabola NARROWER (steeper); 0 < |a| < 1 makes it wider.' },
     { id: 'y10-tl-math-39', subject: 'maths', classId: 'y10-maths', statements: ['The axis of symmetry of y = (x + 4)² − 1 is x = −4.', 'A parabola has at most two x-intercepts.', 'Every parabola has at least one x-intercept.'], lie: 2, explanation: 'A parabola with Δ < 0 (e.g. y = x² + 1) has no x-intercepts.' },
