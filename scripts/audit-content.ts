@@ -1,5 +1,5 @@
 /**
- * Content rigour audit — the SKILL §5g checks as one command.
+ * Content rigour audit — the onboard-class SKILL's rigour rules as one command.
  *
  *   npm run audit:content                      # every bank
  *   npm run audit:content -- --class y8-humanities

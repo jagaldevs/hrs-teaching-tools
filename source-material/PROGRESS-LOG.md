@@ -22,7 +22,7 @@ Each class moves through four stages:
 | **Materials** | Teaching documents dropped in `source-material/<folder>/` |
 | **Overview** | `_overview.md` filled in (drives all authoring — misconceptions list is the biggest quality lever) |
 | **Anchored** | `anchored: true` in classes.ts + full bank authored (default: 302 MCQ + 75 OOO + 75 TL = 452 items) |
-| **Audited** | SKILL §5g three-tier rigour audit clean (Only/Just, em-dash, length asymmetry) |
+| **Audited** | `npm test` passes and `npm run audit:content -- --class <id>` is clean (or each finding justified) |
 
 Onboarding runs as a session per class — see
 `.claude/skills/onboard-class/SKILL.md` and the bootstrap message in
@@ -48,12 +48,11 @@ Onboarding runs as a session per class — see
 | Year 7 Maths | `maths/year-7/` | — | — | — | — | — |
 | Year 8 Maths | `maths/year-8/` | — | — | — | — | — |
 | Year 9 Maths | `maths/year-9/` | — | — | — | — | — |
-| Year 10 Maths | `maths/year-10/` | ✅ 2026-06-03 | ✅ (905-line gold standard) | ✅ 452 items | ✅ | `17ae225` |
+| Year 10 Maths | `maths/year-10/` | ✅ 2026-06-03 | ✅ (905-line gold standard) | ✅ 452 items | ⚠ 17 TL absolute-language lies (re-audit 2026-10-14) | `17ae225` |
 
-> Y10 Maths was onboarded on the old Windows machine; its source files
-> and overview were not migrated to the Mac (not needed — class
-> complete). Use its WORKLOG record (§7.4, 2026-06-03 handoff) as the
-> reference for future onboardings.
+> Y10 Maths' source files and 905-line overview are on the Windows PC
+> (`source-material/maths/year-10/`, plus the untracked
+> `source-material.zip` in the repo root) — they never went to the Mac.
 
 ### Science
 
@@ -68,8 +67,11 @@ Onboarding runs as a session per class — see
 
 | Class | Folder | Materials | Overview | Anchored | Audited | Commit |
 |---|---|---|---|---|---|---|
-| Year 7 Humanities | `humanities/year-7/` | ✅ 2026-07-12 (9 unit PDFs) | ✅ 2026-07-12 | ✅ 452 items (302 MCQ + 75 OOO + 75 TL) | ✅ all tiers clean | `2961f8e` |
-| Year 8 Humanities | `humanities/year-8/` | ✅ 2026-07-12 (26 files: 3 Canvas spines, 13 decks, key terms, activities) | ✅ 2026-07-12 | ✅ 452 items (302 MCQ + 75 OOO + 75 TL) | ✅ all tiers + position balance clean | `1674155` |
+| Year 7 Humanities | `humanities/year-7/` | ✅ 2026-07-12 (9 unit PDFs) | ✅ 2026-07-12 | ✅ 452 items (302 MCQ + 75 OOO + 75 TL) | ✅ clean (re-audit 2026-10-14) | `2961f8e` |
+| Year 8 Humanities | `humanities/year-8/` | ✅ 2026-07-12 (26 files: 3 Canvas spines, 13 decks, key terms, activities) | ✅ 2026-07-12 | ✅ 452 items (302 MCQ + 75 OOO + 75 TL) | ⚠ 7 lowercase "only" distractors (re-audit 2026-10-14) | `1674155` |
+
+> Y7 and Y8 Humanities materials and overviews live on the Mac only
+> (Jack chose not to bring them across, 2026-10-14).
 | Year 9 Humanities | `humanities/year-9/` | — | — | — | — | — |
 | Year 10 Humanities | `humanities/year-10/` | — | — | — | — | — |
 
@@ -82,7 +84,13 @@ Onboarding runs as a session per class — see
 | Year 9 Health & PE | `health-and-pe/year-9/` | — | — | — | — | — |
 | Year 10 Health & PE | `health-and-pe/year-10/` | — | — | — | — | — |
 
+> Health & PE classes are hidden from the class pickers until they're
+> anchored — there's no generic Health & PE content to fall back on.
+
 **Progress: 3 / 20 classes anchored (Y10 Maths, Y7 Humanities, Y8 Humanities — all at the full 452-item distribution).**
+
+"Audited" now means `npm run audit:content -- --class <id>` is clean or
+every finding has been justified.
 
 ---
 
@@ -106,3 +114,8 @@ Onboarding runs as a session per class — see
 - **2026-07-12** — Year 7 Humanities anchored (checkpoint then full
   sweep, `2961f8e`). Year 8 Humanities materials received and anchored
   same day (mega-batch, `1674155`) — 3/20 done.
+- **2026-10-14** — back on the Windows PC. Added `_reference/` (AC V9,
+  VCE study designs as reference only, HRS scope & sequences). Re-ran
+  the audit as `npm run audit:content`: Y10 Maths and Y8 Humanities have
+  findings to fix (see Audited column). Health & PE hidden until
+  anchored.

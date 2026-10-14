@@ -1,284 +1,143 @@
 # Jack's Notes — HRS Brain Breaks
 
-A personal reference for picking the project back up between sessions.
-Not the engineering log (see `WORKLOG.md`) and not the onboarding
-playbook (see `.claude/skills/onboard-class/SKILL.md`) — this is the
-quick-glance "what is this and how do I drive it" doc for you.
+Your quick reference for driving the project. The engineering detail is
+in `WORKLOG.md`; the class-onboarding workflow Claude follows is
+`.claude/skills/onboard-class/SKILL.md`.
 
-_Last updated: 2026-07-02 (migrated to the Mac —
-`~/Desktop/hrs-teaching-tools-main`; toolchain reinstalled, docs
-de-Windowsed. Scope remains Foundation–Year 10; VCE content was
-removed 2026-06-03.)_
+_Last updated: 2026-10-14 (back on the Windows work PC after the July
+Mac stint; audit + cleanup session)._
 
 ---
 
 ## What this is
 
-A React 18 + Vite + TypeScript PWA, dark-first, offline-capable,
-deployed at the repo root.
+A React 18 + Vite + TypeScript PWA for Haileybury Rendall School. It's
+dark-first, works offline, and keeps everything in the browser (no
+accounts, no student data leaves the device).
 
-Two products in one app:
+- **Brain Breaks** (`/`): 14 projector-ready games. The three Quick &
+  Energetic games (Quick Quiz, Odd One Out, Two Truths and a Lie) serve
+  **class-anchored** content.
+- **Teacher Tools** (`/tools`): 25 classroom utilities. The Question
+  Generator uses the same year-level + class picker as the games.
 
-- **Brain Breaks** (`/`) — 14 projector-ready games for the
-  classroom. The Quick & Energetic 3 (Quick Quiz, Odd One Out,
-  Two Truths and a Lie) are the ones with class-anchored content.
-  (Buzzer Round + Memory Sequence removed 2026-07-09; Flag Flash
-  removed 2026-07-12. Who Am I? now lives in Whole-Class Energiser.)
-- **Teacher Tools** (`/tools`) — ~25 classroom utilities (RNG,
-  manipulatives, classroom management).
+**Anchored classes (3 / 20):** Year 10 Maths, Year 7 Humanities, Year 8
+Humanities, each with 452 items (302 MCQ + 75 Odd One Out + 75 Two
+Truths). The other classes use generic AC V9 questions. Health & PE
+classes stay hidden until they're anchored, because there's no generic
+Health & PE content. Live tracker: `source-material/PROGRESS-LOG.md`.
 
-Anchored class = one whose `_overview.md` is filled in AND has a
-populated content bank keyed to that class. Currently anchored
-(see `source-material/PROGRESS-LOG.md` for the live count):
-
-- **Year 10 Maths** (452 items)
-- **Year 7 Humanities** (452 items — integrated history + geography)
-
-Everything else uses generic AC V9 fallback content.
-
-**Scope**: **Year 7 – 10** is where all content-development work
-happens (decision 2026-07-08). 20 in-scope classes: Y7–10 English,
-Maths, Science, Humanities, Health & PE. Elective and Chinese/French
-class entries and the `computing` subject were removed from the app;
-arts / electives / languages source folders removed. VCE was removed
-earlier (2026-06-03). The **F–2 and 3–6 bands + generic content stay
-by design** — teachers of younger cohorts keep the generic
-experience; there's just no anchoring work planned for them.
+**Scope:** content work targets **Year 7–10** (English, Maths, Science,
+Humanities, Health & PE = 20 classes). Foundation–Year 6 stays in the app
+with generic content by design. **VCE is reference material only.** Use
+study designs to keep Year 10 pitched right, never as app content.
 
 ---
 
-## Where things live (quick map)
+## Where things live
 
 | Path | What |
 |---|---|
-| `src/data/games.ts` | Game registry — id, group, streams, subjects, duration |
-| `src/data/classes.ts` | HRS class registry — 28 classes (8 primary + 20 Y7–10), `anchored` flag |
-| `src/data/banks/mcq.ts` | All MCQ items (Quick Quiz + Buzzer Round) |
-| `src/data/banks/oddOneOut.ts` | All Odd One Out items |
-| `src/data/banks/misc.ts` | Two Truths + Estimate + Synonym + Would You Rather |
-| `src/data/banks/*.ts` | Other small banks (words, sentences, stories, etc.) |
-| `src/games/GameShell.tsx` | The SetupScreen all games share — year-band picker + class dropdown |
-| `src/games/<Game>.tsx` | Each game file |
-| `src/pages/BrainBreaks.tsx` | Landing page (game grid) |
-| `source-material/<area>/<class>/` | HRS-specific source PDFs/docs (gitignored — drop freely) |
-| `source-material/<area>/<class>/_overview.md` | Your spec file (drives my authoring) |
-| `WORKLOG.md` | Engineering log — every decision and mistake-not-to-repeat |
-| `.claude/skills/onboard-class/SKILL.md` | My workflow for onboarding a new class |
+| `C:\Users\jack.galbraith\Code\hrs_teaching_tools` | **The repo.** (The OneDrive `Desktop\hrs_teaching_tools` folder only holds Claude settings.) |
+| `src/data/classes.ts` | Class registry: year bands, 28 classes, `anchored` flags |
+| `src/data/banks/mcq.ts` · `oddOneOut.ts` · `misc.ts` | Quick Quiz · Odd One Out · Two Truths (plus Estimate It, Synonym Sprint, Would You Rather) |
+| `src/games/ClassPicker.tsx` | The year-level + class picker shared by games and the Question Generator |
+| `src/games/bankUtils.ts` | How a class's questions are chosen, and the option shuffle |
+| `src/test/` | `npm test`: bank integrity + "every class gets on-subject content" |
+| `scripts/audit-content.ts` | `npm run audit:content`: rigour checks |
+| `source-material/<subject>/year-<n>/` | Class materials + `_overview.md` (gitignored) |
+| `source-material/_reference/` | AC V9, VCE study designs, HRS scope & sequences (gitignored) |
+
+**Source material isn't in git** and the `Code` folder isn't in OneDrive,
+so everything in `source-material/` exists only on this PC's disk. Back it
+up somewhere. (The old Y7/Y8 Humanities materials stayed on the Mac.)
 
 ---
 
-## To onboard a new subject — your prep checklist
+## Starting a session
 
-The big-payoff actions in order. Skipping later items just means
-lower-quality output, not failure.
+Open Claude Code in `C:\Users\jack.galbraith\Code\hrs_teaching_tools`
+(or in the OneDrive folder — its launch config points here) and paste:
 
-- [ ] **Pick the class.** Plain English name, e.g. "VCE Methods 3-4".
-- [ ] **Find the matching folder** under `source-material/`. It
-  almost certainly already exists.
-- [ ] **Drop everything you have** into that folder: textbook PDFs,
-  revision tasks, chapter NOTES, past tests, SOLUTIONS pairs.
-  Whatever's on your drive. The folder is gitignored, so drop freely.
-- [ ] **Fill in `_overview.md`** in the same folder. The template is
-  already there. Use your Y10 Maths `_overview.md` as the gold
-  standard — that one was 905 lines and made the run smooth. Key
-  sections (skip what you don't have, but the misconceptions list
-  is the single biggest quality lever):
-  - Scope (1–2 paragraphs)
-  - Topic sequence (per topic: key concepts, vocabulary, chapter
-    refs, possible MCQ focus, source-file map, curriculum codes)
-  - Assessment style
-  - Depth expectations (fluent recall / recognise / out of scope)
-  - **Common misconceptions** ← biggest quality lever, these become
-    distractors
-  - Question-generation notes (target count, cognitive spread)
-  - Resource inventory mapping source files to topics
-- [ ] **If any .docx files contain math equations**, save them as
-  PDF first — python-docx loses equations on extract, but pypdf
-  preserves them.
-- [ ] **Open a fresh Claude Code session** in the project directory
-  and paste the bootstrap message below.
-
----
-
-## The bootstrap message (copy-paste this)
-
-Open Claude Code in `~/Desktop/hrs-teaching-tools-main` (this Mac).
-Two versions — use the first to resume/reset context, the second when
-you're onboarding a specific class.
-
-### A. General context reset (paste this to resume the project)
+### A. Resume / general work
 
 ```
-Working directory: ~/Desktop/hrs-teaching-tools-main (my Mac).
-
-Read @WORKLOG.md and @JACK-NOTES.md to load project context — start
-with the most recent session handoff at the top of WORKLOG.md. For
-class onboarding, also read @.claude/skills/onboard-class/SKILL.md.
-
-Quick orientation so you know where things stand:
-- HRS Brain Breaks: React 18 + Vite + TS PWA, 14 brain-break games +
-  Teacher Tools. The active work is the class-onboarding pipeline —
-  anchoring HRS classes with their own question banks.
-- Scope: Year 7–10 only (English, Maths, Science, Humanities,
-  Health & PE = 20 classes). F–2/3–6 bands stay in the app as generic
-  content by design; don't propose removing them.
-- Anchored so far: Year 10 Maths and Year 7 Humanities, both at the
-  full 452 items (302 MCQ + 75 OOO + 75 TL). Check PROGRESS-LOG.md
-  for the live count.
-- git is live (remote: jagaldevs/hrs-teaching-tools, private); commit
-  and push are fine. This is macOS — use python3, not the Windows `py`
-  in older doc examples.
-- source-material/ is gitignored; I drop unit PDFs into
-  source-material/<subject>/year-<n>/ and tell you what's there.
-
-Confirm you've loaded the context and tell me the current
-anchored-class count and what's queued next, then wait for me.
+Read @JACK-NOTES.md and the latest handoff at the top of @WORKLOG.md's
+"Session handoffs" section. The repo is
+C:\Users\jack.galbraith\Code\hrs_teaching_tools on my Windows PC —
+git pull first. Tell me the anchored-class count and what's queued,
+then wait.
 ```
 
-### B. Onboard a class (add this once context is loaded)
+### B. Onboard a class
 
 ```
-Today we're onboarding [CLASS NAME]. Materials are dropped in
-source-material/[path].
+Read @JACK-NOTES.md, @WORKLOG.md (latest handoff) and
+@.claude/skills/onboard-class/SKILL.md.
 
-Run the onboard-class workflow:
-1. Extract the PDFs and draft the _overview.md from them.
-2. Let me review the misconceptions list before you author.
-3. Author 302 MCQ + 75 OOO + 75 TL = 452 items per the overview.
-4. Run the SKILL §5g three-tier rigour audit PLUS the position-balance
-   check (spread correct answers / outliers / lies across all slots).
-5. Verify live in the app, update PROGRESS-LOG.md + the WORKLOG
-   handoff, commit and push.
+Today we're onboarding [CLASS NAME]. Materials are in
+source-material/[subject]/year-[n]/ and reference docs are in
+source-material/_reference/.
 
-Pacing: [mega-batch — push at the end] OR [checkpoint on the first
-unit for my review before the full sweep].
+Run the onboard-class workflow. Stop after drafting _overview.md so I
+can review the misconceptions list. Pacing: [mega-batch] OR
+[checkpoint after the first unit].
 ```
-
-Replace `[CLASS NAME]` and `[path]` with the real values.
-
-**Pacing**: use "mega-batch" for a single-shot run (Y10 Maths). Use
-the checkpoint option for a class in a subject you want to calibrate
-first — that's what we did for Y7 Humanities' first unit.
 
 ---
 
-## Key conventions I follow automatically
+## Your prep checklist for a new class
 
-| Convention | Detail |
-|---|---|
-| **ID prefix** | `y<year>-<subject>-N` (e.g. `y10-math-`, `y8-sci-`) for Y7–Y10; `lp-` / `up-` / `ms-` prefixes for primary/middle generic items |
-| **TL items** | Same prefix + `-tl-` infix (e.g. `y10-tl-math-N`) |
-| **`unit` tag** | No longer used post-scope-reduction. Field still exists on the MCQ type for back-compatibility. |
-| **Math notation** | Unicode for symbols (`²`, `√`, `÷`, `×`, `−`, `π`), ASCII slash for fractions (`1/2`) |
-| **TL `classId` tag** | Required when item belongs to a specific HRS class |
-| **Anchored class default** | 302 MCQ + 75 OOO + 75 TL = 452 items |
-| **Cognitive spread** | 25% recall / 35% procedural / 25% interpretation / 15% misconception |
-| **Rigour checklist** | No `'Only X'`/`'Just X'` distractors; no em-dash on correct option only; length parity within 2.5× ratio |
+- [ ] Drop the class's materials into its folder (unit plans, tests with
+      solutions, slides, key-terms lists, textbook chapters). Bulk is fine.
+- [ ] Drop anything cross-year into `_reference/`: AC V9 for the learning
+      area, the HRS scope & sequence, and the matching VCE study design
+      if it's a Year 9–10 class.
+- [ ] Save equation-heavy Word documents as PDF.
+- [ ] Start a session with message B. Review the overview's
+      **misconceptions list**, because it's the biggest quality lever.
 
 ---
 
-## Important pitfalls
+## Checking quality yourself
 
-These are the ones I burn cycles on if I don't watch for them.
-Full list in `WORKLOG.md §5`.
-
-- **PWA cache** — after content changes, the browser may serve a
-  cached old bundle. Hard-refresh (Ctrl+Shift+R) or DevTools →
-  Application → Service Workers → Unregister.
-- **Working directory** — first thing every session: confirm I'm in
-  `~/Desktop/hrs-teaching-tools-main` (this Mac since 2026-07-02).
-  The `C:\...` paths in historical WORKLOG entries no longer exist.
-- **This machine is macOS** — use `python3`, not the Windows `py`
-  launcher, and read winget/PowerShell snippets in older docs as
-  historical. README has the macOS equivalents.
-- **Math equations in .docx** — python-docx loses them on extract.
-  PDF preserves them via pypdf.
-- **Two Truths items** — every item must have exactly ONE
-  confidently false statement. Verify before shipping.
-- **Helpers vs literal HrsClass** — the `y10()`, `y8()`, `f2()` etc.
-  helpers don't take an `anchored` parameter. To set
-  `anchored: true` on a Y7–Y10 class, switch to a literal HrsClass
-  object (already done for y10-maths; reference if needed).
-- **Question Generator (Teacher Tools) has a broken Y11/Y12
-  picker** — it filters on the removed `unit` tag, so those two
-  buttons yield 0 questions. You chose to leave Teacher Tools
-  alone (2026-07-08); it's a known issue logged in WORKLOG §7.2,
-  not a bug to re-report.
-
----
-
-## Doing the rigour audit yourself
-
-If you ever want to spot-check the banks without my help, the
-SKILL §5g three-tier audit is reproducible with:
-
-**Tier 1 — Only/Just distractors:**
 ```bash
-grep -nE "'(Only |Just )[A-Za-z]" src/data/banks/mcq.ts
+npm test
 ```
 
-**Tier 2 — em-dash on correct option:**
 ```bash
-grep -nE "', '[^']* — " src/data/banks/mcq.ts
+npm run audit:content -- --class y10-maths
 ```
 
-**Tier 3 — length asymmetry (Python script):**
-```python
-import re
-with open('src/data/banks/mcq.ts', 'r', encoding='utf-8') as f:
-    src = f.read()
-pat = re.compile(r"\{ id: '([a-z0-9-]+)', q: '[^']+', choices: \[((?:'[^']+', ?){3}'[^']+')\], answer: (\d)")
-for m in pat.finditer(src):
-    id_ = m.group(1)
-    choices = re.findall(r"'([^']+)'", m.group(2))
-    if len(choices) != 4: continue
-    correct = choices[int(m.group(3))]
-    wrong_max = max(len(c) for i, c in enumerate(choices) if i != int(m.group(3)))
-    ratio = len(correct) / max(wrong_max, 1)
-    if ratio > 2.5:
-        print(f'{id_}: {ratio:.2f}x')
-```
+`npm test` must pass. The audit is heuristic: each finding needs a look,
+and some are legitimate (e.g. a long numeric answer). As of 2026-10-14:
 
-Target: zero hits on all three tiers per anchored class.
+- **Year 10 Maths:** 17 Two Truths lies use "always/only/every" when the
+  truths don't, so they're guessable. Rewrite.
+- **Year 8 Humanities:** 7 "only …" distractors. Rewrite.
+- **Year 7 Humanities:** clean.
+
+Answer position no longer matters: the games shuffle options every round.
 
 ---
 
-## Deeper references (when you want the details)
+## Pitfalls
 
-- **`WORKLOG.md`** — engineering log, every decision and pitfall
-  documented. Read §1 for project orientation, §3 for conventions,
-  §5 for mistakes-not-to-repeat, §7 for open questions.
-- **`.claude/skills/onboard-class/SKILL.md`** — the onboarding
-  workflow I follow step-by-step. Read this if you want to know
-  exactly what I'll do in each phase.
-- **`PLAN-CLASS-FILTER.md`** — historical plan for the class-filter
-  rework. Mostly of historical interest now.
-- **`README.md`** — the public-facing project README.
-
----
-
-## Audit + content status (snapshot as of 2026-06-03)
-
-- **All MCQ banks audit-clean** — both anchored (~600 items) and
-  non-anchored (~1500 items). 0 hits on Only/Just, em-dash, or
-  length-asymmetry >2.5×.
-- **OOO bank** — 22 length-flagged items reviewed, all false
-  positives (length differences reflect natural vocabulary).
-- **TL bank** — 0 hits on language tells or length asymmetry.
-- **No queued follow-ups** from previous WORKLOG sessions. Clean
-  slate.
+- **Stale app after changes:** the PWA caches the old version.
+  Hard-refresh (Ctrl+Shift+R), or DevTools → Application → Service
+  Workers → Unregister.
+- **Git Bash on this PC:** `npm`/`npx` can fail silently there. Use
+  PowerShell.
+- **Don't re-add removed games** (Buzzer Round, Memory Sequence, Flag
+  Flash, Higher or Lower, Spelling Bee, Categories, Equation Match, Map
+  Pin, Landmark Snap, Heads Up, 20 Questions) without deciding to.
 
 ---
 
-## Side note on GitHub privacy
+## GitHub
 
-The repo is **private** (`jagaldevs/hrs-teaching-tools`, confirmed
-2026-07-02 — it was public when this note was first written; keep
-this in mind if you ever flip it back). It contains your full name
-in `About.tsx`
-(intentional) and references your local Windows username and
-OneDrive path in `WORKLOG.md` and the SKILL doc (incidental, in
-historical context). No credentials, no secrets, `.env` is
-gitignored. If you ever want those path leaks scrubbed, ask in a
-new session — it's a 1-commit job to replace with `<username>`
-placeholders in current files.
+`jagaldevs/hrs-teaching-tools` is **private**. This PC pushes with the
+login stored by Git Credential Manager (`gh` isn't logged in, and
+doesn't need to be). The README was removed on purpose on 2026-07-30.
+Old WORKLOG entries mention your Windows username in paths, which is
+harmless while the repo stays private.

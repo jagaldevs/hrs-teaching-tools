@@ -1,732 +1,234 @@
 # Work Log
 
-A living record of decisions, conventions and mistakes-not-to-repeat for
-the HRS Brain Breaks codebase. **Read this before you start changing
-filter logic, banks, or the SetupScreen.** Update it when you make a
-decision worth remembering.
+The engineering log for HRS Brain Breaks: how the code is organised, the
+conventions, the decisions and lessons worth keeping, and a dated handoff
+for every session (last section, newest first). Jack's
+quick reference is `JACK-NOTES.md`; the class-onboarding workflow is
+`.claude/skills/onboard-class/SKILL.md`.
+
+Sections 1–7 describe the code **as it is now** — update them in place
+when it changes. Session handoffs are history: append, don't rewrite.
+(The pre-2026-10-14 versions of §1–7, written for the VCE era, are in
+git history.)
 
 ---
 
-## 1. Project orientation (the 30-second version)
+## 1. Orientation
 
-- React 18 + Vite + TypeScript PWA, dark-first, offline-capable.
-- Two products in one app:
-  - **Brain Breaks** (headline, at `/`) — 14 projector-ready games.
-  - **Teacher Tools** (secondary, at `/tools`) — 25 classroom utilities.
-- Content is **all in `src/data/banks/`**, never fetched. Each game
-  pulls from one or more banks.
-- Source material (HRS PDFs, study designs, term planners) lives in
-  `source-material/` — **gitignored** except for the README and
-  PROGRESS-LOG. Never paste verbatim source material into bank files.
-- The end-game is that every HRS class has a populated `_overview.md`
-  and a corresponding chunk of class-specific brain-break content.
-  We are currently 1/100ish of the way there (VCE Software Dev 3-4
-  done; everything else still on generic AC V9 training-knowledge).
+- React 18 + Vite 5 + TypeScript PWA; dark-first, offline, all state in
+  `localStorage` under `hrs:` keys. No server.
+- **Brain Breaks** (`/`): 14 games. **Teacher Tools** (`/tools`): 25.
+- Content is static TypeScript in `src/data/banks/` — never fetched.
+- Teachers pick a **year band** and a **class** (`src/data/classes.ts`).
+  The three Quick & Energetic games and the Question Generator serve a
+  class's **anchored** items when it has them, otherwise a **generic**
+  AC V9 pool for its stream + subject.
+- Scope: content work targets the 20 Year 7–10 classes. F–6 stays in the
+  app with generic content. VCE is reference material only (removed from
+  the app 2026-06-03; study designs live in `source-material/_reference/vce/`).
+- Repo: `C:\Users\jack.galbraith\Code\hrs_teaching_tools` (Windows PC).
+  Remote `jagaldevs/hrs-teaching-tools` (private).
 
 ## 2. Where things live
 
 | Path | What |
 |---|---|
-| `src/data/games.ts` | Game catalogue (id, name, group, streams, subjects, durationMin). Single source of truth for what each game declares. |
-| `src/data/banks/mcq.ts` | MCQ items. Powers Quick Quiz (and the Question Generator tool). |
-| `src/data/banks/oddOneOut.ts` | Odd-One-Out items. |
-| `src/data/banks/misc.ts` | Estimate It + Two Truths and a Lie + Synonym/Antonym + Would You Rather. Mixed bag because they're all smaller-format. |
-| `src/data/banks/words.ts`, `sentences.ts`, `stories.ts`, `hass.ts`, `sightWords.ts` | Other specialised banks. |
-| `src/games/types.ts` | `Subject` union, `SUBJECTS` list, `SUBJECT_COLOURS`, `Bank<Q>`, `MCQ`, `OddItem`. |
-| `src/games/GameShell.tsx` | `<GameShell>` wrapper + `<SetupScreen>` (the stream/subject/count picker). |
-| `src/games/bankUtils.ts` | `pickFromBank()` (filters stream/subject) and `unitFilterFor()` (filters by senior unit group). |
-| `src/games/<Game>.tsx` | Each game file. |
-| `src/pages/BrainBreaks.tsx` | The landing page with the filter chip strip. **Has its own `Subject` union and SUBJECTS list — keep them in sync with `types.ts`.** |
-| `scaffold_overviews.py` | One-off script that drops `_overview.md` templates into every leaf folder under `source-material/`. |
-| `source-material/` | Gitignored. HRS-specific content. Hierarchy: subject → year/unit → `_overview.md` + optional PDFs. |
+| `src/data/classes.ts` | `YEAR_BANDS`, `BAND_TO_STREAM`, `HRS_CLASSES` (28: 8 primary + 20 Y7–10), `isSelectable()`, class helpers `f2/p36/y7–y10(…, extra)` |
+| `src/data/games.ts` | Game registry (id, group, streams, subjects) + legacy `Stream` type |
+| `src/data/banks/mcq.ts` | `MCQ_BANK` — generic `byStreamSubject` + anchored `byClass` |
+| `src/data/banks/oddOneOut.ts` | `ODD_BANK`, same shape |
+| `src/data/banks/misc.ts` | `TRUTHS` (Two Truths, keyed by stream; class items carry `classId`), `ESTIMATE`, `SYN_ANT`, `WYR` |
+| `src/data/banks/hass.ts` · `words.ts` · `sentences.ts` · `stories.ts` | Timeline / Who Am I · word games · tools |
+| `src/games/bankUtils.ts` | `pickFromClass`, `classPool`, `shuffleOptions` |
+| `src/games/ClassPicker.tsx` | `<ClassPicker>` + `useClassSelection()` — shared by `SetupScreen` and the Question Generator |
+| `src/games/GameShell.tsx` | `<GameShell>` chrome + `<SetupScreen>` (band/class/count → `SetupSelections`) |
+| `src/games/registry.ts` · `src/tools/registry.ts` | id → lazy component |
+| `src/test/*.test.ts` | Vitest: bank integrity, class wiring, `shuffleOptions` |
+| `scripts/audit-content.ts` | `npm run audit:content` rigour heuristics |
+| `scaffold_overviews.py` | Creates `_overview.md` templates for the 20 Y7–10 class folders |
+| `source-material/` | Gitignored teaching materials: `<subject>/year-<n>/` per class, `_reference/{ac-v9,vce,hrs}/` cross-class |
 
 ## 3. Conventions
 
-### 3.1 Subject taxonomy
+### 3.1 Classes and selection
 
-Defined in three places that must stay in sync:
+- A class is **anchored** when `anchored: true` and the banks have
+  `byClass[id]` items — `npm test` checks the two agree. Set it with the
+  helper's `extra` arg: `y8('y8-science', …, { anchored: true })`.
+- A class is **selectable** (shown in pickers) when it's anchored or its
+  subject has a generic pool (`isSelectable`). Health & PE (`general`)
+  is hidden until anchored.
+- `pickFromClass(bank, classId, n)`: anchored items first, topped up
+  from the generic pool (`legacyStream` × `backfillSubjects ?? [subject]`).
+  **No random-mix fallback** — that's what once served science questions
+  to Health & PE. Humanities classes set `backfillSubjects:
+  ['history', 'geography']` via the `HUM` constant.
+- Two Truths: class items are `TRUTHS[legacyStream]` entries with
+  `classId`; a class with none gets the stream's generic items with a
+  visible "General knowledge" chip (generic TL items are deliberately
+  cross-subject, so they can't be subject-filtered).
 
-1. `src/games/types.ts` — `Subject` union, `SUBJECTS` list, `SUBJECT_COLOURS`.
-2. `src/pages/BrainBreaks.tsx` — local `Subject` union + `SUBJECTS` list (used by the landing-page filter chips).
-3. `src/data/games.ts` — `Game.subjects` union in the `Game` interface, and each game's `subjects: [...]` array.
+### 3.2 Subjects
 
-Current subjects + colours:
+`Subject` = english · maths · history · geography · science · general,
+defined in `src/games/types.ts` (`SUBJECTS`, `SUBJECT_COLOURS`) and
+mirrored in the `Game.subjects` union in `src/data/games.ts`. Adding one
+means updating both, plus `GENERIC_SUBJECTS` in `classes.ts` if it gets a
+generic pool.
 
-| Subject | Colour | Used in |
-|---|---|---|
-| english | `#E6007E` (HRS pink) | English-stream games |
-| maths | `#0EA5E9` (sky blue) | Maths games |
-| history | `#F59E0B` (amber) | HASS games |
-| geography | `#10B981` (emerald) | HASS games |
-| science | `#A855F7` (violet) | Science games |
-| computing | `#14B8A6` (teal) | VCE Software Dev 3-4 (added Jun 2026) |
-| general | `#6B7280` (slate) | Whole-class items with no subject home |
-
-### 3.2 Class taxonomy (current model)
-
-The project switched from AC V9 streams to per-HRS-class targeting
-on 2026-06-02 (commits b306dd8 → 6f338bc). See `src/data/classes.ts`.
-
-- **Year bands** (`YearBand`): `f-2 | 3-6 | y7 | y8 | y9 | y10 | vce-1-2 | vce-3-4`.
-- **HRS classes** (`HRS_CLASSES`): 114 entries, one per leaf under
-  `source-material/`. Each carries id, name, subject, sourcePath,
-  optional `anchored` flag, `legacyStream` (for backfill), and
-  `legacyUnits` (for VCE classes — narrows the MCQ legacy pool to
-  the right unit tags).
-- The **legacy `Stream` type** still exists on `Game.streams` and
-  inside `Bank.byStreamSubject` for backfill — it's not user-facing.
-
-User-facing pickers (landing page + SetupScreen):
-- **Year band** (single-select on SetupScreen, multi-select on landing)
-- **Class** (single-select on SetupScreen, multi-select on landing)
-- The Subject chip strip is gone — class implicitly carries subject.
-
-### 3.3 Senior unit tagging (still relevant)
-
-MCQ items can carry `unit: 1 | 2 | 3 | 4`. The narrowing now happens
-implicitly via the `HrsClass.legacyUnits` field — when a teacher
-picks a `vce-3-4` class, `pickFromClass` filters legacy backfill to
-items with `unit: 3` or `4`. The "Senior cohort" chip strip on
-SetupScreen is gone (`showSeniorUnits` prop removed).
-
-### 3.4 ID naming for bank items
-
-Existing convention (don't fight it without reason):
-
-- Stream prefix: `lp` / `up` / `ms` / `ss`
-- Subject letter: `e`/`m`/`h`/`g`/`s` (or full word for new subjects, e.g. `comp`)
-- Game prefix where the bank is multi-game: `tl` (truths-lie), `est` (estimate), `sa` (syn-ant), `wyr` (would-you-rather)
-- Sequential number
-
-Examples in the wild:
-- `lp-e-7` — Lower Primary English MCQ #7
-- `ss-comp-42` — Senior Computing MCQ #42 (added Jun 2026)
-- `ms-tl-3` — Middle School Truths-Lie item #3
-- `ss-tl-comp-15` — Senior Truths-Lie item, computing-flavoured, #15
-
-When you add a new class-specific batch, **use a discriminator in the
-id** (like `comp-`) so they're easy to grep and update later.
-
-### 3.5 Bank entry shapes
+### 3.3 Bank item shapes
 
 ```ts
-// MCQ (mcq.ts) — serves Quick Quiz, Buzzer Round, Question Generator
-{ id, q, choices: [4], answer: 0..3, explanation, acCode?, unit?: 1|2|3|4 }
-
-// OddItem (oddOneOut.ts)
-{ id, items: [4], outlier: 0..3, explanation, acCode? }
-
-// TruthsLieItem (misc.ts) — Two Truths and a Lie
-{ id, statements: [3], lie: 0|1|2, explanation, subject?: Subject, classId?: string }
+MCQ          { id, q, choices: [4], answer: 0–3, explanation?, acCode? }
+OddItem      { id, items: [4], outlier: 0–3, explanation?, acCode? }
+TruthsLieItem{ id, statements: [3], lie: 0–2, explanation, subject?, classId? }
 ```
 
-Bank<Q> has two indices:
-- `byStreamSubject` — legacy AC V9 pool (used as backfill).
-- `byClass` — HRS-anchored content keyed by `HrsClass.id`. Preferred
-  source when the user picks a specific class.
-
-`pickFromClass(bank, classId, count)` is the canonical lookup — it
-pulls anchored items first, tops up from legacy via the class's
-`legacyStream` + `subject` + `legacyUnits`.
-
-`TruthsLieItem` carries the class tag on the item itself (rather
-than living in `Bank.byClass`) because TRUTHS is a
-`Record<Stream, TruthsLieItem[]>`. The TwoTruthsLie game filters
-items by `classId` at start-time.
-
-### 3.6 SetupScreen prop wiring
-
-Every game's `<SetupScreen>` call **must pass `gameId={"..."}`** so
-the year-band picker narrows to the bands the game supports (via
-`Game.streams` → year-band mapping). Forgetting this prop falls back
-to all 8 bands and all 114 classes.
-
-`SetupSelections` is `{ classId, stream, count }` — `stream` is a
-derived convenience field (from `findClass(classId).legacyStream`).
-Games that only ever needed `sel.stream` keep working unchanged.
-
-Removed props (don't pass these — they're gone):
-- `showSubject` — there's no Subject row any more
-- `showSeniorUnits` — Senior cohort is folded into year band
-
-### 3.7 Commit messages
-
-- Subject line ≤72 chars, imperative ("Add X", "Fix Y", not "Adding X").
-- Body explains **why**, not just what — especially for behavioural changes.
-- Always include a `Co-Authored-By: Claude <model> <noreply@anthropic.com>`
-  trailer naming whichever Claude model wrote the code (Opus 4.7
-  historically; Fable 5 as of Jul 2026).
-
-### 3.8 Markdown template strings
-
-`scaffold_overviews.py` uses an en-dash (`–`) in headings. The print
-statement uses `->` (ASCII) to avoid Windows console
-`UnicodeEncodeError`. **Keep file content as en-dash; keep terminal
-output as ASCII.**
-
-## 4. Architectural decisions worth remembering
-
-### 4.1 Why MCQ_BANK serves both Quick Quiz and Buzzer Round
-
-Same content shape (4-choice question + correct answer + explanation),
-same filtering (stream + subject + senior unit), different presentation
-(self-paced vs team buzzer). Splitting the bank would double the
-maintenance burden for the same items. If you ever need
-buzzer-specific items, add a `buzzerOnly?: boolean` tag rather than
-forking the bank.
-
-**Update 2026-07-09:** Buzzer Round was removed at Jack's direction
-(see §4.6). No content was lost — the bank now powers Quick Quiz and
-the Question Generator tool, and the shared-bank rationale stands
-for any future MCQ-driven game.
-
-### 4.2 Why TruthsLieItem has `subject` as a property, but MCQ doesn't
-
-The TRUTHS export is `Record<Stream, TruthsLieItem[]>` — keyed only
-by stream. Adding subject filtering meant tagging items individually
-rather than restructuring the whole bank into `Record<Stream, Record<Subject, []>>`.
-The structural approach (used by `MCQ_BANK` and `ODD_BANK`) is
-cleaner long-term — consider migrating TRUTHS if class-specific
-filtering grows.
-
-### 4.3 Why the silent fallback in `pickFromBank` exists
-
-When a teacher selects English at a stream that has no English items,
-`pickFromBank` falls back to "mix" so the start button doesn't silently
-do nothing. Good UX for the "mix" path. **Bad UX when the user
-specifically wanted a subject and got something else** — see §5.2.
-
-### 4.4 Why we read the VCAA study design instead of the textbook
-
-The 371MB Software Development textbook PDF (`Software Development VCE
-Units 3&4 2025.pdf`) was skipped during the SD3-4 question authoring.
-The 800KB study design alone is canonical and exhaustive for the
-examinable scope; the textbook just elaborates with examples. For
-brain-break-level questions (recall + recognition), the study design
-is enough. **Only reach for the textbook when a specific item needs
-elaboration the study design doesn't cover.**
-
-### 4.5 Why `gameId` instead of a per-game `availableStreams` prop
-
-Each game already declares its supported streams + subjects in
-`games.ts`. Duplicating them in the SetupScreen call sites would
-create two sources of truth that drift. `gameId` lets SetupScreen
-look up the canonical definition from the registry.
-
-### 4.6 Why we removed games (Higher or Lower, Spelling Bee, Categories, Equation Match, Map Pin, Landmark Snap)
-
-All six were removed in 2026 based on teacher feedback at HRS. Some
-were confusing (Higher or Lower converted out-of-context metrics);
-some needed engines we didn't have (Map Pin's SVG renderer); some
-relied on assets we couldn't source (Landmark Snap's photo bank).
-**Do not re-add these without checking with Jack first.**
-
-**Update 2026-07-09: Buzzer Round and Memory Sequence also removed**
-at Jack's direction (17 → 15 games). Buzzer Round cost no content —
-it shared MCQ_BANK with Quick Quiz. Memory Sequence was fully
-self-contained (inline TILES). The Quick & Energetic group is now
-three games (Quick Quiz, Odd One Out, Two Truths and a Lie). Same
-rule applies: do not re-add without Jack.
-
-**Update 2026-07-12: Flag Flash also removed** at Jack's direction
-(15 → 14 games). Its `FLAGS` bank + `FlagItem` type in `hass.ts` fed
-only this game and were deleted with it (recoverable from git
-history). In the same change, **Who Am I? moved from History &
-Geography to Whole-Class Energiser** (`group: 'whole-class'`), so
-the HASS group is Timeline Order alone — the landing section counter
-now pluralises ("1 game"). Same rule applies: do not re-add
-without Jack.
-
-## 5. Mistakes we made — don't repeat
-
-### 5.1 Forgetting to pass `gameId` to SetupScreen (Jun 2026)
-
-**Symptom:** Two Truths and a Lie showed Lower Primary content
-(`lp-tl-5`: "Kangaroos hop / Snowmen / Rain is made of milk") when
-the teacher had selected the Computing filter and clicked into the
-game.
-
-**Cause:** `<SetupScreen>` defaulted `availableStreams` to all four
-streams regardless of what the game declared in `games.ts`. Persisted
-state from a previous session (or just the default first option)
-served Lower Primary. With no Computing-tagged items at Lower Primary
-and a silent fallback, the game served all the Lower Primary truths.
-
-**Fix:** Added `gameId` prop to SetupScreen that pulls streams +
-subjects from the game registry. Wired it on all 16 game call sites.
-
-**Lesson:** When you add a new game OR a new subject, double-check
-that:
-1. The Game entry in `games.ts` lists every applicable stream + subject.
-2. The SetupScreen call passes `gameId="..."`.
-3. The bank actually contains items for every (stream × subject) combo the Game declares.
-
-### 5.2 Silent fallback hiding wrong-content surprises (Jun 2026)
-
-**Symptom:** Same as 5.1 — user picked Computing, got Lower Primary
-animal trivia.
-
-**Cause:** Both `pickFromBank` (for MCQ/Odd) and the inline filter in
-TwoTruthsLie used a "fall back to the unfiltered pool if subject yields
-zero" pattern. Friendly for "mix" but misleading for specific picks.
-
-**Fix:** TwoTruthsLie now refuses to start and shows a `startError`
-when a specific subject yields zero items (matching QuickQuiz's
-pattern). `pickFromBank` still has the silent fallback — that's
-acceptable for Quick Quiz / Buzzer Round / Odd One Out because
-QuickQuiz already surfaces an empty pool as an error.
-
-**Lesson:** **Silent fallbacks should only kick in for "mix" selections.**
-For specific subject picks, surface the empty state explicitly.
-
-### 5.3 The textbook PDF is 371MB (Jun 2026)
-
-**Symptom:** Almost tried to read it page-by-page.
-
-**Cause:** No size sanity check before opening a source-material PDF.
-
-**Lesson:** Run `ls -la` on the source-material folder first. Anything
-over ~5MB probably needs the study design first, with the textbook as
-a fallback for specific gaps. Reading large PDFs sequentially burns
-context for no benefit when the study design is canonical anyway.
-
-### 5.4 Editing a file without reading it first (Jun 2026)
-
-**Symptom:** Repeated `InputValidationError`-style errors when sending
-a batch of 13 Edits across game files. Only the files I'd Read in the
-same session went through.
-
-**Cause:** Grep doesn't count as a Read for the Edit tool's tracking.
-
-**Lesson:** Either Read each file before editing, or batch Reads
-explicitly in the same message as the Edits. Don't rely on Grep to
-satisfy the Read prerequisite.
-
-### 5.5 Ambiguous Two Truths item in the original middle-school batch
-
-**Symptom:** `ms-tl-5` has a comment in the code noting "all three are
-true — replace when authoring further".
-
-**Cause:** Authoring drift — the "Cleopatra closer to Moon landing than
-Pyramid" gotcha is true, making it not a lie at all.
-
-**Lesson:** Every TruthsLieItem needs **exactly one** confidently
-false statement. Verify each one before committing. Two-and-a-Truth
-or All-Three-True items break the game.
-
-### 5.6 Class-filter rework: PWA cache made the previous fix appear broken (Jun 2026)
-
-**Symptom:** After commit 9a9fec9 ("SetupScreen: derive streams +
-subjects from game registry"), Jack screenshotted Two Truths still
-showing Lower Primary chips with full bell. The code on main was
-correct.
-
-**Cause:** Vite PWA service worker served the previously-cached
-bundle. Hard-refresh / SW unregister required to see the new code.
-
-**Lesson:** When confirming a UI change, always check whether the
-running bundle is the latest. Tell the user how to bypass the SW:
-hard-refresh (Ctrl+Shift+R), DevTools → Application → Service
-Workers → Unregister, or open in incognito. The fix isn't "do the
-change again differently" — it's "force the browser to load the
-new bundle".
-
-### 5.8 The "skip textbooks >5MB" rule has a nuance (Jun 2026)
-
-**Symptom:** During VCE Sociology 3-4 onboarding, I skipped the 19MB
-textbook per Step 1 of the onboard-class skill ("Skip unless < 5MB").
-Jack asked "did you use the textbook at all?" — I had to admit no.
-The first 200-item batch was anchored only to the study design + two
-exams, and missed specific case-study detail (K'gari, Australian
-Men's Shed, Keysborough CFA, Sunrise Movement) that the textbook
-elaborates richly.
-
-**Cause:** The size rule treats "can't be cleanly Read" as "shouldn't
-be consulted at all". For revision-style brain-break content, the
-study design IS canonical for scope; the textbook adds named case
-studies that make MCQ stems vivid and exam-faithful. Worth the cost.
-
-**Fix:** Used `py -m pip install pypdf` then a one-liner to extract
-the whole PDF to a `textbook-extracted.txt` file in the same folder
-(gitignored). After that, Grep + targeted Reads gave fast access to
-exactly the sections needed (revision questions per AOS, then the
-named case studies). Authored a second batch of 100 MCQs anchored to
-that specific detail, bringing Sociology to 450 items total.
-
-**Lesson:** If a textbook PDF is too big for Read, **don't skip it —
-extract it**. The pypdf workaround:
-
-```powershell
-py -c "import pypdf; r = pypdf.PdfReader(r'<path>.pdf'); open(r'<same-folder>\textbook-extracted.txt','w',encoding='utf-8').write('\n'.join(f'=== PAGE {i+1} ===\n' + p.extract_text() for i,p in enumerate(r.pages)))"
-```
-
-Then Grep the extracted text for terms, Read the matching offsets.
-The skill's Step 1 now points at this workaround.
-
-### 5.10 The "obvious-answer" anti-pattern audit (Jun 2026)
-
-**Symptom:** Jack asked "I'm concerned about the rigour... many
-answers are just obvious." Audit found ~60+ items across Sociology
-AND SD3-4 with one or more obvious-answer tells.
-
-**Root anti-patterns:**
-1. **"Only X" distractors** — the correct option was always the
-   non-"Only" one (e.g. ss-comp-45's "Only the user interface"
-   alongside the only comprehensive option)
-2. **Em-dash explanations on the correct option only** — the right
-   answer carried " — explanation" that distractors did not
-   (rampant in the Sunrise textbook-anchored batch)
-3. **Joke distractors** — e.g. ss-soc-291 originally had
-   "Coca-Cola and Pepsi" as a Sunrise-funder distractor; ss-comp-51
-   had "Programmer jokes" as a data-dictionary contents distractor
-4. **Telegraphed stems** — "as the textbook quotes:" with only one
-   quoted option (ss-soc-290)
-
-**Fix:** Established a 6-point rigour checklist in SKILL §5g. Did
-two rewrite passes:
-- Sociology: 44 items rewritten (commit `dceb249`)
-- SD3-4: ~13 worst offenders rewritten (commit pending)
-
-**Lesson:** Apply the checklist on the way IN. The grep commands
-in SKILL §5g (looking for `'Only `, `'Just `, em-dash patterns)
-find most failures in seconds. Don't ship a batch without running
-them.
-
-### 5.11 OCR workflow for scanned textbooks (Jun 2026)
-
-**Symptom:** The SD3-4 "textbook" PDF is 371MB and pypdf extracted
-zero text from any page. Turned out to be an image-only scanned PDF.
-Tried Read tool — refused (100MB limit, file is 371MB).
-
-**Fix:** Installed the OCR toolchain via:
-```powershell
-winget install -e --id UB-Mannheim.TesseractOCR --silent
-py -m pip install pytesseract PyMuPDF --quiet
-```
-
-Tesseract installs to `%LOCALAPPDATA%\Programs\Tesseract-OCR\` — no
-admin/UAC needed for the UB-Mannheim build. PyMuPDF (fitz) handles
-PDF rasterisation without needing Poppler.
-
-OCR script (using fitz + pytesseract at 200 DPI):
-
-```python
-import fitz, pytesseract, io
-from PIL import Image
-pytesseract.pytesseract.tesseract_cmd = r'%LOCALAPPDATA%\Programs\Tesseract-OCR\tesseract.exe'
-doc = fitz.open('input.pdf')
-with open('textbook-extracted.txt', 'w', encoding='utf-8') as f:
-    for i, page in enumerate(doc):
-        pix = page.get_pixmap(dpi=200)
-        img = Image.open(io.BytesIO(pix.tobytes('png')))
-        f.write(f'=== PAGE {i+1} ===\n{pytesseract.image_to_string(img, lang="eng")}\n')
-```
-
-Performance: ~3-5 sec per page on this machine (334 pages → ~25 min).
-Quality: clean prose; tables and code blocks get some OCR noise but
-remain Greppable. Output for SD3-4: 24,368 lines from 334 pages.
-
-**Lesson:** Before assuming a textbook is unreadable, check whether
-it's image-only or text-embedded. The pypdf one-liner from §5.8 is
-fast; if it produces empty pages, switch to the OCR pipeline above.
-
-### 5.12 The 5-commit rigour audit (Jun 3 2026)
-
-**Symptom:** Jack pushed back on bank quality with "many answers are
-just obvious" and asked for a full rigour pass. §5.10 captured the
-first two commits (57 items). This entry covers the full picture
-after the complete audit landed.
-
-**Anti-patterns swept for (full list):**
-1. `'Only X'` / `'Just X'` distractors (the "rule out the verbose
-   short option" tell)
-2. Em-dash explanations exclusively on the correct option
-3. Joke distractors (Coca-Cola as a Sunrise funder, "Stock market
-   trading" as a Sunrise School subject, "Programmer jokes" as data
-   dictionary contents)
-4. Telegraphed stems ("as the textbook quotes:" with only one
-   quoted option)
-5. **Length asymmetry — correct option more than 2.5x the longest
-   distractor.** This is the one easy greps don't find; needs a
-   script.
-
-**Quantification script (lives nowhere — re-run as needed):**
-
-```python
-import re
-with open('src/data/banks/mcq.ts', 'r', encoding='utf-8') as f:
-    src = f.read()
-pat = re.compile(r"\{ id: '(ss-(?:soc|comp)-\d+)', q: '[^']+', choices: \[((?:'[^']+', ?){3}'[^']+')\], answer: (\d)")
-for m in pat.finditer(src):
-    id_, choices_str, ans = m.group(1), m.group(2), int(m.group(3))
-    choices = re.findall(r"'([^']+)'", choices_str)
-    if len(choices) != 4: continue
-    correct = choices[ans]
-    wrong_max = max(len(c) for i, c in enumerate(choices) if i != ans)
-    ratio = len(correct) / max(wrong_max, 1)
-    if ratio > 2.5:
-        print(f'{id_}: {ratio:.1f}x ({len(correct)}c vs {wrong_max}c)')
-```
-
-**Commits (6 total this session):**
-- `ba3326f` — Sociology textbook batch 2 (+100 items)
-- `da761d2` — WORKLOG + SKILL refresh
-- `dceb249` — Sociology rigour pass #1 (44 items, "Only X" + em-dash)
-- `aa527c7` — SD3-4 rigour pass #1 (13 items, joke distractors)
-- `cb97519` — Cross-cutting pass (23 items, mixed)
-- `69ef07d`, `fc4c553`, `051e129` — Length-asymmetry passes (72 items
-  across three commits, all >2.5x violations)
-- `76c6529` — Landing filter removal
-
-**Total rewritten this session: ~152 of 500 anchored MCQs.**
-
-**Final audit state (post commit `051e129`):**
-- 0 items at >3.0x length asymmetry
-- 0 items at >2.5x length asymmetry
-- 5 remaining `'Only X'` hits, all manually verified as legitimate
-  technical claims (e.g. `'Only the class that declares it'` IS
-  the correct answer for `private` access modifier)
-- ~120 items at 1.5–2.5x soft asymmetry remain. Not telegraphing
-  (distractors are plausible misconceptions) but technically still
-  visible to a length-counting student. Acceptable.
-
-**Lesson:** Three-tier audit discipline. (1) Grep for `'Only ` and
-`'Just ` distractors. (2) Grep for em-dash patterns in choices.
-(3) Run the Python length-asymmetry script above. The first two
-catch ~30% of failures fast; the script is the only way to find
-the rest. **Bake the script into SKILL §5g** (TODO this session —
-done in commit pending).
-
-### 5.13 Landing filter removed (Jun 3 2026)
-
-**Symptom:** Jack: "The filter section on the home page needs to
-go, it doesn't really achieve anything due to the fact the selecting
-an activity means you need to filter a second time."
-
-**Cause:** The landing-page year-band + class chip strip was added
-during the class-filter rework (commit `c95ff68`, see §3.2) on the
-assumption it would narrow the visible game cards AND pre-seed the
-SetupScreen for the chosen game. The first part worked but mostly
-just hid cards the teacher wasn't choosing from anyway; the second
-part was redundant because SetupScreen already has its own picker
-with sensible defaults.
-
-**Fix:** Commit `76c6529` removes the entire filter section
-(year-band chips, class chips, clear button, empty state, the
-"X games match" counter). The Surprise Me button now picks from
-all 17 games. Subhead updated to "Pick one — then choose your
-class on the next screen."
-
-**Orphaned localStorage keys** (harmless, no migration needed):
-- `brainbreaks.filters.yearBands`
-- `brainbreaks.filters.classes`
-- `brainbreaks.lastClass` — was a hint from landing to SetupScreen;
-  the read path in `GameShell.tsx:143` still exists as dead-but-safe
-  code. SetupScreen falls back to its other defaults (per-game
-  persisted key → anchored-class scan → first available).
-
-**Lesson:** When a UI element exists to reduce clicks, check whether
-the destination it routes to actually USES the choice. If the next
-screen makes you re-decide, the earlier picker isn't saving work —
-it's adding it.
-
-### 5.9 Class onboarding "second batch" is now a deliberate pattern (Jun 2026)
-
-**What:** The full anchored class pool is now:
-- Batch 1: 200 MCQ from study design + exams (study-design-faithful)
-- Batch 2: 100 MCQ from textbook case studies (case-study-anchored)
-- 75 OOO + 75 TL alongside
-- Total: **450 items per anchored class**
-
-SD3-4 and Sociology 3-4 are both at this distribution. Use it as the
-default for future VCE 3-4 classes — see SKILL §5b for the workflow.
-
-### 5.7 Lost the working directory between sessions
-
-**Symptom:** Tried to work from `C:\Users\jack.galbraith\OneDrive –
-Haileybury\Desktop\hrs_teaching_tools` (only contains .claude/) instead
-of `C:\Users\jack.galbraith\Code\hrs_teaching_tools` (the actual repo).
-
-**Cause:** Stale CWD assumption.
-
-**Lesson:** First action of any fresh session: `pwd` + `ls`. If the
-folder is suspiciously empty, the real project is at
-`C:\Users\jack.galbraith\Code\hrs_teaching_tools`.
-
-**Update 2026-07-02:** the project moved to Jack's Mac. The real
-project is now `~/Desktop/hrs-teaching-tools-main`; the `C:\...`
-paths above are historical.
-
-## 6. Recipe: adding a new HRS-class subject end-to-end
-
-> **There is a project skill for this.** Read
-> `.claude/skills/onboard-class/SKILL.md` first — it captures the
-> SD3-4 playbook in full and triggers automatically when the user
-> asks to onboard a new class. The summary below is a quick
-> pointer; the skill is the source of truth.
-
-(Tested against the VCE Software Development 3-4 rollout, Jun 2026.)
-
-### Step 1: Decide the subject id and surface
-
-- Pick a short, lowercase id (`computing`, `methods`, `biology`).
-- Pick a colour from the Tailwind 500 range that doesn't clash with existing chips.
-
-### Step 2: Wire the subject into the type system
-
-1. `src/games/types.ts`:
-   - Add to `Subject` union.
-   - Add to `SUBJECTS` list (label).
-   - Add to `SUBJECT_COLOURS`.
-2. `src/pages/BrainBreaks.tsx`:
-   - Add to local `Subject` union.
-   - Add to local `SUBJECTS` list (with colour).
-3. `src/data/games.ts`:
-   - Add to `Game.subjects` union in the `Game` interface.
-   - Add the new subject to the `subjects: [...]` array of every game that should serve it. Be conservative — only games whose banks will actually contain items for this subject at this stream.
-
-### Step 3: Drop source material
-
-1. Put PDFs in `source-material/<area>/<class>/`.
-2. Run `python3 scaffold_overviews.py` (`py` on Windows) if the folder doesn't have an `_overview.md` yet.
-3. Open the `_overview.md` and fill it in from the source PDFs. The
-   overview drives all subsequent content authoring — invest here.
-
-### Step 4: Author the content
-
-For each game type:
-
-- **Quick Quiz + Buzzer Round** (`mcq.ts`): add a `SENIOR_<NAME>: MCQ[] = [...]` constant; register it in `MCQ_BANK.byStreamSubject.<stream>.<subject>`.
-- **Odd One Out** (`oddOneOut.ts`): same pattern, `ODD_BANK`.
-- **Two Truths** (`misc.ts`): append to `TRUTHS.<stream>` array, each item tagged with `subject: '<your-subject>'`.
-
-Tag every item with the appropriate `unit: 1|2|3|4` if it's a senior VCE item.
-
-### Step 5: Verify
-
-```bash
-npx tsc --noEmit
-grep -c "id: '<your-id-prefix>" src/data/banks/mcq.ts src/data/banks/oddOneOut.ts
-```
-
-### Step 6: Commit + push
-
-One commit for type/UI wiring + first batch of content. Use the
-template from §3.7.
-
-### Step 7: Update this worklog
-
-If you hit something new or surprising, document it in §5.
-
-## 7. Open questions / deferred decisions
-
-### ~~7.1 The big one: stream taxonomy is too coarse~~ ✅ RESOLVED 2026-06-02
-
-Resolved by the class-filter rework (`PLAN-CLASS-FILTER.md` →
-commits b306dd8 through 6f338bc). The four AC V9 streams are gone
-from user-facing UI; `src/data/classes.ts` is the single source of
-truth with 114 HRS classes. See §3.2 for the current model.
-
-### 7.2 Question Generator still uses the legacy stream/subject UI
-
-`src/tools/rng/QuestionGenerator.tsx` (a Teacher Tool, not a Brain
-Break game) still renders Stream + Subject + Unit-group pickers and
-calls `pickFromBank` directly. It works because the legacy
-`byStreamSubject` index is still populated for generic content,
-but it doesn't know about the new `byClass` index — so anchored
-items (Y10 Maths) are invisible to it. Migrate to `pickFromClass`
-and a year-band + class UI when it next needs a touch.
-
-**Update 2026-07-08:** its "Senior cohort" Y11/Y12 picker is
-**actively broken** post-VCE-removal — it filters on the MCQ `unit`
-tag, which no longer exists on any item, so selecting Y11 or Y12
-yields 0 questions. Jack chose to leave Teacher Tools entirely
-alone in the Y7–10 scope cleanup, so this is a KNOWN ISSUE, not an
-oversight. Fold the fix into the eventual pickFromClass migration.
-
-### 7.3 Many class folders still have empty `_overview.md`s
-
-114 classes × 1 overview each = 114 overview files. Currently 1 is
-filled in (vce-software-development-3-4). The other 113 still
-contain the template. Per-class authoring is the long-term work —
-see §6 recipe.
-
-### 7.4 Next class to onboard
-
-**Scope reduction 2026-06-03 (commit `3cd12b7`)**: VCE Units 1-2 and
-3-4 were removed entirely. Project scope is now Foundation – Year 10.
-SD3-4 and Sociology 3-4 content (~700 items) were deleted along with
-the VCE classes, year bands, and `vce12()`/`vce34()` helpers. Their
-historical authoring is preserved in the §5/§5.x entries above as
-project record but no longer ships.
-
-**One class is HRS-anchored** at the full 450-item distribution:
-- **Year 10 Maths** (302 MCQ + 75 OOO + 75 TL = 452, commit `17ae225`)
-  — uses `y10-math-N` ID prefix, no `unit` tag per SKILL §6,
-  Unicode-for-symbols-ASCII-for-fractions notation matching existing
-  `ms-m-*` / `lp-m-*` items.
-
-The remaining ~75 entries in `HRS_CLASSES` (down from 114 after the
-scope reduction) rely on generic AC V9 backfill. **No specific class
-is queued next** — confirm the target with Jack at the start of any
-new onboarding session. Likely candidates based on teaching-staff
-interest: other Y10 subjects (English, Science, Humanities), Y9
-electives (CodeCraft has a `subject: 'computing'` tag that needs
-content authoring), or Y7-9 cores.
-
-### 7.6 Out-of-scope follow-ups identified Jun 3 2026
-
-The rigour audit (§5.12) and textbook OCR (§5.11) opened up three
-adjacent work streams that did NOT get done this session:
-
-1. ~~**SD3-4 textbook-anchored batch 2.**~~ ✅ DONE 2026-06-03
-   (commit `93734a5`). Authored `ss-comp-201..300` from the OCR'd
-   textbook (`source-material/technology/software-development-3-4/textbook-extracted.txt`),
-   25 items per AOS, anchored to specific named case studies
-   (WannaCry, Apache Subversion, Adem's gym brief, Jane persona,
-   GitHub Copilot/Codex, Essential Eight) and page-referenced
-   textbook facts. Three-tier rigour audit (§5g) clean: 0 hits on
-   Only/Just, 1 em-dash hit found + fixed, 0 length-asymmetry
-   violations >2.5x. SD3-4 now matches Sociology at 450 items.
-
-2. ~~**Non-anchored bank rigour audit.**~~ ✅ DONE 2026-06-03.
-   Ran SKILL §5g three-tier audit against all non-anchored MCQs
-   (filtering out ss-comp-, ss-soc-, y10-math- prefixes). Found
-   15 Tier 1 hits (Only/Just distractors, especially the triple-
-   "Only" anti-pattern where 3 distractors all start with "Only"
-   and the correct answer is the comprehensive option), 0 Tier 2
-   hits (em-dash), and 23 Tier 3 hits (length asymmetry >2.5×).
-   With overlap: **35 unique items rewritten**. After the pass:
-   0 hits on all three tiers across the entire non-anchored pool.
-   The triple-"Only" pattern was the most common across primary
-   science and senior geography items.
-
-3. ~~**Formal OOO + Two Truths audit.**~~ ✅ DONE 2026-06-03.
-   - **OOO**: ran length-asymmetry script against `oddOneOut.ts`.
-     22 items flagged, but all are **false positives** — the
-     length differences reflect the natural vocabulary of each
-     category (e.g. "photo" vs "great-grandparent" in a family
-     OOO; "Prime Minister" vs ancient titles "Pope/Pharaoh").
-     Students answer based on meaning, not length. No rewrites.
-   - **TL**: ran two checks against `misc.ts` — (a) absolute-
-     language tells (always/never/only/all/every/none in lie
-     but not truths), (b) length asymmetry >2.5×. **0 hits on
-     both checks** across the entire TL bank. The bank is clean.
-
-### 7.5 Source material progress log
-
-`source-material/PROGRESS-LOG.md` was set up to track which subjects
-have been HRS-anchored. It still uses the old "SAC-anchored" status
-label and is missing rows for the primary humanities + primary science
-splits that were added Jun 2026. Update before next subject onboarding.
-The new way to track anchoring is the `anchored: true` flag in
-`HRS_CLASSES` — could be auto-generated from that going forward.
+Answer position in the data doesn't matter: games call `shuffleOptions`
+at round start. **Explanations must not refer to option order.**
+
+### 3.4 IDs
+
+- Anchored: `y<year>-<subj>-N` (`y10-math-12`, `y8-hum-200`) for MCQ and
+  OOO; `y<year>-tl-<subj>-N` for Two Truths.
+- Generic: stream prefix `lp/up/ms/ss` + subject letter (`ms-g-7`), with
+  a game infix where a bank is shared (`ms-tl-3`, `ss-est-4`).
+
+### 3.5 Quality
+
+`npm test` must pass; `npm run audit:content -- --class <id>` should be
+clean or every finding justified. The rigour rules are in the SKILL.
+
+### 3.6 Commits
+
+Imperative subject ≤ 72 chars; body says why. End with the co-author
+trailer naming the Claude model that wrote the change. Keep content and
+code changes in separate commits where practical. Commit and push are
+fine in this repo.
+
+## 4. Decisions worth remembering
+
+- **Per-class targeting over AC V9 streams** (2026-06-02). Streams
+  survive only as the generic backfill key.
+- **Quick & Energetic games only show a class picker**; other games pick
+  a year band (they have no class-anchored banks).
+- **One MCQ bank** serves Quick Quiz and the Question Generator.
+- **Removed games** (teacher feedback, 2026): Higher or Lower, Spelling
+  Bee, Categories, Equation Match, Map Pin, Landmark Snap, Heads Up,
+  20 Questions, Buzzer Round, Memory Sequence, Flag Flash. Don't re-add
+  without Jack.
+- **Scope** (Jack): VCE removed 2026-06-03; content work narrowed to
+  Y7–10 on 2026-07-08 with F–6 kept as generic; arts/electives/languages
+  and the `computing` subject removed; Teacher Tools back in scope
+  2026-10-14.
+- **Shuffle at runtime, not in data** (2026-10-14): fixes position bias
+  for every bank, including future ones, without data rewrites.
+- **Source material stays out of git** (school IP). It therefore needs
+  its own backup.
+
+## 5. Lessons — don't repeat
+
+- **5.1 Silent fallbacks hide wrong content.** If a selection has
+  nothing to serve, hide it or say so; never quietly serve something
+  else (Health & PE → science, 2026-10-14; Lower Primary trivia for
+  Computing, 2026-06).
+- **5.2 Audit claims need a script, not a memory.** The rigour audit
+  was reported clean while a case-sensitive grep missed lowercase
+  "only" distractors, Two Truths items were all-true, and Y10 Maths had
+  96% of Odd One Out answers in slot D. Run `npm run audit:content` and
+  `npm test`; don't hand-wave.
+- **5.3 Check file size before reading.** Textbooks run 20–400 MB.
+- **5.4 Read before Edit.** Grep doesn't satisfy the Edit tool.
+- **5.5 Two Truths needs exactly one lie.** `ms-tl-5` and
+  `y10-tl-math-36` shipped with three truths until 2026-10-14.
+- **5.6 PWA cache makes fixes look broken.** Hard-refresh or unregister
+  the service worker before concluding a change failed. The dev server's
+  SW is disabled; preview/production isn't.
+- **5.7 Find the real repo first.** The OneDrive folder is a stub; the
+  repo is under `C:\Users\jack.galbraith\Code\`. And check `git status`
+  against the remote — this PC was 13 commits behind on 2026-10-14.
+- **5.8 Extract big textbooks, don't skip them.** Their named case
+  studies make the best questions.
+- **5.9 Author big banks in chunks** against a sentinel comment with
+  `tsc` after each; one giant insert truncated `mcq.ts`.
+- **5.10 Regex data clean-ups:** finish by listing everything that
+  still matches, not just what changed (Timeline year leak, 2026-07-12).
+- **5.11 Scanned PDFs need OCR.** If pypdf returns empty pages, use
+  PyMuPDF + pytesseract (Tesseract in
+  `%LOCALAPPDATA%\Programs\Tesseract-OCR\`, no admin needed) at
+  ~200 DPI; ~3–5 s per page.
+- **5.12 Git Bash `npm`/`npx` fail silently on this PC.** Use
+  PowerShell (or `npm.cmd`).
+- **5.13 Stale dev-server modules.** If the app throws "X is not
+  defined" after an edit `tsc` accepts, restart the dev server — HMR
+  can pin an old lazy-chunk URL in `registry.ts`.
+
+## 6. Onboarding a class
+
+Follow `.claude/skills/onboard-class/SKILL.md`. In short: inventory and
+extract the class folder + `_reference/`, draft `_overview.md`, **stop
+for Jack's misconceptions review**, flip `anchored`, author 302 MCQ + 75
+OOO + 75 TL in sentinel-bounded chunks, run `npm test` and
+`npm run audit:content`, check in the app, update `PROGRESS-LOG.md` and
+this log, commit, push.
+
+## 7. Open questions and known follow-ups
+
+1. **Rigour fixes from the 2026-10-14 re-audit:** Y10 Maths — 17 Two
+   Truths lies with absolute-language tells; Y8 Humanities — 7 "only …"
+   distractors. Content edits; run the audit afterwards.
+2. **Generic pools are thin:** 25 MCQ per stream × subject (senior maths
+   11 and senior science 23 after the VCE clean-up), and Years 7, 8 and 9 share one pool.
+   Repeats are likely for unanchored classes until they're anchored.
+3. **Health & PE** needs a subject decision when the first one is
+   anchored (keep `general` or add `health-pe`).
+4. **Teacher Tools streams:** Word Builder, Sentence Builder and Group
+   Name Generator still use their own "Lower Primary … Senior School"
+   stream buttons rather than year bands. Works; inconsistent.
+5. **Dependencies:** `npm audit` reports issues mostly in build tooling;
+   React 19 / Vite 6+ / vite-plugin-pwa 1+ are major upgrades — do them
+   as a separate, tested step.
+6. **Backup** for `source-material/` (not in git, not in OneDrive).
 
 ---
 
-_Last updated: 2026-07-12 by Claude (Fable 5) after the Year 8
-Humanities mega-batch session. Append, don't overwrite —
-and date new entries so future readers know what's fresh._
+## Session handoffs
+
+**Session handoff (2026-10-14, back on Windows — audit + cleanup):**
+Jack picked the project up on the Windows work PC after the July Mac
+stint. A read-only audit came first, then a five-phase plan Jack
+approved (commit + push per phase).
+
+- **Migration:** the local `Code` copy was 13 commits behind GitHub
+  (the Mac's July work) — pulled. `python-pptx` installed. Toolchain
+  otherwise present (Node 24, Python 3.14, Tesseract). Jack chose not to
+  bring the Mac's Y7/Y8 Humanities source material across.
+- **Correctness fixes:** Health & PE hidden until anchored
+  (`isSelectable`); Two Truths labels generic-only rounds; Humanities
+  backfills from history + geography; `up-h-12` duplicate distractor;
+  result screens score against rounds actually played; real PWA icons
+  and favicon from the crest.
+- **VCE clean-up:** 61 unit tags and `MCQ.unit` removed; 17
+  beyond-Year-10 senior MCQs deleted (Jack approved the list);
+  `pickFromBank` and its random-mix fallback replaced by `genericPool`.
+- **Question Generator** moved onto the shared `ClassPicker` (it can
+  now see anchored content); dead legacy-key migration removed (it read
+  unprefixed keys and never ran).
+- **Safety net:** Vitest suite (`npm test`, 2,221 tests) and
+  `npm run audit:content`. The audit found Y10 Maths answer positions
+  heavily biased (OOO 72/75 in slot D) → games now shuffle options at
+  round start. It also found two all-true Two Truths items (fixed) and
+  the rigour findings in §7.1 (not yet fixed).
+- **Reference material:** `source-material/_reference/{ac-v9,vce,hrs}/`
+  skeleton; scaffold script limited to the 20 Y7–10 folders;
+  onboard-class SKILL rewritten for the current workflow.
+- **Docs:** JACK-NOTES rewritten for Windows; this log's §1–7 rewritten;
+  `PLAN-CLASS-FILTER.md` and `CONTENT_UPGRADE_PROGRESS.md` deleted
+  (historical — in git history).
+
+**Next:** Jack is collecting AC V9 / HRS scope & sequences and VCE study
+designs into `_reference/`. Then fix the §7.1 rigour findings and
+onboard the next class (confirm which with Jack).
 
 **Session handoff (2026-07-12, Year 8 Humanities — first mega-batch, 3/20 anchored):**
 Second Y7–10 class onboarded, same day as Y7 Humanities completed.
