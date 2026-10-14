@@ -167,7 +167,7 @@ export function SynonymSprint() {
       {phase === 'result' && setup && (
         <ResultScreen
           score={score}
-          total={setup.count}
+          total={round?.items.length ?? setup.count}
           onPlayAgain={() => setPhase('setup')}
         />
       )}

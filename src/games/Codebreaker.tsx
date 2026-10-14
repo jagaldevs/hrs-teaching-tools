@@ -171,7 +171,7 @@ export function Codebreaker() {
       )}
 
       {phase === 'result' && setup && (
-        <ResultScreen score={Math.round(score * 10) / 10} total={setup.count} onPlayAgain={() => setPhase('setup')} />
+        <ResultScreen score={Math.round(score * 10) / 10} total={puzzles.length} onPlayAgain={() => setPhase('setup')} />
       )}
     </GameShell>
   );

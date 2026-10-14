@@ -83,7 +83,7 @@ export function OddOneOut() {
       )}
 
       {phase === 'result' && setup && (
-        <ResultScreen score={score} total={setup.count} onPlayAgain={() => setPhase('setup')} />
+        <ResultScreen score={score} total={round?.items.length ?? setup.count} onPlayAgain={() => setPhase('setup')} />
       )}
     </GameShell>
   );

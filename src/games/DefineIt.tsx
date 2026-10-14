@@ -190,7 +190,7 @@ export function DefineIt() {
       {phase === 'result' && setup && (
         <ResultScreen
           score={Math.round(score * 10) / 10}
-          total={setup.count}
+          total={round?.words.length ?? setup.count}
           onPlayAgain={() => setPhase('setup')}
           breakdown={[
             { label: 'Solved (no hint)', value: results.filter((r) => r.solved && r.lettersRevealed === 0).length },

@@ -163,7 +163,7 @@ export function EstimateIt() {
       {phase === 'result' && setup && (
         <ResultScreen
           score={totalPoints}
-          total={setup.count * 100}
+          total={(round?.items.length ?? setup.count) * 100}
           onPlayAgain={() => setPhase('setup')}
           breakdown={[
             { label: 'Perfect or near (≥80)', value: points.filter((p) => p >= 80).length },

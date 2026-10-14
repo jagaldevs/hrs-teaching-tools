@@ -101,7 +101,7 @@ export function QuickQuiz() {
       {phase === 'result' && setup && (
         <ResultScreen
           score={score}
-          total={setup.count}
+          total={round?.questions.length ?? setup.count}
           onPlayAgain={() => setPhase('setup')}
           breakdown={SUBJECTS.filter((s) => bySubject[s.id]).map((s) => ({
             label: s.label,

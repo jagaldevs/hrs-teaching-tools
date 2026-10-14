@@ -231,7 +231,7 @@ export function PatternNext() {
       )}
 
       {phase === 'result' && setup && (
-        <ResultScreen score={score} total={setup.count} onPlayAgain={() => setPhase('setup')} />
+        <ResultScreen score={score} total={patterns.length} onPlayAgain={() => setPhase('setup')} />
       )}
     </GameShell>
   );
