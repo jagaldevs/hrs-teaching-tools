@@ -5,10 +5,9 @@ sequence documents, unit overviews, textbook chapters — that Claude reads
 when generating curriculum-anchored brain-break content.
 
 The folder's **contents are gitignored**. Only this README,
-`PROGRESS-LOG.md`, the `.gitkeep` files at the top level and inside each
-subject folder, and the five HRS subject folders themselves are tracked
-in git. Anything you drop inside any of those folders stays on your
-machine.
+`PROGRESS-LOG.md`, the `.gitkeep` files, the five subject folders and the
+`_reference/` skeleton are tracked in git. Anything you drop inside stays
+on your machine — **so back it up** (git won't).
 
 > See [`PROGRESS-LOG.md`](./PROGRESS-LOG.md) for the running list of
 > what's been processed per subject × year.
@@ -26,6 +25,11 @@ change; VCE folders were removed earlier (2026-06-03).
 | `science/` | Science Y7–10 |
 | `humanities/` | Humanities Y7–10 |
 | `health-and-pe/` | Health & PE Y7–10 |
+| `_reference/` | Cross-class reference: AC V9, VCE study designs (reference only), HRS scope & sequences — see [`_reference/README.md`](./_reference/README.md) |
+
+Each subject has `year-7/` … `year-10/` class folders with an
+`_overview.md` template (`py scaffold_overviews.py` recreates any that
+are missing).
 
 See [`PROGRESS-LOG.md`](./PROGRESS-LOG.md) for the per-class tracker.
 
@@ -39,6 +43,9 @@ Naming convention: **lowercase, hyphens not spaces, topical name**.
 | A Y10 Humanities scope & sequence | `humanities/year-10/y10-scope-and-sequence.md` |
 | A Year 9 Science topic test | `science/year-9/y9-science-test-<topic>.pdf` |
 | A Y7 HPE unit overview | `health-and-pe/year-7/y7-hpe-unit-overview.md` |
+| AC V9 Science content descriptions | `_reference/ac-v9/science/` |
+| A Y7–10 Maths scope & sequence | `_reference/hrs/maths/` |
+| The VCE Biology study design | `_reference/vce/biology/` |
 
 One file per logical unit — one SAC = one file. Don't jam multiple SACs
 or topics into a single mega-file.
@@ -47,26 +54,24 @@ or topics into a single mega-file.
 
 | Format | Verdict | Notes |
 |---|---|---|
-| `.md` / `.txt` | **Best** | Instant read, easy to grep across folders. Default for copy-pasted content. |
-| `.pdf` | Works | Claude reads in 20-page chunks. Scans get OCR'd automatically. |
-| `.docx` | Works | Extracted via the docx skill. If copy-pasting, save as `.md` instead. |
+| `.md` / `.txt` | **Best** | Instant read, easy to search across folders. |
+| `.pdf` | Works | Extracted to text with pypdf; scans are OCR'd. |
+| `.docx` | Works | Extracted with python-docx — which drops equations, so save maths-heavy documents as PDF. |
+| `.pptx` | Works | Extracted with python-pptx, including slide notes. |
 
 ## Workflow
 
-1. **Audit your subjects** — confirm which HRS subjects are real for
-   your cohort (e.g. some electives don't run every year, Senior
-   subjects depend on enrolment).
-2. **Drop material** — one subject + year at a time. Avoid the
-   temptation to dump everything at once; we want to calibrate one
-   batch before scaling.
-3. **Tell Claude** in chat what you've added — e.g. *"I've dropped the
-   Y8 Humanities Term 2 SAC and unit overview in
-   `humanities/year-8/`"*.
-4. **Claude reads, audits existing bank content, rewrites** the items
-   that touch that subject + year, then commits the updated bank.
-   Source files never get committed.
-5. **You review** one round; we calibrate; next batch.
-6. `PROGRESS-LOG.md` is updated each session with what was processed.
+1. **Drop material** — bulk-drop freely. Class-specific files go in the
+   class folder; anything spanning classes goes in `_reference/`.
+2. **Start a session** with the bootstrap message in `JACK-NOTES.md`
+   and name the class to onboard (one class per session).
+3. **Claude drafts the class `_overview.md`** from the materials and
+   `_reference/`, then stops for you to review the misconceptions list.
+4. **Claude authors the class bank** (302 Quick Quiz + 75 Odd One Out +
+   75 Two Truths), runs `npm test` and `npm run audit:content`, checks it
+   in the app, updates `PROGRESS-LOG.md`, commits and pushes. The
+   workflow is `.claude/skills/onboard-class/SKILL.md`. Source files
+   never get committed.
 
 ## What Claude does
 
