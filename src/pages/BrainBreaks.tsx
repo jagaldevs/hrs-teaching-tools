@@ -1,7 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { Gamepad2, Sparkles } from 'lucide-react';
 import { GAMES, GAME_GROUPS, type Game, type Stream } from '../data/games';
-import { YEAR_BANDS, HRS_CLASSES, type YearBand } from '../data/classes';
+import { YEAR_BANDS, HRS_CLASSES, isSelectable, type YearBand } from '../data/classes';
 import { CategorySection } from '../components/CategorySection';
 import { ToolCard } from '../components/ToolCard';
 import { randomChoice } from '../tools/rng/util';
@@ -90,7 +90,7 @@ export function BrainBreaks() {
               </span>
             ))}
             <span className={styles.footnoteChip}>
-              {HRS_CLASSES.length - HRS_CLASSES.filter((c) => c.anchored).length} other classes use
+              {HRS_CLASSES.filter((c) => !c.anchored && isSelectable(c)).length} other classes use
               generic AC V9 content
             </span>
           </div>

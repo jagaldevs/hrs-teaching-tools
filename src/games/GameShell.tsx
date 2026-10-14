@@ -8,6 +8,7 @@ import {
   classesForBand,
   findClass,
   HRS_CLASSES,
+  isSelectable,
   type YearBand,
 } from '../data/classes';
 import { usePersistedState } from '../hooks/usePersistedState';
@@ -180,10 +181,11 @@ export function SetupScreen({
     countOptions[0]!,
   );
 
-  // Defensive snap: if persisted classId is no longer offered, reset.
+  // Defensive snap: if persisted classId is no longer offered (removed,
+  // hidden for lack of content, or outside this game's bands), reset.
   useEffect(() => {
     const klass = findClass(classId);
-    if (!klass || !supportedBands.includes(klass.yearBand)) {
+    if (!klass || !isSelectable(klass) || !supportedBands.includes(klass.yearBand)) {
       setClassId(defaultClassId);
     }
   }, [classId, defaultClassId, supportedBands, setClassId]);

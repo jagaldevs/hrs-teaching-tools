@@ -97,8 +97,10 @@ function y10(id: string, name: string, subject: Subject, sourcePath: string): Hr
 //
 // Note on the 'general' subject:
 //   Health & PE doesn't map cleanly to the current Subject options.
-//   Those classes are tagged `general` for chip-colour purposes; once
-//   they get anchored we may introduce a `health-pe` Subject entry.
+//   Those classes are tagged `general` for chip-colour purposes. There's
+//   no generic `general` content, so they stay hidden from the pickers
+//   (see isSelectable) until they're anchored; at that point we may
+//   introduce a `health-pe` Subject entry.
 //   (Languages and electives were removed 2026-07-08 with the Y7-10
 //   scope decision — restore from git history if they ever return.)
 //
@@ -166,8 +168,27 @@ export const HRS_CLASSES: HrsClass[] = [
 //  Helpers
 // ============================================================
 
+/**
+ * Subjects the generic (legacy) banks carry items for. A class whose
+ * subject isn't in this list and isn't anchored has nothing on-subject
+ * to serve — pickFromBank would silently fall back to a random mix
+ * (e.g. Health & PE serving science questions). Keep in sync with the
+ * byStreamSubject keys in the MCQ / Odd One Out banks.
+ */
+const GENERIC_SUBJECTS: readonly Subject[] = ['english', 'maths', 'history', 'geography', 'science'];
+
+/**
+ * True when the class has content to serve: either its own anchored
+ * bank, or a generic pool for its subject. Unselectable classes are
+ * hidden from the pickers until they're anchored.
+ */
+export function isSelectable(c: HrsClass): boolean {
+  return !!c.anchored || GENERIC_SUBJECTS.includes(c.subject);
+}
+
+/** Selectable classes in a year band — what the class picker offers. */
 export function classesForBand(band: YearBand): HrsClass[] {
-  return HRS_CLASSES.filter((c) => c.yearBand === band);
+  return HRS_CLASSES.filter((c) => c.yearBand === band && isSelectable(c));
 }
 
 export function classesForBands(bands: YearBand[]): HrsClass[] {
