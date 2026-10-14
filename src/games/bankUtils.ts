@@ -22,16 +22,16 @@ import { shuffle } from '../tools/rng/util';
 export function pickFromBank<Q>(
   bank: Bank<Q>,
   stream: Stream,
-  subject: Subject | 'mix',
+  subject: Subject | Subject[] | 'mix',
   count: number,
   filter?: (item: Q) => boolean,
 ): { items: Q[]; subjects: Subject[] } {
   const streamData = bank.byStreamSubject[stream] ?? {};
 
-  function gather(s: Subject | 'mix'): { item: Q; subject: Subject }[] {
+  function gather(s: Subject | Subject[] | 'mix'): { item: Q; subject: Subject }[] {
     const subjectKeys = s === 'mix'
       ? (Object.keys(streamData) as Subject[])
-      : [s];
+      : Array.isArray(s) ? s : [s];
     const out: { item: Q; subject: Subject }[] = [];
     for (const key of subjectKeys) {
       const list = streamData[key];
@@ -67,8 +67,8 @@ export function pickFromBank<Q>(
  *   - If the class has anchored content (`bank.byClass[classId]`) and at
  *     least `count` items, returns a shuffled slice of those.
  *   - Otherwise tops up from the legacy generic pool via `pickFromBank`,
- *     keyed by the class's `legacyStream` + `subject` and narrowed by
- *     `legacyUnits` when present.
+ *     keyed by the class's `legacyStream` + `backfillSubjects` (falling
+ *     back to `subject`).
  *   - If neither yields anything, returns an empty result.
  *
  * The `subjects` array is filled with the class's declared subject for
@@ -96,7 +96,7 @@ export function pickFromClass<Q>(
   // Need more — top up from legacy.
   const need = count - anchored.length;
   if (klass.legacyStream) {
-    const legacy = pickFromBank(bank, klass.legacyStream, klass.subject, need);
+    const legacy = pickFromBank(bank, klass.legacyStream, klass.backfillSubjects ?? klass.subject, need);
     const combined = shuffle([
       ...anchored.map((item) => ({ item, subject: klass.subject as Subject })),
       ...legacy.items.map((item, i) => ({ item, subject: legacy.subjects[i]! })),

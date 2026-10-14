@@ -68,28 +68,40 @@ export interface HrsClass {
   anchored?: boolean;
   /** Used by pickFromClass() to backfill from generic AC V9 pool. */
   legacyStream?: Stream;
+  /**
+   * Generic-pool subjects to backfill from, when broader than `subject`.
+   * Humanities classes are tagged `history` for colour but should top up
+   * from history AND geography items. Defaults to `[subject]`.
+   */
+  backfillSubjects?: Subject[];
 }
 
 // Helpers for building entries with sensible defaults --------------------
+// `extra` overrides or adds fields, e.g. `{ anchored: true }`.
 
-function f2(id: string, name: string, subject: Subject, sourcePath: string): HrsClass {
-  return { id, yearBand: 'f-2', name, subject, sourcePath, legacyStream: 'lower_primary' };
+type Extra = Partial<HrsClass>;
+
+function f2(id: string, name: string, subject: Subject, sourcePath: string, extra: Extra = {}): HrsClass {
+  return { id, yearBand: 'f-2', name, subject, sourcePath, legacyStream: 'lower_primary', ...extra };
 }
-function p36(id: string, name: string, subject: Subject, sourcePath: string): HrsClass {
-  return { id, yearBand: '3-6', name, subject, sourcePath, legacyStream: 'upper_primary' };
+function p36(id: string, name: string, subject: Subject, sourcePath: string, extra: Extra = {}): HrsClass {
+  return { id, yearBand: '3-6', name, subject, sourcePath, legacyStream: 'upper_primary', ...extra };
 }
-function y7(id: string, name: string, subject: Subject, sourcePath: string): HrsClass {
-  return { id, yearBand: 'y7', name, subject, sourcePath, legacyStream: 'middle_school' };
+function y7(id: string, name: string, subject: Subject, sourcePath: string, extra: Extra = {}): HrsClass {
+  return { id, yearBand: 'y7', name, subject, sourcePath, legacyStream: 'middle_school', ...extra };
 }
-function y8(id: string, name: string, subject: Subject, sourcePath: string): HrsClass {
-  return { id, yearBand: 'y8', name, subject, sourcePath, legacyStream: 'middle_school' };
+function y8(id: string, name: string, subject: Subject, sourcePath: string, extra: Extra = {}): HrsClass {
+  return { id, yearBand: 'y8', name, subject, sourcePath, legacyStream: 'middle_school', ...extra };
 }
-function y9(id: string, name: string, subject: Subject, sourcePath: string): HrsClass {
-  return { id, yearBand: 'y9', name, subject, sourcePath, legacyStream: 'middle_school' };
+function y9(id: string, name: string, subject: Subject, sourcePath: string, extra: Extra = {}): HrsClass {
+  return { id, yearBand: 'y9', name, subject, sourcePath, legacyStream: 'middle_school', ...extra };
 }
-function y10(id: string, name: string, subject: Subject, sourcePath: string): HrsClass {
-  return { id, yearBand: 'y10', name, subject, sourcePath, legacyStream: 'senior_school' };
+function y10(id: string, name: string, subject: Subject, sourcePath: string, extra: Extra = {}): HrsClass {
+  return { id, yearBand: 'y10', name, subject, sourcePath, legacyStream: 'senior_school', ...extra };
 }
+
+/** Integrated humanities: backfill from both history and geography. */
+const HUM: Extra = { backfillSubjects: ['history', 'geography'] };
 
 // ============================================================
 //  The classes themselves
@@ -121,46 +133,40 @@ export const HRS_CLASSES: HrsClass[] = [
   f2('f2-english',    'Lower Primary English',    'english', 'english/f-2'),
   f2('f2-maths',      'Lower Primary Maths',      'maths',   'maths/f-2'),
   f2('f2-science',    'Lower Primary Science',    'science', 'science/f-2'),
-  f2('f2-humanities', 'Lower Primary Humanities', 'history', 'humanities/f-2'),
+  f2('f2-humanities', 'Lower Primary Humanities', 'history', 'humanities/f-2', HUM),
 
   // -- 3-6 (Years 3–6) -----------------------------------------
   p36('3-6-english',    'Upper Primary English',    'english', 'english/3-6'),
   p36('3-6-maths',      'Upper Primary Maths',      'maths',   'maths/3-6'),
   p36('3-6-science',    'Upper Primary Science',    'science', 'science/3-6'),
-  p36('3-6-humanities', 'Upper Primary Humanities', 'history', 'humanities/3-6'),
+  p36('3-6-humanities', 'Upper Primary Humanities', 'history', 'humanities/3-6', HUM),
 
   // -- Year 7 --------------------------------------------------
   y7('y7-english',      'Year 7 English',      'english', 'english/year-7'),
   y7('y7-maths',        'Year 7 Maths',        'maths',   'maths/year-7'),
   y7('y7-science',      'Year 7 Science',      'science', 'science/year-7'),
-  { id: 'y7-humanities', yearBand: 'y7', name: 'Year 7 Humanities',
-    subject: 'history', sourcePath: 'humanities/year-7',
-    anchored: true, legacyStream: 'middle_school' },
+  y7('y7-humanities',   'Year 7 Humanities',   'history', 'humanities/year-7', { ...HUM, anchored: true }),
   y7('y7-health-pe',    'Year 7 Health & PE',  'general', 'health-and-pe/year-7'),
 
   // -- Year 8 --------------------------------------------------
   y8('y8-english',      'Year 8 English',      'english', 'english/year-8'),
   y8('y8-maths',        'Year 8 Maths',        'maths',   'maths/year-8'),
   y8('y8-science',      'Year 8 Science',      'science', 'science/year-8'),
-  { id: 'y8-humanities', yearBand: 'y8', name: 'Year 8 Humanities',
-    subject: 'history', sourcePath: 'humanities/year-8',
-    anchored: true, legacyStream: 'middle_school' },
+  y8('y8-humanities',   'Year 8 Humanities',   'history', 'humanities/year-8', { ...HUM, anchored: true }),
   y8('y8-health-pe',    'Year 8 Health & PE',  'general', 'health-and-pe/year-8'),
 
   // -- Year 9 --------------------------------------------------
   y9('y9-english',      'Year 9 English',      'english', 'english/year-9'),
   y9('y9-maths',        'Year 9 Maths',        'maths',   'maths/year-9'),
   y9('y9-science',      'Year 9 Science',      'science', 'science/year-9'),
-  y9('y9-humanities',   'Year 9 Humanities',   'history', 'humanities/year-9'),
+  y9('y9-humanities',   'Year 9 Humanities',   'history', 'humanities/year-9', HUM),
   y9('y9-health-pe',    'Year 9 Health & PE',  'general', 'health-and-pe/year-9'),
 
   // -- Year 10 -------------------------------------------------
   y10('y10-english',     'Year 10 English',     'english', 'english/year-10'),
-  { id: 'y10-maths', yearBand: 'y10', name: 'Year 10 Maths',
-    subject: 'maths', sourcePath: 'maths/year-10',
-    anchored: true, legacyStream: 'senior_school' },
+  y10('y10-maths',       'Year 10 Maths',       'maths',   'maths/year-10', { anchored: true }),
   y10('y10-science',     'Year 10 Science',     'science', 'science/year-10'),
-  y10('y10-humanities',  'Year 10 Humanities',  'history', 'humanities/year-10'),
+  y10('y10-humanities',  'Year 10 Humanities',  'history', 'humanities/year-10', HUM),
   y10('y10-health-pe',   'Year 10 Health & PE', 'general', 'health-and-pe/year-10'),
 ];
 
