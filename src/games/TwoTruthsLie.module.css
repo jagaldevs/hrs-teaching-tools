@@ -2,7 +2,7 @@
 
 :global(:fullscreen) .playing { width: min(1280px, 92vw); }
 
-.header { display: inline-flex; gap: var(--space-2); justify-content: center; }
+.header { display: inline-flex; flex-wrap: wrap; gap: var(--space-2); justify-content: center; }
 
 .chip {
   padding: 6px 14px; border-radius: 999px; border: 1.5px solid var(--border-strong);

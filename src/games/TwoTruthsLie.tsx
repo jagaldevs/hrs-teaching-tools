@@ -3,6 +3,7 @@ import { Check, X as XIcon, ChevronRight, Hand } from 'lucide-react';
 import { GameShell, SetupScreen, type SetupSelections } from './GameShell';
 import { ResultScreen } from './ResultScreen';
 import { TRUTHS, type TruthsLieItem } from '../data/banks/misc';
+import { findClass } from '../data/classes';
 import { shuffle } from '../tools/rng/util';
 import common from '../tools/common.module.css';
 import styles from './TwoTruthsLie.module.css';
@@ -12,6 +13,8 @@ type Phase = 'setup' | 'playing' | 'result';
 
 interface Round {
   items: TruthsLieItem[];
+  /** Class name when the round is generic-only (class has no TL items). */
+  generalFor: string | null;
 }
 
 /**
@@ -62,8 +65,12 @@ export function TwoTruthsLie() {
       return;
     }
     const list = shuffle(narrowed).slice(0, sel.count);
+    // Generic items are untagged mixed general knowledge, so they can't be
+    // narrowed to the class's subject. Say so on screen rather than letting
+    // "Year 9 Maths" quietly serve Shakespeare trivia.
+    const generalFor = anchored.length === 0 ? (findClass(sel.classId)?.name ?? null) : null;
     setSetup(sel);
-    setRound({ items: list });
+    setRound({ items: list, generalFor });
     setIdx(0);
     setPicked(null);
     setScore(0);
@@ -105,6 +112,11 @@ export function TwoTruthsLie() {
           <div className={styles.header}>
             <span className={styles.chip}>Round {idx + 1} / {round!.items.length}</span>
             <span className={styles.chip}>Score · {score}</span>
+            {round!.generalFor && (
+              <span className={styles.chip} title={`${round!.generalFor} has no Two Truths items of its own yet`}>
+                General knowledge · no {round!.generalFor} items yet
+              </span>
+            )}
           </div>
 
           <div className={styles.stack}>
