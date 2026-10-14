@@ -13,7 +13,7 @@ export function About() {
           <h1 className={`font-display ${styles.heroTitle}`}>About</h1>
           <p className={styles.heroSub}>
             A teaching toolkit built for Haileybury Rendall School by the Digital Innovation team.
-            {TOOLS.length} tools, {GAMES.length} brain-break games, all four AC V9 streams.
+            {GAMES.length} brain-break games and {TOOLS.length} teacher tools, Foundation to Year 10.
           </p>
         </header>
 

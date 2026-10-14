@@ -22,7 +22,7 @@ export const STREAMS: { id: Stream; label: string; years: string }[] = [
   { id: 'lower_primary', label: 'Lower Primary', years: 'Foundation – Year 2' },
   { id: 'upper_primary', label: 'Upper Primary', years: 'Year 3 – Year 6' },
   { id: 'middle_school', label: 'Middle School', years: 'Year 7 – Year 9' },
-  { id: 'senior_school', label: 'Senior School', years: 'Year 10 – Year 12' },
+  { id: 'senior_school', label: 'Senior School', years: 'Year 10' },
 ];
 
 export type GameGroup = 'rapid' | 'language' | 'logic' | 'hass' | 'whole-class';

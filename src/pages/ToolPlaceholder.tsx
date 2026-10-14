@@ -12,22 +12,25 @@ export function ToolPlaceholder() {
   const tool = id ? findTool(id) : undefined;
   const game = id ? findGame(id) : undefined;
   const item = tool ?? game;
-  const backTo = isGame ? '/brain-breaks' : '/dashboard';
-  const backLabel = isGame ? 'Back to brain breaks' : 'Back to tools';
+  const backTo = isGame ? '/' : '/tools';
+  const backLabel = isGame ? 'Back to Brain Breaks' : 'Back to Teacher Tools';
 
   if (!item) {
+    // Also reached by bookmarks to removed games (e.g. Buzzer Round).
     return (
       <div className={styles.page}>
         <div className="container">
           <div className={styles.placeholderWrap}>
             <p className={`eyebrow ${styles.placeholderEyebrow}`}>Not found</p>
-            <h1 className={`font-display ${styles.placeholderTitle}`}>Unknown tool</h1>
+            <h1 className={`font-display ${styles.placeholderTitle}`}>
+              {isGame ? 'Unknown game' : 'Unknown tool'}
+            </h1>
             <p className={styles.placeholderDesc}>
-              We couldn&rsquo;t locate &ldquo;{id}&rdquo;. Head back to the Teacher Tools list.
+              We couldn&rsquo;t locate &ldquo;{id}&rdquo;. It may have been removed.
             </p>
-            <Link to="/tools" className={styles.placeholderBack}>
+            <Link to={backTo} className={styles.placeholderBack}>
               <ArrowLeft size={14} style={{ display: 'inline', marginRight: 6, verticalAlign: 'middle' }} />
-              Back to Teacher Tools
+              {backLabel}
             </Link>
           </div>
         </div>

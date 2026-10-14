@@ -27,12 +27,6 @@ export interface MCQ {
   explanation?: string;
   /** Australian Curriculum V9 code, e.g. "AC9M5N04". */
   acCode?: string;
-  /**
-   * AC V9 Senior secondary unit (Y11 = Units 1–2, Y12 = Units 3–4).
-   * Only meaningful for senior_school items. Lets teachers filter to the
-   * cohort they're teaching once a senior-split UI lands (Phase 6).
-   */
-  unit?: 1 | 2 | 3 | 4;
 }
 
 /** Odd-one-out item: four candidates, one outlier. */
