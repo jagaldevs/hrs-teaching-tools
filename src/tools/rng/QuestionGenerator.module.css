@@ -2,35 +2,12 @@
   width: min(820px, 95vw);
   display: flex;
   flex-direction: column;
-  gap: var(--space-3);
-  padding: var(--space-4) var(--space-5);
+  gap: var(--space-5);
+  padding: var(--space-5);
   border: 1.5px solid var(--border);
   border-radius: var(--radius-md);
   background: var(--bg-card);
   margin-bottom: var(--space-5);
-}
-
-.filterRow {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.choices {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-
-.choice {
-  padding: 8px 14px;
-  font-size: 0.78rem;
-}
-
-.choice[data-active='true'] {
-  background: var(--accent);
-  color: #fff;
-  border-color: var(--accent);
 }
 
 .dot {

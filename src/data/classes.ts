@@ -9,12 +9,10 @@ import type { Subject } from '../games/types';
  * — e.g. `maths/year-10/` ↔ class id `y10-maths`.
  *
  * Anchored classes have ≥ 1 question bank populated with class-specific
- * items via `Bank<Q>.byClass[id]`. Unanchored classes still appear in the
- * picker but their content is backfilled from the legacy
- * `byStreamSubject[legacyStream][subject]` pool, narrowed by `legacyUnits`
- * when set.
- *
- * See PLAN-CLASS-FILTER.md for the data-model rationale and rollout phases.
+ * items via `Bank<Q>.byClass[id]`. Unanchored classes appear in the
+ * picker only when a generic pool exists for their subject (see
+ * isSelectable); their content is backfilled from the legacy
+ * `byStreamSubject[legacyStream][backfillSubjects ?? subject]` pool.
  */
 
 // ============================================================
@@ -41,6 +39,19 @@ export const YEAR_BANDS: YearBandDef[] = [
   { id: 'y10',     label: 'Year 10',             shortLabel: 'Y10',  ordering: 6 },
 ];
 
+/**
+ * The legacy AC V9 stream each year band falls under. Games declare
+ * support via `Game.streams`; this maps that back to year bands.
+ */
+export const BAND_TO_STREAM: Record<YearBand, Stream> = {
+  'f-2': 'lower_primary',
+  '3-6': 'upper_primary',
+  y7: 'middle_school',
+  y8: 'middle_school',
+  y9: 'middle_school',
+  y10: 'senior_school',
+};
+
 // ============================================================
 //  HrsClass — the per-class registry entry
 // ============================================================
@@ -49,12 +60,7 @@ export interface HrsClass {
   /** Stable kebab-case id. Used as the bank key for anchored content. */
   id: string;
   yearBand: YearBand;
-  /**
-   * Display name — full form per PLAN Q1, e.g.
-   *   "VCE Software Development 3-4"
-   *   "Year 8 Science"
-   *   "Lower Primary English"
-   */
+  /** Display name, full form, e.g. "Year 8 Science", "Lower Primary English". */
   name: string;
   /** Used for chip colour and broad categorisation. */
   subject: Subject;
@@ -197,23 +203,6 @@ export function classesForBand(band: YearBand): HrsClass[] {
   return HRS_CLASSES.filter((c) => c.yearBand === band && isSelectable(c));
 }
 
-export function classesForBands(bands: YearBand[]): HrsClass[] {
-  if (bands.length === 0) return HRS_CLASSES;
-  return HRS_CLASSES.filter((c) => bands.includes(c.yearBand));
-}
-
-export function classesForSubject(subject: Subject): HrsClass[] {
-  return HRS_CLASSES.filter((c) => c.subject === subject);
-}
-
 export function findClass(id: string): HrsClass | undefined {
   return HRS_CLASSES.find((c) => c.id === id);
-}
-
-export function anchoredClasses(): HrsClass[] {
-  return HRS_CLASSES.filter((c) => c.anchored);
-}
-
-export function findYearBand(id: YearBand): YearBandDef | undefined {
-  return YEAR_BANDS.find((b) => b.id === id);
 }

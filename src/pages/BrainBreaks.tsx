@@ -1,28 +1,13 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { Gamepad2, Sparkles } from 'lucide-react';
-import { GAMES, GAME_GROUPS, type Game, type Stream } from '../data/games';
-import { YEAR_BANDS, HRS_CLASSES, isSelectable, type YearBand } from '../data/classes';
+import { GAMES, GAME_GROUPS, type Game } from '../data/games';
+import { YEAR_BANDS, BAND_TO_STREAM, HRS_CLASSES, isSelectable } from '../data/classes';
 import { CategorySection } from '../components/CategorySection';
 import { ToolCard } from '../components/ToolCard';
 import { randomChoice } from '../tools/rng/util';
 import common from '../tools/common.module.css';
 import styles from './BrainBreaks.module.css';
 import page from './Page.module.css';
-
-/**
- * Map a YearBand to the legacy `Stream` it falls under. Used only by
- * `gameMeta` to derive a friendly "year bands this game supports" label
- * on each card (each game's `game.streams` still references the legacy
- * 4 streams).
- */
-const BAND_TO_STREAM: Record<YearBand, Stream> = {
-  'f-2': 'lower_primary',
-  '3-6': 'upper_primary',
-  y7: 'middle_school',
-  y8: 'middle_school',
-  y9: 'middle_school',
-  y10: 'senior_school',
-};
 
 export function BrainBreaks() {
   const navigate = useNavigate();

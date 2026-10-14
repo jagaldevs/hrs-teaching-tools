@@ -62,6 +62,24 @@ export function pickFromBank<Q>(
 }
 
 /**
+ * Every item a class can draw from, paired with its subject: the class's
+ * anchored items when it has any, otherwise its generic backfill pool
+ * (`legacyStream` × `backfillSubjects ?? subject`). Unlike pickFromBank
+ * there's no fall-back to a random mix — an empty pool stays empty.
+ */
+export function classPool<Q>(bank: Bank<Q>, classId: string): { item: Q; subject: Subject }[] {
+  const klass = findClass(classId);
+  if (!klass) return [];
+  const anchored = bank.byClass?.[classId] ?? [];
+  if (anchored.length > 0) return anchored.map((item) => ({ item, subject: klass.subject }));
+  if (!klass.legacyStream) return [];
+  const streamData = bank.byStreamSubject[klass.legacyStream] ?? {};
+  return (klass.backfillSubjects ?? [klass.subject]).flatMap((s) =>
+    (streamData[s] ?? []).map((item) => ({ item, subject: s })),
+  );
+}
+
+/**
  * Pull questions from a bank for a given HRS class.
  *
  *   - If the class has anchored content (`bank.byClass[classId]`) and at
