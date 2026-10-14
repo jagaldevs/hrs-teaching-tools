@@ -490,31 +490,17 @@ const SENIOR_ENGLISH: MCQ[] = [
 ];
 
 const SENIOR_MATHS: MCQ[] = [
-  { id: 'ss-m-1', q: 'Derivative of x³:', choices: ['x²', '3x²', '3x', 'x³/3'], answer: 1, explanation: 'd/dx(x^n) = n·x^(n−1).' },
   { id: 'ss-m-2', q: 'sin(90°) = ?', choices: ['0', '0.5', '1', '√2/2'], answer: 2, explanation: 'At 90°, the sine reaches its maximum of 1.' },
   { id: 'ss-m-3', q: 'Quadratic formula solves ax² + bx + c = 0; x = ?', choices: ['(−b ± √(b²−4ac)) / 2a', '−b / a', 'b² − 4ac', 'c / (a + b)'], answer: 0, explanation: 'Works for any quadratic; the discriminant b²−4ac tells you the nature of the roots.', acCode: 'AC9M10A05' },
   { id: 'ss-m-4', q: 'log₁₀(1000) = ?', choices: ['1', '2', '3', '10'], answer: 2, explanation: '10³ = 1000, so log base 10 of 1000 is 3.' },
-  { id: 'ss-m-5', q: 'Integral of 2x dx:', choices: ['x² + C', '2 + C', 'x + C', 'x²/2 + C'], answer: 0, explanation: 'Power rule for integration: ∫2x dx = x² + C.' },
   { id: 'ss-m-6', q: 'Probability of two independent events both occurring:', choices: ['P(A) + P(B)', 'P(A) × P(B)', 'P(A) − P(B)', 'P(A)/P(B)'], answer: 1, explanation: 'Multiplication rule for independent events.', acCode: 'AC9M10P01' },
-  { id: 'ss-m-7', q: 'cos²(θ) + sin²(θ) = ?', choices: ['0', 'θ', '1', '2'], answer: 2, explanation: 'Pythagorean trig identity — fundamental.' },
-  { id: 'ss-m-8', q: 'For y = e^x, dy/dx = ?', choices: ['x', '1', 'e^x', 'ln(x)'], answer: 2, explanation: 'The natural exponential is its own derivative.' },
-  { id: 'ss-m-9', q: 'Number of permutations of 5 distinct items:', choices: ['25', '120', '60', '720'], answer: 1, explanation: '5! = 5 × 4 × 3 × 2 × 1 = 120.' },
   { id: 'ss-m-10', q: 'Standard deviation measures:', choices: ['The mean', 'The spread of data', 'The mode', 'The maximum'], answer: 1, explanation: 'σ quantifies how far values typically deviate from the mean.', acCode: 'AC9M10ST02' },
-  { id: 'ss-m-11', q: 'A vector in 3D has how many components?', choices: ['1', '2', '3', '4'], answer: 2, explanation: 'A 3D vector has x, y and z components.' },
-  { id: 'ss-m-12', q: 'The complex number i is defined by:', choices: ['i = 1', 'i = −1', 'i² = −1', 'i² = 1'], answer: 2, explanation: 'i² = −1 is the foundation of complex numbers (Specialist Maths).' },
-  { id: 'ss-m-13', q: 'In a normal distribution, ~68% of data lies within:', choices: ['1 SD of the mean', '2 SD of the mean', '3 SD of the mean', 'The mean exactly'], answer: 0, explanation: 'The 68–95–99.7 rule for normal distributions.', acCode: 'AC9M10ST02' },
   { id: 'ss-m-14', q: 'The compound interest formula is:', choices: ['A = P(1 + rt)', 'A = P(1 + r/n)^(nt)', 'A = Pe^(rt) only', 'A = P − rt'], answer: 1, explanation: 'Compound interest grows by powers of the period rate; simple interest is linear (A = P(1+rt)).', acCode: 'AC9M10N01' },
   { id: 'ss-m-15', q: 'tan(45°) = ?', choices: ['0', '1/2', '1', '√3'], answer: 2, explanation: 'At 45°, sine and cosine are equal, so tan = 1.' },
   { id: 'ss-m-16', q: 'A function f(x) = 1/x is undefined at:', choices: ['x = 1', 'x = 0', 'x = −1', 'x = ∞'], answer: 1, explanation: 'Division by zero is undefined — there’s a vertical asymptote at x = 0.' },
   { id: 'ss-m-17', q: 'For data 4, 6, 6, 7, 12, the median is:', choices: ['6', '7', '8', '12'], answer: 0, explanation: 'Middle value of an ordered list of five numbers is the third one — 6.', acCode: 'AC9M10ST01' },
-  { id: 'ss-m-18', q: '∫ 1/x dx =', choices: ['x + C', 'ln|x| + C', '1/(x²) + C', 'e^x + C'], answer: 1, explanation: 'A standard integral every Methods student memorises.' },
-  { id: 'ss-m-19', q: 'In a binomial distribution, "n choose k" counts the:', choices: ['Number of trials', 'Probability of success', 'Number of ways to pick k from n', 'Mean'], answer: 2, explanation: 'Combinations: C(n, k) = n! / (k!(n−k)!).' },
-  { id: 'ss-m-20', q: 'A "stationary point" of f(x) is where:', choices: ['f(x) = 0', "f'(x) = 0", "f''(x) = 0", 'f(x) is undefined'], answer: 1, explanation: 'Derivative is zero — could be a maximum, minimum or point of inflection.' },
-  { id: 'ss-m-21', q: '"Pearson’s r" measures:', choices: ['Probability of an event', 'Strength of linear correlation', 'Median', 'Mode'], answer: 1, explanation: 'r ranges from −1 to 1; near ±1 means a strong linear relationship.', acCode: 'AC9M10ST02' },
   { id: 'ss-m-22', q: 'The geometric mean of 4 and 9:', choices: ['5', '6', '6.5', '13'], answer: 1, explanation: '√(4 × 9) = √36 = 6.', acCode: 'AC9M10ST01' },
   { id: 'ss-m-23', q: 'Solve for x: 2^x = 32', choices: ['3', '4', '5', '6'], answer: 2, explanation: '2^5 = 32. (Equivalent to log₂(32) = 5.)', acCode: 'AC9M10A04' },
-  { id: 'ss-m-24', q: 'Cross product of vectors a × b is:', choices: ['A scalar value (a real number)', 'A vector perpendicular to both a and b', 'Always equal to zero in three dimensions', 'The same as the dot product of a and b'], answer: 1, explanation: 'Cross product is a 3D operation producing a perpendicular vector — Specialist Maths.' },
-  { id: 'ss-m-25', q: 'In hypothesis testing, "p < 0.05" usually means:', choices: ['Result is certain', 'Null hypothesis is rejected at 5% significance', 'Sample is too small', 'Test failed'], answer: 1, explanation: 'A p-value below 0.05 is conventionally treated as statistically significant evidence against the null.' },
 ];
 
 const SENIOR_HISTORY: MCQ[] = [
@@ -578,7 +564,6 @@ const SENIOR_SCIENCE: MCQ[] = [
   { id: 'ss-s-2', q: 'The atomic number of an element equals its number of:', choices: ['Neutrons', 'Protons', 'Electrons in outer shell', 'Energy levels'], answer: 1, explanation: 'Atomic number = protons (and electrons in a neutral atom).', acCode: 'AC9S10U02' },
   { id: 'ss-s-3', q: 'Newton’s Second Law: F = ?', choices: ['m × v', 'm × a', 'a × v', 'm + a'], answer: 1, explanation: 'Force equals mass times acceleration.', acCode: 'AC9S10U02' },
   { id: 'ss-s-4', q: 'A "covalent bond" forms when atoms:', choices: ['Transfer electrons', 'Share electrons', 'Repel each other', 'Donate protons'], answer: 1, explanation: 'Ionic bonds transfer; covalent bonds share. Water (H₂O) is covalent.', acCode: 'AC9S10U02' },
-  { id: 'ss-s-3b', q: 'DNA replication is described as:', choices: ['Conservative', 'Semi-conservative', 'Dispersive', 'Repetitive'], answer: 1, explanation: 'Each new DNA molecule keeps one parent strand and one new strand.', acCode: 'AC9S10U01' },
   { id: 'ss-s-5', q: 'The pH of pure water is:', choices: ['1', '7', '10', '14'], answer: 1, explanation: 'Pure water is neutral — pH 7.', acCode: 'AC9S10U02' },
   { id: 'ss-s-6', q: 'The kinetic energy of an object is given by:', choices: ['mgh', '½mv²', 'mv', 'm/v'], answer: 1, explanation: 'KE = ½mv²; mgh is gravitational potential energy.', acCode: 'AC9S10U02' },
   { id: 'ss-s-7', q: 'Photosynthesis takes place in the:', choices: ['Nucleus', 'Mitochondrion', 'Chloroplast', 'Ribosome'], answer: 2, explanation: 'Chloroplasts contain chlorophyll, which captures light energy.', acCode: 'AC9S10U01' },
@@ -586,8 +571,6 @@ const SENIOR_SCIENCE: MCQ[] = [
   { id: 'ss-s-9', q: 'Hubble’s Law links a galaxy’s:', choices: ['Mass and brightness', 'Distance and recession velocity', 'Spin and shape', 'Age and chemistry'], answer: 1, explanation: 'Galaxies further away recede faster — evidence for an expanding universe.', acCode: 'AC9S10U04' },
   { id: 'ss-s-10', q: 'A "catalyst" in a reaction:', choices: ['Is consumed', 'Speeds the reaction without being consumed', 'Stops the reaction', 'Makes products toxic'], answer: 1, explanation: 'Catalysts lower activation energy and are regenerated at the reaction’s end.', acCode: 'AC9S10U02' },
   { id: 'ss-s-11', q: 'Natural selection requires:', choices: ['No variation', 'Variation, heritability, differential survival', 'Equal reproduction', 'Identical organisms'], answer: 1, explanation: 'Darwin’s mechanism: heritable variation + selective pressure → adaptation over generations.', acCode: 'AC9S10U01' },
-  { id: 'ss-s-12', q: 'A "redox" reaction involves:', choices: ['Acid-base exchange of protons alone', 'Transfer of electrons between species', 'Phase changes between solid and gas', 'Distillation to separate by boiling'], answer: 1, explanation: 'Reduction = gain of electrons; oxidation = loss. They always occur together.', acCode: 'AC9S10U02' },
-  { id: 'ss-s-13', q: 'The "Standard Model" of particle physics includes:', choices: ['Protons as the sole constituents', 'Quarks, leptons and force-carrier bosons', 'Atoms with no further subdivision', 'Neutrinos alone, with no other particles'], answer: 1, explanation: 'Six quarks, six leptons (incl. electron, neutrinos) and bosons (incl. the Higgs).', acCode: 'AC9S10U02' },
   { id: 'ss-s-14', q: 'Genetically, a male in humans has chromosomes:', choices: ['XX', 'XY', 'YY', 'XXY only'], answer: 1, explanation: 'In humans, XY usually develops as male; XX as female.', acCode: 'AC9S10U01' },
   { id: 'ss-s-15', q: 'Conservation of energy means energy can:', choices: ['Be destroyed under sufficient force', 'Be created from nothing in a vacuum', 'Change form without being created or destroyed', 'Disappear through friction over time'], answer: 2, explanation: 'First law of thermodynamics — energy is conserved, even when transformed.', acCode: 'AC9S10U02' },
   { id: 'ss-s-16', q: 'Ohm’s Law states:', choices: ['V = IR', 'P = V²/I', 'V = I + R', 'R = V × I'], answer: 0, explanation: 'Voltage = current × resistance for a linear (ohmic) conductor.', acCode: 'AC9S10U02' },
