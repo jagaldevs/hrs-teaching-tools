@@ -161,14 +161,20 @@
   color: var(--text-faint);
 }
 
-.settings {
-  margin-top: var(--space-7);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-  width: min(640px, 90vw);
-  padding: var(--space-5);
-  border: 1.5px solid var(--border);
-  border-radius: var(--radius-md);
-  background: var(--bg-card);
+.sourceRow {
+  display: inline-flex;
+  gap: 6px;
+  margin-bottom: var(--space-4);
+}
+
+.sourceBtn[data-active='true'] {
+  background: var(--accent);
+  color: var(--on-fill);
+  border-color: var(--accent);
+}
+
+.classNote {
+  margin: 0;
+  color: var(--text-muted);
+  text-align: center;
 }

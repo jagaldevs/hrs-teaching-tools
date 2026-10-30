@@ -43,6 +43,7 @@ study designs to keep Year 10 pitched right, never as app content.
 | `src/data/banks/mcq.ts` · `oddOneOut.ts` · `misc.ts` | Quick Quiz · Odd One Out · Two Truths (plus Estimate It, Synonym Sprint, Would You Rather) |
 | `src/games/ClassPicker.tsx` | The year-level + class picker shared by games and the Question Generator |
 | `src/games/bankUtils.ts` | How a class's questions are chosen, and the option shuffle |
+| `src/tools/classes/` | "My classes": teachers' class lists (called rosters in code), shared by Name Picker, Group Maker, Tournaments and Custom Spinner. Stored in the browser only; Back up / Restore moves them between computers |
 | `src/test/` | `npm test`: bank integrity + "every class gets on-subject content" |
 | `scripts/audit-content.ts` | `npm run audit:content`: rigour checks |
 | `source-material/<subject>/year-<n>/` | Class materials + `_overview.md` (gitignored) |

@@ -2,16 +2,9 @@ import { Plus, Minus, Trash2, RotateCcw, UserPlus, Crown } from 'lucide-react';
 import { ToolShell } from '../ToolShell';
 import { usePersistedState } from '../../hooks/usePersistedState';
 import { categorical } from '../../theme/palette';
+import { MAX_TEAMS, SCOREBOARD_KEY, type Team } from './scoreBoardTeams';
 import common from '../common.module.css';
 import styles from './GroupScoreBoard.module.css';
-
-interface Team {
-  id: string;
-  name: string;
-  /** Legacy: older saves stored a hex colour. Teams are now coloured by position. */
-  colour?: string;
-  score: number;
-}
 
 const DEFAULT_TEAMS: Team[] = [
   { id: '1', name: 'Team 1', score: 0 },
@@ -20,10 +13,10 @@ const DEFAULT_TEAMS: Team[] = [
 ];
 
 export function GroupScoreBoard() {
-  const [teams, setTeams] = usePersistedState<Team[]>('scoreboard.teams', DEFAULT_TEAMS);
+  const [teams, setTeams] = usePersistedState<Team[]>(SCOREBOARD_KEY, DEFAULT_TEAMS);
 
   function addTeam() {
-    if (teams.length >= 8) return;
+    if (teams.length >= MAX_TEAMS) return;
     setTeams((prev) => [
       ...prev,
       {
@@ -63,7 +56,7 @@ export function GroupScoreBoard() {
       description="Live points board for team activities. Animated bars, persisted across reloads."
       actions={
         <>
-          <button type="button" className={common.btn} onClick={addTeam} disabled={teams.length >= 8}>
+          <button type="button" className={common.btn} onClick={addTeam} disabled={teams.length >= MAX_TEAMS}>
             <UserPlus size={14} /> Add team
           </button>
           <button type="button" className={common.btn} onClick={resetAll}>
@@ -87,6 +80,9 @@ export function GroupScoreBoard() {
                   value={t.name}
                   onChange={(e) => update(t.id, { name: e.target.value })}
                 />
+                {t.members && t.members.length > 0 && (
+                  <span className={styles.members}>{t.members.join(', ')}</span>
+                )}
                 <div className={styles.bar}>
                   <div
                     className={styles.barFill}
