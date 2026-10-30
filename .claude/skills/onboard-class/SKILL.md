@@ -17,9 +17,10 @@ VCE classes or VCE-only content.
 
 ## 0. Orient
 
-1. Work in the repo, `C:\Users\jack.galbraith\Code\hrs_teaching_tools`.
-   The OneDrive `Desktop\hrs_teaching_tools` folder is only a `.claude`
-   stub. Run `git pull` first.
+1. Work in the repo,
+   `C:\Users\jack.galbraith\OneDrive - Haileybury\Desktop\hrs_teaching_tools`.
+   The old `C:\Users\jack.galbraith\Code\hrs_teaching_tools` checkout is
+   a stale backup — don't work there. Run `git pull` first.
 2. Read `JACK-NOTES.md` and the latest handoff in `WORKLOG.md`.
 3. Confirm the class with Jack and find it in `src/data/classes.ts`
    (e.g. `y8('y8-science', 'Year 8 Science', 'science', 'science/year-8')`).
