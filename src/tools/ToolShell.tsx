@@ -20,7 +20,7 @@ export function ToolShell({
   title,
   eyebrow,
   description,
-  backTo = '/dashboard',
+  backTo = '/tools',
   actions,
   children,
   fillViewport = true,
@@ -35,11 +35,13 @@ export function ToolShell({
     return () => document.removeEventListener('fullscreenchange', onChange);
   }, []);
 
+  const canFullscreen = !!document.fullscreenEnabled;
+
   function toggleFullscreen() {
     if (!document.fullscreenElement) {
-      document.documentElement.requestFullscreen().catch(() => {});
+      document.documentElement.requestFullscreen?.().catch(() => {});
     } else {
-      document.exitFullscreen().catch(() => {});
+      document.exitFullscreen?.().catch(() => {});
     }
   }
 
@@ -60,15 +62,17 @@ export function ToolShell({
 
         <div className={styles.actions}>
           {actions}
-          <button
-            type="button"
-            className={styles.iconBtn}
-            onClick={toggleFullscreen}
-            aria-label={isFs ? 'Exit full screen' : 'Enter full screen'}
-            title={isFs ? 'Exit full screen' : 'Full screen'}
-          >
-            {isFs ? <Minimize2 size={14} /> : <Maximize2 size={14} />}
-          </button>
+          {canFullscreen && (
+            <button
+              type="button"
+              className={styles.iconBtn}
+              onClick={toggleFullscreen}
+              aria-label={isFs ? 'Exit full screen' : 'Enter full screen'}
+              title={isFs ? 'Exit full screen' : 'Full screen'}
+            >
+              {isFs ? <Minimize2 size={14} /> : <Maximize2 size={14} />}
+            </button>
+          )}
         </div>
       </div>
 

@@ -37,6 +37,13 @@ export function useTimer({
   const [elapsed, setElapsed] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
 
+  // start / pause / reset read and write these refs, not render-time state,
+  // so a handler captured in an earlier render still works. Games call
+  // reset() then start() back-to-back from a click handler or timeout; with
+  // state, start() saw the stale `isRunning === true` and did nothing, so
+  // the countdown silently stopped after the first correct answer.
+  const runningRef = useRef(false);
+  const durationRef = useRef(durationMs);
   const startedAtRef = useRef<number | null>(null);
   const baseElapsedRef = useRef(0);
   const rafRef = useRef<number | null>(null);
@@ -44,14 +51,20 @@ export function useTimer({
   const completedRef = useRef(false);
   const onCompleteRef = useRef(onComplete);
   onCompleteRef.current = onComplete;
+  const modeRef = useRef(mode);
+  modeRef.current = mode;
+  const tickMsRef = useRef(tickMs);
+  tickMsRef.current = tickMs;
 
-  const tick = useCallback(() => {
+  const tick = useCallback(function tick() {
     if (startedAtRef.current == null) return;
     const now = performance.now();
     const totalElapsed = baseElapsedRef.current + (now - startedAtRef.current);
+    const duration = durationRef.current;
 
-    if (mode === 'down' && totalElapsed >= duration) {
+    if (modeRef.current === 'down' && totalElapsed >= duration) {
       setElapsed(duration);
+      runningRef.current = false;
       setIsRunning(false);
       startedAtRef.current = null;
       baseElapsedRef.current = duration;
@@ -62,33 +75,36 @@ export function useTimer({
       return;
     }
 
-    if (now - lastTickRef.current >= tickMs) {
+    if (now - lastTickRef.current >= tickMsRef.current) {
       setElapsed(totalElapsed);
       lastTickRef.current = now;
     }
     rafRef.current = requestAnimationFrame(tick);
-  }, [duration, mode, tickMs]);
+  }, []);
 
   const start = useCallback(() => {
-    if (isRunning) return;
-    if (mode === 'down' && baseElapsedRef.current >= duration) return;
+    if (runningRef.current) return;
+    const isDown = modeRef.current === 'down';
+    if (isDown && baseElapsedRef.current >= durationRef.current) return;
     startedAtRef.current = performance.now();
     lastTickRef.current = startedAtRef.current;
+    runningRef.current = true;
     setIsRunning(true);
-    completedRef.current = mode === 'down' ? baseElapsedRef.current >= duration : false;
+    completedRef.current = false;
     rafRef.current = requestAnimationFrame(tick);
-  }, [duration, isRunning, mode, tick]);
+  }, [tick]);
 
   const pause = useCallback(() => {
-    if (!isRunning) return;
+    if (!runningRef.current) return;
     if (rafRef.current != null) cancelAnimationFrame(rafRef.current);
     if (startedAtRef.current != null) {
       baseElapsedRef.current += performance.now() - startedAtRef.current;
       setElapsed(baseElapsedRef.current);
     }
     startedAtRef.current = null;
+    runningRef.current = false;
     setIsRunning(false);
-  }, [isRunning]);
+  }, []);
 
   const reset = useCallback(
     (newDuration?: number) => {
@@ -97,14 +113,19 @@ export function useTimer({
       baseElapsedRef.current = 0;
       lastTickRef.current = 0;
       completedRef.current = false;
+      runningRef.current = false;
       setElapsed(0);
       setIsRunning(false);
-      if (newDuration != null) setDurationState(newDuration);
+      if (newDuration != null) {
+        durationRef.current = newDuration;
+        setDurationState(newDuration);
+      }
     },
     [],
   );
 
   const setDuration = useCallback((ms: number) => {
+    durationRef.current = ms;
     setDurationState(ms);
   }, []);
 
@@ -119,7 +140,7 @@ export function useTimer({
 
   return {
     remainingMs: mode === 'down' ? remaining : 0,
-    elapsedMs: mode === 'up' ? elapsed : elapsed,
+    elapsedMs: elapsed,
     isRunning,
     isFinished,
     start,
