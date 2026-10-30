@@ -3,97 +3,17 @@ import { Settings, RotateCcw, Crown, Shuffle, Play } from 'lucide-react';
 import { ToolShell } from '../ToolShell';
 import { usePersistedState } from '../../hooks/usePersistedState';
 import { shuffle, parseRoster } from '../rng/util';
+import { buildInitialBracket, championOf, propagateWinners, roundLabel, type Match } from './bracket';
 import common from '../common.module.css';
 import styles from './Tournaments.module.css';
 
-/**
- * Single-elimination tournament.
- *
- * Bracket model: round 0 = first matches; final round has one match.
- * Padding with `null` slots gives auto-advance byes for non-power-of-2 entries.
- * Winners propagate forward whenever a match resolves.
- */
-interface Match {
-  /** Slot index within the round. */
-  pos: number;
-  /** Names of the two competitors, or null = bye / not yet resolved. */
-  a: string | null;
-  b: string | null;
-  /** Index 0 = a wins, 1 = b wins, null = undecided. */
-  winner: 0 | 1 | null;
-}
-
-function nextPow2(n: number): number {
-  let p = 1;
-  while (p < n) p *= 2;
-  return Math.max(2, p);
-}
-
-function buildInitialBracket(names: string[]): Match[][] {
-  const size = nextPow2(Math.max(2, names.length));
-  const padded: (string | null)[] = [...names];
-  while (padded.length < size) padded.push(null);
-
-  // First round matches: pair (0,1), (2,3), ...
-  const round0: Match[] = [];
-  for (let i = 0; i < size; i += 2) {
-    const a = padded[i] ?? null;
-    const b = padded[i + 1] ?? null;
-    let winner: 0 | 1 | null = null;
-    if (a && !b) winner = 0; // bye
-    if (!a && b) winner = 1; // bye
-    round0.push({ pos: i / 2, a, b, winner });
-  }
-
-  const rounds: Match[][] = [round0];
-  let count = round0.length;
-  while (count > 1) {
-    count = count / 2;
-    const round: Match[] = [];
-    for (let p = 0; p < count; p++) {
-      round.push({ pos: p, a: null, b: null, winner: null });
-    }
-    rounds.push(round);
-  }
-
-  return propagateWinners(rounds);
-}
-
-function propagateWinners(rounds: Match[][]): Match[][] {
-  const out = rounds.map((r) => r.map((m) => ({ ...m })));
-  for (let r = 0; r < out.length - 1; r++) {
-    for (let p = 0; p < out[r]!.length; p++) {
-      const m = out[r]![p]!;
-      const next = out[r + 1]![Math.floor(p / 2)]!;
-      const winnerName = m.winner === 0 ? m.a : m.winner === 1 ? m.b : null;
-      // pos 0/2/4 → 'a' slot; 1/3/5 → 'b' slot of next match
-      if (p % 2 === 0) next.a = winnerName;
-      else next.b = winnerName;
-      // Clear downstream winner if its inputs changed
-      if (next.winner !== null) {
-        const stillValid =
-          (next.winner === 0 && next.a !== null) || (next.winner === 1 && next.b !== null);
-        if (!stillValid) next.winner = null;
-      }
-    }
-  }
-  return out;
-}
-
-const ROUND_NAMES = ['First Round', 'Round of 16', 'Quarter Final', 'Semi Final', 'Final'];
-
-function roundLabel(roundIdx: number, totalRounds: number): string {
-  const distanceFromFinal = totalRounds - 1 - roundIdx;
-  if (distanceFromFinal === 0) return 'Final';
-  if (distanceFromFinal === 1) return 'Semi Final';
-  if (distanceFromFinal === 2) return 'Quarter Final';
-  return ROUND_NAMES[roundIdx] ?? `Round ${roundIdx + 1}`;
-}
-
 export function Tournaments() {
   const [roster, setRoster] = usePersistedState<string>('tourney.roster', '');
-  const [rounds, setRounds] = usePersistedState<Match[][] | null>('tourney.bracket', null);
+  const [savedRounds, setRounds] = usePersistedState<Match[][] | null>('tourney.bracket', null);
   const [settingsOpen, setSettingsOpen] = useState(false);
+  // Re-propagate on load so brackets saved by older versions (which could
+  // contain empty first-round matches) advance their stuck byes.
+  const rounds = useMemo(() => savedRounds && propagateWinners(savedRounds), [savedRounds]);
 
   const names = useMemo(() => parseRoster(roster), [roster]);
 
@@ -115,8 +35,7 @@ export function Tournaments() {
     setRounds(null);
   }
 
-  const champion =
-    rounds && rounds.length > 0 ? winnerName(rounds[rounds.length - 1]![0]!) : null;
+  const champion = rounds ? championOf(rounds) : null;
 
   return (
     <ToolShell
@@ -231,11 +150,6 @@ export function Tournaments() {
   );
 }
 
-function winnerName(m: Match): string | null {
-  if (m.winner === 0) return m.a;
-  if (m.winner === 1) return m.b;
-  return null;
-}
 
 interface SlotProps {
   name: string | null;

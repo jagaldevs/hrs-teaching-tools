@@ -28,14 +28,15 @@ export function shuffle<T>(arr: readonly T[]): T[] {
   return out;
 }
 
-/** Split an array into groups of approximately equal size. */
+/**
+ * Split an array into groups as close to `groupSize` as possible. The
+ * remainder is spread across groups rather than left as a straggler:
+ * 25 students in 4s → five groups of 4 and one of 5, never a group of 1.
+ */
 export function intoGroupsOfSize<T>(arr: readonly T[], groupSize: number): T[][] {
-  if (groupSize <= 0) return [];
-  const out: T[][] = [];
-  for (let i = 0; i < arr.length; i += groupSize) {
-    out.push(arr.slice(i, i + groupSize));
-  }
-  return out;
+  if (groupSize <= 0 || arr.length === 0) return [];
+  const groupCount = Math.max(1, Math.round(arr.length / groupSize));
+  return intoGroupsOfCount(arr, groupCount);
 }
 
 /** Split an array into a fixed number of groups, as evenly as possible. */
@@ -48,24 +49,42 @@ export function intoGroupsOfCount<T>(arr: readonly T[], groupCount: number): T[]
   return out;
 }
 
-/** Parse a roster from textarea — accepts newline or comma-separated names. */
+/**
+ * Parse a roster from textarea — accepts newline or comma-separated names.
+ * Repeated names get a number ("Jack", "Jack (2)") so every student stays
+ * distinct in fair-mode picking, groups and brackets.
+ */
 export function parseRoster(text: string): string[] {
+  const seen = new Map<string, number>();
   return text
     .split(/[\n,]+/)
     .map((s) => s.trim())
-    .filter((s) => s.length > 0);
+    .filter((s) => s.length > 0)
+    .map((name) => {
+      const n = (seen.get(name) ?? 0) + 1;
+      seen.set(name, n);
+      return n === 1 ? name : `${name} (${n})`;
+    });
+}
+
+/**
+ * Weighted random index: weight 3 is three times as likely as weight 1.
+ * Weights are rounded to whole numbers (min 1) so the crypto-strong
+ * randomInt can draw exactly.
+ */
+export function weightedIndex(weights: readonly number[]): number {
+  if (weights.length === 0) return -1;
+  const ws = weights.map((w) => Math.max(1, Math.round(w)));
+  let target = randomInt(ws.reduce((s, w) => s + w, 0));
+  for (let i = 0; i < ws.length; i++) {
+    target -= ws[i]!;
+    if (target < 0) return i;
+  }
+  return ws.length - 1;
 }
 
 /** Weighted pick: items with `weight` field; defaults to 1 if missing. */
 export function weightedChoice<T extends { weight?: number }>(items: readonly T[]): T | undefined {
   if (items.length === 0) return undefined;
-  const totalWeight = items.reduce((s, it) => s + (it.weight ?? 1), 0);
-  if (totalWeight <= 0) return items[randomInt(items.length)];
-  const target = Math.random() * totalWeight;
-  let acc = 0;
-  for (const it of items) {
-    acc += it.weight ?? 1;
-    if (target < acc) return it;
-  }
-  return items[items.length - 1];
+  return items[weightedIndex(items.map((it) => it.weight ?? 1))];
 }

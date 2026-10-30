@@ -131,7 +131,7 @@ export function WordBuilder() {
   function nextWord() {
     if (idx + 1 >= pool.length) {
       // Re-shuffle and start over
-      setPool(shuffle(WORDS[stream]));
+      setPool(pickPool(stream, subjects));
       setIdx(0);
     } else {
       setIdx((i) => i + 1);
