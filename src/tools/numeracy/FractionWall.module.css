@@ -17,7 +17,7 @@
   gap: 4px;
   padding: 4px 10px;
   border-radius: 999px;
-  border: 1.5px solid var(--row-colour, var(--border-strong));
+  border: 1.5px solid var(--border-strong);
   background: var(--bg-elevated);
   color: var(--text-muted);
   font-family: var(--font-display);
@@ -28,8 +28,8 @@
 }
 
 .rowToggleBtn[data-active='true'] {
-  background: var(--row-colour);
-  color: #fff;
+  border-color: var(--text-muted);
+  color: var(--text-strong);
 }
 
 .wall {
@@ -64,44 +64,66 @@
 
 .cell {
   flex: 1;
-  border: 2px solid;
+  border: 1.5px solid var(--border-strong);
   border-radius: var(--radius-sm);
   cursor: pointer;
   font-family: var(--font-display);
-  font-size: 0.78rem;
+  font-size: 0.85rem;
   font-style: italic;
-  transition: transform 80ms var(--ease-out), background var(--dur-base) var(--ease-out);
-  background: transparent;
+  color: var(--text);
+  background: var(--bg-card);
+  transition: background var(--dur-base) var(--ease-out), border-color var(--dur-base) var(--ease-out);
 }
 
-.cell:hover { transform: translateY(-1px); }
-.cell:active { transform: scale(0.97); }
+.cell:hover { border-color: var(--text-muted); }
+
+.cell[data-selected='true'] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-fill);
+}
 
 .selectionCard {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: var(--space-2);
   width: min(640px, 95vw);
   padding: var(--space-4);
-  border: 2px solid var(--accent);
+  border: 1.5px solid var(--border-strong);
   border-radius: var(--radius-md);
-  background: var(--accent-soft);
+  background: var(--bg-card);
 }
 
-@media (max-width: 540px) {
-  .selectionCard { grid-template-columns: repeat(2, 1fr); }
+.selTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
 }
 
-.selCol {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
+.selTable th {
+  font-size: var(--fs-eyebrow);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-weight: 600;
+  padding-bottom: var(--space-2);
+}
+
+.selTable td {
+  text-align: center;
+  padding: 4px 0;
+  color: var(--text);
 }
 
 .selFrac {
+  font-size: 1.5rem;
+  font-style: italic;
+  color: var(--text-strong);
+}
+
+.comparison {
+  margin: var(--space-4) 0 0;
+  padding-top: var(--space-3);
+  border-top: 1.5px solid var(--border);
+  text-align: center;
   font-size: 1.6rem;
   font-style: italic;
   color: var(--accent);
-  font-variant-numeric: tabular-nums;
 }

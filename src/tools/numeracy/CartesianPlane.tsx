@@ -2,6 +2,7 @@ import { useMemo, useRef, useState } from 'react';
 import { Trash2, RotateCcw, Spline, Pencil } from 'lucide-react';
 import { ToolShell } from '../ToolShell';
 import { usePersistedState } from '../../hooks/usePersistedState';
+import { categorical } from '../../theme/palette';
 import common from '../common.module.css';
 import styles from './CartesianPlane.module.css';
 
@@ -19,7 +20,6 @@ interface Point {
   colour: string;
 }
 
-const PALETTE = ['#A2235F', '#0EA5E9', '#10B981', '#F59E0B', '#A855F7', '#EF4444', '#FB7185', '#22D3EE'];
 
 const PRESETS: { id: string; label: string; min: number; max: number }[] = [
   { id: '5', label: '−5 to 5', min: -5, max: 5 },
@@ -77,7 +77,7 @@ export function CartesianPlane() {
     if (x < min || x > max || y < min || y > max) return;
     setPoints((prev) => [
       ...prev,
-      { id: crypto.randomUUID(), x, y, colour: PALETTE[prev.length % PALETTE.length]! },
+      { id: crypto.randomUUID(), x, y, colour: categorical(prev.length) },
     ]);
   }
 
@@ -241,7 +241,7 @@ export function CartesianPlane() {
                   removePoint(p.id);
                 }}
               >
-                <circle cx={sx} cy={sy} r={6} fill={p.colour} stroke="#fff" strokeWidth={1.5} />
+                <circle cx={sx} cy={sy} r={6} style={{ fill: p.colour }} stroke="var(--bg)" strokeWidth={1.5} />
                 <text x={sx + 9} y={sy - 7} className={styles.pointLabel}>
                   ({p.x}, {p.y})
                 </text>

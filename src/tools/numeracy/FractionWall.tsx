@@ -7,33 +7,29 @@ import styles from './FractionWall.module.css';
 
 const DEFAULT_ROWS = [1, 2, 3, 4, 5, 6, 8, 10, 12];
 
-// One row colour per denominator
-const COLOURS: Record<number, string> = {
-  1: '#E6007E',
-  2: '#0EA5E9',
-  3: '#10B981',
-  4: '#F59E0B',
-  5: '#A855F7',
-  6: '#EF4444',
-  8: '#22D3EE',
-  10: '#FB7185',
-  12: '#84CC16',
-};
-
 function gcd(a: number, b: number): number {
   while (b) [a, b] = [b, a % b];
   return Math.abs(a) || 1;
 }
 
-interface Selection {
-  denom: number;
-  /** Which cells in this row are selected (0..denom-1). */
-  cells: number[];
+function fracLabel(num: number, den: number): string {
+  return den === 1 ? `${num}` : `${num}/${den}`;
+}
+
+/** Selected cells per row, keyed by denominator. Rows are independent so
+ *  several can be highlighted at once to compare (e.g. 1/2 against 2/4). */
+type Selection = Record<number, number[]>;
+
+interface Picked {
+  den: number;
+  num: number;
+  value: number;
+  simplified: string;
 }
 
 export function FractionWall() {
   const [visibleRows, setVisibleRows] = usePersistedState<number[]>('fwall.rows', DEFAULT_ROWS);
-  const [selection, setSelection] = useState<Selection | null>(null);
+  const [selection, setSelection] = useState<Selection>({});
 
   function toggleRow(d: number) {
     setVisibleRows((prev) =>
@@ -43,38 +39,50 @@ export function FractionWall() {
 
   function selectCell(denom: number, idx: number) {
     setSelection((prev) => {
-      if (!prev || prev.denom !== denom) {
-        return { denom, cells: [idx] };
-      }
-      // Same row — toggle cell
-      const cells = prev.cells.includes(idx)
-        ? prev.cells.filter((c) => c !== idx)
-        : [...prev.cells, idx].sort((a, b) => a - b);
-      if (cells.length === 0) return null;
-      return { denom, cells };
+      const cells = prev[denom] ?? [];
+      const nextCells = cells.includes(idx)
+        ? cells.filter((c) => c !== idx)
+        : [...cells, idx].sort((a, b) => a - b);
+      const next = { ...prev };
+      if (nextCells.length === 0) delete next[denom];
+      else next[denom] = nextCells;
+      return next;
     });
   }
 
   function clearSelection() {
-    setSelection(null);
+    setSelection({});
   }
 
-  const decimal = selection ? selection.cells.length / selection.denom : 0;
-  let simpleFrac = '';
-  if (selection) {
-    const num = selection.cells.length;
-    const den = selection.denom;
-    const g = gcd(num, den);
-    simpleFrac = den / g === 1 ? `${num / g}` : `${num / g}/${den / g}`;
+  const picked: Picked[] = visibleRows
+    .filter((d) => (selection[d]?.length ?? 0) > 0)
+    .map((den) => {
+      const num = selection[den]!.length;
+      const g = gcd(num, den);
+      return { den, num, value: num / den, simplified: fracLabel(num / g, den / g) };
+    });
+
+  // With two or more rows highlighted, say how they compare.
+  let comparison: string | null = null;
+  if (picked.length >= 2) {
+    const sorted = [...picked].sort((a, b) => a.value - b.value);
+    comparison = sorted
+      .map((p, i) => {
+        const label = fracLabel(p.num, p.den);
+        if (i === 0) return label;
+        const sign = Math.abs(p.value - sorted[i - 1]!.value) < 1e-9 ? '=' : '<';
+        return `${sign} ${label}`;
+      })
+      .join(' ');
   }
 
   return (
     <ToolShell
       eyebrow="Teaching Aids"
       title="Fraction Wall"
-      description="Stacked fraction strips for comparing and finding equivalents. Click cells to highlight."
+      description="Stacked fraction strips. Highlight cells in several rows to compare fractions and find equivalents."
       actions={
-        <button type="button" className={common.btn} onClick={clearSelection} disabled={!selection}>
+        <button type="button" className={common.btn} onClick={clearSelection} disabled={picked.length === 0}>
           <RotateCcw size={14} /> Clear selection
         </button>
       }
@@ -88,7 +96,6 @@ export function FractionWall() {
             className={styles.rowToggleBtn}
             data-active={visibleRows.includes(d)}
             onClick={() => toggleRow(d)}
-            style={{ ['--row-colour' as string]: COLOURS[d] ?? '#888' }}
           >
             {visibleRows.includes(d) ? <Eye size={12} /> : <EyeOff size={12} />}
             {d === 1 ? '1' : `1/${d}`}
@@ -103,54 +110,46 @@ export function FractionWall() {
               {d === 1 ? '1' : `1/${d}`}
             </span>
             <div className={styles.strip}>
-              {Array.from({ length: d }).map((_, i) => {
-                const selected = selection?.denom === d && selection.cells.includes(i);
-                return (
-                  <button
-                    key={i}
-                    type="button"
-                    className={styles.cell}
-                    data-selected={selected}
-                    style={{
-                      background: selected ? COLOURS[d] : 'transparent',
-                      borderColor: COLOURS[d] ?? 'var(--border-strong)',
-                      color: selected ? '#fff' : 'var(--text)',
-                    }}
-                    onClick={() => selectCell(d, i)}
-                  >
-                    {d <= 6 ? (d === 1 ? '1' : `1/${d}`) : ''}
-                  </button>
-                );
-              })}
+              {Array.from({ length: d }).map((_, i) => (
+                <button
+                  key={i}
+                  type="button"
+                  className={styles.cell}
+                  data-selected={selection[d]?.includes(i) ?? false}
+                  onClick={() => selectCell(d, i)}
+                  aria-label={`${d === 1 ? 'One whole' : `1/${d}`}, piece ${i + 1}`}
+                >
+                  {d <= 6 ? (d === 1 ? '1' : `1/${d}`) : ''}
+                </button>
+              ))}
             </div>
           </div>
         ))}
       </div>
 
-      {selection && (
+      {picked.length > 0 && (
         <div className={styles.selectionCard}>
-          <div className={styles.selCol}>
-            <span className={common.labelText}>Selected</span>
-            <span className={`font-display ${styles.selFrac}`}>
-              {selection.cells.length}/{selection.denom}
-            </span>
-          </div>
-          <div className={styles.selCol}>
-            <span className={common.labelText}>Simplified</span>
-            <span className={`font-display ${styles.selFrac}`}>{simpleFrac}</span>
-          </div>
-          <div className={styles.selCol}>
-            <span className={common.labelText}>Decimal</span>
-            <span className={`font-display ${styles.selFrac}`}>
-              {Math.round(decimal * 10000) / 10000}
-            </span>
-          </div>
-          <div className={styles.selCol}>
-            <span className={common.labelText}>Percent</span>
-            <span className={`font-display ${styles.selFrac}`}>
-              {Math.round(decimal * 10000) / 100}%
-            </span>
-          </div>
+          <table className={styles.selTable}>
+            <thead>
+              <tr>
+                <th>Selected</th>
+                <th>Simplified</th>
+                <th>Decimal</th>
+                <th>Percent</th>
+              </tr>
+            </thead>
+            <tbody>
+              {picked.map((p) => (
+                <tr key={p.den}>
+                  <td className={`font-display ${styles.selFrac}`}>{fracLabel(p.num, p.den)}</td>
+                  <td className={`font-display ${styles.selFrac}`}>{p.simplified}</td>
+                  <td>{Math.round(p.value * 10000) / 10000}</td>
+                  <td>{Math.round(p.value * 10000) / 100}%</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          {comparison && <p className={`font-display ${styles.comparison}`}>{comparison}</p>}
         </div>
       )}
     </ToolShell>

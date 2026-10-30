@@ -105,7 +105,7 @@
 
 .barFill {
   height: 100%;
-  background: linear-gradient(90deg, var(--accent), var(--accent-strong));
+  background: var(--accent);
   transition: width 0.5s var(--ease-out);
 }
 

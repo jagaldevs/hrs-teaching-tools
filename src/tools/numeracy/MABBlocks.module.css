@@ -168,7 +168,7 @@
 }
 
 .longBlock rect {
-  fill: #0EA5E9;
+  fill: var(--cat-2);
   stroke: rgba(255, 255, 255, 0.4);
   stroke-width: 0.4;
 }
@@ -179,7 +179,7 @@
 }
 
 .flatBlock rect {
-  fill: #10B981;
+  fill: var(--cat-3);
   stroke: rgba(255, 255, 255, 0.3);
   stroke-width: 0.3;
 }
@@ -189,7 +189,7 @@
   height: 90px;
 }
 
-.cubeFaceTop { fill: #F59E0B; }
-.cubeFaceRight { fill: #C2410C; }
-.cubeFaceFront { fill: #EA580C; }
+.cubeFaceTop { fill: color-mix(in srgb, var(--cat-4) 75%, white); }
+.cubeFaceRight { fill: color-mix(in srgb, var(--cat-4) 75%, black); }
+.cubeFaceFront { fill: var(--cat-4); }
 .cubeLine { stroke: rgba(0, 0, 0, 0.3); stroke-width: 0.4; }

@@ -28,15 +28,15 @@
   --accent-soft: rgba(162, 35, 95, 0.14);
   --accent-ring: rgba(162, 35, 95, 0.32);
 
-  /* Semantic */
-  --success: #4ade80;
-  --warning: #fbbf24;
-  --danger: #f87171;
+  /* Semantic — muted so right/wrong reads clearly without neon */
+  --success: #6fb58a;
+  --warning: #d1a650;
+  --danger: #e0786f;
 
-  /* Elevation */
+  /* Elevation — flat; no coloured glows */
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
   --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.4);
-  --shadow-accent: 0 0 0 1px var(--accent), 0 8px 32px rgba(162, 35, 95, 0.22);
+  --shadow-accent: 0 0 0 1px var(--accent);
 }
 
 :root[data-theme='light'] {
@@ -58,9 +58,32 @@
   --accent-soft: rgba(140, 30, 80, 0.10);
   --accent-ring: rgba(140, 30, 80, 0.28);
 
+  --success: #2f7a4f;
+  --warning: #8a5f12;
+  --danger: #b23b3b;
+
   --shadow-sm: 0 1px 2px rgba(10, 10, 11, 0.06);
   --shadow-md: 0 8px 24px rgba(10, 10, 11, 0.08);
-  --shadow-accent: 0 0 0 1px var(--accent), 0 8px 32px rgba(140, 30, 80, 0.18);
+  --shadow-accent: 0 0 0 1px var(--accent);
+}
+
+:root {
+  /* Categorical fills — the only colours for things that need telling
+     apart (teams, wheel wedges, plotted points, element families).
+     Muted mid-tones, the same in both themes; white text on each passes
+     WCAG AA (≥ 5.3:1). Tools reference these, never raw hex. */
+  --cat-1: #8c1e50; /* HRS burgundy */
+  --cat-2: #3a5a80; /* slate blue */
+  --cat-3: #3f6e4f; /* sage */
+  --cat-4: #8a5f1c; /* ochre */
+  --cat-5: #5e4a7a; /* plum */
+  --cat-6: #2f6870; /* teal */
+  --cat-7: #8f4f33; /* clay */
+  --cat-8: #5a6170; /* slate */
+  --cat-9: #66652a; /* olive */
+  --cat-10: #7a4a63; /* mauve */
+  --neutral-fill: #6b6b70;
+  --on-fill: #ffffff;
 }
 
 :root {

@@ -3,14 +3,15 @@ import { Plus, Minus, RotateCcw, Trophy, Settings } from 'lucide-react';
 import { ToolShell } from '../ToolShell';
 import { chimeComplete, chimeTick } from '../chime';
 import { usePersistedState } from '../../hooks/usePersistedState';
+import { categorical } from '../../theme/palette';
 import common from '../common.module.css';
 import styles from './MarbleJar.module.css';
 
-const MARBLE_COLOURS = ['#A2235F', '#0EA5E9', '#10B981', '#F59E0B', '#A855F7', '#EF4444', '#FB7185'];
 
 interface Marble {
   id: string;
-  colour: string;
+  /** Legacy: older saves stored a hex colour. Marbles are now coloured by position. */
+  colour?: string;
 }
 
 // Jar interior dimensions in viewBox units.
@@ -50,10 +51,7 @@ export function MarbleJar() {
     chimeTick();
     setMarbles((prev) => [
       ...prev,
-      {
-        id: crypto.randomUUID(),
-        colour: MARBLE_COLOURS[prev.length % MARBLE_COLOURS.length]!,
-      },
+      { id: crypto.randomUUID() },
     ]);
   }
 
@@ -126,7 +124,7 @@ export function MarbleJar() {
                     cx={cx}
                     cy={cy}
                     r={layout.radius}
-                    fill={m.colour}
+                    fill={categorical(i)}
                     className={styles.marble}
                     style={{ animationDelay: `${Math.min(400, (marbles.length - 1 - i) * 10)}ms` }}
                   />

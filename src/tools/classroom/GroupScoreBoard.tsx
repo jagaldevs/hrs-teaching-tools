@@ -1,22 +1,22 @@
 import { Plus, Minus, Trash2, RotateCcw, UserPlus, Crown } from 'lucide-react';
 import { ToolShell } from '../ToolShell';
 import { usePersistedState } from '../../hooks/usePersistedState';
+import { categorical } from '../../theme/palette';
 import common from '../common.module.css';
 import styles from './GroupScoreBoard.module.css';
 
 interface Team {
   id: string;
   name: string;
-  colour: string;
+  /** Legacy: older saves stored a hex colour. Teams are now coloured by position. */
+  colour?: string;
   score: number;
 }
 
-const COLOURS = ['#E6007E', '#0EA5E9', '#10B981', '#F59E0B', '#A855F7', '#EF4444', '#FB7185', '#22D3EE'];
-
 const DEFAULT_TEAMS: Team[] = [
-  { id: '1', name: 'Team 1', colour: COLOURS[0]!, score: 0 },
-  { id: '2', name: 'Team 2', colour: COLOURS[1]!, score: 0 },
-  { id: '3', name: 'Team 3', colour: COLOURS[2]!, score: 0 },
+  { id: '1', name: 'Team 1', score: 0 },
+  { id: '2', name: 'Team 2', score: 0 },
+  { id: '3', name: 'Team 3', score: 0 },
 ];
 
 export function GroupScoreBoard() {
@@ -29,7 +29,6 @@ export function GroupScoreBoard() {
       {
         id: crypto.randomUUID(),
         name: `Team ${prev.length + 1}`,
-        colour: COLOURS[prev.length % COLOURS.length]!,
         score: 0,
       },
     ]);
@@ -74,12 +73,12 @@ export function GroupScoreBoard() {
       }
     >
       <div className={styles.board}>
-        {teams.map((t) => {
+        {teams.map((t, i) => {
           const pct = (t.score / maxScore) * 100;
           const isWinner = winners.length === 1 && winners[0]?.id === t.id;
           return (
             <div key={t.id} className={styles.team} data-winner={isWinner}>
-              <div className={styles.colourSwatch} style={{ background: t.colour }}>
+              <div className={styles.colourSwatch} style={{ background: categorical(i) }}>
                 {isWinner && <Crown size={20} className={styles.crown} />}
               </div>
               <div className={styles.nameWrap}>
@@ -91,7 +90,7 @@ export function GroupScoreBoard() {
                 <div className={styles.bar}>
                   <div
                     className={styles.barFill}
-                    style={{ width: `${pct}%`, background: t.colour }}
+                    style={{ width: `${pct}%`, background: categorical(i) }}
                   />
                 </div>
               </div>
