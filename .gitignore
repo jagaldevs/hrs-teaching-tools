@@ -43,6 +43,8 @@ Thumbs.db
 # .gitkeep so the high-level structure is visible to anyone cloning the
 # repo. Year-level subfolders and dropped files are local-only.
 source-material/*
+# Zipped copies of the same material (e.g. for moving between PCs).
+source-material*.zip
 !source-material/README.md
 !source-material/PROGRESS-LOG.md
 !source-material/.gitkeep

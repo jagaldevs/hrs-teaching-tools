@@ -4,8 +4,9 @@ Your quick reference for driving the project. The engineering detail is
 in `WORKLOG.md`; the class-onboarding workflow Claude follows is
 `.claude/skills/onboard-class/SKILL.md`.
 
-_Last updated: 2026-10-30 (repo moved to the OneDrive Desktop folder,
-which is now the main copy; Teacher Tools restyle + fixes)._
+_Last updated: 2026-11-10 (repo moved to the OneDrive Desktop folder;
+Teacher Tools restyle, fixes and My Classes; changes now go through pull
+requests; `CLAUDE.md` added)._
 
 ---
 
@@ -18,8 +19,13 @@ accounts, no student data leaves the device).
 - **Brain Breaks** (`/`): 14 projector-ready games. The three Quick &
   Energetic games (Quick Quiz, Odd One Out, Two Truths and a Lie) serve
   **class-anchored** content.
-- **Teacher Tools** (`/tools`): 25 classroom utilities. The Question
-  Generator uses the same year-level + class picker as the games.
+- **Teacher Tools** (`/tools`): 26 classroom utilities, including **My
+  Classes**, where teachers enter class lists once for Name Picker, Group
+  Maker, Tournaments and Custom Spinner. The Question Generator uses the
+  same year-level + class picker as the games.
+
+**Look:** clean and professional — greys, with HRS burgundy as the only
+accent colour. Claude follows this automatically (it's in `CLAUDE.md`).
 
 **Anchored classes (3 / 20):** Year 10 Maths, Year 7 Humanities, Year 8
 Humanities, each with 452 items (302 MCQ + 75 Odd One Out + 75 Two
@@ -60,18 +66,20 @@ exclude that folder from sync.
 ## Starting a session
 
 Open Claude Code in
-`C:\Users\jack.galbraith\OneDrive - Haileybury\Desktop\hrs_teaching_tools`
-and paste:
+`C:\Users\jack.galbraith\OneDrive - Haileybury\Desktop\hrs_teaching_tools`.
+Claude reads `CLAUDE.md` from that folder automatically: which folder
+to use, the look, the checks, and how changes reach GitHub. Then paste:
 
 ### A. Resume / general work
 
 ```
-Read @JACK-NOTES.md and the latest handoff at the top of @WORKLOG.md's
-"Session handoffs" section. The repo is
-C:\Users\jack.galbraith\OneDrive - Haileybury\Desktop\hrs_teaching_tools
-on my Windows PC — git pull first. Tell me the anchored-class count and what's queued,
-then wait.
+Read the latest handoff at the top of @WORKLOG.md's "Session handoffs"
+section and check GitHub for open pull requests. Tell me what's waiting
+to be merged and what's queued, then wait.
 ```
+
+**At the end of a session**, say "write the handoff". Claude adds a
+dated entry to `WORKLOG.md` so the next session knows where things are.
 
 ### B. Onboard a class
 
@@ -140,8 +148,23 @@ Answer position no longer matters: the games shuffle options every round.
 
 ## GitHub
 
-`jagaldevs/hrs-teaching-tools` is **private**. This PC pushes with the
-login stored by Git Credential Manager (`gh` isn't logged in, and
-doesn't need to be). The README was removed on purpose on 2026-07-30.
-Old WORKLOG entries mention your Windows username in paths, which is
-harmless while the repo stays private.
+`jagaldevs/hrs-teaching-tools` is **private**. This PC is logged in to
+GitHub as `jagaldevs` (both Git and the `gh` command-line tool). The
+README was removed on purpose on 2026-07-30. Old WORKLOG entries mention
+your Windows username in paths, which is harmless while the repo stays
+private.
+
+### How changes reach the live site
+
+1. Claude makes changes on a **branch**, runs the checks, and opens a
+   **pull request** on GitHub, then sends you a summary.
+2. Netlify builds a **preview site** for the pull request; the link
+   appears on the PR page. Try it there — the live site hasn't changed.
+3. When you're happy, click **Merge pull request** on GitHub. The live
+   site updates from `main`.
+4. When GitHub offers **Delete branch** after a merge, click it. If one
+   pull request was built on another's branch, this moves it onto `main`
+   so it's ready to merge next.
+
+Merge pull requests in the order Claude gives you; later ones can build
+on earlier ones.
