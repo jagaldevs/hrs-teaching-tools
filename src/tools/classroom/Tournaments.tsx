@@ -1,27 +1,46 @@
-import { useMemo, useState } from 'react';
-import { Settings, RotateCcw, Crown, Shuffle, Play } from 'lucide-react';
+import { useMemo } from 'react';
+import { RotateCcw, Crown, Shuffle, Play } from 'lucide-react';
 import { ToolShell } from '../ToolShell';
 import { usePersistedState } from '../../hooks/usePersistedState';
 import { shuffle, parseRoster } from '../rng/util';
+import { RosterBar } from '../classes/RosterBar';
+import { usePresentStudents } from '../classes/rosters';
 import { buildInitialBracket, championOf, propagateWinners, roundLabel, type Match } from './bracket';
 import common from '../common.module.css';
 import styles from './Tournaments.module.css';
 
+type Source = 'class' | 'custom';
+
+/** Teachers who'd already typed entrants before classes existed keep that list. */
+function defaultSource(): Source {
+  try {
+    const saved = JSON.parse(localStorage.getItem('hrs:tourney.roster') ?? '""') as unknown;
+    return typeof saved === 'string' && saved.trim() ? 'custom' : 'class';
+  } catch {
+    return 'class';
+  }
+}
+
 export function Tournaments() {
-  const [roster, setRoster] = usePersistedState<string>('tourney.roster', '');
-  const [savedRounds, setRounds] = usePersistedState<Match[][] | null>('tourney.bracket', null);
-  const [settingsOpen, setSettingsOpen] = useState(false);
+  const { roster, present } = usePresentStudents();
+  const initialSource = useMemo(defaultSource, []);
+  const [source, setSource] = usePersistedState<Source>('tourney.source', initialSource);
+  // The typed list — for teams, houses, or anything that isn't a class.
+  const [customText, setCustomText] = usePersistedState<string>('tourney.roster', '');
+  // One bracket per class, plus one for the typed list (its pre-class key).
+  const bracketKey = source === 'class' ? `tourney.bracket.${roster?.id ?? 'none'}` : 'tourney.bracket';
+  const [savedRounds, setRounds] = usePersistedState<Match[][] | null>(bracketKey, null);
   // Re-propagate on load so brackets saved by older versions (which could
   // contain empty first-round matches) advance their stuck byes.
   const rounds = useMemo(() => savedRounds && propagateWinners(savedRounds), [savedRounds]);
 
-  const names = useMemo(() => parseRoster(roster), [roster]);
+  const customNames = useMemo(() => parseRoster(customText), [customText]);
+  const names = source === 'class' ? present.map((s) => s.name) : customNames;
 
   function generate(opts: { shuffleSeed?: boolean } = {}) {
     if (names.length < 2) return;
     const ordered = opts.shuffleSeed ? shuffle(names) : names;
     setRounds(buildInitialBracket(ordered));
-    setSettingsOpen(false);
   }
 
   function pickWinner(roundIdx: number, matchIdx: number, choice: 0 | 1) {
@@ -41,31 +60,57 @@ export function Tournaments() {
     <ToolShell
       eyebrow="Classroom"
       title="Tournaments"
-      description="Single-elimination brackets. Add participants and tap the winner of each match to advance."
+      description="Single-elimination brackets. Use a class or type your own entrants, then tap the winner of each match to advance."
       actions={
-        <>
-          <button type="button" className={common.btn} onClick={() => setSettingsOpen((s) => !s)}>
-            <Settings size={14} /> Roster
+        rounds && (
+          <button type="button" className={common.btn} onClick={reset}>
+            <RotateCcw size={14} /> New tournament
           </button>
-          {rounds && (
-            <button type="button" className={common.btn} onClick={reset}>
-              <RotateCcw size={14} /> New tournament
-            </button>
-          )}
-        </>
+        )
       }
     >
+      <div className={styles.sourceRow} role="group" aria-label="Entrants">
+        <button
+          type="button"
+          className={`${common.btn} ${styles.sourceBtn}`}
+          data-active={source === 'class'}
+          onClick={() => setSource('class')}
+        >
+          A class
+        </button>
+        <button
+          type="button"
+          className={`${common.btn} ${styles.sourceBtn}`}
+          data-active={source === 'custom'}
+          onClick={() => setSource('custom')}
+        >
+          Typed list
+        </button>
+      </div>
+
+      {source === 'class' && <RosterBar />}
+
       {!rounds ? (
         <div className={styles.startCard}>
-          <p className={common.labelText}>Participants</p>
-          <textarea
-            className={styles.textarea}
-            value={roster}
-            onChange={(e) => setRoster(e.target.value)}
-            placeholder={'One participant per line, or comma-separated.\nE.g.\nAva\nNoah\nLiam, Mia, Zoe'}
-            rows={10}
-          />
-          <p className={styles.count}>{names.length} participants</p>
+          {source === 'custom' ? (
+            <>
+              <p className={common.labelText}>Entrants</p>
+              <textarea
+                className={styles.textarea}
+                value={customText}
+                onChange={(e) => setCustomText(e.target.value)}
+                placeholder={'One entrant per line, or comma-separated.\nTeams, houses, students — anything.'}
+                rows={10}
+              />
+            </>
+          ) : (
+            <p className={styles.classNote}>
+              {roster
+                ? 'Everyone in the class who isn’t marked away is entered.'
+                : 'Add a class to run a tournament from it, or switch to a typed list.'}
+            </p>
+          )}
+          <p className={styles.count}>{names.length} entrants</p>
           <div className={styles.controlRow}>
             <button
               type="button"
@@ -125,25 +170,6 @@ export function Tournaments() {
               </div>
             ))}
           </div>
-
-          {settingsOpen && (
-            <section className={styles.settings}>
-              <p className={common.labelText}>Edit roster &amp; restart</p>
-              <textarea
-                className={styles.textarea}
-                value={roster}
-                onChange={(e) => setRoster(e.target.value)}
-                rows={6}
-              />
-              <button
-                type="button"
-                className={`${common.btn} ${common.btnPrimary}`}
-                onClick={() => generate({ shuffleSeed: false })}
-              >
-                Rebuild bracket
-              </button>
-            </section>
-          )}
         </>
       )}
     </ToolShell>

@@ -116,3 +116,11 @@
   text-align: center;
   color: var(--text-muted);
 }
+
+.members {
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

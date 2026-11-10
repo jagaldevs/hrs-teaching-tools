@@ -1,4 +1,5 @@
 import {
+  ClipboardList,
   UsersRound,
   Trophy,
   Award,
@@ -42,6 +43,13 @@ export interface Tool {
 
 export const TOOLS: Tool[] = [
   // ---------------- CLASSROOM MANAGEMENT ----------------
+  {
+    id: 'my-classes',
+    name: 'My Classes',
+    category: 'classroom',
+    description: 'Enter each class list once. Name Picker, Group Maker, Tournaments and Custom Spinner all use it.',
+    icon: ClipboardList,
+  },
   {
     id: 'random-group-maker',
     name: 'Random Group Maker',

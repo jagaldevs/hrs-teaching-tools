@@ -1,9 +1,10 @@
 import { useMemo, useRef, useState } from 'react';
-import { Loader, Plus, Trash2, Settings, X } from 'lucide-react';
+import { Loader, Plus, Trash2, Settings, X, UsersRound } from 'lucide-react';
 import { ToolShell } from '../ToolShell';
 import { Wheel, type WheelSpin } from './Wheel';
 import { weightedIndex } from './util';
 import { usePersistedState } from '../../hooks/usePersistedState';
+import { newId, usePresentStudents } from '../classes/rosters';
 import common from '../common.module.css';
 import styles from './CustomSpinner.module.css';
 
@@ -72,20 +73,40 @@ export function CustomSpinner() {
     setWedges((prev) => prev.filter((w) => w.id !== id));
   }
 
+  // One wedge per student in today, from the class picked in any tool.
+  const { roster, present } = usePresentStudents();
+  function fillFromClass() {
+    if (!roster || present.length === 0) return;
+    if (wedges.length > 0 && !window.confirm(`Replace the wedges with the ${present.length} students in ${roster.name}?`)) return;
+    setWedges(present.map((s) => ({ id: newId(), label: s.name, weight: 1 })));
+    setLandedLabel(null);
+  }
+
   return (
     <ToolShell
       eyebrow="Randomisers"
       title="Custom Spinner"
       description="Define your own wedges with weighted segments. Great for decisions, picks and probability."
       actions={
-        <button
-          type="button"
-          className={`${common.btn} ${editOpen ? '' : common.btnPrimary}`}
-          onClick={() => setEditOpen((o) => !o)}
-        >
-          {editOpen ? <X size={14} /> : <Settings size={14} />}
-          {editOpen ? 'Done editing' : 'Edit wedges'}
-        </button>
+        <>
+          <button
+            type="button"
+            className={common.btn}
+            onClick={fillFromClass}
+            disabled={spinning || present.length === 0}
+            title={roster ? `Use ${roster.name}` : 'Add a class in My Classes first'}
+          >
+            <UsersRound size={14} /> Fill from class
+          </button>
+          <button
+            type="button"
+            className={`${common.btn} ${editOpen ? '' : common.btnPrimary}`}
+            onClick={() => setEditOpen((o) => !o)}
+          >
+            {editOpen ? <X size={14} /> : <Settings size={14} />}
+            {editOpen ? 'Done editing' : 'Edit wedges'}
+          </button>
+        </>
       }
     >
       {wedges.length === 0 ? (

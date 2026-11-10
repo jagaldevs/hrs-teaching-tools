@@ -12,6 +12,7 @@ import { lazy, type ComponentType, type LazyExoticComponent } from 'react';
  */
 export const TOOL_COMPONENTS: Record<string, LazyExoticComponent<ComponentType>> = {
   // ---------- Classroom Management ----------
+  'my-classes': lazy(() => import('./classes/MyClasses').then((m) => ({ default: m.MyClasses }))),
   'random-group-maker': lazy(() => import('./rng/RandomGroupMaker').then((m) => ({ default: m.RandomGroupMaker }))),
   'group-score-board': lazy(() => import('./classroom/GroupScoreBoard').then((m) => ({ default: m.GroupScoreBoard }))),
   'marble-jar-reward': lazy(() => import('./classroom/MarbleJar').then((m) => ({ default: m.MarbleJar }))),
