@@ -4,8 +4,14 @@ import styles from './Splash.module.css';
 
 const SKIP_KEY = 'hrs-skip-splash';
 
+// localStorage can throw (blocked storage, some embedded browsers); the
+// splash must never take the whole app down with it.
 export function shouldSkipSplash(): boolean {
-  return localStorage.getItem(SKIP_KEY) === '1';
+  try {
+    return localStorage.getItem(SKIP_KEY) === '1';
+  } catch {
+    return true;
+  }
 }
 
 export function Splash() {
@@ -14,7 +20,11 @@ export function Splash() {
   function enter() {
     // Set the skip flag so we don't bounce back here on every page load.
     // Users can clear localStorage to see this again.
-    localStorage.setItem(SKIP_KEY, '1');
+    try {
+      localStorage.setItem(SKIP_KEY, '1');
+    } catch {
+      /* storage blocked; shouldSkipSplash() already falls back to skipping */
+    }
     navigate('/');
   }
 

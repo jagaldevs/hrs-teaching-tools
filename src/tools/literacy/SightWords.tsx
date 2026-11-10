@@ -20,7 +20,8 @@ type ListId = 'magic100' | 'magic200' | 'magic300';
 
 /**
  * Magic Words sight-word lists (Lyn Stone, "Reading for Life").
- * Each list is de-duplicated within itself so the same word never appears twice.
+ * Each list is de-duplicated, and a word appears in only its first list
+ * (the raw 300 list repeated "because" and "world" from the 200).
  */
 const RAW_LISTS: Record<ListId, string[]> = {
   magic100: [
@@ -63,10 +64,19 @@ const RAW_LISTS: Record<ListId, string[]> = {
   ],
 };
 
+function dedupe(words: string[], earlier: string[][]): string[] {
+  const taken = new Set(earlier.flat());
+  return Array.from(new Set(words)).filter((w) => !taken.has(w));
+}
+
+const WORDS_100 = dedupe(RAW_LISTS.magic100, []);
+const WORDS_200 = dedupe(RAW_LISTS.magic200, [WORDS_100]);
+const WORDS_300 = dedupe(RAW_LISTS.magic300, [WORDS_100, WORDS_200]);
+
 const LISTS: Record<ListId, { label: string; words: string[] }> = {
-  magic100: { label: 'Magic 100', words: Array.from(new Set(RAW_LISTS.magic100)) },
-  magic200: { label: 'Magic 200', words: Array.from(new Set(RAW_LISTS.magic200)) },
-  magic300: { label: 'Magic 300', words: Array.from(new Set(RAW_LISTS.magic300)) },
+  magic100: { label: 'Magic 100', words: WORDS_100 },
+  magic200: { label: 'Magic 200', words: WORDS_200 },
+  magic300: { label: 'Magic 300', words: WORDS_300 },
 };
 
 function speakWord(word: string) {

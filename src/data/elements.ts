@@ -45,18 +45,19 @@ export const CATEGORY_LABELS: Record<ElementCategory, string> = {
   unknown: 'Unknown / predicted',
 };
 
+/** Muted categorical fills from styles/tokens.css — see theme/palette.ts. */
 export const CATEGORY_COLOURS: Record<ElementCategory, string> = {
-  'alkali-metal': '#EF4444',
-  'alkaline-earth': '#F59E0B',
-  'transition-metal': '#0EA5E9',
-  'post-transition': '#22D3EE',
-  metalloid: '#A855F7',
-  nonmetal: '#10B981',
-  halogen: '#84CC16',
-  'noble-gas': '#E6007E',
-  lanthanide: '#FB7185',
-  actinide: '#EC4899',
-  unknown: '#6B7280',
+  'alkali-metal': 'var(--cat-7)',
+  'alkaline-earth': 'var(--cat-4)',
+  'transition-metal': 'var(--cat-2)',
+  'post-transition': 'var(--cat-6)',
+  metalloid: 'var(--cat-9)',
+  nonmetal: 'var(--cat-3)',
+  halogen: 'var(--cat-10)',
+  'noble-gas': 'var(--cat-5)',
+  lanthanide: 'var(--cat-1)',
+  actinide: 'var(--cat-8)',
+  unknown: 'var(--neutral-fill)',
 };
 
 export const ELEMENTS: ElementInfo[] = [

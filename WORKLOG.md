@@ -26,7 +26,8 @@ git history.)
 - Scope: content work targets the 20 Year 7–10 classes. F–6 stays in the
   app with generic content. VCE is reference material only (removed from
   the app 2026-06-03; study designs live in `source-material/_reference/vce/`).
-- Repo: `C:\Users\jack.galbraith\Code\hrs_teaching_tools` (Windows PC).
+- Repo: `C:\Users\jack.galbraith\OneDrive - Haileybury\Desktop\hrs_teaching_tools` (Windows PC; main copy since 2026-10-30. The old
+  `C:\Users\jack.galbraith\Code\hrs_teaching_tools` checkout is a backup only).
   Remote `jagaldevs/hrs-teaching-tools` (private).
 
 ## 2. Where things live
@@ -144,9 +145,10 @@ fine in this repo.
 - **5.6 PWA cache makes fixes look broken.** Hard-refresh or unregister
   the service worker before concluding a change failed. The dev server's
   SW is disabled; preview/production isn't.
-- **5.7 Find the real repo first.** The OneDrive folder is a stub; the
-  repo is under `C:\Users\jack.galbraith\Code\`. And check `git status`
-  against the remote — this PC was 13 commits behind on 2026-10-14.
+- **5.7 Find the real repo first.** Since 2026-10-30 it's the OneDrive
+  `Desktop\hrs_teaching_tools` folder; the old `Code` checkout is a stale
+  backup. And check `git status` against the remote — this PC was 13
+  commits behind on 2026-10-14.
 - **5.8 Extract big textbooks, don't skip them.** Their named case
   studies make the best questions.
 - **5.9 Author big banks in chunks** against a sentinel comment with
@@ -187,7 +189,8 @@ this log, commit, push.
 5. **Dependencies:** `npm audit` reports issues mostly in build tooling;
    React 19 / Vite 6+ / vite-plugin-pwa 1+ are major upgrades — do them
    as a separate, tested step.
-6. **Backup** for `source-material/` (not in git, not in OneDrive).
+6. **Backup** for `source-material/`: not in git. Since the 2026-10-30 move
+   it's synced by OneDrive, which is its only copy off this PC.
 
 ---
 

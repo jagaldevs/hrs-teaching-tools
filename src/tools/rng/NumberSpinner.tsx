@@ -1,7 +1,7 @@
 import { useMemo, useRef, useState } from 'react';
 import { Loader, Repeat } from 'lucide-react';
 import { ToolShell } from '../ToolShell';
-import { Wheel } from './Wheel';
+import { Wheel, type WheelSpin } from './Wheel';
 import { randomInt } from './util';
 import { usePersistedState } from '../../hooks/usePersistedState';
 import common from '../common.module.css';
@@ -10,7 +10,7 @@ import styles from './NumberSpinner.module.css';
 export function NumberSpinner() {
   const [min, setMin] = usePersistedState<number>('numspin.min', 1);
   const [max, setMax] = usePersistedState<number>('numspin.max', 10);
-  const [target, setTarget] = useState<number | null>(null);
+  const [spinReq, setSpinReq] = useState<WheelSpin | null>(null);
   const [landed, setLanded] = useState<number | null>(null);
   const [spinning, setSpinning] = useState(false);
 
@@ -39,7 +39,7 @@ export function NumberSpinner() {
     setSpinning(true);
     if (rangeMatchesWedges) {
       // Each wedge IS a unique value: pick a wedge directly.
-      setTarget(randomInt(segments.length));
+      setSpinReq((s) => ({ index: randomInt(segments.length), id: (s?.id ?? 0) + 1 }));
     } else {
       // Decouple visual from result. Draw uniformly across the real range
       // and pick a roughly-corresponding wedge to land on for visual flavour.
@@ -48,9 +48,9 @@ export function NumberSpinner() {
         segments.length - 1,
         Math.floor(((pick - lo) / (hi - lo + 1)) * segments.length),
       );
-      // Stash the real result on the target object via a parallel state field.
+      // Stash the real result in a ref; the wheel only knows the wedge.
       pendingResultRef.current = pick;
-      setTarget(wedge);
+      setSpinReq((s) => ({ index: wedge, id: (s?.id ?? 0) + 1 }));
     }
   }
 
@@ -74,7 +74,7 @@ export function NumberSpinner() {
       title="Number Spinner"
       description="Spin a wheel of numbers within any range. Crypto-strong randomness."
     >
-      <Wheel segments={segments} targetIndex={target} onLanded={onLanded} size={Math.min(420, 80 * Math.min(segments.length, 6))} />
+      <Wheel segments={segments} spin={spinReq} onLanded={onLanded} size={Math.min(420, 80 * Math.min(segments.length, 6))} />
 
       <div className={styles.result}>
         {landed != null ? (

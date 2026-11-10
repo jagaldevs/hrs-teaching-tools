@@ -60,28 +60,19 @@ function parseFraction(s: string): number | null {
 export function FDPConverter() {
   const [mode, setMode] = usePersistedState<Mode>('fdp.mode', 'fraction');
   const [input, setInput] = useState('1/2');
-  const [error, setError] = useState<string | null>(null);
 
-  const value: number | null = useMemo(() => {
-    setError(null);
+  // Parse is pure: the error is derived alongside the value, not set as
+  // state during render.
+  const { value, error } = useMemo((): { value: number | null; error: string | null } => {
     const trimmed = input.trim();
-    if (trimmed === '') return null;
+    if (trimmed === '') return { value: null, error: null };
     if (mode === 'fraction') {
       const v = parseFraction(trimmed);
-      if (v == null) {
-        setError('Use format like "3/4".');
-        return null;
-      }
-      return v;
+      return v == null ? { value: null, error: 'Use format like "3/4".' } : { value: v, error: null };
     }
-    const cleaned = trimmed.replace(/[%,]/g, '');
-    const n = Number(cleaned);
-    if (Number.isNaN(n)) {
-      setError('Enter a number.');
-      return null;
-    }
-    return mode === 'percent' ? n / 100 : n;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const n = Number(trimmed.replace(/[%,]/g, ''));
+    if (Number.isNaN(n)) return { value: null, error: 'Enter a number.' };
+    return { value: mode === 'percent' ? n / 100 : n, error: null };
   }, [input, mode]);
 
   const frac = value == null ? null : decimalToFraction(value);

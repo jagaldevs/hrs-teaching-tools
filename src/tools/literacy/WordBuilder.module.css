@@ -191,7 +191,7 @@
   height: 70px;
   border-radius: var(--radius-md);
   border: 2px solid var(--accent);
-  background: linear-gradient(180deg, var(--accent-soft), transparent);
+  background: var(--accent-soft);
   color: var(--accent);
   font-family: var(--font-display);
   font-size: 2rem;

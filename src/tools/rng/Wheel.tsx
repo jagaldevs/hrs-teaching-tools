@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { categorical } from '../../theme/palette';
 import styles from './Wheel.module.css';
 
 export interface WheelSegment {
@@ -8,10 +9,19 @@ export interface WheelSegment {
   colour?: string;
 }
 
+/**
+ * A spin request. `id` must change on every spin — landing on the same
+ * wedge twice in a row is a new spin with the same `index`.
+ */
+export interface WheelSpin {
+  index: number;
+  id: number;
+}
+
 interface WheelProps {
   segments: WheelSegment[];
-  /** Index of segment to land on. If null, wheel sits idle. */
-  targetIndex: number | null;
+  /** The spin to animate. If null, wheel sits idle. */
+  spin: WheelSpin | null;
   /** Called once when the spin animation completes. */
   onLanded?: (idx: number) => void;
   /** Pixel size (square). */
@@ -21,24 +31,26 @@ interface WheelProps {
   showLabels?: boolean;
 }
 
-const PALETTE = ['#E6007E', '#6B0F4C', '#1D4ED8', '#0EA5E9', '#10B981', '#F59E0B', '#A855F7', '#EC4899'];
-
 export function Wheel({
   segments,
-  targetIndex,
+  spin,
   onLanded,
   size = 360,
   spinDurationMs = 3600,
   showLabels = true,
 }: WheelProps) {
   const [rotation, setRotation] = useState(0);
-  const lastTargetRef = useRef<number | null>(null);
   const onLandedRef = useRef(onLanded);
   onLandedRef.current = onLanded;
+  // Read at spin time only, so editing wedges mid-spin can't cancel the landing.
+  const segmentsRef = useRef(segments);
+  segmentsRef.current = segments;
 
   useEffect(() => {
-    if (targetIndex == null || targetIndex === lastTargetRef.current) return;
-    if (segments.length === 0) return;
+    if (spin == null) return;
+    const segments = segmentsRef.current;
+    const targetIndex = spin.index;
+    if (!segments[targetIndex]) return;
 
     const total = segments.reduce((s, seg) => s + (seg.weight ?? 1), 0);
     // Sum weights up to (but not including) targetIndex to find segment start angle
@@ -56,19 +68,20 @@ export function Wheel({
     const fullSpins = 6;
     const baseRotation = fullSpins * 360 - centreDeg;
     // Keep direction monotonic for smoother CSS transitions
-    const prev = rotation % 360;
-    const delta = (baseRotation - prev + 720) % 360;
-    const next = rotation + delta + fullSpins * 360;
-    setRotation(next);
-    lastTargetRef.current = targetIndex;
+    setRotation((rotation) => {
+      const prev = rotation % 360;
+      const delta = (baseRotation - prev + 720) % 360;
+      return rotation + delta + fullSpins * 360;
+    });
 
     const t = window.setTimeout(() => {
       onLandedRef.current?.(targetIndex);
     }, spinDurationMs + 50);
 
     return () => window.clearTimeout(t);
+    // Keyed on the spin id alone: a new spin restarts, nothing else does.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [targetIndex, segments, spinDurationMs]);
+  }, [spin?.id]);
 
   // Build SVG paths for each segment
   const total = segments.reduce((s, seg) => s + (seg.weight ?? 1), 0);
@@ -82,7 +95,7 @@ export function Wheel({
     const path = wedgePath(50, 50, 48, startAngle, endAngle);
     const labelAngle = (startAngle + endAngle) / 2;
     const labelPos = polar(50, 50, 30, labelAngle);
-    const fill = seg.colour ?? PALETTE[i % PALETTE.length];
+    const fill = seg.colour ?? categorical(i);
 
     return { i, path, label: seg.label, fill, labelAngle, labelPos };
   });
@@ -100,7 +113,7 @@ export function Wheel({
         <svg viewBox="0 0 100 100" width={size} height={size}>
           {wedges.map((w) => (
             <g key={w.i}>
-              <path d={w.path} fill={w.fill} stroke="rgba(0,0,0,0.18)" strokeWidth={0.4} />
+              <path d={w.path} style={{ fill: w.fill }} stroke="var(--bg)" strokeWidth={0.4} />
               {showLabels && segments.length <= 16 && (
                 <text
                   x={w.labelPos.x}

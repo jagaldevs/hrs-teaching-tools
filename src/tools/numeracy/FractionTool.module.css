@@ -239,3 +239,10 @@
   border-radius: 4px;
   white-space: nowrap;
 }
+
+.limits {
+  margin: var(--space-2) 0 var(--space-4);
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  text-align: center;
+}

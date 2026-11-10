@@ -143,21 +143,22 @@ export function SpellingTest() {
     window.speechSynthesis?.cancel();
   }
 
-  // Auto-advance ticker
+  // Auto-advance ticker. The interval only counts down; moving to the next
+  // word happens in the effect below. (Calling nextWord() inside the setTick
+  // updater ran it twice under StrictMode and skipped words.)
   useEffect(() => {
     if (!running || phase !== 'running') return;
     timerRef.current = window.setInterval(() => {
-      setTick((t) => {
-        if (t <= 1) {
-          nextWord();
-          return intervalSec;
-        }
-        return t - 1;
-      });
+      setTick((t) => t - 1);
     }, 1000);
     return clearTimer;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [running, phase, idx, intervalSec]);
+
+  useEffect(() => {
+    if (running && phase === 'running' && tick <= 0) nextWord();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tick]);
 
   useEffect(() => {
     return () => {

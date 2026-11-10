@@ -1,8 +1,8 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { Loader, Plus, Trash2, Settings, X } from 'lucide-react';
 import { ToolShell } from '../ToolShell';
-import { Wheel } from './Wheel';
-import { randomInt } from './util';
+import { Wheel, type WheelSpin } from './Wheel';
+import { weightedIndex } from './util';
 import { usePersistedState } from '../../hooks/usePersistedState';
 import common from '../common.module.css';
 import styles from './CustomSpinner.module.css';
@@ -25,7 +25,9 @@ const DEFAULT_WEDGES: Wedge[] = [
 export function CustomSpinner() {
   const [wedges, setWedges] = usePersistedState<Wedge[]>('cspinner.wedges', DEFAULT_WEDGES);
   const [removeOnLand, setRemoveOnLand] = usePersistedState<boolean>('cspinner.removeOnLand', false);
-  const [target, setTarget] = useState<number | null>(null);
+  const [spinReq, setSpinReq] = useState<WheelSpin | null>(null);
+  // The wedge chosen at spin time, by id, so edits mid-spin can't change the result.
+  const pickedIdRef = useRef<string | null>(null);
   const [landedLabel, setLandedLabel] = useState<string | null>(null);
   const [spinning, setSpinning] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
@@ -39,16 +41,19 @@ export function CustomSpinner() {
     if (segments.length === 0) return;
     setLandedLabel(null);
     setSpinning(true);
-    setTarget(randomInt(segments.length));
+    // Weighted: a weight-3 wedge is three times as likely as a weight-1 wedge,
+    // matching how much of the wheel it takes up.
+    const index = weightedIndex(wedges.map((w) => w.weight));
+    pickedIdRef.current = wedges[index]?.id ?? null;
+    setSpinReq((s) => ({ index, id: (s?.id ?? 0) + 1 }));
   }
 
   function onLanded(idx: number) {
-    const landed = wedges[idx];
+    const landed = wedges.find((w) => w.id === pickedIdRef.current) ?? wedges[idx];
     setLandedLabel(landed?.label ?? null);
     setSpinning(false);
     if (removeOnLand && landed) {
       setWedges((prev) => prev.filter((w) => w.id !== landed.id));
-      setTarget(null);
     }
   }
 
@@ -87,7 +92,7 @@ export function CustomSpinner() {
         <p className={styles.empty}>Add some wedges to get started.</p>
       ) : (
         <>
-          <Wheel segments={segments} targetIndex={target} onLanded={onLanded} size={420} />
+          <Wheel segments={segments} spin={spinReq} onLanded={onLanded} size={420} />
 
           <div className={styles.result}>
             {landedLabel ? (

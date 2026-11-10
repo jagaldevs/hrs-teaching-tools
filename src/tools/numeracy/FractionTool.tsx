@@ -25,12 +25,18 @@ function arcPath(cx: number, cy: number, r: number, startDeg: number, endDeg: nu
   return `M ${cx} ${cy} L ${start.x} ${start.y} A ${r} ${r} 0 ${largeArc} 1 ${end.x} ${end.y} Z`;
 }
 
+/** Largest denominator drawn (more slices than this are unreadable). */
+const MAX_DEN = 20;
+/** Improper fractions are drawn up to this many wholes. */
+const MAX_WHOLES = 3;
+
 export function FractionTool() {
   const [numerator, setNumerator] = usePersistedState<number>('fract.num', 3);
   const [denominator, setDenominator] = usePersistedState<number>('fract.den', 4);
 
-  const safeDen = Math.max(1, denominator);
-  const safeNum = Math.max(0, Math.min(numerator, safeDen * 2)); // allow improper up to 2× whole
+  const safeDen = Math.max(1, Math.min(MAX_DEN, denominator));
+  const maxNum = safeDen * MAX_WHOLES;
+  const safeNum = Math.max(0, Math.min(numerator, maxNum));
 
   const wholePart = Math.floor(safeNum / safeDen);
   const fracPart = safeNum % safeDen;
@@ -40,20 +46,20 @@ export function FractionTool() {
   const percent = decimal * 100;
 
   const g = gcd(safeNum, safeDen);
-  const simplified = `${safeNum / g}/${safeDen / g}`;
+  const simplified = safeDen / g === 1 ? `${safeNum / g}` : `${safeNum / g}/${safeDen / g}`;
   const mixed = isImproper && fracPart > 0 ? `${wholePart} ${fracPart}/${safeDen}` : null;
 
-  function bumpNum(delta: number) {
-    setNumerator(Math.max(0, Math.min(safeDen * 2, safeNum + delta)));
+  function setNum(n: number) {
+    setNumerator(Math.max(0, Math.min(maxNum, n)));
   }
 
-  function bumpDen(delta: number) {
-    const next = Math.max(1, Math.min(20, safeDen + delta));
+  function setDen(d: number) {
+    const next = Math.max(1, Math.min(MAX_DEN, d));
     setDenominator(next);
-    if (safeNum > next * 2) setNumerator(next * 2);
+    if (safeNum > next * MAX_WHOLES) setNumerator(next * MAX_WHOLES);
   }
 
-  // For circle visualization: if improper, we draw two circles
+  // For circle visualization: if improper, we draw one circle per whole
   const circles = Math.ceil(safeNum / safeDen);
 
   // For bar visualization: one bar per whole
@@ -71,39 +77,42 @@ export function FractionTool() {
     >
       <div className={styles.controls}>
         <div className={styles.stepper}>
-          <button type="button" className={styles.stepBtn} onClick={() => bumpNum(-1)} disabled={safeNum === 0} aria-label="Decrease numerator">
+          <button type="button" className={styles.stepBtn} onClick={() => setNum(safeNum - 1)} disabled={safeNum === 0} aria-label="Decrease numerator">
             <Minus size={14} />
           </button>
           <input
             type="text"
             inputMode="numeric"
             value={safeNum}
-            onChange={(e) => setNumerator(Math.max(0, Number(e.target.value) || 0))}
+            onChange={(e) => setNum(Number(e.target.value) || 0)}
             className={styles.numInput}
             aria-label="Numerator"
           />
-          <button type="button" className={styles.stepBtn} onClick={() => bumpNum(1)} aria-label="Increase numerator">
+          <button type="button" className={styles.stepBtn} onClick={() => setNum(safeNum + 1)} disabled={safeNum >= maxNum} aria-label="Increase numerator">
             <Plus size={14} />
           </button>
         </div>
         <span className={styles.fracBar} />
         <div className={styles.stepper}>
-          <button type="button" className={styles.stepBtn} onClick={() => bumpDen(-1)} disabled={safeDen <= 1} aria-label="Decrease denominator">
+          <button type="button" className={styles.stepBtn} onClick={() => setDen(safeDen - 1)} disabled={safeDen <= 1} aria-label="Decrease denominator">
             <Minus size={14} />
           </button>
           <input
             type="text"
             inputMode="numeric"
             value={safeDen}
-            onChange={(e) => setDenominator(Math.max(1, Number(e.target.value) || 1))}
+            onChange={(e) => setDen(Number(e.target.value) || 1)}
             className={styles.numInput}
             aria-label="Denominator"
           />
-          <button type="button" className={styles.stepBtn} onClick={() => bumpDen(1)} aria-label="Increase denominator">
+          <button type="button" className={styles.stepBtn} onClick={() => setDen(safeDen + 1)} disabled={safeDen >= MAX_DEN} aria-label="Increase denominator">
             <Plus size={14} />
           </button>
         </div>
       </div>
+      <p className={styles.limits}>
+        Denominator 1–{MAX_DEN} · improper fractions up to {MAX_WHOLES} wholes
+      </p>
 
       <div className={styles.summary}>
         <Card label="Decimal" value={Math.round(decimal * 10000) / 10000} />

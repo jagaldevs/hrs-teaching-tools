@@ -4,8 +4,8 @@ Your quick reference for driving the project. The engineering detail is
 in `WORKLOG.md`; the class-onboarding workflow Claude follows is
 `.claude/skills/onboard-class/SKILL.md`.
 
-_Last updated: 2026-10-14 (back on the Windows work PC after the July
-Mac stint; audit + cleanup session)._
+_Last updated: 2026-10-30 (repo moved to the OneDrive Desktop folder,
+which is now the main copy; Teacher Tools restyle + fixes)._
 
 ---
 
@@ -38,7 +38,7 @@ study designs to keep Year 10 pitched right, never as app content.
 
 | Path | What |
 |---|---|
-| `C:\Users\jack.galbraith\Code\hrs_teaching_tools` | **The repo.** (The OneDrive `Desktop\hrs_teaching_tools` folder only holds Claude settings.) |
+| `C:\Users\jack.galbraith\OneDrive - Haileybury\Desktop\hrs_teaching_tools` | **The repo** — the main copy on this PC since 2026-10-30. (The old `C:\Users\jack.galbraith\Code\hrs_teaching_tools` checkout is a backup only; don't work in it.) |
 | `src/data/classes.ts` | Class registry: year bands, 28 classes, `anchored` flags |
 | `src/data/banks/mcq.ts` · `oddOneOut.ts` · `misc.ts` | Quick Quiz · Odd One Out · Two Truths (plus Estimate It, Synonym Sprint, Would You Rather) |
 | `src/games/ClassPicker.tsx` | The year-level + class picker shared by games and the Question Generator |
@@ -48,24 +48,27 @@ study designs to keep Year 10 pitched right, never as app content.
 | `source-material/<subject>/year-<n>/` | Class materials + `_overview.md` (gitignored) |
 | `source-material/_reference/` | AC V9, VCE study designs, HRS scope & sequences (gitignored) |
 
-**Source material isn't in git** and the `Code` folder isn't in OneDrive,
-so everything in `source-material/` exists only on this PC's disk. Back it
-up somewhere. (The old Y7/Y8 Humanities materials stayed on the Mac.)
+**Source material isn't in git.** Since the move it sits in the OneDrive
+Desktop folder, so OneDrive syncs it to the school's OneDrive; that's its
+only backup. (The old Y7/Y8 Humanities materials stayed on the Mac.)
+OneDrive also syncs `node_modules`; if installs hit file-lock errors,
+exclude that folder from sync.
 
 ---
 
 ## Starting a session
 
-Open Claude Code in `C:\Users\jack.galbraith\Code\hrs_teaching_tools`
-(or in the OneDrive folder — its launch config points here) and paste:
+Open Claude Code in
+`C:\Users\jack.galbraith\OneDrive - Haileybury\Desktop\hrs_teaching_tools`
+and paste:
 
 ### A. Resume / general work
 
 ```
 Read @JACK-NOTES.md and the latest handoff at the top of @WORKLOG.md's
 "Session handoffs" section. The repo is
-C:\Users\jack.galbraith\Code\hrs_teaching_tools on my Windows PC —
-git pull first. Tell me the anchored-class count and what's queued,
+C:\Users\jack.galbraith\OneDrive - Haileybury\Desktop\hrs_teaching_tools
+on my Windows PC — git pull first. Tell me the anchored-class count and what's queued,
 then wait.
 ```
 

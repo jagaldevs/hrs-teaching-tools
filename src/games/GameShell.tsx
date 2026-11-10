@@ -25,9 +25,11 @@ export function GameShell({ title, description, children }: GameShellProps) {
     return () => document.removeEventListener('fullscreenchange', onChange);
   }, []);
 
+  const canFullscreen = !!document.fullscreenEnabled;
+
   function toggleFullscreen() {
-    if (!document.fullscreenElement) document.documentElement.requestFullscreen().catch(() => {});
-    else document.exitFullscreen().catch(() => {});
+    if (!document.fullscreenElement) document.documentElement.requestFullscreen?.().catch(() => {});
+    else document.exitFullscreen?.().catch(() => {});
   }
 
   return (
@@ -45,10 +47,12 @@ export function GameShell({ title, description, children }: GameShellProps) {
           </div>
         </div>
         <div className={styles.actions}>
-          <button type="button" className={common.btn} onClick={toggleFullscreen}>
-            {isFs ? <Minimize2 size={14} /> : <Maximize2 size={14} />}
-            {isFs ? 'Exit fullscreen' : 'Fullscreen'}
-          </button>
+          {canFullscreen && (
+            <button type="button" className={common.btn} onClick={toggleFullscreen}>
+              {isFs ? <Minimize2 size={14} /> : <Maximize2 size={14} />}
+              {isFs ? 'Exit fullscreen' : 'Fullscreen'}
+            </button>
+          )}
         </div>
       </div>
 
