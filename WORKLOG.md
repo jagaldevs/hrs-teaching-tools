@@ -17,7 +17,9 @@ git history.)
 
 - React 18 + Vite 5 + TypeScript PWA; dark-first, offline, all state in
   `localStorage` under `hrs:` keys. No server.
-- **Brain Breaks** (`/`): 14 games. **Teacher Tools** (`/tools`): 25.
+- **Brain Breaks** (`/`): 14 games. **Teacher Tools** (`/tools`): 26,
+  including **My Classes**, the teachers' class lists the people tools
+  share (§3.8).
 - Content is static TypeScript in `src/data/banks/` — never fetched.
 - Teachers pick a **year band** and a **class** (`src/data/classes.ts`).
   The three Quick & Energetic games and the Question Generator serve a
@@ -44,7 +46,11 @@ git history.)
 | `src/games/ClassPicker.tsx` | `<ClassPicker>` + `useClassSelection()` — shared by `SetupScreen` and the Question Generator |
 | `src/games/GameShell.tsx` | `<GameShell>` chrome + `<SetupScreen>` (band/class/count → `SetupSelections`) |
 | `src/games/registry.ts` · `src/tools/registry.ts` | id → lazy component |
-| `src/test/*.test.ts` | Vitest: bank integrity, class wiring, `shuffleOptions` |
+| `src/styles/tokens.css` · `src/theme/palette.ts` | Design tokens; `--cat-1…10` muted categorical fills and `categorical(i)` (§3.7) |
+| `src/tools/classes/` | My Classes: `rosters.ts` store + hooks, `RosterBar` switcher, `MyClasses` page (§3.8) |
+| `src/tools/classroom/bracket.ts` | Tournament bracket logic (byes, propagation) |
+| `src/tools/useTimer.ts` | Countdown/stopwatch hook used by games and tools |
+| `src/test/*.test.ts(x)` | Vitest: bank integrity, class wiring, `shuffleOptions`, randomisers, brackets, rosters, tool behaviour (jsdom + Testing Library) |
 | `scripts/audit-content.ts` | `npm run audit:content` rigour heuristics |
 | `scaffold_overviews.py` | Creates `_overview.md` templates for the 20 Y7–10 class folders |
 | `source-material/` | Gitignored teaching materials: `<subject>/year-<n>/` per class, `_reference/{ac-v9,vce,hrs}/` cross-class |
@@ -100,12 +106,46 @@ at round start. **Explanations must not refer to option order.**
 `npm test` must pass; `npm run audit:content -- --class <id>` should be
 clean or every finding justified. The rigour rules are in the SKILL.
 
-### 3.6 Commits
+### 3.6 Commits and pull requests
 
 Imperative subject ≤ 72 chars; body says why. End with the co-author
 trailer naming the Claude model that wrote the change. Keep content and
-code changes in separate commits where practical. Commit and push are
-fine in this repo.
+code changes in separate commits where practical.
+
+Since 2026-10-30 changes go through pull requests: branch from the
+latest work, commit, push the branch, open a PR into `main`, and give
+Jack a plain-language summary. Jack merges. Netlify builds a preview
+site for every PR into `main` (link in the PR). When work depends on an
+unmerged PR, branch from that PR's branch and base the new PR on it;
+GitHub retargets it to `main` when the earlier PR merges with its branch
+deleted. Run `gh pr list` at session start to see what's in flight.
+
+### 3.7 Look and colour
+
+Jack's rule (2026-10-30): a clean, professional look.
+
+- Neutral greys everywhere; HRS burgundy (`--accent`) is the one accent.
+- Things that need telling apart (teams, wedges, points, element
+  families) use `--cat-1…10` via `categorical(i)` in `theme/palette.ts`.
+  White text on each passes WCAG AA.
+- Every colour comes from a `tokens.css` token. Surfaces are flat with
+  thin borders.
+- Teacher Tools follow this fully. Brain Breaks still uses the bright
+  `SUBJECT_COLOURS` (§7).
+
+### 3.8 My Classes (rosters)
+
+- Teachers' class lists are **rosters** in code, so they're never
+  confused with curriculum classes (`HrsClass`). The UI says "My classes".
+- One store, `tools/classes/rosters.ts` (`useSyncExternalStore`, key
+  `hrs:rosters`); tools read it through `usePresentStudents()` and show
+  `<RosterBar />`. The active class is shared by every tool.
+- Students have ids; `displayNames()` numbers repeats ("Jack (2)").
+  Absences (`hrs:rosters.absent`) count for today only.
+- Per-class tool state uses `usePersistedState` with the roster id in
+  the key (`namepicker.picked.<id>`, `groups.last.<id>`,
+  `tourney.bracket.<id>`); the hook re-reads when its key changes.
+- Names stay on the device. Back up / Restore moves them as JSON.
 
 ## 4. Decisions worth remembering
 
@@ -126,6 +166,14 @@ fine in this repo.
   for every bank, including future ones, without data rewrites.
 - **Source material stays out of git** (school IP). It therefore needs
   its own backup.
+- **Clean, professional look** (Jack, 2026-10-30): no bright/neon
+  palettes, glows or decorative gradients (§3.7).
+- **One shared class list for Teacher Tools** (2026-10-30) rather than a
+  roster per tool. Score Board takes teams from Group Maker instead of a
+  class switcher; Tournaments can also run from a typed list (teams,
+  houses).
+- **Repo lives in the OneDrive Desktop folder** (2026-10-30) on Jack's
+  work PC; changes reach `main` through pull requests (§3.6).
 
 ## 5. Lessons — don't repeat
 
@@ -163,7 +211,17 @@ fine in this repo.
   PowerShell (or `npm.cmd`).
 - **5.13 Stale dev-server modules.** If the app throws "X is not
   defined" after an edit `tsc` accepts, restart the dev server — HMR
-  can pin an old lazy-chunk URL in `registry.ts`.
+  can pin an old lazy-chunk URL in `registry.ts`. Edits made in several
+  steps can leave HMR half-applied the same way (2026-10-30: a blank
+  page from "useTheme must be used within ThemeProvider").
+- **5.14 Handlers see the render they were created in.** A click
+  handler or timeout that calls `reset()` then `start()` reads the old
+  `isRunning`; `useTimer` and the spinner `Wheel` now keep that state in
+  refs / spin ids. Mental Maths Ladder and Word Chain lost their
+  countdown after the first answer until 2026-10-30.
+- **5.15 One dev server at a time.** A background `vite` can outlive the
+  task that started it. Check what's listening on port 5174 (and that it
+  was started from this folder) before starting another.
 
 ## 6. Onboarding a class
 
@@ -188,13 +246,69 @@ this log, commit, push.
    stream buttons rather than year bands. Works; inconsistent.
 5. **Dependencies:** `npm audit` reports issues mostly in build tooling;
    React 19 / Vite 6+ / vite-plugin-pwa 1+ are major upgrades — do them
-   as a separate, tested step.
+   as a separate, tested step. `react-router-dom` is on 6.30.6; the two
+   remaining moderate advisories (SSR hydration, backslash redirects in
+   user-supplied links — neither used here) need v7.
 6. **Backup** for `source-material/`: not in git. Since the 2026-10-30 move
    it's synced by OneDrive, which is its only copy off this PC.
+7. **Teacher Tools roadmap** (agreed 2026-10-30, after My Classes):
+   front-of-room pass (bigger touch targets, presentation mode, keyboard
+   shortcuts); new tools — classroom timer (`useTimer` exists), noise
+   meter, Now/Next board, seating plan (builds on rosters); upgrades —
+   MAB regrouping, Cartesian coordinate entry, Hundreds Chart overlays,
+   Score Board undo; decide whether Polling stays a hand tally.
+8. **Brain Breaks colours:** games still use the bright `SUBJECT_COLOURS`;
+   restyle to §3.7.
+9. **Sight Words lists** are labelled Magic 100/200/300 (Lyn Stone) but
+   look like the Fry list (`oil`, `numeral`, `product`). Check against
+   the school's list with Jack.
+10. **No tests on GitHub:** only Netlify builds PRs. A GitHub Actions
+    workflow running `npm test` + `npm run audit:content` would catch
+    breakage before merge (pushing workflow files may need a token with
+    the `workflow` scope).
 
 ---
 
 ## Session handoffs
+
+**Session handoff (2026-10-30 → 2026-11-10 — Teacher Tools restyle,
+fixes, My Classes):**
+Started as a whole-project review (verdict: improve, don't rebuild),
+then a Teacher Tools pass. Jack set the design rule and approved each
+step; everything went up as pull requests, none merged yet.
+
+- **Repo moved** to the OneDrive Desktop folder (§1). `source-material/`
+  and `source-material.zip` copied from the old `Code` checkout, which is
+  now a backup. Docs and the onboard-class skill updated to match.
+- **PR #1 `teacher-tools-cleanup` → `main`:** muted palette (`--cat-*`
+  tokens, no glows/gradients, muted success/warning/danger with real
+  light-theme values); Fraction Wall compares rows. Fixes: spinner
+  freeze on repeat results, Custom Spinner weights now affect odds,
+  tournaments with 5/6/9–14 entrants stalled (byes spread; re-deciding a
+  match clears later results; old brackets repair on load), Group Maker
+  straggler group of 1, repeated names, `useTimer` restart (§5.14),
+  Spelling Test word skipping, Word Builder filter reset, Sight Words
+  cross-list repeats, FDP state-in-render, Fraction Tool limits, blocked
+  storage crashing the app, fullscreen on iPhone. Tool descriptions now
+  match the tools. `react-router-dom` → 6.30.6. Auto-fix on.
+- **PR #2 `shared-class-list` (based on #1):** My Classes (§3.8) used by
+  Name Picker, Group Maker, Tournaments and Custom Spinner; Away today;
+  per-class progress; groups → Score Board teams; Back up / Restore.
+  First load carries over old Name Picker / Group Maker lists.
+  Auto-fix on.
+- **PR #3 `handoff-docs` (based on #2):** this entry, §3.6–3.8, the
+  roadmap in §7, `CLAUDE.md`, JACK-NOTES workflow notes, and
+  `source-material.zip` ignored.
+- **Checks:** `npm test` 2,247 passed (26 new: randomisers, brackets,
+  timer, spinner, Fraction Wall, rosters, tool wiring); tsc and build
+  clean; audit unchanged (`y10-math-210` length, justified). Every tool
+  loaded in the browser; My Classes exercised end to end. Not checked:
+  phone-sized screens.
+
+**Next:** Jack merges #1 (deleting its branch), then #2, then #3. Then
+the Teacher Tools roadmap (§7.7), starting with the front-of-room pass
+or the timer — confirm with Jack. Open: Sight Words list source (§7.9),
+Brain Breaks colours (§7.8).
 
 **Session handoff (2026-10-14, later — §7.1 rigour fixes):**
 Fixed the re-audit findings; Jack reviewed the before/after list first.
