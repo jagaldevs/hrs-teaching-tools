@@ -116,9 +116,11 @@ Since 2026-10-30 changes go through pull requests: branch from the
 latest work, commit, push the branch, open a PR into `main`, and give
 Jack a plain-language summary. Jack merges. Netlify builds a preview
 site for every PR into `main` (link in the PR). When work depends on an
-unmerged PR, branch from that PR's branch and base the new PR on it;
-GitHub retargets it to `main` when the earlier PR merges with its branch
-deleted. Run `gh pr list` at session start to see what's in flight.
+unmerged PR, branch from that PR's branch and base the new PR on it, so
+it shows only its own changes. **Before merging the earlier PR, point
+the later one at `main`** (`gh pr edit <n> --base main`): deleting a
+merged PR's branch closes any PR still based on it (§5.16). Run
+`gh pr list` at session start to see what's in flight.
 
 ### 3.7 Look and colour
 
@@ -222,6 +224,11 @@ Jack's rule (2026-10-30): a clean, professional look.
 - **5.15 One dev server at a time.** A background `vite` can outlive the
   task that started it. Check what's listening on port 5174 (and that it
   was started from this folder) before starting another.
+- **5.16 Deleting a base branch closes the PRs stacked on it.**
+  `gh pr merge 1 --delete-branch` closed PR #2 (based on #1's branch)
+  rather than retargeting it (2026-11-10). Recovery: push the branch
+  back, `gh pr reopen`, `gh pr edit --base main`, delete it again.
+  Prevention is in §3.6.
 
 ## 6. Onboarding a class
 
@@ -270,6 +277,16 @@ this log, commit, push.
 ---
 
 ## Session handoffs
+
+**Session handoff (2026-11-10 → 11-17 — PRs merged):**
+Jack asked Claude to merge #1–#3. Merging #1 with `--delete-branch`
+closed #2 (§5.16); restored the branch, reopened #2, pointed #2 and #3
+at `main`, then merged both. `main` = `ae569de`; the live Netlify site
+serves My Classes. All feature branches deleted. This PR corrects the
+stacked-PR note in §3.6, JACK-NOTES and CLAUDE.md.
+
+**Next:** the Teacher Tools roadmap (§7.7) — confirm the first item with
+Jack.
 
 **Session handoff (2026-10-30 → 2026-11-10 — Teacher Tools restyle,
 fixes, My Classes):**

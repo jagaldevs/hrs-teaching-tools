@@ -162,9 +162,10 @@ private.
    appears on the PR page. Try it there — the live site hasn't changed.
 3. When you're happy, click **Merge pull request** on GitHub. The live
    site updates from `main`.
-4. When GitHub offers **Delete branch** after a merge, click it. If one
-   pull request was built on another's branch, this moves it onto `main`
-   so it's ready to merge next.
+4. When GitHub offers **Delete branch** after a merge, click it.
 
 Merge pull requests in the order Claude gives you; later ones can build
-on earlier ones.
+on earlier ones. **If a pull request says it's based on another pull
+request's branch** (not `main`), ask Claude to "point it at main" before
+you merge the earlier one. Otherwise deleting the earlier branch closes
+it. (Nothing is lost, but it has to be reopened.)

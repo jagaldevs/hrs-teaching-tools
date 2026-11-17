@@ -33,7 +33,8 @@ browser. Jack owns it and isn't a developer: explain in plain language.
   browser for UI changes.
 - **Changes reach `main` by pull request.** Push the branch, open a PR
   into `main` (or onto the unmerged branch it builds on), give Jack a
-  summary, and let Jack merge. (WORKLOG §3.6)
+  summary, and let Jack merge. Before an earlier PR in a stack merges,
+  point the later PRs at `main`. (WORKLOG §3.6)
 - **Handoff:** before ending a session that changed anything, add a
   dated entry to WORKLOG's Session handoffs: what changed, checks run,
   PRs open, what's next.
