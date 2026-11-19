@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { RotateCw, Trophy, UsersRound } from 'lucide-react';
 import { ToolShell } from '../ToolShell';
 import { shuffle, intoGroupsOfCount, intoGroupsOfSize } from './util';

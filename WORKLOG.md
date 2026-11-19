@@ -15,7 +15,7 @@ git history.)
 
 ## 1. Orientation
 
-- React 18 + Vite 5 + TypeScript PWA; dark-first, offline, all state in
+- React 19 + Vite 8 + TypeScript 7 PWA; dark-first, offline, all state in
   `localStorage` under `hrs:` keys. No server.
 - **Brain Breaks** (`/`): 14 games. **Teacher Tools** (`/tools`): 26,
   including **My Classes**, the teachers' class lists the people tools
@@ -251,11 +251,14 @@ this log, commit, push.
 4. **Teacher Tools streams:** Word Builder, Sentence Builder and Group
    Name Generator still use their own "Lower Primary … Senior School"
    stream buttons rather than year bands. Works; inconsistent.
-5. **Dependencies:** `npm audit` reports issues mostly in build tooling;
-   React 19 / Vite 6+ / vite-plugin-pwa 1+ are major upgrades — do them
-   as a separate, tested step. `react-router-dom` is on 6.30.6; the two
-   remaining moderate advisories (SSR hydration, backslash redirects in
-   user-supplied links — neither used here) need v7.
+5. **Dependencies:** all on current majors since 2026-11-19 (React 19,
+   React Router 7 via `react-router`, Lucide 1, Vite 8, Vitest 5,
+   TypeScript 7, vite-plugin-pwa 2; Node pinned to 24 in `.nvmrc`).
+   `npm audit` leaves 4 moderate findings in `glob`/`minimatch` under
+   `workbox-build`, which runs only at build time; `npm audit fix
+   --force` would downgrade the PWA plugin, so leave them until
+   workbox-build updates. Use current Lucide names: aliases such as
+   `BarChart3`, `Edit3`, `Trash2` still compile but are deprecated.
 6. **Backup** for `source-material/`: not in git. Since the 2026-10-30 move
    it's synced by OneDrive, which is its only copy off this PC.
 7. **Teacher Tools roadmap** (agreed 2026-10-30, after My Classes):
@@ -277,6 +280,30 @@ this log, commit, push.
 ---
 
 ## Session handoffs
+
+**Session handoff (2026-11-19 — dependency upgrades):**
+Jack asked for out-of-date libraries to be updated. Branch
+`update-dependencies`, built on `fix-stacked-pr-docs` (#4).
+
+- **Tooling:** Vite 5 → 8, @vitejs/plugin-react 4 → 6, Vitest 2 → 5,
+  jsdom 25 → 31, vite-plugin-pwa 0.20 → 2, TypeScript 5.9 → 7, Testing
+  Library patch bumps, lockfile regenerated. TS 7 dropped `baseUrl`, so
+  the unused `@/*` alias went. `audit:content` runs under `tsx`
+  (`vite-node` no longer ships with Vitest).
+- **App:** React 18 → 19, `react-router-dom` 6 → `react-router` 7
+  (imports changed), lucide-react 0.453 → 1.75 (`BarChart3` →
+  `ChartColumn`, `Edit3` → `PenLine`, `Trash2` → `Trash`). No removed
+  React APIs were in use. `.nvmrc` pins Node 24 for Netlify.
+- **Checks:** `tsc -b` clean; `npm test` 2,247 passed; `vite build`
+  clean (manifest, `sw.js`, `registerSW.js` present); audit unchanged
+  (`y10-math-210`, justified); `npm audit` 21 → 4 moderate (§7.5). In
+  the browser: splash, Brain Breaks, a Quick Quiz round, Teacher Tools,
+  My Classes, Polling and Custom Spinner with no console errors. Not
+  checked: every tool, phone-sized screens, or the service worker
+  serving offline.
+
+**Next:** Jack merges #4, then this PR (point it at `main` first). Watch
+the Netlify preview build: it is the first build on Node 24.
 
 **Session handoff (2026-11-10 → 11-17 — PRs merged):**
 Jack asked Claude to merge #1–#3. Merging #1 with `--delete-branch`

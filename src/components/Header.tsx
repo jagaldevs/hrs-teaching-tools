@@ -1,4 +1,4 @@
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink, Link } from 'react-router';
 import { Info } from 'lucide-react';
 import { Crest } from './Crest';
 import { ThemeToggle } from './ThemeToggle';

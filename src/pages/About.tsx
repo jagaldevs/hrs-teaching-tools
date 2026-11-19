@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { TOOLS } from '../data/tools';
 import { GAMES } from '../data/games';
 import { ArrowLeft } from 'lucide-react';

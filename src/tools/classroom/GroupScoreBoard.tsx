@@ -1,4 +1,4 @@
-import { Plus, Minus, Trash2, RotateCcw, UserPlus, Crown } from 'lucide-react';
+import { Plus, Minus, Trash, RotateCcw, UserPlus, Crown } from 'lucide-react';
 import { ToolShell } from '../ToolShell';
 import { usePersistedState } from '../../hooks/usePersistedState';
 import { categorical } from '../../theme/palette';
@@ -116,7 +116,7 @@ export function GroupScoreBoard() {
                   onClick={() => remove(t.id)}
                   aria-label="Remove team"
                 >
-                  <Trash2 size={14} />
+                  <Trash size={14} />
                 </button>
               </div>
             </div>

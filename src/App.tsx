@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation } from 'react-router';
 import { Splash, shouldSkipSplash } from './components/Splash';
 import { Header } from './components/Header';
 import { Dashboard } from './pages/Dashboard';

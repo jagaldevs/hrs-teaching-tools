@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState, type ReactNode } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { ArrowLeft, Maximize2, Minimize2 } from 'lucide-react';
 import { findGame, type Stream } from '../data/games';
 import { YEAR_BANDS, BAND_TO_STREAM, findClass, type YearBand } from '../data/classes';

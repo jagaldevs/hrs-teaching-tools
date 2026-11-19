@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { Check, Download, Pencil, Plus, Trash2, Upload } from 'lucide-react';
+import { Check, Download, Pencil, Plus, Trash, Upload } from 'lucide-react';
 import { ToolShell } from '../ToolShell';
 import {
   addRoster,
@@ -174,7 +174,7 @@ export function MyClasses() {
                       onClick={() => remove(r)}
                       aria-label={`Delete ${r.name}`}
                     >
-                      <Trash2 size={14} />
+                      <Trash size={14} />
                     </button>
                   </div>
                 </>

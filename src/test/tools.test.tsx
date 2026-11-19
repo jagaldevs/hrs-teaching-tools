@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import { act, fireEvent, render, renderHook, screen } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import * as rng from '../tools/rng/util';
 import { useTimer } from '../tools/useTimer';

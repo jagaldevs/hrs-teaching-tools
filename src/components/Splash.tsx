@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { Crest } from './Crest';
 import styles from './Splash.module.css';
 
