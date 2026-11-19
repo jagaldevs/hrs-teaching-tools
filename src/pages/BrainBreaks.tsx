@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router';
 import { Gamepad2, Sparkles } from 'lucide-react';
 import { GAMES, GAME_GROUPS, type Game } from '../data/games';
 import { YEAR_BANDS, BAND_TO_STREAM, HRS_CLASSES, isSelectable } from '../data/classes';

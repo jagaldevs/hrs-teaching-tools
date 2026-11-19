@@ -1,4 +1,4 @@
-import { useParams, Link, useLocation } from 'react-router-dom';
+import { useParams, Link, useLocation } from 'react-router';
 import { findTool } from '../data/tools';
 import { findGame, STREAMS } from '../data/games';
 import { ArrowLeft } from 'lucide-react';

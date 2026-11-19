@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router';
 import { GAME_COMPONENTS } from '../games/registry';
 import { ToolPlaceholder } from './ToolPlaceholder';
 import styles from './Page.module.css';

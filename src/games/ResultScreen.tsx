@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { RotateCcw, Trophy } from 'lucide-react';
 import styles from './ResultScreen.module.css';
 import common from '../tools/common.module.css';

@@ -1,5 +1,5 @@
 import { useMemo, useRef, useState } from 'react';
-import { Loader, Plus, Trash2, Settings, X, UsersRound } from 'lucide-react';
+import { Loader, Plus, Trash, Settings, X, UsersRound } from 'lucide-react';
 import { ToolShell } from '../ToolShell';
 import { Wheel, type WheelSpin } from './Wheel';
 import { weightedIndex } from './util';
@@ -177,7 +177,7 @@ export function CustomSpinner() {
                   onClick={() => remove(w.id)}
                   aria-label="Remove wedge"
                 >
-                  <Trash2 size={14} />
+                  <Trash size={14} />
                 </button>
               </li>
             ))}

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Plus, RotateCcw, Edit3, BarChart3, Trophy, Pencil } from 'lucide-react';
+import { Plus, RotateCcw, PenLine, ChartColumn, Trophy, Pencil } from 'lucide-react';
 import { ToolShell } from '../ToolShell';
 import { usePersistedState } from '../../hooks/usePersistedState';
 import { chimeTick } from '../chime';
@@ -74,7 +74,7 @@ export function Polling() {
       actions={
         <>
           <button type="button" className={common.btn} onClick={() => setEditing((e) => !e)}>
-            <Edit3 size={14} /> {editing ? 'Done editing' : 'Edit question & options'}
+            <PenLine size={14} /> {editing ? 'Done editing' : 'Edit question & options'}
           </button>
           <button
             type="button"
@@ -82,7 +82,7 @@ export function Polling() {
             onClick={() => setRevealed((r) => !r)}
             disabled={total === 0}
           >
-            <BarChart3 size={14} /> {revealed ? 'Hide results' : 'Reveal results'}
+            <ChartColumn size={14} /> {revealed ? 'Hide results' : 'Reveal results'}
           </button>
           <button type="button" className={common.btn} onClick={reset}>
             <RotateCcw size={14} /> Reset

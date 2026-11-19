@@ -1,5 +1,5 @@
 import { useMemo, useRef, useState } from 'react';
-import { Trash2, RotateCcw, Spline, Pencil } from 'lucide-react';
+import { Trash, RotateCcw, Spline, Pencil } from 'lucide-react';
 import { ToolShell } from '../ToolShell';
 import { usePersistedState } from '../../hooks/usePersistedState';
 import { categorical } from '../../theme/palette';
@@ -267,7 +267,7 @@ export function CartesianPlane() {
                 onClick={() => removePoint(p.id)}
                 aria-label="Remove point"
               >
-                <Trash2 size={10} />
+                <Trash size={10} />
               </button>
             </span>
           ))}

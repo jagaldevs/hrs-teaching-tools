@@ -1,5 +1,5 @@
 import { useEffect, useState, type ReactNode } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { ArrowLeft, Maximize2, Minimize2 } from 'lucide-react';
 import styles from './ToolShell.module.css';
 
