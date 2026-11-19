@@ -1,7 +1,7 @@
 # HRS Teaching Tools
 
 Offline PWA for Haileybury Rendall School: Brain Breaks games (`/`) and
-Teacher Tools (`/tools`). React 18 + Vite + TypeScript; all state in the
+Teacher Tools (`/tools`). React 19 + Vite + TypeScript; all state in the
 browser. Jack owns it and isn't a developer: explain in plain language.
 
 ## Session start

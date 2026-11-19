@@ -12,7 +12,7 @@ requests; `CLAUDE.md` added)._
 
 ## What this is
 
-A React 18 + Vite + TypeScript PWA for Haileybury Rendall School. It's
+A React 19 + Vite + TypeScript PWA for Haileybury Rendall School. It's
 dark-first, works offline, and keeps everything in the browser (no
 accounts, no student data leaves the device).
 
